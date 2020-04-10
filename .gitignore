@@ -1,0 +1,10 @@
+/karabiner/automatic_backups/
+Session.vim
+
+nvim/plugged/
+nvim/.netrwhist
+nvim/undo/
+nvim/karabiner/automatic_backups
+
+Session.vim
+.DS_Store
