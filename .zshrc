@@ -32,7 +32,7 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-USER_BIN="/usr/local/bin"
+USER_BIN="/usr/local/bin:$HOME/workspace/dotfiles/bin"
 BREW="/usr/local/sbin"
 NODE="./node_modules/.bin"
 YARN="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
@@ -44,12 +44,11 @@ OPENSSL="/usr/local/opt/openssl@1.1/bin"
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
-MY_BIN="$HOME/workspace/dotfiles/bin"
 
 export JAVA_HOME="/Users/annguyenwasd/.sdkman/candidates/java/11.0.2-open"
 export JDK_HOME="/Users/annguyenwasd/.sdkman/candidates/java/11.0.2-open"
 
-export PATH="$USER_BIN:$OPENSSL:$BREW:$NODE:$YARN:$RUBY:$LLVM:$PYTHON3:$MY_BIN:$JAVA_HOME:$JDK_HOME:$PATH"
+export PATH="$USER_BIN:$OPENSSL:$BREW:$NODE:$YARN:$RUBY:$LLVM:$PYTHON3:$JAVA_HOME:$JDK_HOME:$PATH"
 #}}}
 
 # {{{ Sourcing
@@ -92,7 +91,7 @@ alias sz="exec zsh && echo \"Sourced.\""
 alias w="cd ~/workspace"
 alias d="cd ~/Desktop"
 alias mk="mkdir -vp"
-alias dot="w;dotfiles;nvim"
+alias dot="w;dotfiles;nvim nvim/init.vim"
 alias cl="clear"
 alias ydl="youtube-dl -i"
 alias lg="lazygit"

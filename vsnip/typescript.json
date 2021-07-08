@@ -1,0 +1,62 @@
+{
+  "Create simple mobx store": {
+    "prefix": [
+      "mobx"
+    ],
+    "body": [
+      "import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';",
+      "",
+      "export const $1 = types",
+      "  .model('$1', {",
+      "    $2",
+      " })",
+      "  .actions((self) => {",
+      "    return {",
+      "      $3",
+      " };",
+      "  })",
+      "  .views((self) => {",
+      "    return {",
+      "      $4",
+      "};",
+      "  });",
+      "",
+      "export interface $1Instance extends Instance<typeof $1> {}",
+      "export interface $1SnapshotIn extends SnapshotIn<typeof $1> {}",
+      "export interface $1SnapshotOut extends SnapshotOut<typeof $1> {}"
+    ],
+    "description": ""
+  },
+  "Create mobx enum declaration": {
+    "prefix": [
+      "mobxenum"
+    ],
+    "body": [
+      "types.enumeration<$1>('$1', Object.values($1))"
+    ],
+    "description": ""
+  },
+  "Create simple mobx store using existing mobx model": {
+    "prefix": [
+      "mobxnamed"
+    ],
+    "body": [
+      "import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';",
+      "import { $2 } from '$4';",
+      "",
+      "export const $1 = $2.named('$1')",
+      ".props({})",
+      "  .actions((self) => {",
+      "    return {};",
+      "  })",
+      "  .views((self) => {",
+      "    return {};",
+      "  });",
+      "",
+      "export interface $1Instance extends Instance<typeof $1> {}",
+      "export interface $1SnapshotIn extends SnapshotIn<typeof $1> {}",
+      "export interface $1SnapshotOut extends SnapshotOut<typeof $1> {}"
+    ],
+    "description": ""
+  }
+}
