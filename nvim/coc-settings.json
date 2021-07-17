@@ -1,9 +1,9 @@
 {
-  "diagnostic.errorSign": " ",
+  "diagnostic.errorSign": " ",
   "diagnostic.warningSign": " ",
   "diagnostic.infoSign": "",
   "diagnostic.hintSign": "ﯦ ",
-  "diagnostic.level": "hint",
+  "diagnostic.level": "warning",
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.enableHighlightLineNumber": true,
   "diagnostic.enableMessage": "always",
@@ -11,15 +11,11 @@
   "diagnostic.virtualTextCurrentLineOnly": false,
   "diagnostic.messageDelay": 10,
 
-  "git.addGBlameToVirtualText": false,
-
   "docthis.includeAuthorTag": false,
   "docthis.authorName": "An Nguyen <an.nguyenwasd@gmail.com",
   "docthis.includeDateTag": false,
 
   "tsserver.trace.server": "verbose",
-
-  "styled-components.validate": false,
 
   "coc.preferences.useQuickfixForLocations": true,
   "coc.preferences.colorSupport": true,
@@ -39,25 +35,18 @@
   "typescript.showUnused": true,
   "javascript.showUnused": true,
 
-  "snippets.userSnippetsDirectory": "$HOME/workspace/dotfiles/ultisnips",
+  "snippets.ultisnips.enable": false,
+  "snippets.snipmate.enable": true,
+  "snippets.textmateSnippetsRoots": ["~/.vsnip"],
   "snippets.extends": {
     "javascriptreact": ["javascript"],
-    "typescriptreact": ["javascript"],
-    "typescript": ["javascript"]
-  },
-
-  "languageserver": {
-    "bash": {
-      "command": "bash-language-server",
-      "args": ["start"],
-      "filetypes": ["sh"],
-      "ignoredRootPaths": ["~"]
-    }
+    "typescript": ["typescript", "javascript"],
+    "typescriptreact": ["javascript", "typescript"]
   },
 
   "prettier.eslintIntegration": false,
 
-  "eslint.autoFix": true,
+  "eslint.autoFixOnSave": true,
 
   "suggest.completionItemKindLabels": {
     "keyword": " [keyword]",
@@ -87,71 +76,9 @@
     "default": " [default]"
   },
 
-  "cSpell.userWords": [
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-    "Autosize",
-    "Autowired",
-    "Codecept",
-    "Could\\'nt",
-    "DDMMYYYY",
-    "DTOs",
-    "Droppable",
-    "IELTS",
-    "Mockito",
-    "Querydsl",
-    "Quickfix",
-    "Scrollable",
-    "Ulti",
-    "ahihi",
-    "annguyen",
-    "annguyenwasd",
-    "antd",
-    "childrez",
-    "christoomey",
-    "doltech",
-    "figma",
-    "frontmatter",
-    "gcms",
-    "htmls",
-    "junegunn",
-    "kabbamine",
-    "kdheepak",
-    "kyazdani",
-    "mbbill",
-    "mhinz",
-    "mobx",
-    "neoclide",
-    "nord",
-    "nvim",
-    "pageable",
-    "recaptcha",
-    "redhat",
-    "require'nvim",
-    "signup",
-    "sitekey",
-    "struct",
-    "toeic",
-    "tpope",
-    "ultisnips",
-    "userrecaptcha",
-    "vcoolor"
-  ],
-
   "java.format.enabled": true,
   "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
   "java.format.settings.profile": "GoogleStyle",
   "java.saveActions.organizeImports": false,
-  "java.trace.server": "verbose",
-
-  "explorer.icon.enableNerdfont": true,
-  "explorer.icon.enableVimDevicons": true,
-  "explorer.file.showHiddenFiles": true,
-  "explorer.width": 50,
-  "explorer.keyMappings.global": {
-    "C": "copyFile",
-    "D": "delete",
-    "<c-s>": "open:split",
-    "<c-v>": "open:vsplit"
-  },
-  "explorer.previewAction.onHover": false
+  "java.trace.server": "verbose"
 }

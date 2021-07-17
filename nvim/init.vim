@@ -1,32 +1,33 @@
 "{{{ Plugins
 call plug#begin('~/.vim/plugged')
-" LSP
-Plug 'SirVer/ultisnips'
+" LSP, debug
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'puremourning/vimspector'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'ryanoasis/vim-devicons'
+" FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+" MISC
+Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-obsession'
-Plug 'mbbill/undotree'
-Plug 'szw/vim-maximizer'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'KabbAmine/vCoolor.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'christoomey/vim-sort-motion'
 Plug 'kevinhwang91/nvim-bqf'
-Plug 'tpope/vim-eunuch'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'n0v1c3/vira', { 'do': './install.sh' }
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-
+Plug 'vim-scripts/BufOnly.vim'
+Plug 'szw/vim-maximizer'
+Plug 'mbbill/undotree'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'KabbAmine/vCoolor.vim'
+Plug 'skywind3000/asyncrun.vim'
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
@@ -36,6 +37,7 @@ Plug 'slarwise/vim-tmux-send'
 "Git
 Plug 'tpope/vim-fugitive'
 Plug 'kdheepak/lazygit.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Theme
 Plug 'tjdevries/colorbuddy.vim'
@@ -72,7 +74,7 @@ filetype plugin indent on
 
 set wildmenu termguicolors nowrap hidden noswapfile ignorecase incsearch expandtab nohlsearch number relativenumber noerrorbells cursorline
 set exrc secure " load user config
-set signcolumn=yes:3
+set signcolumn=yes
 set clipboard=unnamed
 set updatetime=50
 set inccommand=nosplit
@@ -113,7 +115,6 @@ endfun
 
 
 let g:vimsyn_embed = 'lPr' " Highlight lua syntax inside vim
-let g:python3_host_prog = '/usr/local/bin/python3'
 "}}}
 
 "{{{ Mappings
@@ -171,9 +172,9 @@ nnoremap <leader><leader>og <cmd>!open -a google\ chrome %<cr>
 
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
-command CF :call CopyFileName()
-command CFF :call CopyFileFullPath()
-command CFR :call CopyFileRelativePath()
+command CFN :call CopyFileName()
+command CFA :call CopyAbsouPathPath()
+command CF :call CopyFileRelativePath()
 command CFP :call CopyFileRelativePathFolder()
 command GG :call GoogleJavaFormat()
 command FF :call OpenFileInFolder()
@@ -188,7 +189,7 @@ function CopyFileName()
  let @r = expand("%:t")
 endfunction
 
-function CopyFileFullPath()
+function CopyAbsouPathPath()
  let @* = expand("%:p")
  let @r = expand("%:p")
 endfunction
@@ -277,7 +278,7 @@ augroup ThemeGroup
 
 augroup END
 
-colorscheme gruvbox
+colorscheme nvcode
 
 if get(g:, 'colors_name') == 'material' && get(g:, 'material_style') == 'oceanic'
   hi NormalFloat guibg=#1e577d
@@ -293,7 +294,8 @@ endif
 "{{{ FZF configuration
 nnoremap <Leader>o  <cmd>Files<cr>
 nnoremap <Leader>i  <cmd>Buffers<cr>
-" nnoremap <Leader>ll  <cmd>Lines<cr>
+nnoremap <Leader>/  <cmd>BLines<cr>
+nnoremap <leader><Leader>/ <cmd>Lines<cr>
 nnoremap <Leader>rg <cmd>Rg<cr>
 nnoremap <leader>fh <cmd>Helptags<cr>
 nnoremap <leader>ch <cmd>History:<cr>
@@ -301,9 +303,30 @@ nnoremap <leader>sh <cmd>History/<cr>
 nnoremap <leader>fc <cmd>Commands<cr>
 nnoremap <leader>fl <cmd>Lines<cr>
 nnoremap <localleader>fc <cmd>Colors<cr>
+nnoremap <leader>km <cmd>Maps<cr>
+
+"{{{ FZF layout
+" Default fzf layout
+" - Popup window (center of the screen)
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
+" - Popup window (center of the current window)
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
+
+" - Popup window (anchored to the bottom of the current window)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
+
+" - down / up / left / right
+" let g:fzf_layout = { 'down': '30%' }
+
+" - Window using a Vim command
+" let g:fzf_layout = { 'window': 'enew' }
+" let g:fzf_layout = { 'window': '-tabnew' }
+" let g:fzf_layout = { 'window': '10new' }
+"}}}
+
 
 let g:fzf_buffers_jump = 1
-let g:fzf_layout = { 'down': '~30%' }
 let g:fzf_preview_window = ['right:60%:hidden', '?']
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -320,18 +343,29 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
 let g:fzf_action = {
-  \ 'ctrl-s': 'split',
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit'
   \}
 
-let $FZF_DEFAULT_OPTS .= ' --inline-info --bind ctrl-u:preview-up,ctrl-d:preview-down --layout=reverse'
+let $FZF_DEFAULT_OPTS .= ' --inline-info --bind ctrl-b:preview-up,ctrl-f:preview-down --layout=reverse'
 
 if executable('rg')
   let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
   set grepprg=rg\ --vimgrep
   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
+
+
 "}}}
 
 "{{{ LSP configuration
@@ -462,13 +496,15 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
-let g:coc_status_error_sign=" "
-let g:coc_status_warning_sign=" "
+" let g:coc_status_error_sign=" "
+" let g:coc_status_warning_sign=" "
+let g:coc_status_error_sign=" "
+let g:coc_status_warning_sign=" "
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline=%t\ %h%m%r%{get(b:,'coc_git_status','')}%{coc#status()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%t\ %h%m%r\ %{get(b:,'coc_git_status','')}%{coc#status()}%=%-14.(%l,%c%V%)\ %P
 
 " Mappings for CoCList
 " Show all diagnostics.
@@ -482,32 +518,8 @@ nnoremap <silent><nowait> <leader>cc  :<C-u>CocList commands<cr>
 nnoremap <silent><nowait> <leader>co  :<C-u>CocList outline<cr>
 " Search workspace symbols.
 nnoremap <silent><nowait> <leader>ws  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent><nowait> <leader>j  :<C-u>CocNext<cr>
-" Do default action for previous item.
-nnoremap <silent><nowait> <leader>k  :<C-u>CocPrev<cr>
 " Resume latest coc list.
 nnoremap <silent><nowait> <leader>cr  :<C-u>CocListResume<cr>
-
-let g:vimspector_enable_mappings = 'HUMAN'
-nnoremap <leader>dd :<c-u>call vimspector#Launch()<cr>
-au FileType java nnoremap <leader>dd :CocCommand java.debug.vimspector.start<cr>
-nnoremap <leader>ds :VimspectorReset<cr>
-nnoremap <leader>de :VimspectorEval<space>
-nnoremap <leader>dw :VimspectorWatch<space>
-
-nnoremap <leader>dc :<c-u>call vimspector#Continue()<cr>
-nnoremap <localleader>ds :<c-u>call vimspector#Stop()<cr>
-nnoremap <leader>dr :<c-u>call vimspector#Restart()<cr>
-nnoremap <leader>dp :<c-u>call vimspector#Pause()<cr>
-nnoremap <leader>db :<c-u>call vimspector#ToggleBreakpoint()<cr>
-nnoremap <localleader>db :<c-u>call vimspector#ToggleBreakpoint( { 'condition': input( 'Enter condition expression: ' ), 'hitCondition': input( 'Enter hit count expression: ' ) })<cr>
-nnoremap <leader>DB :<c-u>call vimspector#AddFunctionBreakpoint( expand( '<cexpr>' ) )<cr>
-nnoremap <leader>do :<c-u>call vimspector#StepOver()<cr>
-nnoremap <leader>di :<c-u>call vimspector#StepInto()<cr>
-nnoremap <leader>du :<c-u>call vimspector#StepOut()<cr>
-nnoremap <leader>cb :<c-u>call vimspector#ClearBreakpoints()<cr>
-nnoremap <leader>rc :<c-u>call vimspector#RunToCursor()<cr>
 
 " :h CocLocationsChange for detail
 let g:coc_enable_locationlist = 0
@@ -554,9 +566,54 @@ function! Coc_qf_jump2loc(locs) abort
   endfunction
 "}}}
 
+"{{{ Debug configuration
+let g:vimspector_base_dir=expand( '$HOME/.vim/vimspector-config' )
+if &filetype == "java"
+  nnoremap <leader>dd :CocCommand java.debug.vimspector.start<cr>
+else
+  nnoremap <leader>dd :<c-u>call vimspector#Launch()<cr>
+endif
+
+nnoremap <leader>ds :VimspectorReset<cr>
+nnoremap <leader>dS :<c-u>call vimspector#Stop()<cr>
+nnoremap <leader>rs :<c-u>call vimspector#Restart()<cr>
+nnoremap <leader>dp :<c-u>call vimspector#Pause()<cr>
+nnoremap <leader>db :<c-u>call vimspector#ToggleBreakpoint()<cr>
+nnoremap <leader>dB :<c-u>call vimspector#ToggleBreakpoint( { 'condition': input( 'Enter condition expression: ' ), 'hitCondition': input( 'Enter hit count expression: ' ) })<cr>
+nnoremap <leader>fb :<c-u>call vimspector#AddFunctionBreakpoint( '<cexpr>' )<cr>
+nnoremap <leader>cb :<c-u>call vimspector#ClearBreakpoints()<cr>
+nnoremap <leader>rc :<c-u>call vimspector#RunToCursor()<cr>
+
+nnoremap <leader>do :<c-u>call vimspector#StepOver()<cr>
+nnoremap <leader>di :<c-u>call vimspector#StepInto()<cr>
+nnoremap <leader>dO :<c-u>call vimspector#StepOut()<cr>
+nnoremap <leader>dc :<c-u>call vimspector#Continue()<cr>
+
+nnoremap <leader>dk :<c-u>call vimspector#UpFrame()<cr>
+nnoremap <leader>dj :<c-u>call vimspector#DownFrame()<cr>
+
+nnoremap <leader>dE :<Plug>VimspectorBalloonEval<space>
+nnoremap <leader>de :VimspectorEval<space>
+nnoremap <leader>dw :VimspectorWatch<space>
+
+
+"}}}
+
 "{{{ File explorer configuration
-nnoremap <silent> <leader>n :CocCommand explorer --toggle --quit-on-open<cr>
-nnoremap <silent> <leader><leader>n :CocCommand explorer --toggle<cr>
+lua <<EOF
+local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+vim.g.nvim_tree_bindings = {
+  { key = {"l"}, cb = tree_cb("edit") },
+  { key = {"h"}, cb = tree_cb("close_node") },
+}
+EOF
+
+let g:nvim_tree_width = 40 "30 by default, can be width_in_columns or 'width_in_percent%'
+let g:nvim_tree_quit_on_open = 1 "0 by default, closes the tree when you open a file
+let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
+let g:nvim_tree_indent_markers = 0 "0 by default, this option shows indent markers when folders are open
+
+nnoremap <silent> <leader>n <cmd>NvimTreeToggle<cr>
 "}}}
 
 "{{{ Git configuration
@@ -576,42 +633,72 @@ let g:lazygit_floating_window_winblend = 0
 let g:lazygit_floating_window_scaling_factor = 0.9
 nnoremap <silent> <leader>lg <cmd>LazyGit<cr>
 nnoremap <silent> <leader>gl <cmd>0Glog<cr>
-nnoremap <silent> <leader>bl <cmd>G blame<cr>
-nnoremap <silent> <leader>gs <cmd>G<cr><cmd>res 15<cr>
-nnoremap <silent> <leader>gd <cmd>G difftool<cr>
-nnoremap <silent> <leader>gm <cmd>G mergetool<cr>
+nnoremap <silent> <leader>gs <cmd>G difftool --name-status<cr>
+nnoremap <silent> <localleader>gs <cmd>G difftool<cr>
 
-let g:signify_sign_change = '~'
+lua << EOF
+require('gitsigns').setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  numhl = false,
+  linehl = false,
+  keymaps = {
+    -- Default keymap options
+    noremap = true,
+    buffer = true,
 
-" navigate chunks of current buffer
-nmap [c <Plug>(coc-git-prevchunk)
-nmap ]c <Plug>(coc-git-nextchunk)
-" navigate conflicts of current buffer
-nmap [n <Plug>(coc-git-prevconflict)
-nmap ]n <Plug>(coc-git-nextconflict)
-nnoremap <silent> <localleader>gl <cmd>CocList --normal --tab bcommits<cr>
-nnoremap <silent> <leader><leader>gl <cmd>CocList --normal --tab commits<cr>
-nnoremap <silent> <leader>gs <cmd>CocList --normal --no-quit gstatus<cr>
-nnoremap <silent> <leader>gc :CocCommand git.chunkInfo<cr>
-nnoremap <silent> <leader>gu :CocCommand git.chunkUndo<cr>
-nnoremap <silent> <leader>gi :CocCommand git.chunkStage<cr>
+    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
+    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
+
+    ['n <leader>ha'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+    ['v <leader>ha'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+    ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+    ['n <leader>hd'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+    ['v <leader>hd'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+    ['n <leader>hD'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+    ['n <leader>hc'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+    ['n <leader>bl'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
+
+    -- Text objects
+    ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+    ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
+  },
+  watch_index = {
+    interval = 1000,
+    follow_files = true
+  },
+  current_line_blame = false,
+  current_line_blame_delay = 1000,
+  current_line_blame_position = 'eol',
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  word_diff = false,
+  use_decoration_api = true,
+  use_internal_diff = true,  -- If luajit is present
+}
+
+EOF
+
 "}}}
 
 "{{{ Other plugins
 lua require'colorizer'.setup()
 
 let g:tmux_navigator_disable_when_zoomed = 1
-let g:UltiSnipsExpandTrigger             = "<s-tab>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", $HOME.'/.config/ultisnips']
 
 nnoremap <leader>u :UndotreeShow<cr>
 nnoremap <leader>m :MaximizerToggle<cr>
-nnoremap <leader><leader>m <cmd>Marks<cr>
 nnoremap <leader>dt :CocCommand docthis.documentThis<cr>
 
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
+"}}}
 
+"{{{ TODO
 " Vim syntax file
 " Language: Todo
 " Maintainer: Huy Tran
@@ -632,19 +719,4 @@ hi Conceal guibg=NONE
 
 setlocal cole=1
 " End todo
-
-lua << EOF
-require'nvim-treesitter.configs'.setup {
-  context_commentstring = {
-    enable = true
-  }
-}
-EOF
 "}}}
-
-"{{{ Vira
-let g:vira_config_file_servers = $HOME . '/workspace/secrets/vira/vira_servers.json'
-let g:vira_config_file_projects = $HOME . '/workspace/secrets/vira/vira_projects.json'
-
-"}}}
-

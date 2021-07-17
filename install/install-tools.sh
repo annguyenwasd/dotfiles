@@ -28,7 +28,7 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 echo "installing a few global npm packages"
-npm install --global serve semantic-release-cli yarn neovim import-sort-cli commitizen typerace-cli typescript-language-server vscode-css-languageserver-bin diagnostic-languageserver vscode-json-languageserver yaml-language-server alacritty-theme-switch
+npm install --global serve semantic-release-cli yarn neovim alacritty-theme-switch
 
 echo "Change zsh to default shell"
 chsh -s /bin/zsh

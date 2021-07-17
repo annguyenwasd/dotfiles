@@ -1,0 +1,67 @@
+{
+  "Vimspector snippet for Node": {
+    "prefix": ["node"],
+    "body": [
+      "{",
+      "  \"configurations\": {",
+      "    \"run\": {",
+      "      \"adapter\": \"vscode-node\",",
+      "      \"configuration\": {",
+      "        \"request\": \"launch\",",
+      "        \"protocol\": \"auto\",",
+      "        \"stopOnEntry\": true,",
+      "        \"console\": \"integratedTerminal\",",
+      "        \"program\": \"${workspaceRoot/simple.js\",",
+      "        \"cwd\": \"${workspaceRoot }\"",
+      "      }",
+      "    }",
+      "  }",
+      "}"
+    ],
+    "description": ""
+  },
+  "Vimspector snippet for Java": {
+    "prefix": ["java"],
+    "body": [
+      "{",
+      "  \"adapters\": {",
+      "    \"java-debug-server\": {",
+      "      \"name\": \"vscode-java\",",
+      "      \"port\": \"${AdapterPort}\"",
+      "    }",
+      "  },",
+      "  \"configurations\": {",
+      "    \"Java Attach\": {",
+      "      \"default\": true,",
+      "      \"adapter\": \"java-debug-server\",",
+      "      \"configuration\": {",
+      "        \"request\": \"attach\",",
+      "        \"host\": \"127.0.0.1\",",
+      "        \"port\": \"5005\"",
+      "      },",
+      "      \"breakpoints\": {",
+      "        \"exception\": {",
+      "          \"caught\": \"N\",",
+      "          \"uncaught\": \"N\"",
+      "        }",
+      "      }",
+      "    }",
+      "  }",
+      "}"
+    ],
+    "description": ""
+  },
+  "snippet": {
+    "prefix": ["snip"],
+    "body": [
+      "\"$1\": {",
+      "  \"prefix\": [\"$2\"],",
+      "  \"body\": [",
+      "     $3",
+      "  ],",
+      "  \"description\": \"$1\"",
+      "}"
+    ],
+    "description": ""
+  }
+}

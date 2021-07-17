@@ -1,0 +1,17 @@
+{
+  "feat": {
+    "prefix": ["feat"],
+    "body": ["feat($1): [DT-$2] $3"],
+    "description": ""
+  },
+  "fix": {
+    "prefix": ["fix"],
+    "body": ["fix($1): [DT-$2] $3", "", "SOLUTION: $4"],
+    "description": ""
+  },
+  "DT-4662": {
+    "prefix": ["4"],
+    "body": ["fix($1): [DT-4662] $2", "", "SOLUTION: $3"],
+    "description": "DT-4662"
+  }
+}
