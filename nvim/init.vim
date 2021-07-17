@@ -502,7 +502,7 @@ let g:coc_status_error_sign=" "
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline=%t\ %h%m%r\ %{get(b:,'coc_git_status','')}%{coc#status()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%t\ %h%m%r\ %{coc#status()}%=%{get(b:,'gitsigns_status','')}\ %-14.(%l,%c%V%)\ %P
 
 " Mappings for CoCList
 " Show all diagnostics.
