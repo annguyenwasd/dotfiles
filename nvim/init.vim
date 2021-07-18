@@ -72,6 +72,8 @@ call plug#end()
 syntax enable
 filetype plugin indent on
 
+set splitbelow
+set splitright
 set wildmenu termguicolors nowrap hidden noswapfile ignorecase incsearch expandtab nohlsearch number relativenumber noerrorbells cursorline
 set exrc secure " load user config
 set signcolumn=yes
@@ -91,6 +93,11 @@ set udir=$HOME/.vim/undo
 set cmdheight=2
 set listchars=eol:¬,tab:▹\ ,trail:+,space:·
 set nolist
+
+augroup vimrc_help
+  autocmd!
+  autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
+augroup END
 
 augroup SetFileType
   autocmd!
