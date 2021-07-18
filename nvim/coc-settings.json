@@ -46,7 +46,7 @@
 
   "prettier.eslintIntegration": false,
 
-  "eslint.autoFixOnSave": true,
+  "eslint.autoFixOnSave": false,
 
   "suggest.completionItemKindLabels": {
     "keyword": " [keyword]",

@@ -10,8 +10,13 @@
     "description": ""
   },
   "DT-4662": {
-    "prefix": ["4"],
+    "prefix": ["4662"],
     "body": ["fix($1): [DT-4662] $2", "", "SOLUTION: $3"],
     "description": "DT-4662"
+  },
+  "refactor": {
+    "prefix": ["refactor"],
+    "body": ["refactor($1): [DT-$2] $3", ""],
+    "description": "refactor"
   }
 }

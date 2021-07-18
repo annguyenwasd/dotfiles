@@ -204,7 +204,7 @@ function CopyFileRelativePathFolder()
  let @r = expand("%:h")
 endfunction
 
-function GoogleJavaFormat() 
+function GoogleJavaFormat()
   !google-java-format --replace %
 endfunction
 
@@ -237,7 +237,7 @@ let g:calvera_italic_comments = 1
 let g:calvera_italic_keywords = 1
 let g:calvera_italic_functions = 1
 let g:calvera_contrast = 1
- 
+
 
 if (has("termguicolors"))
     set termguicolors
@@ -249,7 +249,7 @@ let g:moonlight_italic_keywords = 1
 let g:moonlight_italic_functions = 1
 let g:moonlight_italic_variables = 0
 let g:moonlight_contrast = 1
-let g:moonlight_borders = 1 
+let g:moonlight_borders = 1
 let g:moonlight_disable_background = 0
 
 augroup StatusLine
@@ -279,15 +279,6 @@ augroup ThemeGroup
 augroup END
 
 colorscheme nvcode
-
-if get(g:, 'colors_name') == 'material' && get(g:, 'material_style') == 'oceanic'
-  hi NormalFloat guibg=#1e577d
-endif
-
-if get(g:, 'colors_name') == 'gruvbox_hard' && &background == 'dark'
-  hi StatusLine guifg=#A7AE08 guibg=#282a36
-endif
-
 
 "}}}
 
@@ -502,7 +493,46 @@ let g:coc_status_error_sign=" "
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline=%t\ %h%m%r\ %{coc#status()}%=%{get(b:,'gitsigns_status','')}\ %-14.(%l,%c%V%)\ %P
+set statusline=\ %{GetIcon()}\ %.40f\ %m%r\ %{coc#status()}%=%{GitBranchName()}\ %{GitAttributes()}\ \ %l/%L,%c
+
+function GetIcon() abort
+  let l:buffer_name = expand("%")
+  if l:buffer_name == ''
+    return ''
+  endif
+
+ return luaeval("require'nvim-web-devicons'.get_icon(vim.fn.expand(\"%:t\"), require'plenary.filetype'.detect(vim.api.nvim_buf_get_name(0)), { default = true })") 
+endfunction
+
+function GitAttributes()
+ let l:git_signs = get(b:,'gitsigns_status_dict', {})
+ let l:added = get(l:git_signs, 'added', '0')
+ let l:removed = get(l:git_signs, 'removed', '0')
+ let l:changed = get(l:git_signs, 'changed', '0')
+ let l:head = get(l:git_signs, 'head', '')
+
+ if l:head == ''
+   return ''
+ endif
+
+  return "  " . l:added .  " 柳" . l:changed .  "  " . l:removed
+endfunction
+
+function GitBranchName()
+ let l:git_signs = get(b:,'gitsigns_status_dict', {})
+ let l:head = get(l:git_signs, 'head', '')
+ let l:limit = 18
+
+ if l:head == ''
+   return ''
+ endif
+
+ if strlen(l:head) > l:limit
+  return  "   " . strpart(l:head, 0, 8) . "..." . strpart(l:head, strlen(l:head) - 10)
+endif
+
+  return  "   " .  l:head
+endfunction
 
 " Mappings for CoCList
 " Show all diagnostics.
@@ -650,8 +680,8 @@ require('gitsigns').setup {
     noremap = true,
     buffer = true,
 
-    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
-    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
+    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>zo'"},
+    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>zo'"},
 
     ['n <leader>ha'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
     ['v <leader>ha'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
@@ -686,7 +716,29 @@ EOF
 "}}}
 
 "{{{ Other plugins
-lua require'colorizer'.setup()
+lua << EOF
+require'colorizer'.setup()
+require'nvim-web-devicons'.setup {
+  override = {
+    typescriptreact = {
+        icon = "",
+        color = "#519aba",
+        name = "Tsx",
+    },
+    javascriptreact = {
+        icon = "",
+        color = "#519aba",
+        name = "Jsx",
+    },
+    typescript = {
+      icon = "",
+      color = "#519aba",
+      name = "Ts"
+    }
+  },
+  default = true
+}
+EOF
 
 let g:tmux_navigator_disable_when_zoomed = 1
 
