@@ -128,6 +128,11 @@ let g:vimsyn_embed = 'lPr' " Highlight lua syntax inside vim
 let mapleader=" "
 let maplocalleader="\\"
 
+nmap n nzozz
+nmap N nzozz
+nmap * *zozz
+nmap # #zozz
+
 nnoremap Y y$
 " Duplicate everything selected
 vmap D y'>p
@@ -135,7 +140,6 @@ vmap D y'>p
 vmap * y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>
 " Highlight then back to original position
 nnoremap <leader>h <cmd>History<cr>
-nnoremap n nzz
 
 " inoremap jk <esc><cmd>wa<cr><cmd>e<cr>
 nnoremap <silent> <leader>cl <cmd>ccl<cr><cmd>lcl<cr>
