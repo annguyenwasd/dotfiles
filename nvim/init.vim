@@ -170,7 +170,7 @@ inoremap <c-l> <right>
 nnoremap <leader>ff :call OpenFileInFolder()<cr>
 nnoremap <leader>e <cmd>b #<cr>
 nnoremap <leader><leader>e <cmd>e<cr>
-nnoremap <silent> <leader><leader>b <cmd>bufdo bwipeout<cr><cmd>intro<cr>
+nnoremap <silent> <leader><leader>b <cmd>BufOnly<cr>
 
 " Create file at same folder with vsplit/split
 nnoremap <localleader>vf :vsp %:h/
