@@ -654,6 +654,8 @@ nnoremap <silent> <leader>n <cmd>NvimTreeToggle<cr>
 "{{{ Git configuration
 " Not gonna show shit messages when run git hook via husky
 let g:fugitive_pty = 0
+let g:lazygit_floating_window_winblend = 0
+let g:lazygit_floating_window_scaling_factor = 0.9
 
 augroup Fugitive
   autocmd!
@@ -664,12 +666,11 @@ augroup END
 nnoremap <leader><leader>f <cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>
 nnoremap <leader><leader>j <cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>
 
-let g:lazygit_floating_window_winblend = 0
-let g:lazygit_floating_window_scaling_factor = 0.9
 nnoremap <silent> <leader>lg <cmd>LazyGit<cr>
 nnoremap <silent> <leader>gl <cmd>0Glog<cr>
 nnoremap <silent> <leader>gs <cmd>G difftool --name-status<cr>
 nnoremap <silent> <localleader>gs <cmd>G difftool<cr>
+nnoremap <silent> <localleader>bl <cmd>G blame<cr>
 
 lua << EOF
 require('gitsigns').setup {
