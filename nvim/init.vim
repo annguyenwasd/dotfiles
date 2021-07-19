@@ -28,6 +28,9 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'KabbAmine/vCoolor.vim'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'ThePrimeagen/vim-be-good'
+Plug 'ThePrimeagen/harpoon'
+Plug 'nvim-lua/popup.nvim'
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
@@ -749,6 +752,9 @@ require'nvim-web-devicons'.setup {
   },
   default = true
 }
+
+require("harpoon").setup()
+
 EOF
 
 let g:tmux_navigator_disable_when_zoomed = 1
@@ -757,6 +763,11 @@ nnoremap <leader>u :UndotreeShow<cr>
 nnoremap <leader>m :MaximizerToggle<cr>
 nnoremap <leader>dt :CocCommand docthis.documentThis<cr>
 
+nnoremap ma <cmd>lua require("harpoon.mark").add_file()<cr>
+nnoremap '1 <cmd>lua require("harpoon.ui").nav_file(1)<cr>
+nnoremap '2 <cmd>lua require("harpoon.ui").nav_file(2)<cr>
+nnoremap '3 <cmd>lua require("harpoon.ui").nav_file(3)<cr>
+nnoremap mq <cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>
 "}}}
 
 "{{{ TODO
