@@ -293,7 +293,7 @@ nnoremap <Leader>o  <cmd>Files<cr>
 nnoremap <Leader>i  <cmd>Buffers<cr>
 nnoremap <Leader>/  <cmd>BLines<cr>
 nnoremap <leader><Leader>/ <cmd>Lines<cr>
-nnoremap <Leader>rg <cmd>Rg<cr>
+nnoremap <Leader>rg :Rg<space>
 nnoremap <leader>fh <cmd>Helptags<cr>
 nnoremap <leader>ch <cmd>History:<cr>
 nnoremap <leader>sh <cmd>History/<cr>
@@ -428,7 +428,7 @@ endfunction
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
-nnoremap <Leader>ps :CocSearch<space>
+nnoremap <leader>cs :CocSearch<space>
 
 " Formatting selected code.
 xmap <leader>fm  <Plug>(coc-format-selected)
