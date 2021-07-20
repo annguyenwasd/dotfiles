@@ -1,0 +1,65 @@
+[user]
+
+	name = An Nguyen
+	email = an.nguyenwasd@gmail.com
+[pull]
+	rebase = false
+
+[merge]
+  tool =
+
+[mergetool]
+  keepBackup = false
+
+[mergetool ""]
+  cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	excludesfile = /Users/annguyenwasd/.gitignore_global
+
+[alias]
+  s = status
+  c = commit -m
+  co = checkout
+	p = pull
+	pp = push
+	pf = push --force-with-lease
+	ca = commit -v --amend
+	cb = checkout -b
+	ba = branch -vv
+	bd = branch -d
+	bdr = push  -d
+	sh = stash -u
+	sp = stash pop
+	sl = stash list
+	f = fetch
+	a = add .
+	l = log --graph --oneline
+	la = log --graph --oneline --stat
+	r = rebase
+	ri = rebase -i
+	ra = rebase --abort
+	rc = rebase --continue
+	fp = fetch --prune
+	rn = branch -m
+[filesystem "Oracle Corporation|14.0.1|/dev/disk1s1"]
+	timestampResolution = 158000 nanoseconds
+	minRacyThreshold = 0 nanoseconds
+[interactive]
+	diffFilter = diff-so-fancy --patch
+[color]
+	ui = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = 11
+	frag = magenta bold
+	func = 146 bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
