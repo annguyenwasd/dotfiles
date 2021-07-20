@@ -36,7 +36,6 @@ Plug 'nvim-lua/popup.nvim'
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'slarwise/vim-tmux-send'
 
 "Git
 Plug 'tpope/vim-fugitive'
