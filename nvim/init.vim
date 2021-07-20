@@ -663,6 +663,11 @@ augroup Fugitive
   autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
+function GitCommit() abort
+  !git add -A
+  vsplit term://git commit
+endfunction
+
 nnoremap <leader><leader>f <cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>
 nnoremap <leader><leader>j <cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>
 
@@ -671,6 +676,7 @@ nnoremap <silent> <leader>gl <cmd>0Glog<cr>
 nnoremap <silent> <leader>gs <cmd>G difftool --name-status<cr>
 nnoremap <silent> <localleader>gs <cmd>G difftool<cr>
 nnoremap <silent> <localleader>bl <cmd>G blame<cr>
+nnoremap <silent> <leader>gc :call GitCommit()<cr>
 
 lua << EOF
 require('gitsigns').setup {
