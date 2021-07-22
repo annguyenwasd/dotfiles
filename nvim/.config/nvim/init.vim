@@ -460,10 +460,12 @@ nmap <localleader>ac  <Plug>(coc-codeaction)
 nmap <leader>ac  <Plug>(coc-codeaction-line)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
-nmap <localleader>e <cmd>CocCommand eslint.executeAutofix<cr>
-nmap <localleader>t <cmd>CocCommand tsserver.executeAutofix<cr>
-nnoremap `o <cmd>CocCommand tsserver.organizeImports<cr>
-au FileType java nnoremap `o <cmd>CocCommand editor.action.organizeImport<cr>
+nmap <leader>af <cmd>CocCommand tsserver.executeAutofix<cr><cmd>CocCommand eslint.executeAutofix<cr>
+if &filetype == "java"
+  nnoremap <leader><leader>oi <cmd>CocCommand editor.action.organizeImport<cr>
+else
+  nnoremap <leader><leader>oi <cmd>CocCommand tsserver.organizeImports<cr>
+endif
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
