@@ -285,7 +285,7 @@ augroup ThemeGroup
 
 augroup END
 
-colorscheme nvcode
+colorscheme omni
 
 "}}}
 

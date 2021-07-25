@@ -13,9 +13,15 @@ scrolling:
   multiplier: 3
 font:
   normal:
-    family: SFMono Nerd Font
+    family: UbuntuMono Nerd Font Mono
     style: Regular
-  size: 13
+  italic:
+    family: DankMono Nerd Font
+    style: Italic
+  bold:
+    family: UbuntuMono Nerd Font Mono
+    style: Bold
+  size: 16
   offset:
     x: 1
     yy: 0
@@ -391,11 +397,11 @@ colors:
     cyan: '#95E6CB'
     white: '#FFFFFF'
   cursor:
-    text: '#090300'
-    cursor: '#a5a2a2'
+    text: '#151515'
+    cursor: '#d0d0d0'
     background: '0xf0f0f0'
     foreground: '0x26282a'
-  name: 3024 (dark)
+  name: Chalk (dark)
   author: Chris Kempson
   dim:
     black: '#232323'
