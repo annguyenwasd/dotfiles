@@ -71,7 +71,7 @@ filetype plugin indent on
 
 set splitbelow
 set splitright
-set wildmenu termguicolors nowrap hidden noswapfile ignorecase incsearch expandtab nohlsearch number relativenumber noerrorbells cursorline
+set wildmenu termguicolors nowrap hidden noswapfile ignorecase incsearch hlsearch expandtab nohlsearch number relativenumber noerrorbells cursorline
 set exrc secure " load user config
 set signcolumn=yes
 set clipboard=unnamed
