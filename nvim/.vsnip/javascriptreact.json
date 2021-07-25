@@ -1,0 +1,100 @@
+{
+  "New react component": {
+    "prefix": "reactnew",
+    "body": [
+      "import * as React from 'react';",
+      "import styled from 'styled-components';",
+      "import PropTypes from 'prop-types';",
+      "",
+      "export const $1 = (props) => {",
+      "const {} = props;",
+      "",
+      "  return (",
+      "    <div>",
+      "      <h1>Hello World</h1>",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "$1.propTypes = {};"
+    ],
+    "description": ""
+  },
+  "styled component css": {
+    "prefix": "css",
+    "body": ["${p => p.$1 &&  css`", "  $2", "`};"],
+    "description": ""
+  },
+  "css grid": {
+    "prefix": "grid",
+    "body": [
+      "display: grid;",
+      "grid-template-columns: 1fr;",
+      "grid-template-rows: 1fr;",
+      "gap: 0px 0px;"
+    ],
+    "description": ""
+  },
+  "css media": {
+    "prefix": "media",
+    "body": ["@media screen and (min-width: 768px) {", "  $1", "}"],
+    "description": ""
+  },
+  "Old style storyof": {
+    "prefix": "storyOf",
+    "body": [
+      "import React from 'react';",
+      "import {storiesOf} from '@storybook/react';",
+      "import { $2 }  from './$2';",
+      "import { action } from '@storybook/addon-actions';",
+      "",
+      "storiesOf('$1', module)",
+      ".add('$2', () => (<$2 />));"
+    ],
+    "description": ""
+  },
+  "styled component theme": {
+    "prefix": "theme",
+    "body": ["${p => p.theme.$1};"],
+    "description": ""
+  },
+  "use effect": {
+    "prefix": "usef",
+    "body": ["React.useEffect(() => {", " $1", "}, []);"],
+    "description": ""
+  },
+  "use memo": {
+    "prefix": "usem",
+    "body": ["const $1 = React.useMemo(() => {", " $2", "}, []);"],
+    "description": ""
+  },
+  "use callback": {
+    "prefix": "usec",
+    "body": ["const $1 = React.useCallback(() => {", " $2", "}, []);"],
+    "description": ""
+  },
+  "use state": {
+    "prefix": "uses",
+    "body": ["const [$1, $2] = React.useState($3);"],
+    "description": ""
+  },
+  "use ref": {
+    "prefix": "user",
+    "body": ["const $1 = React.useRef(null);"],
+    "description": ""
+  },
+  "Hide scrollbars": {
+    "prefix": "hideScrollbars",
+    "body": [
+      "/* Hide scrollbar for Chrome, Safari and Opera */",
+      "&::-webkit-scrollbar {",
+      "  display: none;",
+      "}",
+      "",
+      "/* Hide scrollbar for IE, Edge and Firefox */",
+      "  -ms-overflow-style: none;  /* IE and Edge */",
+      "  scrollbar-width: none;  /* Firefox */"
+    ],
+    "description": ""
+  }
+}

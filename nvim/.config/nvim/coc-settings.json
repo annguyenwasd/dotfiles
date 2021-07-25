@@ -11,10 +11,6 @@
   "diagnostic.virtualTextCurrentLineOnly": false,
   "diagnostic.messageDelay": 10,
 
-  "docthis.includeAuthorTag": false,
-  "docthis.authorName": "An Nguyen <an.nguyenwasd@gmail.com",
-  "docthis.includeDateTag": false,
-
   "tsserver.trace.server": "verbose",
 
   "coc.preferences.useQuickfixForLocations": true,
@@ -41,7 +37,7 @@
   "snippets.extends": {
     "javascriptreact": ["javascript"],
     "typescript": ["typescript", "javascript"],
-    "typescriptreact": ["javascript", "typescript"]
+    "typescriptreact": ["javascript", "typescript", "javascriptreact"]
   },
 
   "prettier.eslintIntegration": false,

@@ -1,15 +1,13 @@
 {
-  "New react component with imports": {
-    "prefix": [
-      "reactnew"
-    ],
+  "New react component with imports expanded with filename": {
+    "prefix": ["reactnewf"],
     "body": [
       "import * as React from 'react';",
       "import styled from 'styled-components';",
       "",
-      "interface $1Props extends React.HTMLAttributes<HTMLDivElement> {}",
+      "interface ${1:$TM_FILENAME_BASE}Props extends React.HTMLAttributes<HTMLDivElement> {}",
       "",
-      "export const $1 = (props: $1Props) => {",
+      "export const ${1:$TM_FILENAME_BASE} = (props: ${1:$TM_FILENAME_BASE}Props) => {",
       "  return (",
       "    <div>",
       "      <h1>Hello World</h1>",
@@ -18,12 +16,10 @@
       "};",
       ""
     ],
-    "description": ""
+    "description": "New react component with imports expanded with filename"
   },
   "New react component": {
-    "prefix": [
-      "rfc"
-    ],
+    "prefix": ["rfc"],
     "body": [
       "interface $1Props extends React.HTMLAttributes<HTMLDivElement> {}",
       "",
@@ -39,9 +35,7 @@
     "description": ""
   },
   "New story book using CSF syntax": {
-    "prefix": [
-      "csf"
-    ],
+    "prefix": ["csf"],
     "body": [
       "import * as React from 'react';",
       "import { $1 } from './$1';",
@@ -58,9 +52,7 @@
     "description": ""
   },
   "Create component with mobx observer & use local store hooks": {
-    "prefix": [
-      "reactnewmobx"
-    ],
+    "prefix": ["reactnewmobx"],
     "body": [
       "import { useStore } from '@doltech/core';",
       "import { observer } from 'mobx-react-lite';",
