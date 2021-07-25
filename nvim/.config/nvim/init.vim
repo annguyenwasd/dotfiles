@@ -508,7 +508,16 @@ let g:coc_status_error_sign=" "
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline=\ %{GetIcon()}\ %.40f\ %m%r\ %{coc#status()}%=%{GitBranchName()}\ %{GitAttributes()}\ \ %l/%L,%c
+set statusline=\ %{GetIcon()}\ %.40f\ %m%r\ %{CocStatus()}%=%{GitBranchName()}\ %{GitAttributes()}\ \ %l/%L,%c
+
+function CocStatus()
+  let l:ww = winwidth(0)
+  if l:ww < 100
+    return ''
+  endif
+
+  return coc#status()
+endfunction
 
 function GetIcon() abort
   let l:buffer_name = expand("%")
