@@ -33,6 +33,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'ThePrimeagen/vim-be-good'
 Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-lua/popup.nvim'
+Plug 's1n7ax/nvim-comment-frame'
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
@@ -761,6 +762,29 @@ require'nvim-web-devicons'.setup {
 }
 
 require("harpoon").setup()
+
+require('nvim-comment-frame').setup({
+
+	-- if true, <leader>cf keymap will be disabled
+	disable_default_keymap = false,
+
+	-- adds custom keymap
+	keymap = '<leader>cm',
+
+	-- width of the comment frame
+	frame_width = 70,
+
+	-- wrap the line after 'n' characters
+	line_wrap_len = 50,
+
+	-- automatically indent the comment frame based on the line
+	auto_indent = true,
+
+	-- add comment above the current line
+	add_comment_above = true,
+
+  languages = {}
+})
 
 EOF
 
