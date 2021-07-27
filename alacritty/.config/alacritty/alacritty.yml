@@ -13,15 +13,9 @@ scrolling:
   multiplier: 3
 font:
   normal:
-    family: UbuntuMono Nerd Font Mono
+    family: SFMono Nerd Font
     style: Regular
-  italic:
-    family: DankMono Nerd Font
-    style: Italic
-  bold:
-    family: UbuntuMono Nerd Font Mono
-    style: Bold
-  size: 16
+  size: 13
   offset:
     x: 1
     yy: 0
