@@ -189,6 +189,7 @@ command CF :call CopyFileRelativePath()
 command CFP :call CopyFileRelativePathFolder()
 command GG :call GoogleJavaFormat()
 command FF :call OpenFileInFolder()
+command OO :call OpenCurrentFolder()
 
 function OpenFileInFolder()
   let current_folder = expand("%:h")
@@ -198,6 +199,10 @@ endfunction
 function CopyFileName()
  let @* = expand("%:t")
  let @r = expand("%:t")
+endfunction
+
+function OpenCurrentFolder() 
+  !open %:p:h
 endfunction
 
 function CopyAbsouPathPath()
