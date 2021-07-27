@@ -163,7 +163,7 @@ inoremap <c-j> <down>
 inoremap <c-k> <up>
 inoremap <c-l> <right>
 
-nnoremap <leader>ff :call OpenFileInFolder()<cr>
+nnoremap <leader>ff <cmd>Files %:h<cr>
 nnoremap <leader>e <cmd>b #<cr>
 nnoremap <leader><leader>e <cmd>e<cr>
 nnoremap <silent> <leader><leader>b <cmd>BufOnly<cr>
@@ -190,11 +190,6 @@ command CFP :call CopyFileRelativePathFolder()
 command GG :call GoogleJavaFormat()
 command FF :call OpenFileInFolder()
 command OO :call OpenCurrentFolder()
-
-function OpenFileInFolder()
-  let current_folder = expand("%:h")
-  call fzf#vim#files(current_folder, {'source' : 'ls'})
-endfunction
 
 function CopyFileName()
  let @* = expand("%:t")

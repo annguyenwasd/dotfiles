@@ -21,7 +21,7 @@ font:
   bold:
     family: OperatorMono Nerd Font
     style: Bold
-  size: 14
+  size: 16
   offset:
     x: 1
     yy: 0
