@@ -292,6 +292,7 @@ colorscheme omni
 
 "{{{ FZF configuration
 nnoremap <Leader>o  <cmd>Files<cr>
+nnoremap <Leader>O  <cmd>History<cr>
 nnoremap <Leader>i  <cmd>Buffers<cr>
 nnoremap <Leader>/  <cmd>BLines<cr>
 nnoremap <leader><Leader>/ <cmd>Lines<cr>
