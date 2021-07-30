@@ -128,10 +128,10 @@ let g:vimsyn_embed = 'lPr' " Highlight lua syntax inside vim
 let mapleader=" "
 let maplocalleader="\\"
 
-nmap n nzozz
-nmap N nzozz
-nmap * *zozz
-nmap # #zozz
+nmap n nzozt
+nmap N Nzozt
+nmap * *zozt
+nmap # #zozt
 
 nnoremap Y y$
 " Duplicate everything selected
@@ -415,8 +415,8 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-nmap <silent> ]s <cmd>CocCommand document.jumpToNextSymbol<cr>
-nmap <silent> [s <cmd>CocCommand document.jumpToPrevSymbol<cr>
+nmap <silent> ]s <cmd>CocCommand document.jumpToNextSymbol<cr>zt
+nmap <silent> [s <cmd>CocCommand document.jumpToPrevSymbol<cr>zt
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
