@@ -737,7 +737,7 @@ let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be up
 let g:nvim_tree_indent_markers = 0 "0 by default, this option shows indent markers when folders are open
 
 nnoremap <silent> <leader>n <cmd>NvimTreeToggle<cr>
-nnoremap <silent> <leader><leader>n <cmd>lua require'lir.float'.toggle()<cr>
+nnoremap <silent> <leader>j <cmd>lua require'lir.float'.toggle()<cr>
 "}}}
 
 "{{{ Git configuration
@@ -766,6 +766,8 @@ nnoremap <silent> <leader>gs <cmd>G difftool --name-status<cr>
 nnoremap <silent> <localleader>gs <cmd>G difftool<cr>
 nnoremap <silent> <localleader>bl <cmd>G blame<cr>
 nnoremap <silent> <leader>gc :call GitCommit()<cr>
+nnoremap <silent> <leader>ga <cmd>G add -A<cr>
+nnoremap <silent> <leader>gw <cmd>G add -A <bar>G commit -n -m "WIP"<cr>
 
 lua << EOF
 require('gitsigns').setup {
