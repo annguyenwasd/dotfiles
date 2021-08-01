@@ -142,7 +142,7 @@ vmap * y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>
 nnoremap <leader>h <cmd>History<cr>
 
 " inoremap jk <esc><cmd>wa<cr><cmd>e<cr>
-nnoremap <silent> <leader>cl <cmd>ccl<cr><cmd>lcl<cr>
+nnoremap <silent> <leader>cl <cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr>
 nnoremap <leader><leader>r <cmd>so ~/.config/nvim/init.vim<cr>
 
 " Resize
