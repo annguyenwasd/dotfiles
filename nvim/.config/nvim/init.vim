@@ -679,7 +679,7 @@ require'lir'.setup {
     ['q']     = actions.quit,
 
     ['N']     = actions.mkdir,
-    ['n']     = actions.newfile,
+    ['<leader>n']     = actions.newfile,
     ['r']     = actions.rename,
     ['@']     = actions.cd,
     ['gy']     = actions.yank_path,
