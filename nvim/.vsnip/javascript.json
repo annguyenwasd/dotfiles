@@ -17,7 +17,7 @@
     "prefix": "jpre",
     "body": [
       "<pre>",
-      "  <div>$TM_FILENAME:$TM_LINE_NUMBER{$1}</div>",
+      "  <div>$TM_FILENAME:$TM_LINE_NUMBER - $1}</div>",
       "  {JSON.stringify($1, null, 2)}",
       "</pre>"
     ],
@@ -48,7 +48,7 @@
   },
   "console.log with prefix string": {
     "prefix": "lg",
-    "body": ["console.log(`$TM_FILENAME:$TM_LINE_NUMBER - $1:`, $1);"],
+    "body": ["console.log(`$1:`, $1);"],
     "description": ""
   },
   "Create a todo": {
