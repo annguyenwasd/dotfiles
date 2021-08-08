@@ -71,11 +71,26 @@ call plug#end()
 "{{{ Settings
 syntax enable
 filetype plugin indent on
+let g:vimsyn_embed = 'lPr'
 
 set splitbelow
 set splitright
-set wildmenu termguicolors nowrap hidden noswapfile ignorecase incsearch hlsearch expandtab nohlsearch number relativenumber noerrorbells cursorline
-set exrc secure " load user config
+set wildmenu 
+set termguicolors 
+set nowrap 
+set hidden 
+set noswapfile 
+set ignorecase 
+set incsearch 
+set hlsearch 
+set expandtab 
+set nohlsearch 
+set number 
+set relativenumber 
+set noerrorbells 
+set cursorline
+set exrc 
+set secure
 set signcolumn=yes
 set clipboard=unnamed
 set updatetime=50
@@ -121,7 +136,6 @@ fun! TrimWhitespace()
 endfun
 
 
-let g:vimsyn_embed = 'lPr' " Highlight lua syntax inside vim
 "}}}
 
 "{{{ Mappings
