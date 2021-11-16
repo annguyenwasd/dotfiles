@@ -1,0 +1,219 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+snippet jpre "Print JSON inside pre tag" A
+<pre>
+	{JSON.stringify($1, null, 2)}
+</pre>
+endsnippet
+
+snippet cmt "Block comment" b
+// =================================================================================
+// $1
+// =================================================================================
+
+endsnippet
+snippet esd "eslint disable" A
+/* eslint-disable */
+endsnippet
+
+snippet reactnew "New react component" b
+import * as React from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
+export const $1 = (props) => {
+	const {} = props;
+
+  return (
+    <div>
+      <h1>Hello World</h1>
+    </div>
+  );
+};
+
+$1.propTypes = {};
+endsnippet
+
+snippet reactnewf "New react function component" b
+import * as React from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
+function $1Base(props) {
+	const {} = props;
+  return (
+    <div>
+      <h1>Hello World</h1>
+    </div>
+  );
+};
+
+$1.propTypes = {};
+
+export const $1 = $1Base;
+endsnippet
+
+
+snippet connect "Connect with redux" b
+const mapStateToProps = state => ({
+  $3
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators($1, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo($2));
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+endsnippet
+
+snippet css "styled component css" b
+${p => p.$1 &&  css\`
+	$2
+\`};
+endsnippet
+
+snippet grid "css grid" b
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: 1fr;
+gap: 0px 0px;
+endsnippet
+
+snippet media "css media" b
+@media screen and (min-width: 768px) {
+  $1
+}
+endsnippet
+
+snippet storyOf "Old style storyof" b
+import React from 'react';
+import {storiesOf} from '@storybook/react';
+import { $2 }  from './$2';
+import { action } from '@storybook/addon-actions';
+
+storiesOf('$1', module)
+.add('$2', () => (<$2 />));
+endsnippet
+
+snippet theme "styled component theme" b
+${p => p.theme.$1};
+endsnippet
+
+snippet LJ "console.log with JSON.stringify" A
+console.log(JSON.stringify($1, null, 2));
+endsnippet
+
+snippet lg "console.log with prefix string" A
+console.log(\`$1\`, $1);
+endsnippet
+
+snippet log; "console.log " A
+console.log($1);
+endsnippet
+
+snippet logx "console.log and xxxxx " A
+console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+console.log($1);
+endsnippet
+
+snippet usef "use effect" b
+React.useEffect(() => {
+	$1
+}, []);
+endsnippet
+
+snippet usem "use memo" b
+const $1 = React.useMemo(() => {
+	$2
+}, []);
+endsnippet
+
+snippet usec "use callback" b
+const $1 = React.useCallback(() => {
+	$2
+}, []);
+endsnippet
+
+snippet uses "use state" b
+const [$1, $2] = React.useState($3);
+endsnippet
+
+snippet user "use ref" b
+const $1 = React.useRef(null);
+endsnippet
+
+snippet /td "Create a todo" A
+// TODO: $1
+endsnippet
+
+snippet testnew "New React test template" b
+/// <reference types="@testing-library/jest-dom" />
+import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, cleanup } from '@testing-library/react';
+import * as React from 'react';
+
+import { $1 } from './$1';
+
+describe('$2', () => {
+  test('should $3', () => {
+    const { baseElement } = render(<$1 />);
+    expect(baseElement).toBeInTheDocument();
+  });
+});
+endsnippet
+
+snippet test "New Jest test block" b
+test('should $1', () => {
+  $2
+});
+endsnippet
+
+snippet desc "New Jest describe block" b
+describe('$1', () => {
+	test('should $2', () => {
+		$3
+	});
+});
+endsnippet
+
+snippet hideScrollbars "Hide scrollbars" b
+/* Hide scrollbar for Chrome, Safari and Opera */
+&::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+endsnippet
+
+snippet sdiv "styled div" b
+const $1 = styled.div\`
+	$2
+\`;
+endsnippet

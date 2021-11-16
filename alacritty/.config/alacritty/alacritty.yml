@@ -21,7 +21,7 @@ font:
   bold:
     family: OperatorMono Nerd Font
     style: Bold
-  size: 16
+  size: 14
   offset:
     x: 1
     yy: 0
@@ -372,33 +372,33 @@ key_bindings:
     chars: "\el"
 colors:
   primary:
-    background: '#0A0E14'
-    foreground: '#B3B1AD'
+    background: '#1e1e1e'
+    foreground: '#d4d4d4'
     dim_foreground: '#dbdbdb'
     bright_foreground: '#d9d9d9'
     dim_background: '#202020'
     bright_background: '#3a3a3a'
   normal:
-    black: '#01060E'
-    red: '#EA6C73'
-    green: '#91B362'
-    yellow: '#F9AF4F'
-    blue: '#53BDFA'
-    magenta: '#FAE994'
-    cyan: '#90E1C6'
-    white: '#C7C7C7'
+    black: '#1e1e1e'
+    red: '#f44747'
+    green: '#608b4e'
+    yellow: '#dcdcaa'
+    blue: '#569cd6'
+    magenta: '#c678dd'
+    cyan: '#56b6c2'
+    white: '#d4d4d4'
   bright:
-    black: '#686868'
-    red: '#F07178'
-    green: '#C2D94C'
-    yellow: '#FFB454'
-    blue: '#59C2FF'
-    magenta: '#FFEE99'
-    cyan: '#95E6CB'
-    white: '#FFFFFF'
+    black: '#545454'
+    red: '#f44747'
+    green: '#608b4e'
+    yellow: '#dcdcaa'
+    blue: '#569cd6'
+    magenta: '#c678dd'
+    cyan: '#56b6c2'
+    white: '#d4d4d4'
   cursor:
-    text: '#151515'
-    cursor: '#d0d0d0'
+    text: '#d4d4d4'
+    cursor: '#d4d4d4'
     background: '0xf0f0f0'
     foreground: '0x26282a'
   name: Chalk (dark)
@@ -415,3 +415,54 @@ colors:
   selection:
     text: '#080808'
     background: '#b2ceee'
+schemes:
+  codelight:
+    primary:
+      background: '#ffffff'
+      foreground: '#1e1e1e'
+    cursor:
+      text: '#d4d4d4'
+      cursor: '#d4d4d4'
+    normal:
+      black: '#1e1e1e'
+      red: '#c72e0f'
+      green: '#009000'
+      yellow: '#795e25'
+      blue: '#007acc'
+      magenta: '#af00db'
+      cyan: '#56b6c2'
+      white: '#d4d4d4'
+    bright:
+      black: '#1e1e1e'
+      red: '#c72e0f'
+      green: '#009000'
+      yellow: '#795e25'
+      blue: '#007acc'
+      magenta: '#af00db'
+      cyan: '#56b6c2'
+      white: '#d4d4d4'
+  codedark:
+    primary:
+      background: '#1e1e1e'
+      foreground: '#d4d4d4'
+    cursor:
+      text: '#d4d4d4'
+      cursor: '#d4d4d4'
+    normal:
+      black: '#1e1e1e'
+      red: '#f44747'
+      green: '#608b4e'
+      yellow: '#dcdcaa'
+      blue: '#569cd6'
+      magenta: '#c678dd'
+      cyan: '#56b6c2'
+      white: '#d4d4d4'
+    bright:
+      black: '#545454'
+      red: '#f44747'
+      green: '#608b4e'
+      yellow: '#dcdcaa'
+      blue: '#569cd6'
+      magenta: '#c678dd'
+      cyan: '#56b6c2'
+      white: '#d4d4d4'

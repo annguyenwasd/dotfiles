@@ -6,12 +6,12 @@
   },
   "fix": {
     "prefix": ["fix"],
-    "body": ["fix($1): [DT-$2] $3", "", "SOLUTION: $4"],
+    "body": ["fix($1): [DT-$2] $3", "", "ROOT_CAUSE: $4", "SOLUTION: $5"],
     "description": ""
   },
   "DT-4662": {
     "prefix": ["4662"],
-    "body": ["fix($1): [DT-4662] $2", "", "SOLUTION: $3"],
+    "body": ["fix($1): [DT-4662] $2", "", "ROOT_CAUSE: $3", "SOLUTION: $4"],
     "description": "DT-4662"
   },
   "refactor": {

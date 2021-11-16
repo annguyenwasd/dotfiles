@@ -67,9 +67,9 @@ bindkey '^ ' autosuggest-accept
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 
-# autoload -U promptinit; promptinit
-# prompt spaceship
-# export SPACESHIP_VI_MODE_SHOW=false
+autoload -U promptinit; promptinit
+prompt spaceship
+export SPACESHIP_VI_MODE_SHOW=false
 
 prompt_context() {
   # Custom (Random emoji)
@@ -95,6 +95,7 @@ alias cl="clear"
 alias ydl="youtube-dl -i"
 alias lg="lazygit"
 alias lzd="lazydocker"
+alias r="ranger"
 
 # kill process
 alias p="netstat -vanp tcp | grep $1"
@@ -418,6 +419,8 @@ alias fc="ga; gc \"update\";gpp"
 alias fast-commit="fc"
 alias gfp="git fetch --prune"
 alias grn="git branch -m"
+
+alias tinyhead="git diff --diff-filter=ACM --name-only HEAD | grep \".png\|.jpg\" | xargs tinypng"
 
 git config --global user.name "An Nguyen"
 git config --global user.email "an.nguyenwasd@gmail.com"
