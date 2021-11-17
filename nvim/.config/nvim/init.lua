@@ -857,7 +857,12 @@ require("packer").startup(
                                 {name = "ultisnips"}
                             },
                             {
-                                {name = "buffer"}
+                                {
+                                    name = "buffer",
+                                    get_bufnrs = function()
+                                        return vim.api.nvim_list_bufs()
+                                    end
+                                }
                             }
                         )
                     }
@@ -868,7 +873,12 @@ require("packer").startup(
                     "/",
                     {
                         sources = {
-                            {name = "buffer"}
+                            {
+                                name = "buffer",
+                                get_bufnrs = function()
+                                    return vim.api.nvim_list_bufs()
+                                end
+                            }
                         }
                     }
                 )
