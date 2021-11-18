@@ -312,191 +312,6 @@ require("packer").startup(
         }
         -- }}}
 
-        -- {{{ MISC
-        use "rafamadriz/friendly-snippets"
-        use "tpope/vim-surround"
-        use "tpope/vim-repeat"
-        use "tpope/vim-unimpaired"
-        use "tpope/vim-commentary"
-        use "tpope/vim-abolish"
-        use "tpope/vim-obsession"
-        use "tpope/vim-eunuch"
-        use "kevinhwang91/nvim-bqf"
-        use "JoosepAlviste/nvim-ts-context-commentstring"
-        use "vim-scripts/BufOnly.vim"
-        use "nvim-lua/plenary.nvim"
-        use "KabbAmine/vCoolor.vim"
-        use "ThePrimeagen/vim-be-good"
-        use "nvim-lua/popup.nvim"
-        use "blueyed/vim-diminactive"
-        use "romainl/vim-cool"
-
-        use {
-            "windwp/nvim-ts-autotag",
-            config = function()
-                require("nvim-ts-autotag").setup()
-            end
-        }
-
-        use {
-            "airblade/vim-rooter",
-            setup = function()
-                vim.g.rooter_patterns = {".git", ".svn", "package.json", "!node_modules"}
-            end
-        }
-
-        use {
-            "jghauser/mkdir.nvim",
-            config = function()
-                require("mkdir")
-            end
-        }
-
-        use {
-            "szw/vim-maximizer",
-            config = function()
-                local map = require "utils".map
-                map("n", "<leader>m", ":MaximizerToggle<cr>")
-            end
-        }
-
-        use {
-            "mbbill/undotree",
-            config = function()
-                local map = require "utils".map
-
-                map("n", "<leader>u", ":UndotreeShow<cr>")
-            end
-        }
-
-        use {
-            "s1n7ax/nvim-comment-frame",
-            config = function()
-                require("nvim-comment-frame").setup(
-                    {
-                        -- if true, <leader>cf keymap will be disabled
-                        disable_default_keymap = false,
-                        -- adds custom keymap
-                        keymap = "<leader>cm",
-                        -- width of the comment frame
-                        frame_width = 70,
-                        -- wrap the line after 'n' characters
-                        line_wrap_len = 50,
-                        -- automatically indent the comment frame based on the line
-                        auto_indent = true,
-                        -- add comment above the current line
-                        add_comment_above = true,
-                        languages = {}
-                    }
-                )
-            end
-        }
-
-        use {
-            "ThePrimeagen/harpoon",
-            config = function()
-                local map = require "utils".map
-
-                require("harpoon").setup(
-                    {
-                        menu = {
-                            width = 120,
-                            height = 30
-                        }
-                    }
-                )
-
-                map("n", "ma", '<cmd>lua require("harpoon.mark").add_file()<cr>')
-                map("n", "'1", '<cmd>lua require("harpoon.ui").nav_file(1)<cr>')
-                map("n", "'2", '<cmd>lua require("harpoon.ui").nav_file(2)<cr>')
-                map("n", "'3", '<cmd>lua require("harpoon.ui").nav_file(3)<cr>')
-                map("n", "'4", '<cmd>lua require("harpoon.ui").nav_file(4)<cr>')
-                map("n", "'5", '<cmd>lua require("harpoon.ui").nav_file(5)<cr>')
-                map("n", "mq", '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>')
-            end
-        }
-
-        use {
-            "skywind3000/asyncrun.vim",
-            config = function()
-                local nvim_create_augroups = require "utils".nvim_create_augroups
-                nvim_create_augroups(
-                    {
-                        AutoOpenQuickFixAsyncRun = {
-                            "User AsyncRunStop :copen 20"
-                        }
-                    }
-                )
-            end
-        }
-
-        use {
-            "ryanoasis/vim-devicons",
-            {
-                "kyazdani42/nvim-web-devicons",
-                config = function()
-                    require("nvim-web-devicons").setup(
-                        {
-                            override = {
-                                typescriptreact = {
-                                    icon = "",
-                                    color = "#519aba",
-                                    name = "Tsx"
-                                },
-                                javascriptreact = {
-                                    icon = "",
-                                    color = "#519aba",
-                                    name = "Jsx"
-                                },
-                                typescript = {
-                                    icon = "",
-                                    color = "#519aba",
-                                    name = "Ts"
-                                },
-                                javascript = {
-                                    icon = "",
-                                    color = "#519ada",
-                                    name = "Js"
-                                }
-                            },
-                            default = true
-                        }
-                    )
-                end
-            }
-        }
-
-        use {
-            "norcalli/nvim-colorizer.lua",
-            config = function()
-                require("colorizer").setup()
-            end
-        }
-
-        use {
-            "dm1try/golden_size",
-            config = function()
-                local function ignore_by_buftype(types)
-                    local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-                    for _, type in pairs(types) do
-                        if type == buftype then
-                            return 1
-                        end
-                    end
-                end
-                local golden_size = require("golden_size")
-                -- set the callbacks, preserve the defaults
-                golden_size.set_ignore_callbacks(
-                    {
-                        {ignore_by_buftype, {"terminal", "quickfix", "nofile"}},
-                        {golden_size.ignore_float_windows}, -- default one, ignore float windows
-                        {golden_size.ignore_by_window_flag} -- default one, ignore windows with w:ignore_gold_size=1
-                    }
-                )
-            end
-        }
-        -- }}}
-
         -- {{{ Status line
         use {
             "nvim-lualine/lualine.nvim",
@@ -1184,6 +999,238 @@ require("packer").startup(
                 vim.g.neoformat_basic_format_trim = 1
                 map("v", "<leader>fm", ":Neoformat<CR>")
                 map("n", "<leader>fm", ":Neoformat<CR>")
+            end
+        }
+        -- }}}
+
+        -- {{{ MISC
+        use "rafamadriz/friendly-snippets"
+        use "tpope/vim-surround"
+        use "tpope/vim-repeat"
+        use "tpope/vim-unimpaired"
+        use "tpope/vim-commentary"
+        use "tpope/vim-abolish"
+        use "tpope/vim-obsession"
+        use "tpope/vim-eunuch"
+        use "kevinhwang91/nvim-bqf"
+        use "JoosepAlviste/nvim-ts-context-commentstring"
+        use "vim-scripts/BufOnly.vim"
+        use "nvim-lua/plenary.nvim"
+        use "KabbAmine/vCoolor.vim"
+        use "ThePrimeagen/vim-be-good"
+        use "nvim-lua/popup.nvim"
+        use "blueyed/vim-diminactive"
+        use "romainl/vim-cool"
+
+        use {
+            "windwp/nvim-ts-autotag",
+            config = function()
+                require("nvim-ts-autotag").setup()
+            end
+        }
+
+        use {
+            "airblade/vim-rooter",
+            setup = function()
+                vim.g.rooter_patterns = {".git", ".svn", "package.json", "!node_modules"}
+            end
+        }
+
+        use {
+            "jghauser/mkdir.nvim",
+            config = function()
+                require("mkdir")
+            end
+        }
+
+        use {
+            "szw/vim-maximizer",
+            config = function()
+                local map = require "utils".map
+                map("n", "<leader>m", ":MaximizerToggle<cr>")
+            end
+        }
+
+        use {
+            "mbbill/undotree",
+            config = function()
+                local map = require "utils".map
+
+                map("n", "<leader>u", ":UndotreeShow<cr>")
+            end
+        }
+
+        use {
+            "s1n7ax/nvim-comment-frame",
+            config = function()
+                require("nvim-comment-frame").setup(
+                    {
+                        -- if true, <leader>cf keymap will be disabled
+                        disable_default_keymap = false,
+                        -- adds custom keymap
+                        keymap = "<leader>cm",
+                        -- width of the comment frame
+                        frame_width = 70,
+                        -- wrap the line after 'n' characters
+                        line_wrap_len = 50,
+                        -- automatically indent the comment frame based on the line
+                        auto_indent = true,
+                        -- add comment above the current line
+                        add_comment_above = true,
+                        languages = {}
+                    }
+                )
+            end
+        }
+
+        use {
+            "ThePrimeagen/harpoon",
+            config = function()
+                local map = require "utils".map
+
+                require("harpoon").setup(
+                    {
+                        menu = {
+                            width = 120,
+                            height = 30
+                        }
+                    }
+                )
+
+                map("n", "ma", '<cmd>lua require("harpoon.mark").add_file()<cr>')
+                map("n", "'1", '<cmd>lua require("harpoon.ui").nav_file(1)<cr>')
+                map("n", "'2", '<cmd>lua require("harpoon.ui").nav_file(2)<cr>')
+                map("n", "'3", '<cmd>lua require("harpoon.ui").nav_file(3)<cr>')
+                map("n", "'4", '<cmd>lua require("harpoon.ui").nav_file(4)<cr>')
+                map("n", "'5", '<cmd>lua require("harpoon.ui").nav_file(5)<cr>')
+                map("n", "mq", '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>')
+            end
+        }
+
+        use {
+            "skywind3000/asyncrun.vim",
+            config = function()
+                local nvim_create_augroups = require "utils".nvim_create_augroups
+                nvim_create_augroups(
+                    {
+                        AutoOpenQuickFixAsyncRun = {
+                            "User AsyncRunStop :copen 20"
+                        }
+                    }
+                )
+            end
+        }
+
+        use {
+            "ryanoasis/vim-devicons",
+            {
+                "kyazdani42/nvim-web-devicons",
+                config = function()
+                    require("nvim-web-devicons").setup(
+                        {
+                            override = {
+                                typescriptreact = {
+                                    icon = "",
+                                    color = "#519aba",
+                                    name = "Tsx"
+                                },
+                                javascriptreact = {
+                                    icon = "",
+                                    color = "#519aba",
+                                    name = "Jsx"
+                                },
+                                typescript = {
+                                    icon = "",
+                                    color = "#519aba",
+                                    name = "Ts"
+                                },
+                                javascript = {
+                                    icon = "",
+                                    color = "#519ada",
+                                    name = "Js"
+                                }
+                            },
+                            default = true
+                        }
+                    )
+                end
+            }
+        }
+
+        use {
+            "norcalli/nvim-colorizer.lua",
+            config = function()
+                require("colorizer").setup()
+            end
+        }
+
+        use {
+            "dm1try/golden_size",
+            config = function()
+                local function ignore_by_buftype(types)
+                    local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+                    for _, type in pairs(types) do
+                        if type == buftype then
+                            return 1
+                        end
+                    end
+                end
+                local golden_size = require("golden_size")
+                -- set the callbacks, preserve the defaults
+                golden_size.set_ignore_callbacks(
+                    {
+                        {ignore_by_buftype, {"terminal", "quickfix", "nofile"}},
+                        {golden_size.ignore_float_windows}, -- default one, ignore float windows
+                        {golden_size.ignore_by_window_flag} -- default one, ignore windows with w:ignore_gold_size=1
+                    }
+                )
+            end
+        }
+        -- }}}
+
+        -- {{{ Debugger
+        use {
+            "mfussenegger/nvim-dap",
+            config = function()
+                local map = require "utils".map
+
+                map("n", "<localleader>db", ":lua require'dap'.toggle_breakpoint()<cr>")
+                -- Breakpoint condition
+                map(
+                    "n",
+                    "<localleader>dc",
+                    ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>"
+                )
+                -- Breakpoint with log
+                map(
+                    "n",
+                    "<localleader>dl",
+                    ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>"
+                )
+                map("n", "<localleader>dB", ":lua require'dap'.list_breakpoints()<cr>")
+                map("n", "<localleader>dc", ":lua require'dap'.continue()<cr>")
+                map("n", "<localleader>do", ":lua require'dap'.step_over()<cr>")
+                map("n", "<localleader>di", ":lua require'dap'.step_into()<cr>")
+                map("n", "<localleader>re", ":lua require'dap'.repl.open()<cr>")
+                map("n", "<localleader>rc", ":lua require'dap'.run_to_cursor()<cr>")
+                map("n", "<localleader>da", ":lua require'dap'.", {silent = false})
+            end
+        }
+        use {
+            "Pocco81/DAPInstall.nvim",
+            config = function()
+                local dap_install = require("dap-install")
+                local dbg_list = require("dap-install.api.debuggers").get_installed_debuggers()
+
+                dap_install.setup(
+                    {
+                        installation_path = vim.fn.stdpath("data") .. "/dapinstall/"
+                    }
+                )
+
+                for _, debugger in ipairs(dbg_list) do
+                    dap_install.config(debugger)
+                end
             end
         }
         -- }}}
