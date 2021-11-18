@@ -201,8 +201,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 -- }}}
 
+-- {{{ Packer Start
+
 require("packer").startup(
     function(use)
+        -- }}}
+
         -- {{{ Packer
         use "wbthomason/packer.nvim"
         -- }}}
@@ -1235,6 +1239,8 @@ require("packer").startup(
         }
         -- }}}
 
+        -- {{{ Packer end
+
         -- {{{ Automatically set up your configuration after cloning packer.nvim
         -- Put this at the end after all useins
         if packer_bootstrap then
@@ -1243,6 +1249,8 @@ require("packer").startup(
         -- }}}
     end
 )
+
+-- }}}
 
 -- }}}1
 
