@@ -381,7 +381,7 @@ require("packer").startup(
             },
             run = function()
                 local required_servers = {
-                    "emmet_ls",
+                    -- "emmet_ls",
                     "yamlls",
                     "jsonls",
                     "html",
