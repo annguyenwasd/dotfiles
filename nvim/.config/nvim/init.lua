@@ -868,7 +868,7 @@ require("packer").startup(
                 map(
                     "n",
                     "<leader>gp",
-                    ":AsyncRun git push origin $(git rev-parse --abbrev-ref HEAD)<cr>",
+                    ":AsyncRun git push origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
                     {silent = false}
                 )
             end
