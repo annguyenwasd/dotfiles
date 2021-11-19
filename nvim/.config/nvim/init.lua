@@ -104,13 +104,12 @@ map("i", "<c-l>", "<right>", {silent = false})
 
 map("n", "<leader>e", "<cmd>b #<cr>")
 map("n", "<leader><leader>e", "<cmd>e<cr>")
-map("n", "<leader><leader>b", "<cmd>BufOnly<cr>")
+map("n", "<leader>bo", "<cmd>BufOnly<cr>")
 map("n", "<leader>td", ":vsp .todo<cr>")
 
 -- Create file at same folder with vsplit/split
-map("n", "<localleader>vf", ":vsp %:h/", {silent = false})
-map("n", "<localleader>sf", ":sp %:h/", {silent = false})
-map("n", "<localleader>ff", ":e %:h/", {silent = false})
+map("n", "<leader>vf", ":vsp %:h/", {silent = false})
+map("n", "<leader>sf", ":sp %:h/", {silent = false})
 
 map("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>')
 map("n", "<leader><leader>H", 'yi\' :!npm home <c-r>"<cr>')
@@ -293,7 +292,7 @@ require("packer").startup(
                 map("n", "<leader>ch", "<cmd>Telescope command_history<cr>")
                 map("n", "<leader>sh", "<cmd>Telescope search_history<cr>")
                 map("n", "<leader>fc", "<cmd>Telescope commands<cr>")
-                map("n", "<localleader>fc", "<cmd>Telescope colorscheme<cr>")
+                map("n", "<leader><leader>fc", "<cmd>Telescope colorscheme<cr>")
                 map("n", "<leader>km", "<cmd>Telescope keymaps<cr>")
                 map("n", "<leader>tr", "<cmd>Telescope resume<cr>")
 
@@ -877,14 +876,14 @@ require("packer").startup(
                     vim.cmd "vsplit term://git commit"
                 end
 
-                map("n", "<leader><leader>f", "<cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
-                map("n", "<leader><leader>j", "<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
+                map("n", "<leader>gf", "<cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
+                map("n", "<leader>gj", "<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
 
                 map("n", "<leader>lg", "<cmd>LazyGit<cr>")
                 map("n", "<leader>gl", "<cmd>0Glog<cr>")
                 map("n", "<leader>gs", "<cmd>G difftool --name-status<cr>")
-                map("n", "<localleader>gs", "<cmd>G difftool<cr>")
-                map("n", "<localleader>bl", "<cmd>G blame<cr>")
+                map("n", "<leader><leader>gs", "<cmd>G difftool<cr>")
+                map("n", "<leader><leader>bl", "<cmd>G blame<cr>")
                 map("n", "<leader>gc", ":call v:lua.GitCommit()<cr>")
                 map("n", "<leader>ga", "<cmd>G add -A<cr>")
                 map("n", "<leader>gw", '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
