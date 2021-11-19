@@ -985,21 +985,20 @@ require("packer").startup(
         -- }}}
 
         -- {{{ MISC
-        use "rafamadriz/friendly-snippets"
-        use "tpope/vim-surround"
-        use "tpope/vim-repeat"
-        use "tpope/vim-unimpaired"
-        use "tpope/vim-commentary"
-        use "tpope/vim-abolish"
-        use "tpope/vim-obsession"
-        use "tpope/vim-eunuch"
+        use {
+            "tpope/vim-surround",
+            "tpope/vim-repeat",
+            "tpope/vim-unimpaired",
+            "tpope/vim-abolish",
+            "tpope/vim-obsession",
+            "tpope/vim-eunuch"
+        }
+        use {"JoosepAlviste/nvim-ts-context-commentstring", "tpope/vim-commentary"}
+        use {"nvim-lua/popup.nvim", "nvim-lua/plenary.nvim"}
         use "kevinhwang91/nvim-bqf"
-        use "JoosepAlviste/nvim-ts-context-commentstring"
         use "vim-scripts/BufOnly.vim"
-        use "nvim-lua/plenary.nvim"
         use "KabbAmine/vCoolor.vim"
         use "ThePrimeagen/vim-be-good"
-        use "nvim-lua/popup.nvim"
         use "blueyed/vim-diminactive"
         use "romainl/vim-cool"
 
