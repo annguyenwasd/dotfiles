@@ -1274,10 +1274,10 @@ require("packer").startup(
 
                 map("n", "<leader>jr", ':lua require"jester".run()<cr>')
                 map("n", "<leader>jf", ':lua require"jester".run_file()<cr>')
-                map("n", "<leader>jf", ':lua require"jester".run_last()<cr>')
+                map("n", "<leader>jl", ':lua require"jester".run_last()<cr>')
                 map("n", "<leader><leader>jr", ':lua require"jester".debug()<cr>')
                 map("n", "<leader><leader>jf", ':lua require"jester".debug_file()<cr>')
-                map("n", "<leader><leader>jf", ':lua require"jester".debug_last()<cr>')
+                map("n", "<leader><leader>jl", ':lua require"jester".debug_last()<cr>')
             end
         }
         -- }}}
