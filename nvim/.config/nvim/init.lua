@@ -857,11 +857,11 @@ require("packer").startup(
                 map("n", "<leader>gj", "<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
 
                 map("n", "<leader>lg", "<cmd>LazyGit<cr>")
-                map("n", "<leader>gl", "<cmd>0Glog<cr>")
+                map("n", "<leader>gl", "<cmd>GcLog<cr>")
                 map("n", "<leader>gs", "<cmd>G difftool --name-status<cr>")
                 map("n", "<leader><leader>gs", "<cmd>G difftool<cr>")
                 map("n", "<leader><leader>bl", "<cmd>G blame<cr>")
-                map("n", "<leader>gc", ":call v:lua.GitCommit()<cr>")
+                map("n", "<leader>gc", ":call v:lua.GitCommit()<cr>ii")
                 map("n", "<leader><leader>gc", ':G commit -n -m ""<left>', {silent = false})
                 map("n", "<leader>ga", "<cmd>G add -A<cr>")
                 map("n", "<leader>gw", '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
