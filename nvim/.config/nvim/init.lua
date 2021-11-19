@@ -488,30 +488,6 @@ require("packer").startup(
                 )
             end
         }
-
-        use {
-            "onsails/diaglist.nvim",
-            disable = true,
-            config = function()
-                local map = require "utils".map
-                require("diaglist").init(
-                    {
-                        -- optional settings
-                        -- below are defaults
-
-                        -- increase for noisy servers
-                        debounce_ms = 50,
-                        -- list in quickfix only diagnostics from clients
-                        -- attached to a current buffer
-                        -- if false, all buffers' clients diagnostics is collected
-                        buf_clients_only = true
-                    }
-                )
-
-                map("n", "<localleader>da", '<cmd>lua require("diaglist").open_all_diagnostics()<cr>')
-                map("n", "<leader>da", '<cmd>lua require("diaglist").open_buffer_diagnostics()<cr>')
-            end
-        }
         -- }}}
 
         -- {{{ Completion
