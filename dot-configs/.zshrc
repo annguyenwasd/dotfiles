@@ -67,9 +67,9 @@ bindkey '^ ' autosuggest-accept
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 
-autoload -U promptinit; promptinit
-prompt spaceship
-export SPACESHIP_VI_MODE_SHOW=false
+# autoload -U promptinit; promptinit
+# prompt spaceship
+# export SPACESHIP_VI_MODE_SHOW=false
 
 prompt_context() {
   # Custom (Random emoji)
@@ -79,7 +79,7 @@ prompt_context() {
   \ "💀" "👻" "☠️" "👽" "👾" "🎭" "🎨" "🔞" "💯" "🔑" "🔫" "🧨" "💣" "☎️" "📦" "🗂" "📎" "📝)
 
   RAND_EMOJI_N=$(( $RANDOM % ${#emojis[@]} + 1))
-  # prompt_segment black default "${emojis[$RAND_EMOJI_N]} "
+  prompt_segment black default "${emojis[$RAND_EMOJI_N]} "
 }
 
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
