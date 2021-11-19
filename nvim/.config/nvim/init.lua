@@ -984,6 +984,27 @@ require("packer").startup(
         }
         -- }}}
 
+        -- {{{ Comment
+        use {
+            "JoosepAlviste/nvim-ts-context-commentstring",
+            config = function()
+                require "nvim-treesitter.configs".setup {
+                    context_commentstring = {
+                        enable = true
+                    }
+                }
+            end
+        }
+        use {
+            "tpope/vim-commentary",
+            config = function()
+                vim.cmd [[
+                  autocmd FileType apache setlocal commentstring=#\ %s
+                  ]]
+            end
+        }
+        -- }}}
+
         -- {{{ MISC
         use {
             "tpope/vim-surround",
@@ -993,7 +1014,6 @@ require("packer").startup(
             "tpope/vim-obsession",
             "tpope/vim-eunuch"
         }
-        use {"JoosepAlviste/nvim-ts-context-commentstring", "tpope/vim-commentary"}
         use {"nvim-lua/popup.nvim", "nvim-lua/plenary.nvim"}
         use "kevinhwang91/nvim-bqf"
         use "vim-scripts/BufOnly.vim"
