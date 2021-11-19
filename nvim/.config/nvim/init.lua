@@ -1170,29 +1170,52 @@ require("packer").startup(
         -- {{{ Debugger
         use {
             "mfussenegger/nvim-dap",
+            setup = function()
+                vim.cmd [[  
+  au FileType dap-repl lua require('dap.ext.autocompl').attach()
+  ]]
+            end,
             config = function()
                 local map = require "utils".map
 
-                map("n", "<localleader>db", ":lua require'dap'.toggle_breakpoint()<cr>")
-                -- Breakpoint condition
+                map("n", "<localleader>bb", ":lua require'dap'.toggle_breakpoint()<cr>")
                 map(
                     "n",
-                    "<localleader>dc",
+                    "<localleader>bc",
                     ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>"
                 )
-                -- Breakpoint with log
                 map(
                     "n",
-                    "<localleader>dl",
+                    "<localleader>bl",
                     ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>"
                 )
-                map("n", "<localleader>dB", ":lua require'dap'.list_breakpoints()<cr>")
-                map("n", "<localleader>dc", ":lua require'dap'.continue()<cr>")
-                map("n", "<localleader>do", ":lua require'dap'.step_over()<cr>")
-                map("n", "<localleader>di", ":lua require'dap'.step_into()<cr>")
-                map("n", "<localleader>re", ":lua require'dap'.repl.open()<cr>")
+                map("n", "<localleader>BB", ":lua require'dap'.list_breakpoints()<cr>:copen<cr>")
+                map("n", "<localleader>c", ":lua require'dap'.continue()<cr>")
+                map("n", "`o", ":lua require'dap'.step_over()<cr>")
+                map("n", "`i", ":lua require'dap'.step_into()<cr>")
+                map("n", "`u", ":lua require'dap'.step_out()<cr>")
+                map("n", "`j", ":lua require'dap'.down()<cr>")
+                map("n", "`k", ":lua require'dap'.up()<cr>")
+                map("n", "<localleader>b", ":lua require'dap'.step_back()<cr>")
+                map("n", "<localleader>t", ":lua require'dap'.terminate()<cr>")
+                map("n", "<localleader>di", ":lua require'dap'.terminate()<cr>")
+                map("n", "<localleader>re", ":lua require'dap'.repl.toggle()<cr>")
                 map("n", "<localleader>rc", ":lua require'dap'.run_to_cursor()<cr>")
-                map("n", "<localleader>da", ":lua require'dap'.", {silent = false})
+                map("n", "<localleader>s", ":lua require('dap.ui.widgets').hover()<cr>")
+                map("n", "<localleader>da", ":Telescope dap commands<cr>")
+
+                -- View the current scopes in floating window
+                map(
+                    "n",
+                    "<localleader>ds",
+                    ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<cr>"
+                )
+                -- View the current frames floating window
+                map(
+                    "n",
+                    "<localleader>df",
+                    ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.frames)<cr>"
+                )
             end
         }
         use {
@@ -1212,6 +1235,10 @@ require("packer").startup(
                 end
             end
         }
+
+        use {'nvim-telescope/telescope-dap.nvim', config=function ()
+                require("telescope").load_extension("dap")
+        end}
         -- }}}
 
         -- {{{ Packer end
