@@ -110,6 +110,7 @@ map("n", "<leader>td", ":vsp .todo<cr>")
 -- Create file at same folder with vsplit/split
 map("n", "<leader>vf", ":vsp %:h/", {silent = false})
 map("n", "<leader>sf", ":sp %:h/", {silent = false})
+map("n", "<leader><leader>ef", ":e %:h/", {silent = false})
 
 map("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>')
 map("n", "<leader><leader>H", 'yi\' :!npm home <c-r>"<cr>')
@@ -861,6 +862,7 @@ require("packer").startup(
                 map("n", "<leader><leader>gs", "<cmd>G difftool<cr>")
                 map("n", "<leader><leader>bl", "<cmd>G blame<cr>")
                 map("n", "<leader>gc", ":call v:lua.GitCommit()<cr>")
+                map("n", "<leader><leader>gc", ':G commit -n -m ""<left>', {silent = false})
                 map("n", "<leader>ga", "<cmd>G add -A<cr>")
                 map("n", "<leader>gw", '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
                 map(
