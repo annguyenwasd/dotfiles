@@ -510,7 +510,7 @@ require("packer").startup(
                 cmp.setup(
                     {
                         completion = {
-                          -- https://github.com/hrsh7th/nvim-cmp#completionautocomplete-type-cmptriggerevent
+                            -- https://github.com/hrsh7th/nvim-cmp#completionautocomplete-type-cmptriggerevent
                             autocomplete = false
                         },
                         snippet = {
@@ -1025,6 +1025,21 @@ require("packer").startup(
         use "ThePrimeagen/vim-be-good"
         use "blueyed/vim-diminactive"
         use "romainl/vim-cool"
+        use "jiangmiao/auto-pairs"
+
+        use {
+            "iamcco/markdown-preview.nvim",
+            run = function()
+                vim.fn["mkdp#util#install"](0)
+            end,
+            ft = {
+                "markdown"
+            },
+            config = function()
+                local map = require "utils".map
+                map("n", "gm", ":MarkdownPreviewToggle<CR>")
+            end
+        }
 
         use {
             "windwp/nvim-ts-autotag",
