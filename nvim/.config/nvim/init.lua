@@ -509,6 +509,10 @@ require("packer").startup(
 
                 cmp.setup(
                     {
+                        completion = {
+                          -- https://github.com/hrsh7th/nvim-cmp#completionautocomplete-type-cmptriggerevent
+                            autocomplete = false
+                        },
                         snippet = {
                             -- REQUIRED - you must specify a snippet engine
                             expand = function(args)
