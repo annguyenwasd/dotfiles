@@ -509,10 +509,6 @@ require("packer").startup(
 
                 cmp.setup(
                     {
-                      experimental={
-                        ghost_text=true,
-                        native_menu=false
-                      },
                         snippet = {
                             -- REQUIRED - you must specify a snippet engine
                             expand = function(args)
