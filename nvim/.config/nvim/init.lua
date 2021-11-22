@@ -452,7 +452,7 @@ require("packer").startup(
                             -- buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
                             buf_set_keymap(
                                 "n",
-                                "<leader>dl",
+                                "<leader>ld",
                                 "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
                                 opts
                             )
