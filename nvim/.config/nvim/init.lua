@@ -38,8 +38,8 @@ o.tabstop = 2
 o.undofile = true
 o.undodir = vim.fn.expand("~/.vim/undo")
 o.cmdheight = 2
-o.listchars = "eol:¬,tab:▹ ,trail:+,space:·"
-o.list = false
+o.listchars = "tab:▹ ,trail:·"
+o.list = true
 o.wrapscan=false
 
 wo.signcolumn = "yes"
