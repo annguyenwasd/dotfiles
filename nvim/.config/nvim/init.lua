@@ -40,6 +40,7 @@ o.undodir = vim.fn.expand("~/.vim/undo")
 o.cmdheight = 2
 o.listchars = "eol:¬,tab:▹ ,trail:+,space:·"
 o.list = false
+o.wrapscan=false
 
 wo.signcolumn = "yes"
 
