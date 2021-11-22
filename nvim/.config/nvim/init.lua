@@ -298,7 +298,7 @@ require("packer").startup(
                 map("n", "<leader>tr", "<cmd>Telescope resume<cr>")
 
                 map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<cr>")
-                map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<cr>")
+                -- map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<cr>")
                 map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<cr>")
                 map("n", "gy", "<cmd>Telescope lsp_type_definitions initial_mode=normal<cr>")
                 map("n", "<leader>ca", "<cmd>Telescope lsp_code_actions initial_mode=normal theme=cursor<cr>")
@@ -433,7 +433,7 @@ require("packer").startup(
 
                             -- See `:help vim.lsp.*` for documentation on any of the below functions
                             -- buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-                            -- buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+                            buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
                             -- buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
                             buf_set_keymap("n", "K", ":call v:lua.show_documentation()<cr>", opts)
                             -- buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
