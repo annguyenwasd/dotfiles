@@ -303,7 +303,7 @@ require("packer").startup(
                 map("n", "gy", "<cmd>Telescope lsp_type_definitions initial_mode=normal<cr>")
                 map("n", "<leader>ca", "<cmd>Telescope lsp_code_actions initial_mode=normal theme=cursor<cr>")
                 map("n", "<leader>da", "<cmd>Telescope lsp_document_diagnostics initial_mode=normal<cr>")
-                map("n", "<localleader>da", "<cmd>Telescope lsp_workspace_diagnostics initial_mode=normal<cr>")
+                map("n", "<leader><leader>da", "<cmd>Telescope lsp_workspace_diagnostics initial_mode=normal<cr>")
                 map("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols initial_mode=normal<cr>")
                 map("n", "<leader>ws", ":Telescope lsp_workspace_symbols<space>query=", {silent = false})
 

@@ -1,4 +1,0 @@
-import { fw } from '';
-function() {
-
-}
