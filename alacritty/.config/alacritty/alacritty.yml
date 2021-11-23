@@ -14,16 +14,16 @@ scrolling:
 font:
   normal:
     family: OperatorMono Nerd Font
-    style: Book
+    style: Light
   Italic:
     family: OperatorMono Nerd Font
     style: Book Italic
   bold:
     family: OperatorMono Nerd Font
     style: Bold
-  size: 14
+  size: 16
   offset:
-    x: 1
+    x: 0
     yy: 0
   glyph_offset:
     x: 0
