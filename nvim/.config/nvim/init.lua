@@ -725,13 +725,16 @@ require("packer").startup(
         -- {{{ Nvim tree
         use {
             "kyazdani42/nvim-tree.lua",
+            setup=function ()
+                vim.g.nvim_tree_quit_on_open = 1 --0 by default, closes the tree when you open a file
+                vim.g.nvim_tree_indent_markers = 0 --0 by default, this option shows indent markers when folders are open
+                vim.gnvim_tree_respect_buf_cwd = 1 --0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
+
+            end,
             config = function()
                 local tree_cb = require("nvim-tree.config").nvim_tree_callback
                 local utils = require("utils")
                 local map = utils.map
-
-                vim.g.nvim_tree_quit_on_open = 1 --0 by default, closes the tree when you open a file
-                vim.g.nvim_tree_indent_markers = 0 --0 by default, this option shows indent markers when folders are open
 
                 map("n", "<leader>n", "<cmd>NvimTreeToggle<cr>")
 
@@ -1045,12 +1048,12 @@ require("packer").startup(
             end
         }
 
-        use {
-            "airblade/vim-rooter",
-            setup = function()
-                vim.g.rooter_patterns = {".git", ".svn", "package.json", "!node_modules"}
-            end
-        }
+        -- use {
+        --     "airblade/vim-rooter",
+        --     setup = function()
+        --         vim.g.rooter_patterns = {".git", ".svn", "package.json", "!node_modules"}
+        --     end
+        -- }
 
         use {
             "jghauser/mkdir.nvim",
