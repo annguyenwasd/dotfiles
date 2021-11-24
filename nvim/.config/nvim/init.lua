@@ -40,7 +40,7 @@ o.undodir = vim.fn.expand("~/.vim/undo")
 o.cmdheight = 2
 o.listchars = "tab:▹ ,trail:·"
 o.list = true
-o.wrapscan=false
+o.wrapscan = false
 
 wo.signcolumn = "yes"
 
@@ -315,6 +315,26 @@ require("packer").startup(
                 )
             end
         }
+
+        use {
+            "nvim-telescope/telescope-symbols.nvim",
+            config = function()
+                local map = require("utils").map
+                map("n", "<leader>ts", "<cmd>Telescope symbols<cr>")
+            end
+        }
+
+
+        use {
+            "fhill2/telescope-ultisnips.nvim",
+            config = function()
+              require('telescope').load_extension('ultisnips')
+
+                local map = require("utils").map
+                map("n", "<leader>tu", "<cmd>Telescope ultisnips<cr>")
+            end
+        }
+
         -- }}}
 
         -- {{{ Status line
@@ -725,11 +745,10 @@ require("packer").startup(
         -- {{{ Nvim tree
         use {
             "kyazdani42/nvim-tree.lua",
-            setup=function ()
+            setup = function()
                 vim.g.nvim_tree_quit_on_open = 1 --0 by default, closes the tree when you open a file
                 vim.g.nvim_tree_indent_markers = 0 --0 by default, this option shows indent markers when folders are open
                 vim.gnvim_tree_respect_buf_cwd = 1 --0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
-
             end,
             config = function()
                 local tree_cb = require("nvim-tree.config").nvim_tree_callback
