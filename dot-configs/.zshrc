@@ -134,12 +134,6 @@ alias txa="tmux attach-session -t"
 alias tn="tmux -u new -s"
 
 # Projects
-alias cw="txs cw"
-alias me="txs me"
-alias ed="txs ed"
-alias ot="txs ot"
-alias ot2="txs ot2"
-
 alias md="mvn spring-boot:run -Dspring-boot.run.jvmArguments=\"-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005\" -Dspring-boot.run.profiles=local"
 alias mc="mvn clean install -DskipTests=true"
 alias mr="mvn spring-boot:run -Dspring-boot.run.profiles=local"
