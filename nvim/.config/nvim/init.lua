@@ -392,7 +392,7 @@ require("packer").startup(
         use {
             "williamboman/nvim-lsp-installer",
             requires = {
-                "neovim/nvim-lspconfig",
+                {"neovim/nvim-lspconfig"},
                 {
                     "ray-x/lsp_signature.nvim",
                     config = function()
@@ -1045,6 +1045,7 @@ require("packer").startup(
         use "blueyed/vim-diminactive"
         use "romainl/vim-cool"
         use "jiangmiao/auto-pairs"
+        use "godlygeek/tabular"
 
         use {
             "iamcco/markdown-preview.nvim",
