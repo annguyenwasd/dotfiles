@@ -1068,12 +1068,12 @@ require("packer").startup(
             end
         }
 
-        -- use {
-        --     "airblade/vim-rooter",
-        --     setup = function()
-        --         vim.g.rooter_patterns = {".git", ".svn", "package.json", "!node_modules"}
-        --     end
-        -- }
+        use {
+            "airblade/vim-rooter",
+            setup = function()
+                vim.g.rooter_patterns = {".git", ".svn", "package.json", "!node_modules"}
+            end
+        }
 
         use {
             "jghauser/mkdir.nvim",
