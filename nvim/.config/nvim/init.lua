@@ -1134,7 +1134,7 @@ require("packer").startup(
                   zenburned   	 Inspired by Zenburn
                   randombones 	 Randomly pick from the collection.
               ]]
-                -- require "utils".set_theme("neobones")
+                require "utils".set_theme("neobones")
             end
         }
 
