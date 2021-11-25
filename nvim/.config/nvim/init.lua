@@ -324,11 +324,10 @@ require("packer").startup(
             end
         }
 
-
         use {
             "fhill2/telescope-ultisnips.nvim",
             config = function()
-              require('telescope').load_extension('ultisnips')
+                require("telescope").load_extension("ultisnips")
 
                 local map = require("utils").map
                 map("n", "<leader>tu", "<cmd>Telescope ultisnips<cr>")
@@ -355,7 +354,7 @@ require("packer").startup(
                 require "lualine".setup {
                     options = {
                         icons_enabled = true,
-                        theme = "vscode",
+                        theme = "auto",
                         component_separators = {left = "", right = ""},
                         section_separators = {left = "", right = ""},
                         disabled_filetypes = {},
@@ -974,25 +973,90 @@ require("packer").startup(
         -- }}}
 
         -- {{{ Theme
-        use "tjdevries/colorbuddy.vim"
-        use "rktjmp/lush.nvim"
+        use {
+            "folke/tokyonight.nvim",
+            setup = function()
+                vim.g.tokyonight_style = "night"
+                vim.g.tokyonight_sidebars = {"qf", "vista_kind", "terminal", "packer"}
+            end,
+            config = function()
+                -- require "utils".set_theme("tokyonight")
+            end
+        }
 
-        use "lifepillar/vim-gruvbox8"
-        use {"dracula/vim", as = "dracula"}
-        use "bluz71/vim-nightfly-guicolors"
-        use "yonlu/omni.vim"
-        use "doums/darcula"
-        use "chiendo97/intellij.vim"
-        use "folke/tokyonight.nvim"
-        use "sainnhe/sonokai"
-        use "marko-cerovac/material.nvim"
-        use "ChristianChiarulli/nvcode-color-schemes.vim"
-        use "shaunsingh/moonlight.nvim"
-        use "arzg/vim-colors-xcode"
-        use "lourenci/github-colors"
-        use "MordechaiHadad/nvim-papadark"
-        use "mcchrish/zenbones.nvim"
-        use "Mofiqul/vscode.nvim"
+        use {
+            "bluz71/vim-nightfly-guicolors",
+            config = function()
+                -- require "utils".set_theme('nightfly')
+            end
+        }
+
+        use {
+            "dracula/vim",
+            as = "dracula",
+            config = function()
+                -- require "utils".set_theme('dracula')
+            end
+        }
+
+        use {
+            "doums/darcula",
+            config = function()
+                -- require "utils".set_theme('darcula', 'gruvbox_dark')
+            end
+        }
+
+        use {
+            "marko-cerovac/material.nvim",
+            setup = function()
+                -- darker, lighter, oceanic, palenight, deep ocean
+                vim.g.material_style = "deep ocean"
+            end,
+            config = function()
+                -- lua require('material.functions').toggle_style()
+                require "utils".set_theme("material", "material-nvim")
+                require("material").setup {
+                    disable = {
+                        eob_lines = true -- Hide the end-of-buffer lines
+                    }
+                }
+            end
+        }
+
+        use {
+            "mcchrish/zenbones.nvim",
+            requires = "rktjmp/lush.nvim",
+            config = function()
+                --[[
+                  zenwritten  	 Zero hue and saturation version
+                  neobones    	 Inspired by neovim.io
+                  vimbones    	 Inspired by vim.org
+                  rosebones   	 Inspired by Rosé Pine
+                  forestbones 	 Inspired by Everforest
+                  nordbones   	 Inspired by Nord
+                  tokyobones  	 Inspired by Tokyo Night
+                  seoulbones  	 Inspired by Seoul256
+                  duckbones   	 Inspired by Spaceduck
+                  zenburned   	 Inspired by Zenburn
+                  randombones 	 Randomly pick from the collection.
+              ]]
+                -- require "utils".set_theme("neobones")
+            end
+        }
+
+        use {
+            "Mofiqul/vscode.nvim",
+            setup = function()
+                vim.g.vscode_style = "dark"
+                -- vim.g.vscode_style = "light"
+            end,
+            config = function()
+                -- :lua require('vscode').change_style("light")
+                -- :lua require('vscode').change_style("dark")
+                -- require "utils".set_theme("vscode")
+            end
+        }
+
         -- }}}
 
         -- {{{ Formatter
@@ -1312,54 +1376,3 @@ require("packer").startup(
 -- }}}
 
 -- }}}1
-
--- {{{2 Theme
-vim.o.termguicolors = true
-
-vim.g.oceanic_next_terminal_bold = 1
-vim.g.oceanic_next_terminal_italic = 1
-
--- styles: darker lighter default oceanic palenight deep ocean
-vim.g.material_flat_ui = 1
-vim.g.material_style = "oceanic"
-vim.g.material_italic_comments = 1
-vim.g.material_italic_keywords = 1
-vim.g.material_italic_functions = 1
--- vim.g.gh_color = "soft"
-
-vim.g.calvera_italic_keywords = 1
-vim.g.calvera_italic_functions = 1
-vim.g.calvera_contrast = 1
-
-vim.g.moonlight_italic_keywords = 1
-vim.g.moonlight_italic_functions = 1
-vim.g.moonlight_italic_variables = 0
-vim.g.moonlight_contrast = 1
-vim.g.moonlight_borders = 1
-vim.g.moonlight_disable_background = 0
-
--- nvim_create_augroups {
---     CustomStatusLineColor = {
---         "ColorScheme nord hi Folded guifg=#54627A guibg=#2E3440 gui=NONE",
---         "ColorScheme nord hi StatusLine guifg=#D8DEE9",
---         "ColorScheme OceanicNext hi StatusLine guibg=#E5E8E8",
---         "ColorScheme OceanicNext hi CursorLineNr guibg=NONE guifg=#ffffff"
---     },
---     CustomThemeColor={
---   "ColorScheme * hi Visual guibg=Yellow guifg=Black",
---   "ColorScheme * hi SignifySignAdd guibg=NONE",
---   "ColorScheme * hi SignifySignChange guibg=NONE",
---   "ColorScheme * hi SignifySignChangeDelete guibg=NONE",
---   "ColorScheme * hi SignifySignDelete guibg=NONE",
---   "ColorScheme * hi SignifySignDeleteFirstLine guibg=NONE",
---   "ColorScheme * hi EndOfBuffer guibg=NONE",
---   "ColorScheme * hi LineNr guibg=NONE",
---   "ColorScheme * hi SignColumn guibg=NONE",
---   "ColorScheme * hi Normal guibg=NONE " transparent",
---   "ColorScheme * hi Normal guibg=#0A0E14",
---     }
--- }
-
-vim.g.vscode_style = "dark"
-vim.cmd "colorscheme vscode"
--- }}}2
