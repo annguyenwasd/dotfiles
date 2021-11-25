@@ -30,7 +30,6 @@ function utils.nvim_create_augroups(definitions)
 end
 
 utils.set_theme = function(theme_name, lualine_theme)
-    print(theme_name)
     vim.cmd("colorscheme " .. theme_name)
     require("lualine").setup({options = {theme = lualine_theme or theme_name}})
 end
