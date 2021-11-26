@@ -367,6 +367,7 @@ require("packer").startup(
                 map("n", "<leader><leader>fc", "<cmd>Telescope colorscheme<cr>")
                 map("n", "<leader>km", "<cmd>Telescope keymaps<cr>")
                 map("n", "<leader>tr", "<cmd>Telescope resume<cr>")
+                map("n", "<leader>hi", "<cmd>Telescope highlights<cr>")
 
                 map("n", "gr", "<cmd>Telescope lsp_references initial_mode=normal<cr>")
                 -- map("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<cr>")
