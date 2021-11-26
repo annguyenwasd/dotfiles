@@ -89,6 +89,7 @@ map("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>', {noremap = false})
 
 map("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr>")
 map("n", "<leader><leader>r", "<cmd>so %<cr><cmd>PackerCompile<cr>")
+map("n", "<leader><leader>R", "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>")
 
 map("n", "<c-w><c-e>", "<c-w>=")
 
