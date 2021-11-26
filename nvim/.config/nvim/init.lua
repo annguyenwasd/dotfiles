@@ -241,18 +241,14 @@ require("packer").startup(
                                 -- You can use the capture groups defined in textobjects.scm
                                 ["af"] = "@function.outer",
                                 ["if"] = "@function.inner",
-
                                 ["ac"] = "@class.outer",
                                 ["ic"] = "@class.inner",
-
                                 ["ai"] = "@contitional.outer",
                                 ["ii"] = "@conditional.inner",
-
                                 ["al"] = "@loop.outer",
                                 ["il"] = "@loop.inner",
-
                                 ["ap"] = "@parameter.outer",
-                                ["ip"] = "@parameter.inner",
+                                ["ip"] = "@parameter.inner"
                             }
                         },
                         swap = {
@@ -968,6 +964,9 @@ require("packer").startup(
         }
         use {
             "lewis6991/gitsigns.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim"
+            },
             config = function()
                 require("gitsigns").setup(
                     {
@@ -1034,7 +1033,7 @@ require("packer").startup(
                         sign_priority = 6,
                         update_debounce = 100,
                         status_formatter = nil, -- Use default
-                        word_diff = false,
+                        word_diff = true,
                         use_decoration_api = true,
                         use_internal_diff = true -- If luajit is present
                     }
