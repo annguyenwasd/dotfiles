@@ -1114,7 +1114,7 @@ require("packer").startup(
                         custom_highlights = {} -- Overwrite highlights with your own
                     }
                 )
-                -- require "utils".set_theme("material", "material-nvim")
+                require "utils".set_theme("material", "material-nvim")
             end
         }
 
@@ -1135,7 +1135,7 @@ require("packer").startup(
                   zenburned   	 Inspired by Zenburn
                   randombones 	 Randomly pick from the collection.
               ]]
-                require "utils".set_theme("neobones")
+                -- require "utils".set_theme("neobones")
             end
         }
 
