@@ -3,187 +3,7 @@ local nvim_create_augroups = require "utils".nvim_create_augroups
 local map = require "utils".map
 local nvim_command = vim.api.nvim_command
 
--- {{{2 Settings
-local o = vim.opt
-local wo = vim.wo
-local bo = vim.bo
-
-vim.g.vimsyn_embed = "lPr"
-
-o.splitbelow = true
-o.splitright = true
-o.wildmenu = true
-o.termguicolors = true
-o.hidden = true
-o.ignorecase = true
-o.incsearch = true
-o.hlsearch = true
-o.expandtab = true
-o.number = true
-o.relativenumber = true
-o.cursorline = true
-o.exrc = true
-o.secure = true
-o.clipboard = "unnamed"
-o.updatetime = 50
-o.inccommand = "nosplit"
-o.mouse = "a"
-o.scrolloff = 8
-o.completeopt = {"menuone", "noinsert", "noselect"}
-o.shortmess:append({c = true})
-o.smartindent = true
-o.shiftwidth = 2
-o.softtabstop = 2
-o.tabstop = 2
-o.undofile = true
-o.undodir = vim.fn.expand("~/.vim/undo")
-o.cmdheight = 2
-o.listchars = "tab:▹ ,trail:·"
-o.list = true
-o.wrapscan = false
-
-wo.signcolumn = "yes"
-
-bo.syntax = "enable"
-bo.swapfile = false
-
-nvim_create_augroups {
-    OpenHelpOnRightMostWindow = {
-        "BufEnter *.txt if &buftype == 'help' | wincmd L | endif"
-    },
-    SetFileType = {
-        "BufNewFile,BufRead *.zsh setlocal filetype=zsh",
-        "BufNewFile,BufRead *.todo setlocal filetype=todo",
-        "BufNewFile,BufRead *.conf setlocal filetype=conf",
-    },
-    SetFoldMethod = {
-        "FileType zsh,vim,conf setlocal foldmethod=marker",
-        "BufRead init.lua setlocal foldmethod=marker"
-    },
-    CursorLineOnlyInActiveWindow = {
-        "VimEnter,WinEnter,BufWinEnter * setlocal cursorline",
-        "WinLeave * setlocal nocursorline"
-    },
-    AutoSetFoldLevelInitLua = {
-        "BufNewFile,BufRead init.lua setlocal foldlevel=1"
-    }
-}
--- }}}2
-
--- {{{2 Mappings
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
-map("n", "n", "nzt", {noremap = false})
-map("n", "N", "Nzt", {noremap = false})
-map("n", "*", "*zt", {noremap = false})
-map("n", "#", "#zt", {noremap = false})
-
-map("n", "Y", "y$")
-
--- Duplicate everything selected
-map("v", "D", "y'>p")
-
--- Do search with selected text in VISUAL mode
-map("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>', {noremap = false})
-
-map("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr>")
-map("n", "<leader><leader>r", "<cmd>so %<cr><cmd>PackerCompile<cr>")
-map("n", "<leader><leader>R", "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>")
-
-map("n", "<c-w><c-e>", "<c-w>=")
-
--- Moving around in command mode
-map("c", "<c-h>", "<left>", {silent = false})
-map("c", "<c-j>", "<down>", {silent = false})
-map("c", "<c-k>", "<up>", {silent = false})
-map("c", "<c-l>", "<right>", {silent = false})
-
-map("i", "<c-h>", "<left>", {silent = false})
-map("i", "<c-j>", "<down>", {silent = false})
-map("i", "<c-k>", "<up>", {silent = false})
-map("i", "<c-l>", "<right>", {silent = false})
-
-map("n", "<leader>e", "<cmd>b #<cr>")
-map("n", "<leader><leader>e", "<cmd>e<cr>")
-map("n", "<leader>bo", "<cmd>BufOnly<cr>")
-map("n", "<leader>td", ":vsp .todo<cr>")
-
--- Create file at same folder with vsplit/split
-map("n", "<leader>vf", ":vsp %:h/", {silent = false})
-map("n", "<leader>sf", ":sp %:h/", {silent = false})
-map("n", "<leader><leader>ef", ":e %:h/", {silent = false})
-
-map("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>')
-map("n", "<leader><leader>H", 'yi\' :!npm home <c-r>"<cr>')
-map("n", "<leader><leader>oe", "<cmd>!open -a textedit %<cr>")
-map("n", "<leader><leader>oc", "<cmd>!open -a visual studio code %<cr>")
-map("n", "<leader><leader>og", "<cmd>!open -a google chrome %<cr>")
-
--- Windows
-map("n", "<c-w>v", "<c-w>v <c-w>l", {noremap = true})
-map("n", "<c-w><c-v>", "<c-w>v <c-w>l", {noremap = true})
-map("n", "<c-w>s", "<c-w>s <c-w>j", {noremap = true})
-map("n", "<c-w><c-s>", "<c-w>s <c-w>j", {noremap = true})
-map("n", "<c-w><c-w>", "<c-w>q", {noremap = true})
-map("n", "<leader><leader>m", ":vert res 120<cr>", {noremap = true})
-map("n", "<leader><leader>M", ":GoldenRatioToggle<cr>", {noremap = true})
-
-map("n", "<leader>rr", '"rciw')
-map("n", "<leader>cf", ":CopyFileName<cr>")
-map("n", "<leader>fl", ":set foldlevel=", {silent = false})
-
-function _G.copyFileName()
-    vim.fn.setreg("*", vim.fn.expand("%:t:r"))
-    vim.fn.setreg("r", vim.fn.expand("%:t:r"))
-end
-
-function _G.copyAbsouPathPath()
-    vim.fn.setreg("*", vim.fn.expand("%:p"))
-    vim.fn.setreg("r", vim.fn.expand("%:p"))
-end
-
-function _G.copyFileRelativePath()
-    vim.fn.setreg("*", vim.fn.expand("%"))
-    vim.fn.setreg("r", vim.fn.expand("%"))
-end
-
-function _G.copyFileRelativeFolderPath()
-    vim.fn.setreg("*", vim.fn.expand("%:h"))
-    vim.fn.setreg("r", vim.fn.expand("%:h"))
-end
-
-function _G.copyFolderName()
-    vim.fn.setreg("*", vim.fn.expand("%:h:t"))
-    vim.fn.setreg("r", vim.fn.expand("%:h:t"))
-end
-
-function _G.openCurrentFolder()
-    nvim_command("!open %:p:h")
-end
-
-function _G.googleJavaFormat()
-    nvim_command("!google-java-format --replace % ")
-end
-
-nvim_command("command! CopyFileName :call v:lua.copyFileName()")
-nvim_command("command! Cfn :call v:lua.copyFileName()")
-
-nvim_command("command! CopyFolderName :call v:lua.copyFolderName()")
-nvim_command("command! Cdn :call v:lua.copyFolderName()")
-
-nvim_command("command! CopyAbsouPathPath :call v:lua.copyAbsouPathPath()")
-nvim_command("command! CopyRelativePath :call v:lua.copyFileRelativePath()")
-nvim_command("command! CopyFolderPath :call v:lua.copyFileRelativeFolderPath()")
-
-nvim_command("command! GoogleJavaFormat :call v:lua.googleJavaFormat()")
-
-nvim_command("command! OpenFolder :call v:lua.openCurrentFolder()")
-nvim_command("command! Od :call v:lua.openCurrentFolder()")
--- }}}2
-
 -- {{{1 Plugins
-
 -- {{{ Boostrap
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -1469,5 +1289,187 @@ require("packer").startup(
 )
 
 -- }}}
+-- }}}1
 
+-- {{{1 Settings
+-- {{{2
+local o = vim.opt
+local wo = vim.wo
+local bo = vim.bo
+
+vim.g.vimsyn_embed = "lPr"
+
+o.splitbelow = true
+o.splitright = true
+o.wildmenu = true
+o.termguicolors = true
+o.hidden = true
+o.ignorecase = true
+o.incsearch = true
+o.hlsearch = true
+o.expandtab = true
+o.number = true
+o.relativenumber = true
+o.cursorline = true
+o.exrc = true
+o.secure = true
+o.clipboard = "unnamed"
+o.updatetime = 50
+o.inccommand = "nosplit"
+o.mouse = "a"
+o.scrolloff = 8
+o.completeopt = {"menuone", "noinsert", "noselect"}
+o.shortmess:append({c = true})
+o.smartindent = true
+o.shiftwidth = 2
+o.softtabstop = 2
+o.tabstop = 2
+o.undofile = true
+o.undodir = vim.fn.expand("~/.vim/undo")
+o.cmdheight = 2
+o.listchars = "tab:▹ ,trail:·"
+o.list = true
+o.wrapscan = false
+
+wo.signcolumn = "yes"
+
+bo.syntax = "enable"
+bo.swapfile = false
+
+nvim_create_augroups {
+    OpenHelpOnRightMostWindow = {
+        "BufEnter *.txt if &buftype == 'help' | wincmd L | endif"
+    },
+    SetFileType = {
+        "BufNewFile,BufRead *.zsh setlocal filetype=zsh",
+        "BufNewFile,BufRead *.todo setlocal filetype=todo",
+        "BufNewFile,BufRead *.conf setlocal filetype=conf"
+    },
+    SetFoldMethod = {
+        "FileType zsh,vim,conf setlocal foldmethod=marker",
+        "BufRead init.lua setlocal foldmethod=marker"
+    },
+    CursorLineOnlyInActiveWindow = {
+        "VimEnter,WinEnter,BufWinEnter * setlocal cursorline",
+        "WinLeave * setlocal nocursorline"
+    },
+    AutoSetFoldLevelInitLua = {
+        "BufNewFile,BufRead init.lua setlocal foldlevel=1"
+    }
+}
+-- }}}2
+-- }}}1
+
+-- {{{1 Mappings
+-- {{{2
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+map("n", "n", "nzt", {noremap = false})
+map("n", "N", "Nzt", {noremap = false})
+map("n", "*", "*zt", {noremap = false})
+map("n", "#", "#zt", {noremap = false})
+
+map("n", "Y", "y$")
+
+-- Duplicate everything selected
+map("v", "D", "y'>p")
+
+-- Do search with selected text in VISUAL mode
+map("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>', {noremap = false})
+
+map("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr>")
+map("n", "<leader><leader>r", "<cmd>so %<cr><cmd>PackerCompile<cr>")
+map("n", "<leader><leader>R", "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>")
+
+map("n", "<c-w><c-e>", "<c-w>=")
+
+-- Moving around in command mode
+map("c", "<c-h>", "<left>", {silent = false})
+map("c", "<c-j>", "<down>", {silent = false})
+map("c", "<c-k>", "<up>", {silent = false})
+map("c", "<c-l>", "<right>", {silent = false})
+
+map("i", "<c-h>", "<left>", {silent = false})
+map("i", "<c-j>", "<down>", {silent = false})
+map("i", "<c-k>", "<up>", {silent = false})
+map("i", "<c-l>", "<right>", {silent = false})
+
+map("n", "<leader>e", "<cmd>b #<cr>")
+map("n", "<leader><leader>e", "<cmd>e<cr>")
+map("n", "<leader>bo", "<cmd>BufOnly<cr>")
+map("n", "<leader>td", ":vsp .todo<cr>")
+
+-- Create file at same folder with vsplit/split
+map("n", "<leader>vf", ":vsp %:h/", {silent = false})
+map("n", "<leader>sf", ":sp %:h/", {silent = false})
+map("n", "<leader><leader>ef", ":e %:h/", {silent = false})
+
+map("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>')
+map("n", "<leader><leader>H", 'yi\' :!npm home <c-r>"<cr>')
+map("n", "<leader><leader>oe", "<cmd>!open -a textedit %<cr>")
+map("n", "<leader><leader>oc", "<cmd>!open -a visual studio code %<cr>")
+map("n", "<leader><leader>og", "<cmd>!open -a google chrome %<cr>")
+
+-- Windows
+map("n", "<c-w>v", "<c-w>v <c-w>l", {noremap = true})
+map("n", "<c-w><c-v>", "<c-w>v <c-w>l", {noremap = true})
+map("n", "<c-w>s", "<c-w>s <c-w>j", {noremap = true})
+map("n", "<c-w><c-s>", "<c-w>s <c-w>j", {noremap = true})
+map("n", "<c-w><c-w>", "<c-w>q", {noremap = true})
+map("n", "<leader><leader>m", ":vert res 120<cr>", {noremap = true})
+map("n", "<leader><leader>M", ":GoldenRatioToggle<cr>", {noremap = true})
+
+map("n", "<leader>rr", '"rciw')
+map("n", "<leader>cf", ":CopyFileName<cr>")
+map("n", "<leader>fl", ":set foldlevel=", {silent = false})
+
+function _G.copyFileName()
+    vim.fn.setreg("*", vim.fn.expand("%:t:r"))
+    vim.fn.setreg("r", vim.fn.expand("%:t:r"))
+end
+
+function _G.copyAbsouPathPath()
+    vim.fn.setreg("*", vim.fn.expand("%:p"))
+    vim.fn.setreg("r", vim.fn.expand("%:p"))
+end
+
+function _G.copyFileRelativePath()
+    vim.fn.setreg("*", vim.fn.expand("%"))
+    vim.fn.setreg("r", vim.fn.expand("%"))
+end
+
+function _G.copyFileRelativeFolderPath()
+    vim.fn.setreg("*", vim.fn.expand("%:h"))
+    vim.fn.setreg("r", vim.fn.expand("%:h"))
+end
+
+function _G.copyFolderName()
+    vim.fn.setreg("*", vim.fn.expand("%:h:t"))
+    vim.fn.setreg("r", vim.fn.expand("%:h:t"))
+end
+
+function _G.openCurrentFolder()
+    nvim_command("!open %:p:h")
+end
+
+function _G.googleJavaFormat()
+    nvim_command("!google-java-format --replace % ")
+end
+
+nvim_command("command! CopyFileName :call v:lua.copyFileName()")
+nvim_command("command! Cfn :call v:lua.copyFileName()")
+
+nvim_command("command! CopyFolderName :call v:lua.copyFolderName()")
+nvim_command("command! Cdn :call v:lua.copyFolderName()")
+
+nvim_command("command! CopyAbsouPathPath :call v:lua.copyAbsouPathPath()")
+nvim_command("command! CopyRelativePath :call v:lua.copyFileRelativePath()")
+nvim_command("command! CopyFolderPath :call v:lua.copyFileRelativeFolderPath()")
+
+nvim_command("command! GoogleJavaFormat :call v:lua.googleJavaFormat()")
+
+nvim_command("command! OpenFolder :call v:lua.openCurrentFolder()")
+nvim_command("command! Od :call v:lua.openCurrentFolder()")
+-- }}}2
 -- }}}1
