@@ -52,13 +52,13 @@ nvim_create_augroups {
         "BufEnter *.txt if &buftype == 'help' | wincmd L | endif"
     },
     SetFileType = {
-        "FileType vim set foldmethod=marker",
         "BufNewFile,BufRead *.zsh setlocal filetype=zsh",
         "BufNewFile,BufRead *.todo setlocal filetype=todo",
-        "FileType zsh set foldmethod=marker",
         "BufNewFile,BufRead *.conf setlocal filetype=conf",
-        "FileType conf set foldmethod=marker",
-        "BufRead init.lua set foldmethod=marker"
+    },
+    SetFoldMethod = {
+        "FileType zsh,vim,conf setlocal foldmethod=marker",
+        "BufRead init.lua setlocal foldmethod=marker"
     },
     CursorLineOnlyInActiveWindow = {
         "VimEnter,WinEnter,BufWinEnter * setlocal cursorline",
