@@ -52,6 +52,4 @@ windows:
       # synchronize: after
       panes:
         - nvim
-  - console: 
-      panes:
         - yarn start
