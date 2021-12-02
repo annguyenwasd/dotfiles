@@ -153,7 +153,8 @@ require("packer").startup(
                             },
                             n = {
                                 ["<c-s>"] = actions.send_selected_to_qflist + actions.open_qflist,
-                                ["<c-h>"] = actions.which_key
+                                ["<c-h>"] = actions.which_key,
+                                ["<c-d>"] = actions.delete_buffer
                             }
                         }
                     },
