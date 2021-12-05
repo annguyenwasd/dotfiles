@@ -1025,7 +1025,6 @@ require("packer").startup(
         use "ThePrimeagen/vim-be-good"
         use "blueyed/vim-diminactive"
         use "romainl/vim-cool"
-        use "jiangmiao/auto-pairs"
         use "godlygeek/tabular"
 
         use {
