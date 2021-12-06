@@ -4,7 +4,7 @@ plugins=(
   themes
   vi-mode
 )
-ZSH_THEME="arrow"
+ZSH_THEME="nicoulaj"
 
 # Fix slowness of pastes with zsh-syntax-highlighting.zsh
 pasteinit() {
