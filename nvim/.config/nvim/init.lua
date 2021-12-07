@@ -404,6 +404,7 @@ require("packer").startup(
                             buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
                             buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
                             buf_set_keymap("n", "<leader><leader>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+                            buf_set_keymap("n", "<leader><leader>ee", "<cmd>EslintFixAll<CR>", opts)
                             -- buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
                             -- buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
@@ -1018,7 +1019,10 @@ require("packer").startup(
             "sbdchd/neoformat",
             config = function()
                 local map = require "utils".map
+
+                vim.g.neoformat_only_msg_on_error = 1
                 vim.g.neoformat_basic_format_trim = 1
+
                 map("v", "<leader>fm", ":Neoformat<CR>")
                 map("n", "<leader>fm", ":Neoformat<CR>")
             end
