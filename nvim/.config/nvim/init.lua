@@ -319,7 +319,7 @@ require("packer").startup(
                             shadow_blend = 36, -- if you using shadow as border use this set the opacity
                             shadow_guibg = "Black", -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
                             timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
-                            toggle_key = nil -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+                            toggle_key = '<c-s>' -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
                         }
                     end
                 }
@@ -407,9 +407,6 @@ require("packer").startup(
                             buf_set_keymap("n", "<leader><leader>ee", "<cmd>EslintFixAll<CR>", opts)
                             -- buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
                             -- buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-
-                            -- Add signature help
-                            require "lsp_signature".on_attach()
                         end
 
                         local settings = {}
