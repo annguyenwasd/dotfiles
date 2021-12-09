@@ -1096,13 +1096,6 @@ require("packer").startup(
         }
 
         use {
-            "windwp/nvim-ts-autotag",
-            config = function()
-                require("nvim-ts-autotag").setup()
-            end
-        }
-
-        use {
             "airblade/vim-rooter",
             setup = function()
                 vim.g.rooter_patterns = {".git", ".svn", "package.json", "!node_modules"}
