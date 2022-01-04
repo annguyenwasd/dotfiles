@@ -1318,23 +1318,6 @@ require("packer").startup(
         }
         -- }}}
 
-        -- {{{ Jest
-
-        use {
-            "David-Kunz/jester",
-            config = function()
-                local map = require "utils".map
-
-                map("n", "<leader>jr", ':lua require"jester".run()<cr>')
-                map("n", "<leader>jf", ':lua require"jester".run_file()<cr>')
-                map("n", "<leader>jl", ':lua require"jester".run_last()<cr>')
-                map("n", "<leader><leader>jr", ':lua require"jester".debug()<cr>')
-                map("n", "<leader><leader>jf", ':lua require"jester".debug_file()<cr>')
-                map("n", "<leader><leader>jl", ':lua require"jester".debug_last()<cr>')
-            end
-        }
-        -- }}}
-
         -- {{{ Packer end
 
         -- {{{ Automatically set up your configuration after cloning packer.nvim

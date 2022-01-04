@@ -372,37 +372,37 @@ key_bindings:
     chars: "\el"
 colors:
   primary:
-    background: '#000000'
-    foreground: '#dddddd'
+    background: '#0a0f14'
+    foreground: '#98d1ce'
     dim_foreground: '#dbdbdb'
     bright_foreground: '#d9d9d9'
     dim_background: '#202020'
     bright_background: '#3a3a3a'
   normal:
-    black: '#000000'
-    red: '#cc0403'
-    green: '#19cb00'
-    yellow: '#cecb00'
-    blue: '#0d73cc'
-    magenta: '#cb1ed1'
-    cyan: '#0dcdcd'
-    white: '#dddddd'
+    black: '#0a0f14'
+    red: '#c33027'
+    green: '#26a98b'
+    yellow: '#edb54b'
+    blue: '#195465'
+    magenta: '#4e5165'
+    cyan: '#33859d'
+    white: '#98d1ce'
   bright:
-    black: '#767676'
-    red: '#f2201f'
-    green: '#23fd00'
-    yellow: '#fffd00'
-    blue: '#1a8fff'
-    magenta: '#fd28ff'
-    cyan: '#14ffff'
-    white: '#ffffff'
+    black: '#10151b'
+    red: '#d26939'
+    green: '#081f2d'
+    yellow: '#245361'
+    blue: '#093748'
+    magenta: '#888ba5'
+    cyan: '#599caa'
+    white: '#d3ebe9'
   cursor:
-    text: '#CEDDD7'
-    cursor: '#0F191F'
+    text: '#0a0f14'
+    cursor: '#98d1ce'
     background: '0xf0f0f0'
     foreground: '0x26282a'
-  name: Grayscale (dark)
-  author: Chris Kempson
+  name: Gotham
+  author: whatyouhide
   dim:
     black: '#232323'
     red: '#74423f'
