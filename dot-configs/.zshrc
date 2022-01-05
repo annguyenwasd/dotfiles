@@ -421,6 +421,13 @@ git config --global user.email "an.nguyenwasd@gmail.com"
 # }}}
 
 # {{{ Misc
+colors () {
+    for i in {0..255}
+    do
+        print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
+    done
+}
+
 function cs() {
   cow=(`cowsay -l | tail -n +2 | tr  " "  "\n" | sort -R | head -n 1`)
   cowsay -f $cow "$@"
