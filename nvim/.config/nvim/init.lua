@@ -282,15 +282,6 @@ require("packer").startup(
                 {"b0o/schemastore.nvim"},
                 {"neovim/nvim-lspconfig"},
                 {
-                    "RRethy/vim-illuminate",
-                    config = function()
-                        local map = require "utils".map
-
-                        map("n", "]s", '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>')
-                        map("n", "[s", '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>')
-                    end
-                },
-                {
                     "ray-x/lsp_signature.nvim",
                     config = function()
                         require "lsp_signature".setup {
@@ -373,7 +364,6 @@ require("packer").startup(
                 lsp_installer.on_server_ready(
                     function(server)
                         local on_attach = function(client, bufnr)
-                            require "illuminate".on_attach(client)
                             local function buf_set_keymap(...)
                                 vim.api.nvim_buf_set_keymap(bufnr, ...)
                             end
