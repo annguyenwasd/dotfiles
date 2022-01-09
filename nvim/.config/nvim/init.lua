@@ -416,6 +416,7 @@ require("packer").startup(
                         end
 
                         local settings = {}
+                        local capabilities = {}
 
                         if server.name == "sumneko_lua" then
                             settings = {
@@ -427,10 +428,22 @@ require("packer").startup(
                             }
                         end
 
+                        if server.name == "jsonls" then
+                            capabilities = vim.lsp.protocol.make_client_capabilities()
+                            capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+                            settings = {
+                                json = {
+                                    schemas = require("schemastore").json.schemas()
+                                }
+                            }
+                        end
+
                         server:setup(
                             {
                                 on_attach = on_attach,
-                                settings = settings
+                                settings = settings,
+                                capabilities = capabilities
                             }
                         )
 
