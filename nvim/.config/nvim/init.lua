@@ -191,8 +191,8 @@ require("packer").startup(
                 map("n", "gi", "<cmd>Telescope lsp_implementations initial_mode=normal<cr>")
                 map("n", "gy", "<cmd>Telescope lsp_type_definitions initial_mode=normal<cr>")
                 map("n", "<leader>ca", "<cmd>Telescope lsp_code_actions initial_mode=normal theme=cursor<cr>")
-                map("n", "<leader>da", "<cmd>Telescope lsp_document_diagnostics initial_mode=normal<cr>")
-                map("n", "<leader><leader>da", "<cmd>Telescope lsp_workspace_diagnostics initial_mode=normal<cr>")
+                map("n", "<leader>da", "<cmd>Telescope diagnostics bufnr=0 initial_mode=normal<cr>")
+                map("n", "<leader><leader>da", "<cmd>Telescope diagnostics initial_mode=normal<cr>")
                 map("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols initial_mode=normal<cr>")
                 map("n", "<leader>ws", ":Telescope lsp_workspace_symbols<space>query=", {silent = false})
 
@@ -253,7 +253,7 @@ require("packer").startup(
                         lualine_b = {
                             "branch",
                             {"diff", source = diff_source},
-                            {"diagnostics", sources = {"nvim_lsp", "coc"}}
+                            {"diagnostics", sources = {"nvim_diagnostic"}}
                         },
                         lualine_c = {"filename", "lsp_progress"},
                         lualine_x = {"encoding", "fileformat", "filetype"},
@@ -279,6 +279,7 @@ require("packer").startup(
         use {
             "williamboman/nvim-lsp-installer",
             requires = {
+                {"b0o/schemastore.nvim"},
                 {"neovim/nvim-lspconfig"},
                 {
                     "RRethy/vim-illuminate",
@@ -405,17 +406,12 @@ require("packer").startup(
                             buf_set_keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
                             -- buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
                             buf_set_keymap("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-                            buf_set_keymap(
-                                "n",
-                                "<leader>ld",
-                                "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
-                                opts
-                            )
-                            buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-                            buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+                            buf_set_keymap("n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+                            buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+                            buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
                             buf_set_keymap("n", "<leader><leader>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
                             buf_set_keymap("n", "<leader><leader>ee", "<cmd>EslintFixAll<CR>", opts)
-                            -- buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
+                            -- buf_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.set_loclist()<CR>", opts)
                             -- buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
                         end
 
@@ -953,32 +949,32 @@ require("packer").startup(
                 -- lua require('material.functions').toggle_style()
                 require("material").setup(
                     {
-                        contrast = true, -- Enable contrast for sidebars, floating windows and popup menus like Nvim-Tree
-                        borders = false, -- Enable borders between verticaly split windows
-                        popup_menu = "dark", -- Popup menu style ( can be: 'dark', 'light', 'colorful' or 'stealth' )
+                        contrast = {
+                            sidebars = true,
+                            floating_windows = false,
+                            line_numbers = false,
+                            sign_column = false,
+                            cursor_line = true,
+                            popup_menu = false
+                        },
                         italics = {
-                            comments = false, -- Enable italic comments
-                            keywords = false, -- Enable italic keywords
-                            functions = true, -- Enable italic functions
-                            strings = false, -- Enable italic strings
-                            variables = false -- Enable italic variables
+                            comments = true,
+                            strings = false,
+                            keywords = true,
+                            functions = true,
+                            variables = false
                         },
-                        contrast_windows = {
-                            -- Specify which windows get the contrasted (darker) background
-                            "terminal", -- Darker terminal background
-                            "packer", -- Darker packer background
-                            "qf" -- Darker qf list background
-                        },
-                        text_contrast = {
-                            lighter = false, -- Enable higher contrast text for lighter style
-                            darker = false -- Enable higher contrast text for darker style
+                        contrast_filetypes = {
+                            "terminal",
+                            "packer",
+                            "qf"
                         },
                         disable = {
-                            background = false, -- Prevent the theme from setting the background (NeoVim then uses your teminal background)
-                            term_colors = false, -- Prevent the theme from setting terminal colors
-                            eob_lines = true -- Hide the end-of-buffer lines
-                        },
-                        custom_highlights = {} -- Overwrite highlights with your own
+                            borders = true,
+                            background = false,
+                            term_colors = false,
+                            eob_lines = false
+                        }
                     }
                 )
                 require "utils".set_theme("material", "material-nvim")
