@@ -776,7 +776,6 @@ require("packer").startup(
                 vim.g.gtmux_navigator_disable_when_zoomed = 1
             end
         }
-        use "tmux-plugins/vim-tmux-focus-events"
         -- }}}
 
         -- {{{ Git
