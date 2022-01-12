@@ -1,23 +1,4 @@
 {
-  "New react component with imports expanded with filename": {
-    "prefix": ["reactnewf"],
-    "body": [
-      "import * as React from 'react';",
-      "import styled from 'styled-components';",
-      "",
-      "interface ${1:$TM_FILENAME_BASE}Props extends React.HTMLAttributes<HTMLDivElement> {}",
-      "",
-      "export const ${1:$TM_FILENAME_BASE} = (props: ${1:$TM_FILENAME_BASE}Props) => {",
-      "  return (",
-      "    <div>",
-      "      <h1>Hello World</h1>",
-      "    </div>",
-      "  );",
-      "};",
-      ""
-    ],
-    "description": "New react component with imports expanded with filename"
-  },
   "New react component": {
     "prefix": ["rfc"],
     "body": [
