@@ -48,6 +48,9 @@ export JAVA_HOME="/Users/annguyenwasd/.sdkman/candidates/java/11.0.2-open"
 export JDK_HOME="/Users/annguyenwasd/.sdkman/candidates/java/11.0.2-open"
 
 export PATH="$USER_BIN:$OPENSSL:$BREW:$NODE:$YARN:$RUBY:$LLVM:$PYTHON3:$MY_BIN:$JAVA_HOME:$JDK_HOME:$PATH"
+
+# prevent duplicate lines in history and skip add recent command to history by adding a space before the command
+HISCONTROL=ignoreboth
 #}}}
 
 # {{{ Sourcing
