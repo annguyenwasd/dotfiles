@@ -13,15 +13,15 @@ scrolling:
   multiplier: 3
 font:
   normal:
-    family: OperatorMono Nerd Font
-    style: Light
-  Italic:
-    family: OperatorMono Nerd Font
-    style: Book Italic
-  bold:
-    family: OperatorMono Nerd Font
-    style: Bold
-  size: 14
+    family: SauceCodePro Nerd Font
+    # style: Light
+  # italic:
+  #   family: OperatorMono Nerd Font
+  #   style: Book Italic
+  # bold:
+  #   family: OperatorMono Nerd Font
+  #   style: Bold
+  size: 12
   offset:
     x: 0
     yy: 0
