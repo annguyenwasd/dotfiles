@@ -39,7 +39,6 @@ require("packer").startup(
             config = function()
                 require("nvim-treesitter.configs").setup(
                     {
-                        ensure_installed = "maintained",
                         highlight = {
                             enable = true
                         }
@@ -749,8 +748,6 @@ require("packer").startup(
         use {
             "kyazdani42/nvim-tree.lua",
             setup = function()
-                vim.g.nvim_tree_quit_on_open = 1 --0 by default, closes the tree when you open a file
-                vim.g.nvim_tree_indent_markers = 0 --0 by default, this option shows indent markers when folders are open
                 vim.gnvim_tree_respect_buf_cwd = 1 --0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
             end,
             config = function()
@@ -763,6 +760,16 @@ require("packer").startup(
                 -- following options are the default
                 require("nvim-tree").setup(
                     {
+                        actions = {
+                            open_file = {
+                                quit_on_open = true
+                            }
+                        },
+                        renderer = {
+                            indent_markers = {
+                                enable = true
+                            }
+                        },
                         -- disables netrw completely
                         disable_netrw = true,
                         -- hijack netrw window on startup
@@ -771,8 +778,6 @@ require("packer").startup(
                         open_on_setup = false,
                         -- will not open on setup if the filetype is in this list
                         ignore_ft_on_setup = {},
-                        -- closes neovim automatically when the tree is the last **WINDOW** in the view
-                        auto_close = false,
                         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
                         open_on_tab = false,
                         -- hijacks new directory buffers when they are opened.
@@ -959,19 +964,22 @@ require("packer").startup(
                             ["o ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
                             ["x ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
                         },
-                        watch_index = {
+                        watch_gitdir = {
                             interval = 1000,
                             follow_files = true
                         },
                         current_line_blame = false,
-                        current_line_blame_delay = 1000,
-                        current_line_blame_position = "eol",
+                        current_line_blame_opts = {
+                            delay = 1000,
+                            position = "eol"
+                        },
                         sign_priority = 6,
                         update_debounce = 100,
                         status_formatter = nil, -- Use default
                         word_diff = true,
-                        use_decoration_api = true,
-                        use_internal_diff = true -- If luajit is present
+                        diff_opts = {
+                            internal = true -- If luajit is present
+                        }
                     }
                 )
             end
@@ -1087,6 +1095,16 @@ require("packer").startup(
                 -- require "utils".set_theme("vscode")
             end
         }
+
+        use(
+            {
+                "catppuccin/nvim",
+                as = "catppuccin",
+                config = function()
+                    -- require "utils".set_theme("catppuccin")
+                end
+            }
+        )
 
         -- }}}
 
@@ -1311,80 +1329,80 @@ require("packer").startup(
         -- }}}
 
         -- {{{ Debugger
-        use {
-            "mfussenegger/nvim-dap",
-            setup = function()
-                vim.cmd [[  
-  au FileType dap-repl lua require('dap.ext.autocompl').attach()
-  ]]
-            end,
-            config = function()
-                local map = require "utils".map
+        -- use {
+        --     "mfussenegger/nvim-dap",
+        --     setup = function()
+        --         vim.cmd [[
+        --   au FileType dap-repl lua require('dap.ext.autocompl').attach()
+        --   ]]
+        --     end,
+        --     config = function()
+        --         local map = require "utils".map
 
-                map("n", "<localleader>bb", ":lua require'dap'.toggle_breakpoint()<cr>")
-                map(
-                    "n",
-                    "<localleader>bc",
-                    ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>"
-                )
-                map(
-                    "n",
-                    "<localleader>bl",
-                    ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>"
-                )
-                map("n", "<localleader>BB", ":lua require'dap'.list_breakpoints()<cr>:copen<cr>")
-                map("n", "<localleader>c", ":lua require'dap'.continue()<cr>")
-                map("n", "`o", ":lua require'dap'.step_over()<cr>")
-                map("n", "`i", ":lua require'dap'.step_into()<cr>")
-                map("n", "`u", ":lua require'dap'.step_out()<cr>")
-                map("n", "`j", ":lua require'dap'.down()<cr>")
-                map("n", "`k", ":lua require'dap'.up()<cr>")
-                map("n", "<localleader>b", ":lua require'dap'.step_back()<cr>")
-                map("n", "<localleader>t", ":lua require'dap'.terminate()<cr>")
-                map("n", "<localleader>di", ":lua require'dap'.terminate()<cr>")
-                map("n", "<localleader>re", ":lua require'dap'.repl.toggle()<cr>")
-                map("n", "<localleader>rc", ":lua require'dap'.run_to_cursor()<cr>")
-                map("n", "<localleader>s", ":lua require('dap.ui.widgets').hover()<cr>")
-                map("n", "<localleader>da", ":Telescope dap commands<cr>")
+        --         map("n", "<localleader>bb", ":lua require'dap'.toggle_breakpoint()<cr>")
+        --         map(
+        --             "n",
+        --             "<localleader>bc",
+        --             ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>"
+        --         )
+        --         map(
+        --             "n",
+        --             "<localleader>bl",
+        --             ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>"
+        --         )
+        --         map("n", "<localleader>BB", ":lua require'dap'.list_breakpoints()<cr>:copen<cr>")
+        --         map("n", "<localleader>c", ":lua require'dap'.continue()<cr>")
+        --         map("n", "`o", ":lua require'dap'.step_over()<cr>")
+        --         map("n", "`i", ":lua require'dap'.step_into()<cr>")
+        --         map("n", "`u", ":lua require'dap'.step_out()<cr>")
+        --         map("n", "`j", ":lua require'dap'.down()<cr>")
+        --         map("n", "`k", ":lua require'dap'.up()<cr>")
+        --         map("n", "<localleader>b", ":lua require'dap'.step_back()<cr>")
+        --         map("n", "<localleader>t", ":lua require'dap'.terminate()<cr>")
+        --         map("n", "<localleader>di", ":lua require'dap'.terminate()<cr>")
+        --         map("n", "<localleader>re", ":lua require'dap'.repl.toggle()<cr>")
+        --         map("n", "<localleader>rc", ":lua require'dap'.run_to_cursor()<cr>")
+        --         map("n", "<localleader>s", ":lua require('dap.ui.widgets').hover()<cr>")
+        --         map("n", "<localleader>da", ":Telescope dap commands<cr>")
 
-                -- View the current scopes in floating window
-                map(
-                    "n",
-                    "<localleader>ds",
-                    ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<cr>"
-                )
-                -- View the current frames floating window
-                map(
-                    "n",
-                    "<localleader>df",
-                    ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.frames)<cr>"
-                )
-            end
-        }
-        use {
-            "Pocco81/DAPInstall.nvim",
-            config = function()
-                local dap_install = require("dap-install")
-                local dbg_list = require("dap-install.api.debuggers").get_installed_debuggers()
+        --         -- View the current scopes in floating window
+        --         map(
+        --             "n",
+        --             "<localleader>ds",
+        --             ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<cr>"
+        --         )
+        --         -- View the current frames floating window
+        --         map(
+        --             "n",
+        --             "<localleader>df",
+        --             ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.frames)<cr>"
+        --         )
+        --     end
+        -- }
+        -- use {
+        --     "Pocco81/DAPInstall.nvim",
+        --     config = function()
+        --         local dap_install = require("dap-install")
+        --         local dbg_list = require("dap-install.api.debuggers").get_installed_debuggers()
 
-                dap_install.setup(
-                    {
-                        installation_path = vim.fn.stdpath("data") .. "/dapinstall/"
-                    }
-                )
+        --         dap_install.setup(
+        --             {
+        --                 installation_path = vim.fn.stdpath("data") .. "/dapinstall/"
+        --             }
+        --         )
 
-                for _, debugger in ipairs(dbg_list) do
-                    dap_install.config(debugger)
-                end
-            end
-        }
+        --         for _, debugger in ipairs(dbg_list) do
+        --             dap_install.config(debugger)
+        --         end
+        --     end
+        -- }
 
-        use {
-            "nvim-telescope/telescope-dap.nvim",
-            config = function()
-                require("telescope").load_extension("dap")
-            end
-        }
+        -- use {
+        --     "nvim-telescope/telescope-dap.nvim",
+        --     config = function()
+        --         require("telescope").load_extension("dap")
+        --     end
+        -- }
         -- }}}
 
         -- {{{ Packer end
