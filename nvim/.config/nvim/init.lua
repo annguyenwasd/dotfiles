@@ -1111,15 +1111,16 @@ require("packer").startup(function(use)
         end
     }
 
-    use {
+    use({
         "iamcco/markdown-preview.nvim",
-        run = function() vim.fn["mkdp#util#install"](0) end,
+        run = "cd app && npm install",
+        setup = function() vim.g.mkdp_filetypes = {"markdown"} end,
         ft = {"markdown"},
         config = function()
             local map = require"utils".map
             map("n", "gm", ":MarkdownPreviewToggle<CR>")
         end
-    }
+    })
 
     use {
         "airblade/vim-rooter",
