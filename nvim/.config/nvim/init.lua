@@ -1542,5 +1542,14 @@ vim.api.nvim_command("command! GoogleJavaFormat :call v:lua.googleJavaFormat()")
 
 vim.api.nvim_command("command! OpenFolder :call v:lua.openCurrentFolder()")
 vim.api.nvim_command("command! Od :call v:lua.openCurrentFolder()")
+
+-- Open github page
+vim.keymap.set("n", "<leader><leader>gh", function()
+    vim.cmd('normal! yi"');
+    local package = vim.fn.getreg('"')
+    local ghPage = 'https://github.com/' .. package
+    vim.cmd('!open ' .. ghPage);
+end)
+
 -- }}}2
 -- }}}1
