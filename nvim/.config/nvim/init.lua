@@ -639,13 +639,8 @@ require("packer").startup(function(use)
             require("nvim-tree").setup({
                 actions = {open_file = {quit_on_open = true}},
                 renderer = {indent_markers = {enable = true}},
-                update_to_buf_dir = {
-                    enable = true,
-                    auto_open = true
-                },
-                update_focused_file = {
-                    enable = true,
-                },
+                update_to_buf_dir = {enable = true, auto_open = true},
+                update_focused_file = {enable = true},
                 view = {
                     width = 40,
                     mappings = {
@@ -673,45 +668,41 @@ require("packer").startup(function(use)
     use {
         "tpope/vim-fugitive",
         config = function()
-            local nvim_create_augroups = require"utils".nvim_create_augroups
-
             -- Not gonna show shit messages when run git hook via husky
             vim.g.fugitive_pty = 0
             vim.g.lazygit_floating_window_winblend = 1
             vim.g.lazygit_floating_window_scaling_factor = 1
 
-            nvim_create_augroups({
-                FugitiveAutoCleanBuffer = {
-                    "BufReadPost fugitive://* set bufhidden=delete"
-                }
+            vim.api.nvim_create_autocmd("BufReadPost", {
+                group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer",
+                                                    {clear = true}),
+                pattern = "fugitive://*",
+                command = "set bufhidden=delete"
             })
 
-            ----------------------------------------------------------------------
-            --                       Custom git functions                       --
-            ----------------------------------------------------------------------
-            local map = require"utils".map
-            function _G.GitCommit()
+            local function vsplitCommit()
                 vim.cmd "vsplit term://git commit"
             end
 
-            map("n", "<leader>gf",
-                "<cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
-            map("n", "<leader>gj",
-                "<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
-
-            map("n", "<leader>lg", "<cmd>LazyGit<cr>")
-            map("n", "<leader>gl", "<cmd>GcLog<cr>")
-            map("n", "<leader>gs", "<cmd>G difftool --name-status<cr>")
-            map("n", "<leader><leader>gs", "<cmd>G difftool<cr>")
-            map("n", "<leader><leader>bl", "<cmd>G blame<cr>")
-            map("n", "<leader>gc", ":call v:lua.GitCommit()<cr>ii")
-            map("n", "<leader><leader>gc", ':G commit -n -m ""<left>',
-                {silent = false})
-            map("n", "<leader>ga", "<cmd>G add -A<cr>")
-            map("n", "<leader>gw", '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
-            map("n", "<leader>gp",
-                ":AsyncRun git push origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
-                {silent = false})
+            vim.keymap.set("n", "<leader>gf",
+                           "<cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
+            vim.keymap.set("n", "<leader>gj",
+                           "<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
+            vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>")
+            vim.keymap.set("n", "<leader>gl", "<cmd>GcLog<cr>")
+            vim.keymap.set("n", "<leader>gs",
+                           "<cmd>G difftool --name-status<cr>")
+            vim.keymap.set("n", "<leader><leader>gs", "<cmd>G difftool<cr>")
+            vim.keymap.set("n", "<leader><leader>bl", "<cmd>G blame<cr>")
+            vim.keymap.set("n", "<leader>gc", vsplitCommit)
+            vim.keymap.set("n", "<leader><leader>gc",
+                           ':G commit -n -m ""<left>', {silent = false})
+            vim.keymap.set("n", "<leader>ga", "<cmd>G add -A<cr>")
+            vim.keymap.set("n", "<leader>gw",
+                           '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
+            vim.keymap.set("n", "<leader>gp",
+                           ":AsyncRun git push origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
+                           {silent = false})
         end
     }
     use {
@@ -719,74 +710,49 @@ require("packer").startup(function(use)
         requires = {"nvim-lua/plenary.nvim"},
         config = function()
             require("gitsigns").setup({
-                signs = {
-                    add = {
-                        hl = "GitSignsAdd",
-                        text = "│",
-                        numhl = "GitSignsAddNr",
-                        linehl = "GitSignsAddLn"
-                    },
-                    change = {
-                        hl = "GitSignsChange",
-                        text = "│",
-                        numhl = "GitSignsChangeNr",
-                        linehl = "GitSignsChangeLn"
-                    },
-                    delete = {
-                        hl = "GitSignsDelete",
-                        text = "_",
-                        numhl = "GitSignsDeleteNr",
-                        linehl = "GitSignsDeleteLn"
-                    },
-                    topdelete = {
-                        hl = "GitSignsDelete",
-                        text = "‾",
-                        numhl = "GitSignsDeleteNr",
-                        linehl = "GitSignsDeleteLn"
-                    },
-                    changedelete = {
-                        hl = "GitSignsChange",
-                        text = "~",
-                        numhl = "GitSignsChangeNr",
-                        linehl = "GitSignsChangeLn"
-                    }
-                },
-                numhl = false,
-                linehl = false,
-                keymaps = {
-                    -- Default keymap options
-                    noremap = true,
-                    buffer = true,
-                    ["n ]c"] = {
-                        expr = true,
-                        '&diff ? \']c\' : \'<cmd>lua require"gitsigns.actions".next_hunk()<CR>\''
-                    },
-                    ["n [c"] = {
-                        expr = true,
-                        '&diff ? \'[c\' : \'<cmd>lua require"gitsigns.actions".prev_hunk()<CR>\''
-                    },
-                    ["n <leader>ha"] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-                    ["v <leader>ha"] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-                    ["n <leader>hu"] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-                    ["n <leader>hd"] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-                    ["v <leader>hd"] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-                    ["n <leader>hD"] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-                    ["n <leader>hc"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-                    ["n <leader>bl"] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
-                    -- Text objects
-                    ["o ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
-                    ["x ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
-                },
-                watch_gitdir = {interval = 1000, follow_files = true},
-                current_line_blame = false,
-                current_line_blame_opts = {delay = 1000, position = "eol"},
-                sign_priority = 6,
-                update_debounce = 100,
-                status_formatter = nil, -- Use default
-                word_diff = true,
-                diff_opts = {
-                    internal = true -- If luajit is present
-                }
+                on_attach = function(bufnr)
+                    local gs = package.loaded.gitsigns
+
+                    local function map(mode, l, r, opts)
+                        opts = opts or {}
+                        opts.buffer = bufnr
+                        vim.keymap.set(mode, l, r, opts)
+                    end
+
+                    -- Navigation
+                    map('n', ']c', function()
+                        if vim.wo.diff then return ']c' end
+                        vim.schedule(function()
+                            gs.next_hunk()
+                        end)
+                        return '<Ignore>'
+                    end, {expr = true})
+
+                    map('n', '[c', function()
+                        if vim.wo.diff then return '[c' end
+                        vim.schedule(function()
+                            gs.prev_hunk()
+                        end)
+                        return '<Ignore>'
+                    end, {expr = true})
+
+                    -- Actions
+                    map({'n', 'v'}, '<leader>ha', ':Gitsigns stage_hunk<CR>')
+                    map({'n', 'v'}, '<leader>hd', ':Gitsigns reset_hunk<CR>')
+                    map('n', '<leader>hA', gs.stage_buffer)
+                    map('n', '<leader>hu', gs.undo_stage_hunk)
+                    map('n', '<leader>hD', gs.reset_buffer)
+                    map('n', '<leader>hc', gs.preview_hunk)
+                    map('n', '<leader>bl',
+                        function()
+                        gs.blame_line {full = true}
+                    end)
+                    map('n', '<leader>tb', gs.toggle_current_line_blame)
+                    map('n', '<leader>td', gs.toggle_deleted)
+
+                    -- Text object
+                    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+                end
             })
         end
     }
