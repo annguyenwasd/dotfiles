@@ -137,7 +137,7 @@ require("packer").startup(function(use)
             local builtin = require('telescope.builtin');
 
             vim.keymap.set("n", "<leader>o", project_files)
-            vim.keymap.set("n", "<leader>i",builtin.find_files)
+            vim.keymap.set("n", "<leader>i", builtin.find_files)
             vim.keymap.set("n", "<leader>/",
                            "<cmd>Telescope current_buffer_fuzzy_find<cr>")
             vim.keymap.set("n", "<leader>rg",
@@ -841,7 +841,6 @@ require("packer").startup(function(use)
             ----------------------------------------------------------------------
             local map = require"utils".map
             function _G.GitCommit()
-                vim.cmd "!git add -A"
                 vim.cmd "vsplit term://git commit"
             end
 
@@ -1453,7 +1452,8 @@ vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>',
 
 vim.keymap.set("n", "<leader>cl",
                "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr>")
-vim.keymap.set("n", "<leader><leader>r", "<cmd>so %<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
+vim.keymap.set("n", "<leader><leader>r",
+               "<cmd>so %<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
 vim.keymap.set("n", "<leader><leader>R",
                "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>")
 
