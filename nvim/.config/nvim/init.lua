@@ -134,8 +134,10 @@ require("packer").startup(function(use)
                 }
             }
 
+            local builtin = require('telescope.builtin');
+
             vim.keymap.set("n", "<leader>o", project_files)
-            vim.keymap.set("n", "<leader>i", "<cmd>Telescope buffers<cr>")
+            vim.keymap.set("n", "<leader>i",builtin.find_files)
             vim.keymap.set("n", "<leader>/",
                            "<cmd>Telescope current_buffer_fuzzy_find<cr>")
             vim.keymap.set("n", "<leader>rg",
@@ -1334,48 +1336,44 @@ end)
 
 -- {{{1 Settings
 -- {{{2
-local o = vim.opt
-local wo = vim.wo
-local bo = vim.bo
-
 vim.g.vimsyn_embed = "lPr"
 
-o.splitbelow = true
-o.splitright = true
-o.wildmenu = true
-o.termguicolors = true
-o.hidden = true
-o.ignorecase = true
-o.incsearch = true
-o.hlsearch = true
-o.expandtab = true
-o.number = true
-o.relativenumber = true
-o.cursorline = true
-o.exrc = true
-o.secure = true
-o.clipboard = "unnamed"
-o.updatetime = 50
-o.inccommand = "nosplit"
-o.mouse = "a"
-o.scrolloff = 8
-o.completeopt = {"menuone", "noinsert", "noselect"}
-o.shortmess:append({c = true})
-o.smartindent = true
-o.shiftwidth = 2
-o.softtabstop = 2
-o.tabstop = 2
-o.undofile = true
-o.undodir = vim.fn.expand("~/.vim/undo")
-o.cmdheight = 2
-o.listchars = "tab:▹ ,trail:·"
-o.list = true
-o.wrapscan = false
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.wildmenu = true
+vim.opt.termguicolors = true
+vim.opt.hidden = true
+vim.opt.ignorecase = true
+vim.opt.incsearch = true
+vim.opt.hlsearch = true
+vim.opt.expandtab = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.exrc = true
+vim.opt.secure = true
+vim.opt.clipboard = "unnamed"
+vim.opt.updatetime = 50
+vim.opt.inccommand = "nosplit"
+vim.opt.mouse = "a"
+vim.opt.scrolloff = 8
+vim.opt.completeopt = {"menuone", "noinsert", "noselect"}
+vim.opt.shortmess:append({c = true})
+vim.opt.smartindent = true
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.expand("~/.vim/undo")
+vim.opt.cmdheight = 2
+vim.opt.listchars = "tab:▹ ,trail:·"
+vim.opt.list = true
+vim.opt.wrapscan = false
 
-wo.signcolumn = "yes"
+vim.wo.signcolumn = "yes"
 
-bo.syntax = "enable"
-bo.swapfile = false
+vim.bo.syntax = "enable"
+vim.bo.swapfile = false
 
 vim.api.nvim_create_autocmd("BufEnter", {
     group = vim.api.nvim_create_augroup("OpenHelpOnRightMostWindow",
@@ -1455,7 +1453,7 @@ vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>',
 
 vim.keymap.set("n", "<leader>cl",
                "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr>")
-vim.keymap.set("n", "<leader><leader>r", "<cmd>so %<cr><cmd>PackerCompile<cr>")
+vim.keymap.set("n", "<leader><leader>r", "<cmd>so %<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
 vim.keymap.set("n", "<leader><leader>R",
                "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>")
 
