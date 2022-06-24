@@ -12,9 +12,7 @@ end
 -- }}}
 
 -- {{{ Packer Start
-
 require("packer").startup(function(use)
-    -- }}}
 
     -- {{{ Packer
     use "wbthomason/packer.nvim"
@@ -192,11 +190,7 @@ require("packer").startup(function(use)
         "nvim-telescope/telescope-fzf-native.nvim",
         run = "make",
         config = function()
-            require("telescope").setup {
-                extensions = {
-                    fzf = { }
-                }
-            }
+            require("telescope").setup {extensions = {fzf = {}}}
 
             -- To get fzf loaded and working with telescope, you need to call
             -- load_extension, somewhere after setup function:
@@ -219,7 +213,6 @@ require("packer").startup(function(use)
             vim.keymap.set("n", "<leader>tu", "<cmd>Telescope ultisnips<cr>")
         end
     }
-
     -- }}}
 
     -- {{{ Status line
@@ -278,55 +271,8 @@ require("packer").startup(function(use)
     -- {{{ LSP
     use {
         "williamboman/nvim-lsp-installer",
-        requires = {
-            {"jose-elias-alvarez/nvim-lsp-ts-utils"}, {"b0o/schemastore.nvim"},
-            {"neovim/nvim-lspconfig"}, {
-                "ray-x/lsp_signature.nvim",
-                config = function()
-                    require"lsp_signature".setup {
-                        debug = false, -- set to true to enable debug logging
-                        log_path = "debug_log_file_path", -- debug log path
-                        verbose = false, -- show debug line number
-                        bind = true, -- This is mandatory, otherwise border config won't get registered.
-                        -- If you want to hook lspsaga or other signature handler, pls set to false
-                        doc_lines = 10, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
-                        -- set to 0 if you DO NOT want any API comments be shown
-                        -- This setting only take effect in insert mode, it does not affect signature help in normal
-                        -- mode, 10 by default
-
-                        floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
-                        floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
-                        -- will set to true when fully tested, set to false will use whichever side has more space
-                        -- this setting will be helpful if you do not want the PUM and floating win overlap
-                        fix_pos = false, -- set to true, the floating window will not auto-close until finish all parameters
-                        hint_enable = false, -- virtual hint enable
-                        hint_prefix = "🐼 ", -- Panda for parameter
-                        hint_scheme = "String",
-                        use_lspsaga = false, -- set to true if you want to use lspsaga popup
-                        hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
-                        max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down
-                        -- to view the hiding contents
-                        max_width = 120, -- max_width of signature floating_window, line will be wrapped if exceed max_width
-                        handler_opts = {
-                            border = "rounded" -- double, rounded, single, shadow, none
-                        },
-                        always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
-                        auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
-                        extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
-                        zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
-                        padding = "", -- character to pad on left and right of signature can be ' ', or '|'  etc
-                        transparency = nil, -- disabled by default, allow floating win transparent value 1~100
-                        shadow_blend = 36, -- if you using shadow as border use this set the opacity
-                        shadow_guibg = "Black", -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
-                        timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
-                        toggle_key = "<c-s>" -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
-                    }
-                end
-            }
-        },
         run = function()
             local required_servers = {
-                -- "emmet_ls",
                 "yamlls", "jsonls", "html", "vimls", "bashls", "diagnosticls",
                 "dockerls", "sumneko_lua", "tsserver", "cssls", "eslint"
             }
@@ -339,7 +285,14 @@ require("packer").startup(function(use)
                     server:install()
                 end
             end
-        end,
+        end
+    }
+
+    use {
+        "neovim/nvim-lspconfig",
+        requires = {
+            {"jose-elias-alvarez/nvim-lsp-ts-utils"}, {"b0o/schemastore.nvim"}
+        },
         config = function()
             local lsp_installer = require("nvim-lsp-installer")
 
@@ -354,120 +307,55 @@ require("packer").startup(function(use)
             local setup_ts_utils = function(bufnr, client)
                 local ts_utils = require("nvim-lsp-ts-utils")
 
-                -- defaults
-                ts_utils.setup({
-                    debug = false,
-                    disable_commands = false,
-                    enable_import_on_completion = false,
-                    -- import all
-                    import_all_timeout = 5000, -- ms
-                    -- lower numbers = higher priority
-                    import_all_priorities = {
-                        same_file = 1, -- add to existing import statement
-                        local_files = 2, -- git files or files with relative path markers
-                        buffer_content = 3, -- loaded buffer content
-                        buffers = 4 -- loaded buffer names
-                    },
-                    import_all_scan_buffers = 100,
-                    import_all_select_source = false,
-                    -- if false will avoid organizing imports
-                    always_organize_imports = true,
-                    -- filter diagnostics
-                    filter_out_diagnostics_by_severity = {},
-                    filter_out_diagnostics_by_code = {},
-                    -- inlay hints
-                    auto_inlay_hints = true,
-                    inlay_hints_highlight = "Comment",
-                    inlay_hints_priority = 200, -- priority of the hint extmarks
-                    inlay_hints_throttle = 150, -- throttle the inlay hint request
-                    inlay_hints_format = {
-                        -- format options for individual hint kind
-                        Type = {},
-                        Parameter = {},
-                        Enum = {}
-                        -- Example format customization for `Type` kind:
-                        -- Type = {
-                        --     highlight = "Comment",
-                        --     text = function(text)
-                        --         return "->" .. text:sub(2)
-                        --     end,
-                        -- },
-                    },
-                    -- update imports on file move
-                    update_imports_on_move = false,
-                    require_confirmation_on_move = false,
-                    watch_dir = nil
-                })
+                ts_utils.setup({})
 
                 -- required to fix code action ranges and filter diagnostics
                 ts_utils.setup_client(client)
 
+                local opts = {buffer = bufnr}
                 -- no default maps, so you may want to define some here
                 vim.keymap.set("n", "<leader><leader>oi", ":TSLspOrganize<CR>",
-                               {buffer = bufnr})
-                vim.keymap.set("n", "<leader>rf", ":TSLspRenameFile<CR>",
-                               {buffer = bufnr})
-                vim.keymap.set(bufnr, "n", "<leader><leader>i",
-                               ":TSLspImportAll<CR>", {buffer = bufnr})
+                               opts)
+                vim.keymap.set("n", "<leader>rf", ":TSLspRenameFile<CR>", opts)
+                vim.keymap.set("n", "<leader><leader>i", ":TSLspImportAll<CR>",
+                               opts)
             end
 
-            lsp_installer.on_server_ready(function(server)
+            local onServerReady = function(server)
                 local on_attach = function(client, bufnr)
-                    local function buf_set_keymap(...)
-                        vim.api.nvim_buf_set_keymap(bufnr, ...)
-                    end
-                    local function buf_set_option(...)
-                        vim.api.nvim_buf_set_option(bufnr, ...)
-                    end
+
+                    vim.api.nvim_buf_set_option(bufnr, 'omnifunc',
+                                                'v:lua.vim.lsp.omnifunc')
 
                     if server.name == "tsserver" then
                         setup_ts_utils(bufnr, client)
                     end
 
-                    -- Enable completion triggered by <c-x><c-o>
-                    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+                    local opts = {buffer = bufnr}
 
-                    -- Mappings.
-                    local opts = {noremap = true, silent = true}
-
-                    -- See `:help vim.lsp.*` for documentation on any of the below functions
-                    -- buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-                    buf_set_keymap("n", "gd",
-                                   "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-                    -- buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-                    buf_set_keymap("n", "K",
-                                   ":call v:lua.show_documentation()<cr>", opts)
-                    -- buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-                    -- buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-                    -- buf_set_keymap("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-                    -- buf_set_keymap("n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-                    -- buf_set_keymap(
-                    --     "n",
-                    --     "<space>wl",
-                    --     "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-                    --     opts
-                    -- )
-                    -- buf_set_keymap("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-                    buf_set_keymap("n", "<leader>rn",
-                                   "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-                    buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-                    buf_set_keymap("n", "gR",
-                                   "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-                    buf_set_keymap("n", "<leader>ld",
-                                   "<cmd>lua vim.diagnostic.open_float()<CR>",
+                    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+                    -- vim.keymap.set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+                    vim.keymap.set("n", "K", show_documentation, opts)
+                    -- vim.keymap.set("n", "gi",vim.lsp.buf.implementation, opts)
+                    -- vim.keymap.set("n", "<C-k>",vim.lsp.buf.signature_help, opts)
+                    -- vim.keymap.set("n", "<leader>wa",vim.lsp.buf.add_workspace_folder, opts)
+                    -- vim.keymap.set("n", "<leader>wr",vim.lsp.buf.remove_workspace_folder, opts)
+                    -- vim.keymap.set("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+                    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
                                    opts)
-                    buf_set_keymap("n", "[d",
-                                   "<cmd>lua vim.diagnostic.goto_prev()<CR>",
+                    vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
+                    vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float,
                                    opts)
-                    buf_set_keymap("n", "]d",
-                                   "<cmd>lua vim.diagnostic.goto_next()<CR>",
-                                   opts)
-                    buf_set_keymap("n", "<leader><leader>fm",
-                                   "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-                    buf_set_keymap("n", "<leader><leader>ee",
+                    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+                    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+                    vim.keymap.set("n", "<leader><leader>fm",
+                                   vim.lsp.buf.formatting, opts)
+                    vim.keymap.set("n", "<leader><leader>ee",
                                    "<cmd>EslintFixAll<CR>", opts)
-                    -- buf_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.set_loclist()<CR>", opts)
-                    -- buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+                    -- vim.keymap.set("n", "<space>q",vim.diagnostic.set_loclist, opts)
+                    -- vim.keymap.set("n", "<space>=",vim.lsp.buf.formatting, opts)
                 end
 
                 local settings = {}
@@ -490,7 +378,10 @@ require("packer").startup(function(use)
                         .snippetSupport = true
 
                     settings = {
-                        json = {schemas = require("schemastore").json.schemas()}
+                        json = {
+                            schemas = require("schemastore").json.schemas(),
+                            validate = {enable = true}
+                        }
                     }
                 end
 
@@ -506,7 +397,16 @@ require("packer").startup(function(use)
                 })
 
                 vim.cmd [[ do User LspAttachBuffers ]]
-            end)
+            end
+
+            lsp_installer.on_server_ready(onServerReady)
+        end
+    }
+
+    use {
+        "ray-x/lsp_signature.nvim",
+        config = function()
+            require"lsp_signature".setup {toggle_key = "<c-s>"}
         end
     }
     -- }}}
@@ -1015,7 +915,7 @@ require("packer").startup(function(use)
                     eob_lines = false
                 }
             })
-            require"utils".set_theme("material", "material-nvim")
+            require"utils".set_theme("material")
         end
     }
 
@@ -1110,8 +1010,10 @@ require("packer").startup(function(use)
     use "romainl/vim-cool"
     use "godlygeek/tabular"
 
+    -- This break the lsp_installer :LSPInstallInfo. Disabled for now
     use {
         "sunjon/shade.nvim",
+        disable = true,
         config = function()
             require"shade".setup({
                 overlay_opacity = 50,
@@ -1119,7 +1021,7 @@ require("packer").startup(function(use)
                 keys = {
                     brightness_up = "<C-Up>",
                     brightness_down = "<C-Down>",
-                    toggle = "<Leader>ss"
+                    toggle = "<leader>ss"
                 }
             })
         end
@@ -1437,7 +1339,7 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
 -- }}}1
 
 -- {{{1 Mappings
--- {{{2
+-- {{{
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
@@ -1460,7 +1362,7 @@ vim.keymap.set("n", "<leader>cl",
 vim.keymap.set("n", "<leader><leader>r",
                "<cmd>so %<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
 vim.keymap.set("n", "<leader><leader>R",
-               "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>")
+               "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
 
 vim.keymap.set("n", "<c-w><c-e>", "<c-w>=")
 
@@ -1563,5 +1465,5 @@ vim.keymap.set("n", "<leader><leader>gh", function()
     vim.cmd('!open ' .. ghPage);
 end)
 
--- }}}2
+-- }}}
 -- }}}1
