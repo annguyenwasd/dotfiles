@@ -138,45 +138,53 @@ require("packer").startup(function(use)
 
             vim.keymap.set("n", "<leader>o", project_files)
             vim.keymap.set("n", "<leader>i", builtin.find_files)
-            vim.keymap.set("n", "<leader>/",
-                           "<cmd>Telescope current_buffer_fuzzy_find<cr>")
-            vim.keymap.set("n", "<leader>rg",
-                           ':lua require"telescope.builtin".live_grep()<CR>')
-            vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
-            vim.keymap.set("n", "<leader><leader>fh",
-                           "<cmd>Telescope man_pages<cr>")
-            vim.keymap.set("n", "<leader>ch",
-                           "<cmd>Telescope command_history<cr>")
-            vim.keymap.set("n", "<leader>sh",
-                           "<cmd>Telescope search_history<cr>")
-            vim.keymap.set("n", "<leader>fc", "<cmd>Telescope commands<cr>")
-            vim.keymap.set("n", "<leader><leader>fc",
-                           "<cmd>Telescope colorscheme<cr>")
-            vim.keymap.set("n", "<leader>km", "<cmd>Telescope keymaps<cr>")
-            vim.keymap.set("n", "<leader>tr", "<cmd>Telescope resume<cr>")
-            vim.keymap.set("n", "<leader>hi", "<cmd>Telescope highlights<cr>")
+            vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find)
+            vim.keymap.set("n", "<leader>rg", builtin.live_grep)
+            vim.keymap.set("n", "<leader>fh", builtin.help_tags)
+            vim.keymap.set("n", "<leader><leader>fh", builtin.man_pages)
+            vim.keymap.set("n", "<leader>ch", builtin.command_history)
+            vim.keymap.set("n", "<leader>sh", builtin.search_history)
+            vim.keymap.set("n", "<leader>fc", builtin.commands)
+            vim.keymap.set("n", "<leader><leader>fc", builtin.colorscheme)
+            vim.keymap.set("n", "<leader>km", builtin.keymaps)
+            vim.keymap.set("n", "<leader>tr", builtin.resume)
+            vim.keymap.set("n", "<leader>hi", builtin.highlights)
 
-            vim.keymap.set("n", "gr",
-                           "<cmd>Telescope lsp_references initial_mode=normal<cr>")
-            -- vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions initial_mode=normal<cr>")
-            vim.keymap.set("n", "gi",
-                           "<cmd>Telescope lsp_implementations initial_mode=normal<cr>")
-            vim.keymap.set("n", "gy",
-                           "<cmd>Telescope lsp_type_definitions initial_mode=normal<cr>")
-            vim.keymap.set("n", "<leader>ca",
-                           "<cmd>Telescope lsp_code_actions initial_mode=normal theme=cursor<cr>")
-            vim.keymap.set("n", "<leader>da",
-                           "<cmd>Telescope diagnostics bufnr=0 initial_mode=normal<cr>")
-            vim.keymap.set("n", "<leader><leader>da",
-                           "<cmd>Telescope diagnostics initial_mode=normal<cr>")
-            vim.keymap.set("n", "<leader>ds",
-                           "<cmd>Telescope lsp_document_symbols initial_mode=normal<cr>")
-            vim.keymap.set("n", "<leader>ws",
-                           ":Telescope lsp_workspace_symbols<space>query=",
-                           {silent = false})
+            vim.keymap.set("n", "gr", function()
+                builtin.lsp_references({initial_mode = 'normal'})
+            end)
 
-            vim.keymap.set("n", "<leader>ff",
-                           "<cmd>lua require 'telescope.builtin'.find_files({hidden = true, cwd='%:p:h'})<cr>")
+            -- vim.keymap.set("n", "gd", function()
+            --     builtin.lsp_definitions({initial_mode = 'normal'})
+            -- end)
+            vim.keymap.set("n", "gi", function()
+                builtin.lsp_implementations({initial_mode = 'normal'})
+            end)
+
+            vim.keymap.set("n", "gy", function()
+                builtin.lsp_type_definitions({initial_mode = 'normal'})
+            end)
+
+            vim.keymap.set("n", "<leader>da", function()
+                builtin.diagnostics({initial_mode = 'normal', bufnr = 0})
+            end)
+
+            vim.keymap.set("n", "<leader><leader>da", function()
+                builtin.diagnostics({initial_mode = 'normal'})
+            end)
+
+            vim.keymap.set("n", "<leader>ds", function()
+                builtin.lsp_document_symbols({initial_mode = 'normal'})
+            end)
+
+            vim.keymap.set("n", "<leader>ws", function()
+                builtin.lsp_workspace_symbols({query = ''})
+            end)
+
+            vim.keymap.set("n", "<leader>ff", function()
+                builtin.find_files({hidden = true, cwd = '%:p:h'})
+            end)
+
         end
     }
 
