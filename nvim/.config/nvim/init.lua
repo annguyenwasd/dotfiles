@@ -247,19 +247,21 @@ require("packer").startup(function(use)
                 options = {
                     icons_enabled = true,
                     theme = "auto",
-                    component_separators = {left = "", right = ""},
-                    section_separators = {left = "", right = ""},
+                    -- component_separators = {left = "", right = ""},
+                    -- section_separators = {left = "", right = ""},
+                    component_separators = {left = "", right = ""},
+                    section_separators = {left = "", right = ""},
                     disabled_filetypes = {},
                     always_divide_middle = true
                 },
                 sections = {
                     lualine_a = {"mode"},
                     lualine_b = {
-                        "branch", {"diff", source = diff_source},
+                      {"branch", icon=""}, {"diff", source = diff_source},
                         {"diagnostics", sources = {"nvim_diagnostic"}}
                     },
                     lualine_c = {"filename", "lsp_progress"},
-                    lualine_x = {"encoding", "fileformat", "filetype"},
+                    lualine_x = {},
                     lualine_y = {"progress"},
                     lualine_z = {"location"}
                 },
@@ -453,7 +455,7 @@ require("packer").startup(function(use)
                     -- buf_set_keymap("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
                     buf_set_keymap("n", "<leader>rn",
                                    "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-                    -- buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+                    buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
                     buf_set_keymap("n", "gR",
                                    "<cmd>lua vim.lsp.buf.references()<CR>", opts)
                     buf_set_keymap("n", "<leader>ld",
