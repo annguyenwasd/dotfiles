@@ -3,6 +3,11 @@
 local install_path = vim.fn.stdpath("data") ..
                          "/site/pack/packer/start/packer.nvim"
 
+function _G.set_theme(theme_name, lualine_theme)
+    vim.cmd("colorscheme " .. theme_name)
+    require("lualine").setup({options = {theme = lualine_theme or theme_name}})
+end
+
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     packer_bootstrap = vim.fn.system({
         "git", "clone", "--depth", "1",
@@ -704,7 +709,7 @@ require("packer").startup(function(use)
                     eob_lines = false
                 }
             })
-            require"utils".set_theme("material")
+            set_theme("material")
         end
     }
 
@@ -756,13 +761,11 @@ require("packer").startup(function(use)
     use {
         "sbdchd/neoformat",
         config = function()
-            local map = require"utils".map
-
             vim.g.neoformat_only_msg_on_error = 1
             vim.g.neoformat_basic_format_trim = 1
 
-            map("v", "<leader>fm", ":Neoformat<CR>")
-            map("n", "<leader>fm", ":Neoformat<CR>")
+            vim.keymap.set("v", "<leader>fm", ":Neoformat<CR>")
+            vim.keymap.set("n", "<leader>fm", ":Neoformat<CR>")
         end
     }
     -- }}}
@@ -776,14 +779,7 @@ require("packer").startup(function(use)
             }
         end
     }
-    use {
-        "tpope/vim-commentary",
-        config = function()
-            vim.cmd [[
-                  autocmd FileType apache setlocal commentstring=#\ %s
-                  ]]
-        end
-    }
+    use {"tpope/vim-commentary"}
     -- }}}
 
     -- {{{ MISC
@@ -822,8 +818,7 @@ require("packer").startup(function(use)
         setup = function() vim.g.mkdp_filetypes = {"markdown"} end,
         ft = {"markdown"},
         config = function()
-            local map = require"utils".map
-            map("n", "gm", ":MarkdownPreviewToggle<CR>")
+            vim.keymap.set("n", "gm", ":MarkdownPreviewToggle<CR>")
         end
     })
 
@@ -841,47 +836,35 @@ require("packer").startup(function(use)
     use {
         "szw/vim-maximizer",
         config = function()
-            local map = require"utils".map
-            map("n", "<leader>m", ":MaximizerToggle<cr>")
+            vim.keymap.set("n", "<leader>m", ":MaximizerToggle<cr>")
         end
     }
 
     use {
         "mbbill/undotree",
         config = function()
-            local map = require"utils".map
-
-            map("n", "<leader>u", ":UndotreeShow<cr>")
+            vim.keymap.set("n", "<leader>u", ":UndotreeShow<cr>")
         end
     }
 
     use {
         "ThePrimeagen/harpoon",
         config = function()
-            local map = require"utils".map
 
             require("harpoon").setup({menu = {width = 120, height = 30}})
+            local ui = require "harpoon.ui"
 
-            map("n", "ma", '<cmd>lua require("harpoon.mark").add_file()<cr>')
-            map("n", "'1", '<cmd>lua require("harpoon.ui").nav_file(1)<cr>')
-            map("n", "'2", '<cmd>lua require("harpoon.ui").nav_file(2)<cr>')
-            map("n", "'3", '<cmd>lua require("harpoon.ui").nav_file(3)<cr>')
-            map("n", "'4", '<cmd>lua require("harpoon.ui").nav_file(4)<cr>')
-            map("n", "'5", '<cmd>lua require("harpoon.ui").nav_file(5)<cr>')
-            map("n", "mq",
-                '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>')
+            vim.keymap.set("n", "ma", require("harpoon.mark").add_file)
+            vim.keymap.set("n", "'1", function() ui.nav_file(1) end)
+            vim.keymap.set("n", "'2", function() ui.nav_file(2) end)
+            vim.keymap.set("n", "'3", function() ui.nav_file(3) end)
+            vim.keymap.set("n", "'4", function() ui.nav_file(4) end)
+            vim.keymap.set("n", "'5", function() ui.nav_file(5) end)
+            vim.keymap.set("n", "mq", ui.toggle_quick_menu)
         end
     }
 
-    use {
-        "skywind3000/asyncrun.vim",
-        config = function()
-            local nvim_create_augroups = require"utils".nvim_create_augroups
-            nvim_create_augroups({
-                AutoOpenQuickFixAsyncRun = {"User AsyncRunStop :copen 20"}
-            })
-        end
-    }
+    use { "skywind3000/asyncrun.vim"}
 
     use {
         "ryanoasis/vim-devicons", {
