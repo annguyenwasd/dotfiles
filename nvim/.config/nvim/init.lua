@@ -1,6 +1,7 @@
 -- {{{1 Plugins
 -- {{{ Boostrap
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local install_path = vim.fn.stdpath("data") ..
+                         "/site/pack/packer/start/packer.nvim"
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     packer_bootstrap = vim.fn.system({
@@ -95,10 +96,7 @@ require("packer").startup(function(use)
     -- {{{ Telescope
     use {
         "nvim-telescope/telescope.nvim",
-        requires = {
-            {"nvim-lua/plenary.nvim"},
-            {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
-        },
+        requires = {{"nvim-lua/plenary.nvim"}},
         config = function()
             local actions = require "telescope.actions"
 
@@ -133,20 +131,8 @@ require("packer").startup(function(use)
                             ["<c-d>"] = actions.delete_buffer
                         }
                     }
-                },
-                extensions = {
-                    fzf = {
-                        fuzzy = true, -- false will only do exact matching
-                        override_generic_sorter = true, -- override the generic sorter
-                        override_file_sorter = true, -- override the file sorter
-                        case_mode = "smart_case" -- or "ignore_case" or "respect_case"
-                        -- the default case_mode is "smart_case"
-                    }
                 }
             }
-            -- To get fzf loaded and working with telescope, you need to call
-            -- load_extension, somewhere after setup function:
-            require("telescope").load_extension("fzf")
 
             vim.keymap.set("n", "<leader>o", project_files)
             vim.keymap.set("n", "<leader>i", "<cmd>Telescope buffers<cr>")
@@ -189,6 +175,28 @@ require("packer").startup(function(use)
 
             vim.keymap.set("n", "<leader>ff",
                            "<cmd>lua require 'telescope.builtin'.find_files({hidden = true, cwd='%:p:h'})<cr>")
+        end
+    }
+
+    use {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        run = "make",
+        config = function()
+            require("telescope").setup {
+                extensions = {
+                    fzf = {
+                        fuzzy = true, -- false will only do exact matching
+                        override_generic_sorter = true, -- override the generic sorter
+                        override_file_sorter = true, -- override the file sorter
+                        case_mode = "smart_case" -- or "ignore_case" or "respect_case"
+                        -- the default case_mode is "smart_case"
+                    }
+                }
+            }
+
+            -- To get fzf loaded and working with telescope, you need to call
+            -- load_extension, somewhere after setup function:
+            require("telescope").load_extension("fzf")
         end
     }
 
