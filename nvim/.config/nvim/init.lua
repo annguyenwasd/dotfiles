@@ -234,24 +234,23 @@ require("packer").startup(function(use)
                 options = {
                     icons_enabled = true,
                     theme = "auto",
-                    -- component_separators = {left = "", right = ""},
-                    -- section_separators = {left = "", right = ""},
                     component_separators = {left = "", right = ""},
                     section_separators = {left = "", right = ""},
                     disabled_filetypes = {},
                     always_divide_middle = true
                 },
                 sections = {
-                    lualine_a = {"mode"},
-                    lualine_b = {
-                        {"branch", icon = ""},
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = {
+                        "mode", {"branch", icon = ""},
                         {"diff", source = diff_source},
-                        {"diagnostics", sources = {"nvim_diagnostic"}}
+                        {"diagnostics", sources = {"nvim_diagnostic"}},
+                        "filename", "lsp_progress"
                     },
-                    lualine_c = {"filename", "lsp_progress"},
-                    lualine_x = {},
-                    lualine_y = {"progress"},
-                    lualine_z = {"location"}
+                    lualine_x = {"progress", "location"},
+                    lualine_y = {},
+                    lualine_z = {}
                 },
                 inactive_sections = {
                     lualine_a = {},
