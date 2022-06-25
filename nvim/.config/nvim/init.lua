@@ -782,13 +782,6 @@ require("packer").startup(function(use)
     use {"jghauser/mkdir.nvim", config = function() require("mkdir") end}
 
     use {
-        "szw/vim-maximizer",
-        config = function()
-            vim.keymap.set("n", "<leader>m", ":MaximizerToggle<cr>")
-        end
-    }
-
-    use {
         "mbbill/undotree",
         config = function()
             vim.keymap.set("n", "<leader>u", ":UndotreeShow<cr>")
@@ -860,6 +853,13 @@ require("packer").startup(function(use)
     use {
         "norcalli/nvim-colorizer.lua",
         config = function() require("colorizer").setup() end
+    }
+
+    use {
+        "szw/vim-maximizer",
+        config = function()
+            vim.keymap.set("n", "<leader>m", ":MaximizerToggle<cr>")
+        end
     }
 
     use {
