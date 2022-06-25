@@ -542,7 +542,7 @@ require("packer").startup(function(use)
     -- {{{ Tmux integration
     use {
         "christoomey/vim-tmux-navigator",
-        config = function() vim.g.gtmux_navigator_disable_when_zoomed = 1 end
+        config = function() vim.g.tmux_navigator_disable_when_zoomed = 1 end
     }
     -- }}}
 
