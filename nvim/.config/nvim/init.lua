@@ -883,56 +883,50 @@ require("packer").startup(function(use)
     -- }}}
 
     -- {{{ Debugger
-    -- use {
-    --     "mfussenegger/nvim-dap",
-    --     setup = function()
-    --         vim.cmd [[
-    --   au FileType dap-repl lua require('dap.ext.autocompl').attach()
-    --   ]]
-    --     end,
-    --     config = function()
-    --         local map = require "utils".map
+    use {
+        "mfussenegger/nvim-dap",
+        setup = function()
+            vim.cmd [[
+      au FileType dap-repl lua require('dap.ext.autocompl').attach()
+      ]]
+        end,
+        config = function()
+            local dap = require "dap"
+            local widgets = require "dap.ui.widgets"
 
-    --         map("n", "<localleader>bb", ":lua require'dap'.toggle_breakpoint()<cr>")
-    --         map(
-    --             "n",
-    --             "<localleader>bc",
-    --             ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>"
-    --         )
-    --         map(
-    --             "n",
-    --             "<localleader>bl",
-    --             ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>"
-    --         )
-    --         map("n", "<localleader>BB", ":lua require'dap'.list_breakpoints()<cr>:copen<cr>")
-    --         map("n", "<localleader>c", ":lua require'dap'.continue()<cr>")
-    --         map("n", "`o", ":lua require'dap'.step_over()<cr>")
-    --         map("n", "`i", ":lua require'dap'.step_into()<cr>")
-    --         map("n", "`u", ":lua require'dap'.step_out()<cr>")
-    --         map("n", "`j", ":lua require'dap'.down()<cr>")
-    --         map("n", "`k", ":lua require'dap'.up()<cr>")
-    --         map("n", "<localleader>b", ":lua require'dap'.step_back()<cr>")
-    --         map("n", "<localleader>t", ":lua require'dap'.terminate()<cr>")
-    --         map("n", "<localleader>di", ":lua require'dap'.terminate()<cr>")
-    --         map("n", "<localleader>re", ":lua require'dap'.repl.toggle()<cr>")
-    --         map("n", "<localleader>rc", ":lua require'dap'.run_to_cursor()<cr>")
-    --         map("n", "<localleader>s", ":lua require('dap.ui.widgets').hover()<cr>")
-    --         map("n", "<localleader>da", ":Telescope dap commands<cr>")
-
-    --         -- View the current scopes in floating window
-    --         map(
-    --             "n",
-    --             "<localleader>ds",
-    --             ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<cr>"
-    --         )
-    --         -- View the current frames floating window
-    --         map(
-    --             "n",
-    --             "<localleader>df",
-    --             ":lua local widgets = require('dap.ui.widgets');widgets.centered_float(widgets.frames)<cr>"
-    --         )
-    --     end
-    -- }
+            vim.keymap.set("n", "<localleader>bb", dap.toggle_breakpoint)
+            vim.keymap.set("n", "<localleader>bc", function()
+                dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+            end)
+            vim.keymap.set("n", "<localleader>bl", function()
+                dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+            end)
+            vim.keymap.set("n", "<localleader>BB", function()
+                dap.list_breakpoints()
+                vim.cmd "copen"
+            end)
+            vim.keymap.set("n", "<localleader>c", dap.continue)
+            vim.keymap.set("n", "`o", dap.step_over)
+            vim.keymap.set("n", "`i", dap.step_into)
+            vim.keymap.set("n", "`u", dap.step_out)
+            vim.keymap.set("n", "`j", dap.down)
+            vim.keymap.set("n", "`k", dap.up)
+            vim.keymap.set("n", "<localleader>b", dap.step_back)
+            vim.keymap.set("n", "<localleader>t", dap.terminate)
+            vim.keymap.set("n", "<localleader>di", dap.terminate)
+            vim.keymap.set("n", "<localleader>re", dap.repl.toggle)
+            vim.keymap.set("n", "<localleader>rc", dap.run_to_cursor)
+            vim.keymap.set("n", "<localleader>s", widgets.hover)
+            vim.keymap
+                .set("n", "<localleader>da", ":Telescope dap commands<cr>")
+            vim.keymap.set("n", "<localleader>ds", function()
+                widgets.centered_float(widgets.scopes)
+            end)
+            vim.keymap.set("n", "<localleader>df", function()
+                widgets.centered_float(widgets.frames)
+            end)
+        end
+    }
     -- use {
     --     "Pocco81/DAPInstall.nvim",
     --     config = function()
