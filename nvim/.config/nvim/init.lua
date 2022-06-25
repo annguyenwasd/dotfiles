@@ -866,7 +866,17 @@ require("packer").startup(function(use)
         end
     }
 
-    use {"skywind3000/asyncrun.vim"}
+    use {
+        "skywind3000/asyncrun.vim",
+        config = function()
+            vim.cmd [[ 
+              augroup local-asyncrun
+                au!
+                au User AsyncRunStop copen | wincmd p
+              augroup END
+     ]]
+        end
+    }
 
     use {
         "ryanoasis/vim-devicons", {
