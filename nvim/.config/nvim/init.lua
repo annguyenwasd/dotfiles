@@ -764,6 +764,8 @@ require("packer").startup(function(use)
             vim.g.neoformat_only_msg_on_error = 1
             vim.g.neoformat_basic_format_trim = 1
 
+            -- vim.g.neoformat_enabled_languagehere = {}
+
             vim.keymap.set("v", "<leader>fm", ":Neoformat<CR>")
             vim.keymap.set("n", "<leader>fm", ":Neoformat<CR>")
         end
@@ -864,7 +866,7 @@ require("packer").startup(function(use)
         end
     }
 
-    use { "skywind3000/asyncrun.vim"}
+    use {"skywind3000/asyncrun.vim"}
 
     use {
         "ryanoasis/vim-devicons", {
