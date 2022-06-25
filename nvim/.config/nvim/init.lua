@@ -643,37 +643,9 @@ require("packer").startup(function(use)
 
     -- {{{ Theme
     use {
-        "folke/tokyonight.nvim",
-        setup = function()
-            vim.g.tokyonight_style = "night"
-            vim.g.tokyonight_sidebars = {
-                "qf", "vista_kind", "terminal", "packer"
-            }
-        end,
-        config = function()
-            -- require "utils".set_theme("tokyonight")
-        end
-    }
-
-    use {
-        "bluz71/vim-nightfly-guicolors",
-        config = function()
-            -- require "utils".set_theme('nightfly')
-        end
-    }
-
-    use {
-        "dracula/vim",
-        as = "dracula",
-        config = function()
-            -- require "utils".set_theme('dracula')
-        end
-    }
-
-    use {
         "doums/darcula",
         config = function()
-            -- require "utils".set_theme('darcula', 'gruvbox_dark')
+            -- set_theme('darcula', 'gruvbox_dark')
         end
     }
 
@@ -709,51 +681,25 @@ require("packer").startup(function(use)
                     eob_lines = false
                 }
             })
-            set_theme("material")
+            -- set_theme("material")
         end
     }
 
     use {
         "mcchrish/zenbones.nvim",
         requires = "rktjmp/lush.nvim",
-        config = function()
-            --[[
-                  zenwritten  	 Zero hue and saturation version
-                  neobones    	 Inspired by neovim.io
-                  vimbones    	 Inspired by vim.org
-                  rosebones   	 Inspired by Rosé Pine
-                  forestbones 	 Inspired by Everforest
-                  nordbones   	 Inspired by Nord
-                  tokyobones  	 Inspired by Tokyo Night
-                  seoulbones  	 Inspired by Seoul256
-                  duckbones   	 Inspired by Spaceduck
-                  zenburned   	 Inspired by Zenburn
-                  randombones 	 Randomly pick from the collection.
-              ]]
-            -- require "utils".set_theme("neobones")
-        end
+        config = function() set_theme("zenwritten") end
     }
 
     use {
         "Mofiqul/vscode.nvim",
-        setup = function()
-            vim.g.vscode_style = "dark"
-            -- vim.g.vscode_style = "light"
-        end,
+        setup = function() vim.g.vscode_style = "light" end,
         config = function()
-            -- :lua require('vscode').change_style("light")
-            -- :lua require('vscode').change_style("dark")
-            -- require "utils".set_theme("vscode")
+            -- set_theme("vscode")
         end
     }
 
-    use({
-        "catppuccin/nvim",
-        as = "catppuccin",
-        config = function()
-            -- require "utils".set_theme("catppuccin")
-        end
-    })
+    -- use {'morhetz/gruvbox', config = function() set_theme('gruvbox') end}
 
     -- }}}
 
@@ -1247,7 +1193,7 @@ vim.keymap.set("n", "<leader><leader>gh", function()
     local package = vim.fn.getreg('"')
     local ghPage = 'https://github.com/' .. package
     vim.cmd('!open ' .. ghPage);
-end)
+end, {silent = true})
 
 -- }}}
 -- }}}1
