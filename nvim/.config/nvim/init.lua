@@ -140,7 +140,10 @@ require("packer").startup(function(use)
             local builtin = require('telescope.builtin');
 
             vim.keymap.set("n", "<leader>o", project_files)
-            vim.keymap.set("n", "<leader>i", builtin.find_files)
+            vim.keymap.set("n", "<leader>i",
+                           function()
+                builtin.buffers({sort_rmu = true})
+            end)
             vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find)
             vim.keymap.set("n", "<leader>rg", builtin.live_grep)
             vim.keymap.set("n", "<leader>fh", builtin.help_tags)
@@ -777,9 +780,10 @@ require("packer").startup(function(use)
 
     use "kevinhwang91/nvim-bqf"
     use {
-        "vim-scripts/BufOnly.vim",
+        "numtostr/BufOnly.nvim",
         config = function()
-            vim.keymap.set("n", "<leader>bo", "<cmd>BufOnly<cr>")
+            vim.g.bufonly_delete_non_modifiable = true
+            vim.keymap.set('n', '<leader>bo', ':BufOnly<CR>')
         end
     }
     use "KabbAmine/vCoolor.vim"
