@@ -731,16 +731,28 @@ require("packer").startup(function(use)
     -- }}}
 
     -- {{{ MISC
-    use {
-        "tpope/vim-surround", "tpope/vim-repeat", "tpope/vim-unimpaired",
-        "tpope/vim-abolish", "tpope/vim-obsession", "tpope/vim-eunuch"
-    }
-    use {"nvim-lua/popup.nvim", "nvim-lua/plenary.nvim"}
+    use {'tpope/vim-surround'}
+    use {'tpope/vim-repeat'}
+    use {'tpope/vim-unimpaired'}
+    use {'tpope/vim-abolish'}
+
+    use {"nvim-lua/popup.nvim"}
+    use {'nvim-lua/plenary.nvim'}
+
     use "kevinhwang91/nvim-bqf"
-    use "vim-scripts/BufOnly.vim"
+    use {
+        "vim-scripts/BufOnly.vim",
+        config = function()
+            vim.keymap.set("n", "<leader>bo", "<cmd>BufOnly<cr>")
+        end
+    }
     use "KabbAmine/vCoolor.vim"
+    use {
+        "norcalli/nvim-colorizer.lua",
+        config = function() require("colorizer").setup() end
+    }
     use "ThePrimeagen/vim-be-good"
-    use "romainl/vim-cool"
+    use {"romainl/vim-cool", config = function() vim.g.CoolTotalMatches = 1 end} -- show highlight when search
     use "godlygeek/tabular"
 
     -- This break the lsp_installer :LSPInstallInfo. Disabled for now
@@ -848,11 +860,6 @@ require("packer").startup(function(use)
                 })
             end
         }
-    }
-
-    use {
-        "norcalli/nvim-colorizer.lua",
-        config = function() require("colorizer").setup() end
     }
 
     use {
@@ -1111,7 +1118,6 @@ vim.keymap.set("i", "<c-l>", "<right>", {silent = false})
 
 vim.keymap.set("n", "<leader>e", "<cmd>b #<cr>")
 vim.keymap.set("n", "<leader><leader>e", "<cmd>e<cr>")
-vim.keymap.set("n", "<leader>bo", "<cmd>BufOnly<cr>")
 vim.keymap.set("n", "<leader>td", ":vsp .todo<cr>")
 
 -- Create file at same folder with vsplit/split
