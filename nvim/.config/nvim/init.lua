@@ -570,7 +570,7 @@ require("packer").startup(function(use)
             })
 
             local function vsplitCommit()
-                vim.cmd "vsplit term://git commit"
+                vim.cmd "vsplit term://git commit|:startinsert"
             end
 
             vim.keymap.set("n", "<leader>gf",
