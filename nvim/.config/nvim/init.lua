@@ -933,8 +933,10 @@ require("packer").startup(function(use)
         end
     }
 
+    -- disable for now, quite annoying
     use {
         "dm1try/golden_size",
+        disable = true,
         config = function()
             local function ignore_by_buftype(types)
                 local buftype = vim.api.nvim_buf_get_option(0, "buftype")
