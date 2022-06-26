@@ -514,7 +514,7 @@ require("packer").startup(function(use)
     }
     -- }}}
 
-    -- {{{ Nvim tree
+    -- {{{ Explorer
     use {
         "kyazdani42/nvim-tree.lua",
         setup = function()
