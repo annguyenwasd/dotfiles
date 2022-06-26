@@ -252,9 +252,12 @@ require("packer").startup(function(use)
                     lualine_b = {},
                     lualine_c = {
                         "mode", {"branch", icon = ""},
-                        {"diff", source = diff_source},
-                        {"diagnostics", sources = {"nvim_diagnostic"}},
-                        "filename", "lsp_progress"
+                        {"diff", source = diff_source, colored = false},
+                        {
+                            "diagnostics",
+                            sources = {"nvim_diagnostic"},
+                            colored = false
+                        }, "filename", "lsp_progress"
                     },
                     lualine_x = {"progress", "location"},
                     lualine_y = {},
