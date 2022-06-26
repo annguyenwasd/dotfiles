@@ -73,7 +73,7 @@ zmodload zsh/complist
 # autoload -U promptinit; promptinit
 # prompt spaceship
 # export SPACESHIP_VI_MODE_SHOW=false
-
+VI_MODE_SET_CURSOR=true # for oh-my-zsh vi-mode plugin
 prompt_context() {
   # Custom (Random emoji)
   emojis=("⚡️" "🔥" "💀" "👑" "😎" "🐸" "🐵" "🦄" "🌈" "🍻" "🚀" "💡" "🎉" "🔑" "🚦" "🌙"
