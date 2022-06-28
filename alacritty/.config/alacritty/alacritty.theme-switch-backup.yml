@@ -1,4 +1,5 @@
 window:
+  opacity: 1
   dimensions:
     columns: 120
     lines: 45
@@ -23,7 +24,6 @@ font:
     'y': 0
   use_thin_strokes: false
 draw_bold_text_with_bright_colors: true
-background_opacity: 1
 mouse_bindings:
   - mouse: Middle
     action: PasteSelection
@@ -365,36 +365,36 @@ key_bindings:
     chars: "\el"
 colors:
   primary:
-    background: '#1d1f21'
-    foreground: '#c5c8c6'
+    background: '#090300'
+    foreground: '#a5a2a2'
     dim_foreground: '#dbdbdb'
     bright_foreground: '#d9d9d9'
     dim_background: '#202020'
     bright_background: '#3a3a3a'
   normal:
-    black: '#1d1f21'
-    red: '#cc342b'
-    green: '#198844'
-    yellow: '#fba922'
-    blue: '#3971ed'
-    magenta: '#a36ac7'
-    cyan: '#3971ed'
-    white: '#c5c8c6'
+    black: '#090300'
+    red: '#db2d20'
+    green: '#01a252'
+    yellow: '#fded02'
+    blue: '#01a0e4'
+    magenta: '#a16a94'
+    cyan: '#b5e4f4'
+    white: '#a5a2a2'
   bright:
-    black: '#969896'
-    red: '#cc342b'
-    green: '#198844'
-    yellow: '#fba922'
-    blue: '#3971ed'
-    magenta: '#a36ac7'
-    cyan: '#3971ed'
-    white: '#ffffff'
+    black: '#5c5855'
+    red: '#db2d20'
+    green: '#01a252'
+    yellow: '#fded02'
+    blue: '#01a0e4'
+    magenta: '#a16a94'
+    cyan: '#b5e4f4'
+    white: '#f7f7f7'
   cursor:
-    text: '#1d1f21'
-    cursor: '#c5c8c6'
+    text: '#090300'
+    cursor: '#a5a2a2'
     background: '0xf0f0f0'
     foreground: '0x26282a'
-  name: Google (dark)
+  name: 3024 (dark)
   author: Chris Kempson
   dim:
     black: '#232323'
