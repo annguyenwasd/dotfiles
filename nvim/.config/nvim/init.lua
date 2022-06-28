@@ -141,7 +141,9 @@ require("packer").startup(function(use)
                         "--with-filename", "--line-number", "--column",
                         "--smart-case", "-u" -- thats the new thing
                     },
-                    file_ignore_patterns = {"node_modules", ".git"},
+                    file_ignore_patterns = {
+                        "node_modules", ".git", ".vscode", ".idea"
+                    },
                     mappings = {
                         i = {
                             ["<c-s>"] = actions.send_selected_to_qflist +
@@ -272,15 +274,18 @@ require("packer").startup(function(use)
                     lualine_a = {},
                     lualine_b = {},
                     lualine_c = {
-                        "mode", {"branch", icon = ""},
-                        {"diff", source = diff_source, colored = false},
+                        "mode", "filename",
                         {
                             "diagnostics",
                             sources = {"nvim_diagnostic"},
                             colored = false
-                        }, "filename", "lsp_progress"
+                        }, "lsp_progress"
                     },
-                    lualine_x = {"progress", "location"},
+                    lualine_x = {
+                        {"branch", icon = ""},
+                        {"diff", source = diff_source, colored = false},
+                        "progress", "location"
+                    },
                     lualine_y = {},
                     lualine_z = {}
                 },
@@ -549,7 +554,6 @@ require("packer").startup(function(use)
             require("nvim-tree").setup({
                 actions = {open_file = {quit_on_open = true}},
                 renderer = {indent_markers = {enable = true}},
-                update_to_buf_dir = {enable = true, auto_open = true},
                 update_focused_file = {enable = true},
                 view = {
                     width = 40,
@@ -677,6 +681,16 @@ require("packer").startup(function(use)
     }
 
     use {
+        'sainnhe/gruvbox-material',
+        config = function()
+            vim.g.gruvbox_material_enable_bold = 1
+            vim.g.gruvbox_material_better_performance = 1
+            vim.g.gruvbox_material_foreground='original'
+            set_theme('gruvbox-material')
+        end
+    }
+
+    use {
         "marko-cerovac/material.nvim",
         setup = function()
             -- darker, lighter, oceanic, palenight, deep ocean
@@ -715,7 +729,9 @@ require("packer").startup(function(use)
     use {
         "mcchrish/zenbones.nvim",
         requires = "rktjmp/lush.nvim",
-        config = function() set_theme("zenwritten") end
+        config = function()
+            -- set_theme("zenwritten")
+        end
     }
 
     use {
@@ -848,11 +864,7 @@ require("packer").startup(function(use)
 
     use {
         "airblade/vim-rooter",
-        setup = function()
-            vim.g.rooter_patterns = {
-                ".git", ".svn", "package.json", "!node_modules"
-            }
-        end
+        setup = function() vim.g.rooter_patterns = {".git"} end
     }
 
     use {"jghauser/mkdir.nvim", config = function() require("mkdir") end}
