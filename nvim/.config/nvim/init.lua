@@ -578,14 +578,20 @@ require("packer").startup(function(use)
     -- }}}
 
     -- {{{ Git
-    use {"kdheepak/lazygit.nvim"}
+    use {
+        "kdheepak/lazygit.nvim",
+        config = function()
+
+            vim.g.lazygit_floating_window_winblend = 1
+            vim.g.lazygit_floating_window_scaling_factor = 1
+            vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>")
+        end
+    }
     use {
         "tpope/vim-fugitive",
         config = function()
             -- Not gonna show shit messages when run git hook via husky
             vim.g.fugitive_pty = 0
-            vim.g.lazygit_floating_window_winblend = 1
-            vim.g.lazygit_floating_window_scaling_factor = 1
 
             vim.api.nvim_create_autocmd("BufReadPost", {
                 group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer",
@@ -602,7 +608,6 @@ require("packer").startup(function(use)
                            "<cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
             vim.keymap.set("n", "<leader>gj",
                            "<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
-            vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>")
             vim.keymap.set("n", "<leader>gl", "<cmd>GcLog<cr>")
             vim.keymap.set("n", "<leader>gs",
                            "<cmd>G difftool --name-status<cr>")
@@ -685,7 +690,7 @@ require("packer").startup(function(use)
         config = function()
             vim.g.gruvbox_material_enable_bold = 1
             vim.g.gruvbox_material_better_performance = 1
-            vim.g.gruvbox_material_foreground='original'
+            vim.g.gruvbox_material_foreground = 'original'
             set_theme('gruvbox-material')
         end
     }
