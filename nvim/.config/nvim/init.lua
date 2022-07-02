@@ -778,7 +778,7 @@ require("packer").startup(function(use)
             vim.g.gruvbox_material_enable_bold = 1
             vim.g.gruvbox_material_better_performance = 1
             vim.g.gruvbox_material_foreground = 'original'
-            set_theme('gruvbox-material')
+            -- set_theme('gruvbox-material')
         end
     }
 
@@ -789,32 +789,8 @@ require("packer").startup(function(use)
             vim.g.material_style = "deep ocean"
         end,
         config = function()
-            -- lua require('material.functions').toggle_style()
-            require("material").setup({
-                contrast = {
-                    sidebars = true,
-                    floating_windows = false,
-                    line_numbers = false,
-                    sign_column = false,
-                    cursor_line = true,
-                    popup_menu = false
-                },
-                italics = {
-                    comments = true,
-                    strings = false,
-                    keywords = true,
-                    functions = true,
-                    variables = false
-                },
-                contrast_filetypes = {"terminal", "packer", "qf"},
-                disable = {
-                    borders = true,
-                    background = false,
-                    term_colors = false,
-                    eob_lines = false
-                }
-            })
-            -- set_theme("material")
+            vim.keymap.set('n', '<leader>tt', require('material.functions').toggle_style)
+            set_theme("material")
         end
     }
 
