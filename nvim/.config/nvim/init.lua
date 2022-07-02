@@ -747,8 +747,6 @@ require("packer").startup(function(use)
         end
     }
 
-    -- use {'morhetz/gruvbox', config = function() set_theme('gruvbox') end}
-
     -- }}}
 
     -- {{{ Formatter
