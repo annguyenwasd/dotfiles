@@ -222,10 +222,12 @@ require("packer").startup(function(use)
         "nvim-telescope/telescope-fzf-native.nvim",
         run = "make",
         config = function()
-            require("telescope").setup {extensions = {
-              fzf = {}
-              --
-          }}
+            require("telescope").setup {
+                extensions = {
+                    fzf = {}
+                    --
+                }
+            }
 
             -- To get fzf loaded and working with telescope, you need to call
             -- load_extension, somewhere after setup function:
@@ -449,6 +451,87 @@ require("packer").startup(function(use)
             require"lsp_signature".setup {toggle_key = "<c-s>"}
         end
     }
+    -- }}}
+
+    -- {{{ Debugger
+    use {
+        "mfussenegger/nvim-dap",
+        setup = function()
+            vim.cmd [[
+      au FileType dap-repl lua require('dap.ext.autocompl').attach()
+      ]]
+        end,
+        config = function()
+            local dap = require "dap"
+            local widgets = require "dap.ui.widgets"
+
+            vim.keymap.set("n", "<localleader>bb", dap.toggle_breakpoint)
+            vim.keymap.set("n", "<localleader>bc", function()
+                dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+            end)
+            vim.keymap.set("n", "<localleader>bl", function()
+                dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+            end)
+            vim.keymap.set("n", "<localleader>BB",
+                           function() dap.list_breakpoints() end)
+            vim.keymap.set("n", "<localleader>c", dap.continue)
+            vim.keymap.set("n", "`o", dap.step_over)
+            vim.keymap.set("n", "`i", dap.step_into)
+            vim.keymap.set("n", "`u", dap.step_out)
+            vim.keymap.set("n", "`j", dap.down)
+            vim.keymap.set("n", "`k", dap.up)
+            vim.keymap.set("n", "<localleader>dt", dap.terminate)
+            vim.keymap.set("n", "<localleader>dr", dap.repl.toggle)
+            vim.keymap.set("n", "<localleader>dc", dap.run_to_cursor)
+            vim.keymap.set("n", "`h", widgets.hover)
+            vim.keymap
+                .set("n", "<localleader>da", ":Telescope dap commands<cr>")
+            vim.keymap.set("n", "<localleader>ds", function()
+                widgets.centered_float(widgets.scopes)
+            end)
+            vim.keymap.set("n", "<localleader>df", function()
+                widgets.centered_float(widgets.frames)
+            end)
+
+            dap.adapters.node2 = {
+                type = 'executable',
+                command = 'node',
+                args = {
+                    os.getenv('HOME') ..
+                        '/debuggers/vscode-node-debug2/out/src/nodeDebug.js'
+                }
+            }
+            dap.configurations.javascript = {
+                {
+                    name = 'Launch',
+                    type = 'node2',
+                    request = 'launch',
+                    program = '${file}',
+                    cwd = vim.fn.getcwd(),
+                    sourceMaps = true,
+                    protocol = 'inspector',
+                    console = 'integratedTerminal'
+                }, {
+                    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+                    name = 'Attach to process',
+                    type = 'node2',
+                    request = 'attach',
+                    processId = require'dap.utils'.pick_process
+                }
+            }
+        end
+    }
+
+    use {
+        "nvim-telescope/telescope-dap.nvim",
+        config = function() require("telescope").load_extension("dap") end
+    }
+
+    use {
+        'theHamsta/nvim-dap-virtual-text',
+        config = function() require("nvim-dap-virtual-text").setup() end
+    }
+
     -- }}}
 
     -- {{{ Completion
@@ -807,15 +890,7 @@ require("packer").startup(function(use)
     }
     -- }}}
 
-    -- {{{ MISC
-    use {'tpope/vim-surround'}
-    use {'tpope/vim-repeat'}
-    use {'tpope/vim-unimpaired'}
-    use {'tpope/vim-abolish'}
-
-    use {"nvim-lua/popup.nvim"}
-    use {'nvim-lua/plenary.nvim'}
-
+    -- {{{ Buffer
     use "kevinhwang91/nvim-bqf"
     use {
         "numtostr/BufOnly.nvim",
@@ -824,12 +899,60 @@ require("packer").startup(function(use)
             vim.keymap.set('n', '<leader>bo', ':BufOnly<CR>')
         end
     }
+    -- }}}
+
+    -- {{{ GOD Tpope
+    use {'tpope/vim-surround'}
+    use {'tpope/vim-repeat'}
+    use {'tpope/vim-unimpaired'}
+    use {'tpope/vim-abolish'}
+    -- }}}
+
+    -- {{{ Required
+    use {"nvim-lua/popup.nvim"}
+    use {'nvim-lua/plenary.nvim'}
+    -- }}}
+
+    -- {{{ Color
     use "KabbAmine/vCoolor.vim"
     use {
         "norcalli/nvim-colorizer.lua",
         config = function() require("colorizer").setup() end
     }
-    use "ThePrimeagen/vim-be-good"
+    -- }}}
+
+    -- {{{ Sizing
+
+    use {
+        "szw/vim-maximizer",
+        config = function()
+            vim.keymap.set("n", "<leader>m", ":MaximizerToggle<cr>")
+        end
+    }
+
+    -- disable for now, quite annoying
+    use {
+        "dm1try/golden_size",
+        disable = true,
+        config = function()
+            local function ignore_by_buftype(types)
+                local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+                for _, type in pairs(types) do
+                    if type == buftype then return 1 end
+                end
+            end
+            local golden_size = require("golden_size")
+            -- set the callbacks, preserve the defaults
+            golden_size.set_ignore_callbacks({
+                {ignore_by_buftype, {"terminal", "quickfix", "nofile"}},
+                {golden_size.ignore_float_windows}, -- default one, ignore float windows
+                {golden_size.ignore_by_window_flag} -- default one, ignore windows with w:ignore_gold_size=1
+            })
+        end
+    }
+    -- }}}
+
+    -- {{{ MISC
     use {"romainl/vim-cool", config = function() vim.g.CoolTotalMatches = 1 end} -- show highlight when search
     use "godlygeek/tabular"
 
@@ -874,6 +997,7 @@ require("packer").startup(function(use)
         end
     }
 
+    use "ThePrimeagen/vim-be-good"
     use {
         "ThePrimeagen/harpoon",
         config = function()
@@ -934,114 +1058,6 @@ require("packer").startup(function(use)
                 })
             end
         }
-    }
-
-    use {
-        "szw/vim-maximizer",
-        config = function()
-            vim.keymap.set("n", "<leader>m", ":MaximizerToggle<cr>")
-        end
-    }
-
-    -- disable for now, quite annoying
-    use {
-        "dm1try/golden_size",
-        disable = true,
-        config = function()
-            local function ignore_by_buftype(types)
-                local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-                for _, type in pairs(types) do
-                    if type == buftype then return 1 end
-                end
-            end
-            local golden_size = require("golden_size")
-            -- set the callbacks, preserve the defaults
-            golden_size.set_ignore_callbacks({
-                {ignore_by_buftype, {"terminal", "quickfix", "nofile"}},
-                {golden_size.ignore_float_windows}, -- default one, ignore float windows
-                {golden_size.ignore_by_window_flag} -- default one, ignore windows with w:ignore_gold_size=1
-            })
-        end
-    }
-    -- }}}
-
-    -- {{{ Debugger
-    use {
-        "mfussenegger/nvim-dap",
-        setup = function()
-            vim.cmd [[
-      au FileType dap-repl lua require('dap.ext.autocompl').attach()
-      ]]
-        end,
-        config = function()
-            local dap = require "dap"
-            local widgets = require "dap.ui.widgets"
-
-            vim.keymap.set("n", "<localleader>bb", dap.toggle_breakpoint)
-            vim.keymap.set("n", "<localleader>bc", function()
-                dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
-            end)
-            vim.keymap.set("n", "<localleader>bl", function()
-                dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-            end)
-            vim.keymap.set("n", "<localleader>BB",
-                           function() dap.list_breakpoints() end)
-            vim.keymap.set("n", "<localleader>c", dap.continue)
-            vim.keymap.set("n", "`o", dap.step_over)
-            vim.keymap.set("n", "`i", dap.step_into)
-            vim.keymap.set("n", "`u", dap.step_out)
-            vim.keymap.set("n", "`j", dap.down)
-            vim.keymap.set("n", "`k", dap.up)
-            vim.keymap.set("n", "<localleader>dt", dap.terminate)
-            vim.keymap.set("n", "<localleader>dr", dap.repl.toggle)
-            vim.keymap.set("n", "<localleader>dc", dap.run_to_cursor)
-            vim.keymap.set("n", "`h", widgets.hover)
-            vim.keymap
-                .set("n", "<localleader>da", ":Telescope dap commands<cr>")
-            vim.keymap.set("n", "<localleader>ds", function()
-                widgets.centered_float(widgets.scopes)
-            end)
-            vim.keymap.set("n", "<localleader>df", function()
-                widgets.centered_float(widgets.frames)
-            end)
-
-            dap.adapters.node2 = {
-                type = 'executable',
-                command = 'node',
-                args = {
-                    os.getenv('HOME') ..
-                        '/debuggers/vscode-node-debug2/out/src/nodeDebug.js'
-                }
-            }
-            dap.configurations.javascript = {
-                {
-                    name = 'Launch',
-                    type = 'node2',
-                    request = 'launch',
-                    program = '${file}',
-                    cwd = vim.fn.getcwd(),
-                    sourceMaps = true,
-                    protocol = 'inspector',
-                    console = 'integratedTerminal'
-                }, {
-                    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
-                    name = 'Attach to process',
-                    type = 'node2',
-                    request = 'attach',
-                    processId = require'dap.utils'.pick_process
-                }
-            }
-        end
-    }
-
-    use {
-        "nvim-telescope/telescope-dap.nvim",
-        config = function() require("telescope").load_extension("dap") end
-    }
-
-    use {
-        'theHamsta/nvim-dap-virtual-text',
-        config = function() require("nvim-dap-virtual-text").setup() end
     }
 
     -- }}}
