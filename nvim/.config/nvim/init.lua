@@ -18,6 +18,7 @@ end
 
 -- {{{ Packer Start
 require("packer").startup(function(use)
+    -- }}}
 
     -- {{{ Packer
     use "wbthomason/packer.nvim"
@@ -35,7 +36,7 @@ require("packer").startup(function(use)
     }
 
     use {
-        'https://github.com/nvim-treesitter/nvim-treesitter-refactor',
+        'nvim-treesitter/nvim-treesitter-refactor',
         config = function()
             require'nvim-treesitter.configs'.setup {
                 refactor = {
@@ -120,7 +121,7 @@ require("packer").startup(function(use)
     -- {{{ Telescope
     use {
         "nvim-telescope/telescope.nvim",
-        requires = {{"nvim-lua/plenary.nvim"}},
+        requires = "nvim-lua/plenary.nvim",
         config = function()
             local actions = require "telescope.actions"
 
@@ -221,7 +222,10 @@ require("packer").startup(function(use)
         "nvim-telescope/telescope-fzf-native.nvim",
         run = "make",
         config = function()
-            require("telescope").setup {extensions = {fzf = {}}}
+            require("telescope").setup {extensions = {
+              fzf = {}
+              --
+          }}
 
             -- To get fzf loaded and working with telescope, you need to call
             -- load_extension, somewhere after setup function:
@@ -614,8 +618,8 @@ require("packer").startup(function(use)
             vim.keymap.set("n", "<leader><leader>gs", "<cmd>G difftool<cr>")
             vim.keymap.set("n", "<leader><leader>bl", "<cmd>G blame<cr>")
             vim.keymap.set("n", "<leader>gc", vsplitCommit)
-            vim.keymap.set("n", "<leader><leader>gc",
-                           ':G commit -m ""<left>', {silent = false})
+            vim.keymap.set("n", "<leader><leader>gc", ':G commit -m ""<left>',
+                           {silent = false})
             vim.keymap.set("n", "<leader>ga", "<cmd>G add -A<cr>")
             vim.keymap.set("n", "<leader>gw",
                            '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
@@ -769,10 +773,7 @@ require("packer").startup(function(use)
         "JoosepAlviste/nvim-ts-context-commentstring",
         config = function()
             require"nvim-treesitter.configs".setup {
-                context_commentstring = {
-                    enable = true,
-                    enable_autocmd = false,
-                }
+                context_commentstring = {enable = true, enable_autocmd = false}
             }
         end
     }
@@ -983,9 +984,8 @@ require("packer").startup(function(use)
             vim.keymap.set("n", "<localleader>bl", function()
                 dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
             end)
-            vim.keymap.set("n", "<localleader>BB", function()
-                dap.list_breakpoints()
-            end)
+            vim.keymap.set("n", "<localleader>BB",
+                           function() dap.list_breakpoints() end)
             vim.keymap.set("n", "<localleader>c", dap.continue)
             vim.keymap.set("n", "`o", dap.step_over)
             vim.keymap.set("n", "`i", dap.step_into)
