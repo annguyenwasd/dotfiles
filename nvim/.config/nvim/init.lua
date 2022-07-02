@@ -601,7 +601,7 @@ require("packer").startup(function(use)
             })
 
             local function vsplitCommit()
-                vim.cmd "vsplit term://git commit|:startinsert"
+                vim.cmd "split term://git commit|:startinsert"
             end
 
             vim.keymap.set("n", "<leader>gf",
@@ -615,7 +615,7 @@ require("packer").startup(function(use)
             vim.keymap.set("n", "<leader><leader>bl", "<cmd>G blame<cr>")
             vim.keymap.set("n", "<leader>gc", vsplitCommit)
             vim.keymap.set("n", "<leader><leader>gc",
-                           ':G commit -n -m ""<left>', {silent = false})
+                           ':G commit -m ""<left>', {silent = false})
             vim.keymap.set("n", "<leader>ga", "<cmd>G add -A<cr>")
             vim.keymap.set("n", "<leader>gw",
                            '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
