@@ -1060,6 +1060,13 @@ require("packer").startup(function(use)
         }
     }
 
+    use {
+        'rhysd/vim-grammarous',
+        config = function()
+            vim.keymap.set('n', 'gM', ':GrammarousCheck<cr>')
+        end
+    }
+
     -- }}}
 
     -- {{{ Packer end
