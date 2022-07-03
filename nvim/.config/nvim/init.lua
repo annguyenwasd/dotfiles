@@ -451,6 +451,8 @@ require("packer").startup(function(use)
             require"lsp_signature".setup {toggle_key = "<c-s>"}
         end
     }
+
+    use {'folke/lsp-colors.nvim'}
     -- }}}
 
     -- {{{ Debugger
