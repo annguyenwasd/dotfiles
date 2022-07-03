@@ -540,10 +540,11 @@ require("packer").startup(function(use)
         requires = {
             "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline", "hrsh7th/nvim-cmp", "SirVer/ultisnips",
-            "quangnguyen30192/cmp-nvim-ultisnips"
+            "quangnguyen30192/cmp-nvim-ultisnips", "David-Kunz/cmp-npm"
         },
         config = function()
             local cmp = require "cmp"
+            require('cmp-npm').setup({})
             cmp.setup({
                 snippet = {
                     -- REQUIRED - you must specify a snippet engine
@@ -588,7 +589,7 @@ require("packer").startup(function(use)
                 },
                 sources = cmp.config.sources({
                     {name = "nvim_lsp"}, {name = "ultisnips"}
-                }, {{name = "buffer"}})
+                }, {{name = "buffer"}, {name = 'npm', keyword_length = 4}})
             })
 
             cmp.setup.cmdline('/', {
@@ -789,7 +790,8 @@ require("packer").startup(function(use)
             vim.g.material_style = "deep ocean"
         end,
         config = function()
-            vim.keymap.set('n', '<leader>tt', require('material.functions').toggle_style)
+            vim.keymap.set('n', '<leader>tt',
+                           require('material.functions').toggle_style)
             set_theme("material")
         end
     }
