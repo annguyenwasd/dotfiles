@@ -384,9 +384,9 @@ require("packer").startup(function(use)
                     -- vim.keymap.set("n", "<leader>wa",vim.lsp.buf.add_workspace_folder, opts)
                     -- vim.keymap.set("n", "<leader>wr",vim.lsp.buf.remove_workspace_folder, opts)
                     -- vim.keymap.set("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-                    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
-                                   opts)
+                    -- vim.keymap.set("n", "<leader>>rn", vim.lsp.buf.rename, opts)
+                    -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
+                    --                opts)
                     vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
                     vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float,
                                    opts)
@@ -626,6 +626,17 @@ require("packer").startup(function(use)
                 "<Plug>(ultisnips_jump_backward)"
             vim.g.UltiSnipsListSnippets = "<c-x><c-s>"
             vim.g.UltiSnipsRemoveSelectModeMappings = 0
+        end
+    }
+
+    use {
+        'kkharji/lspsaga.nvim',
+        config = function()
+            vim.keymap.set('n', "<leader>rn", "<cmd>Lspsaga rename<cr>")
+            vim.keymap.set('n', "<leader>ca", "<cmd>Lspsaga code_action<cr>")
+            vim.keymap.set('x', "<leader>ca",
+                           "<cmd>Lspsaga range_code_action<cr>")
+
         end
     }
     -- }}}
