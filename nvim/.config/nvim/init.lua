@@ -1060,6 +1060,12 @@ require("packer").startup(function(use)
         'rhysd/vim-grammarous',
         config = function()
             vim.keymap.set('n', 'gM', ':GrammarousCheck<cr>')
+            vim.keymap.set('n', 'gmn', '<Plug>(grammarous-move-to-next-error)')
+            vim.keymap.set('n', 'gmp', '<Plug>(grammarous-move-to-previous-error)')
+            vim.keymap.set('n', 'gmf', '<Plug>(grammarous-fixit)')
+            vim.keymap.set('n', 'gmF', '<Plug>(grammarous-fixall)')
+            vim.keymap.set('n', 'gmr', '<Plug>(grammarous-remove-error)')
+            vim.keymap.set('n', 'gmR', '<Plug>(grammarous-reset)')
         end
     }
     use {
