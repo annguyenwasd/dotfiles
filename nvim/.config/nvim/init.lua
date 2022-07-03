@@ -285,7 +285,7 @@ require("packer").startup(function(use)
                             "diagnostics",
                             sources = {"nvim_diagnostic"},
                             colored = false
-                        }, "lsp_progress"
+                        }
                     },
                     lualine_x = {
                         {"branch", icon = ""},
@@ -933,6 +933,11 @@ require("packer").startup(function(use)
     -- {{{ MISC
     use {"romainl/vim-cool", config = function() vim.g.CoolTotalMatches = 1 end} -- show highlight when search
     use "godlygeek/tabular"
+
+    use {
+        'j-hui/fidget.nvim',
+        config = function() require('fidget').setup {} end
+    }
 
     -- This break the lsp_installer :LSPInstallInfo. Disabled for now
     use {
