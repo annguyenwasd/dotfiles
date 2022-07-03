@@ -338,13 +338,13 @@ require("packer").startup(function(use)
         config = function()
             local lsp_installer = require("nvim-lsp-installer")
 
-            function _G.show_documentation()
-                if (vim.lsp.buf.server_ready()) then
-                    vim.lsp.buf.hover()
-                else
-                    vim.api.nvim_command("execute 'h! '.expand('<cword>')")
-                end
-            end
+            -- local function show_documentation()
+            --     if (vim.lsp.buf.server_ready()) then
+            --         vim.lsp.buf.hover()
+            --     else
+            --         vim.api.nvim_command("execute 'h! '.expand('<cword>')")
+            --     end
+            -- end
 
             local setup_ts_utils = function(bufnr, client)
                 local ts_utils = require("nvim-lsp-ts-utils")
@@ -377,13 +377,13 @@ require("packer").startup(function(use)
 
                     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-                    -- vim.keymap.set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-                    vim.keymap.set("n", "K", show_documentation, opts)
+                    -- vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                    -- vim.keymap.set("n", "K", show_documentation, opts)
                     -- vim.keymap.set("n", "gi",vim.lsp.buf.implementation, opts)
                     -- vim.keymap.set("n", "<C-k>",vim.lsp.buf.signature_help, opts)
                     -- vim.keymap.set("n", "<leader>wa",vim.lsp.buf.add_workspace_folder, opts)
                     -- vim.keymap.set("n", "<leader>wr",vim.lsp.buf.remove_workspace_folder, opts)
-                    -- vim.keymap.set("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+                    -- vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
                     -- vim.keymap.set("n", "<leader>>rn", vim.lsp.buf.rename, opts)
                     -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
                     --                opts)
@@ -943,7 +943,7 @@ require("packer").startup(function(use)
     }
     -- }}}
 
-    -- {{{ MISC
+    -- {{{ Utilities
     use {"romainl/vim-cool", config = function() vim.g.CoolTotalMatches = 1 end} -- show highlight when search
     use "godlygeek/tabular"
 
@@ -1062,7 +1062,28 @@ require("packer").startup(function(use)
             vim.keymap.set('n', 'gM', ':GrammarousCheck<cr>')
         end
     }
+    use {
+        'lewis6991/hover.nvim',
+        config = function()
+            require('hover').setup {
+                init = function()
+                    -- Require providers
+                    require('hover.providers.lsp')
+                    require('hover.providers.gh')
+                    require('hover.providers.man')
+                    require('hover.providers.dictionary')
+                end,
+                preview_opts = {border = nil},
+                title = true
+            }
 
+            -- Setup keymaps
+            vim.keymap.set('n', 'K', require('hover').hover,
+                           {desc = 'hover.nvim'})
+            vim.keymap.set('n', 'gK', require('hover').hover_select,
+                           {desc = 'hover.nvim (select)'})
+        end
+    }
     -- }}}
 
     -- {{{ Packer end
