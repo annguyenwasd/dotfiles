@@ -403,8 +403,8 @@ require("packer").startup(function(use)
                     -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
                     --                opts)
                     vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
-                    vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float,
-                                   opts)
+                    -- vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float,
+                    --                opts)
                     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
                     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
                     vim.keymap.set("n", "<leader><leader>fm",
@@ -1165,6 +1165,25 @@ require("packer").startup(function(use)
         exclude = {}, -- table: groups you don't want to clear
       })
     end }
+
+    use({
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+      config = function()
+        require("lsp_lines").setup()
+
+        -- Disable virtual_text since it's redundant due to lsp_lines.
+        vim.diagnostic.config({
+          virtual_text = false,
+        })
+
+        vim.keymap.set(
+          "n",
+          "<leader>ld",
+          require("lsp_lines").toggle,
+          { desc = "Toggle lsp_lines" }
+        )
+      end,
+    })
     -- }}}
 
     -- {{{ Packer end
