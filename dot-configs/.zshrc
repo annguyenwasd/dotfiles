@@ -103,7 +103,7 @@ alias r="ranger"
 # kill process
 alias p="netstat -vanp tcp | grep $1"
 alias pk="kill -9 $1"
-alias x="exit"
+alias x="exit 0"
 
 alias allcs="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsay -f@ @'"
 ## npm aliases
@@ -115,26 +115,6 @@ alias ys="yarn run start"
 alias yys="yarn && yarn run start"
 alias yb="yarn run build"
 alias ysb="yarn run storybook"
-
-## dev-nginx
-alias dn="dev-nginx"
-alias dnl="dn locate-nginx"
-alias dnh="dn add-to-hosts-file"
-alias dnr="dn restart-nginx"
-alias dna="dn setup-app"
-alias dni="echo \"name: app-name\ndomain-root: local.com\nmappings:\n  - port: 8000\n    prefix: sub-domain-name\" > $PWD/nginx.yml"
-
-# Tmuxinator things
-alias tx="tmuxinator"
-alias txn="tx n"
-alias txo="tx o"
-alias txs="tx s"
-alias txl="tx list --newline"
-
-# Tmux things
-alias tmux="tmux -u"
-alias txa="tmux attach-session -t"
-alias tn="tmux -u new -s"
 
 # Projects
 alias md="mvn spring-boot:run -Dspring-boot.run.jvmArguments=\"-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005\" -Dspring-boot.run.profiles=local"
