@@ -293,10 +293,6 @@ function fda() {
   [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
 }
 
-function fw() {
-  cd ~/workspace/$(ls ~/workspace/ | fzf)
-}
-
 function fds() {
   local cid
   cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
@@ -498,6 +494,59 @@ function tl() {
   tmux clock-mode
   tmux splitw
   tmux selectl main-vertical
+}
+
+WORKSPACE_FOLDER=~/workspace
+
+function fw() {
+  if [ -z $1 ]
+  then
+    loc=$WORKSPACE_FOLDER
+    else
+    loc=$1
+  fi
+
+  dir=$(ls -1 $loc | fzf)
+  if [ -n $dir ]
+  then
+    cd $loc/$dir
+  else
+    echo "No folder selected"
+  fi
+}
+
+function ff() {
+  if [ -z $1 ]
+  then
+    loc=$WORKSPACE_FOLDER
+    else
+    loc=$1
+  fi
+
+  dir=$(ls -1 $loc | fzf)
+  if [ -n $dir ]
+  if [ -n $dir ]
+  then
+    cd $loc/$dir
+    nvim
+  fi
+}
+
+function fff() {
+  if [ -z $1 ]
+  then
+    loc=$WORKSPACE_FOLDER
+    else
+    loc=$1
+  fi
+
+  dir=$(ls -1 $loc | fzf)
+  if [ -n $dir ]
+  then
+    cd $loc/$dir
+    dn
+    nvim
+  fi
 }
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
