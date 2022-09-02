@@ -1,5 +1,4 @@
 [user]
-
 	name = An Nguyen
 	email = an.nguyenwasd@gmail.com
 [pull]
@@ -16,7 +15,9 @@
 
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
-	excludesfile = /Users/annguyenwasd/.gitignore_global
+	autocrlf = input
+	autolf = true
+	eol = lf
 
 [alias]
   s = status
@@ -26,6 +27,7 @@
 	pp = push
 	pf = push --force-with-lease
 	ca = commit -v --amend
+	cae = commit -v --amend --no-edit
 	cb = checkout -b
 	ba = branch -vv
 	bd = branch -d
@@ -43,9 +45,6 @@
 	rc = rebase --continue
 	fp = fetch --prune
 	rn = branch -m
-[filesystem "Oracle Corporation|14.0.1|/dev/disk1s1"]
-	timestampResolution = 158000 nanoseconds
-	minRacyThreshold = 0 nanoseconds
 [interactive]
 	diffFilter = diff-so-fancy --patch
 [color]
@@ -63,11 +62,3 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[commit]
-	template = /Users/annguyenwasd/.stCommitMsg

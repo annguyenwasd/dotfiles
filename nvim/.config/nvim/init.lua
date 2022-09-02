@@ -127,7 +127,7 @@ require("packer").startup(function(use)
 
             -- Falling back to find_files if git_files can't find a .git directory
             local function project_files()
-                local ok = pcall(require"telescope.builtin".git_files, {})
+                local ok = pcall(require"telescope.builtin".git_files, {show_untracked=true})
                 if not ok then
                     require"telescope.builtin".find_files({hidden = true})
                 end
@@ -179,6 +179,12 @@ require("packer").startup(function(use)
             vim.keymap.set("n", "<leader>km", builtin.keymaps)
             vim.keymap.set("n", "<leader>tr", builtin.resume)
             vim.keymap.set("n", "<leader>hi", builtin.highlights)
+            vim.keymap.set("n", "<leader>gS", builtin.git_status)
+            vim.keymap.set("n", "gcoo", builtin.git_branches)
+            vim.keymap.set("n", "<leader>gl", builtin.git_commits)
+            vim.keymap.set("n", "<leader>bgl", builtin.git_bcommits)
+            vim.keymap.set("n", "<leader>bgl", builtin.git_bcommits)
+            vim.keymap.set("n", "<leader>gh", builtin.git_stash)
 
             vim.keymap.set("n", "gr", function()
                 builtin.lsp_references({initial_mode = 'normal'})
@@ -207,9 +213,7 @@ require("packer").startup(function(use)
                 builtin.lsp_document_symbols({initial_mode = 'normal'})
             end)
 
-            vim.keymap.set("n", "<leader>ws", function()
-                builtin.lsp_workspace_symbols({query = ''})
-            end)
+            vim.keymap.set("n", "<leader>ws", ":Telescope lsp_workspace_symbols initial_mode=normal query=", {silent=false})
 
             vim.keymap.set("n", "<leader>ff", function()
                 builtin.find_files({hidden = true, cwd = '%:p:h'})
@@ -267,6 +271,21 @@ require("packer").startup(function(use)
                     }
                 end
             end
+          --- @param trunc_width number trunctates component when screen width is less then trunc_width
+          --- @param trunc_len number truncates component to trunc_len number of chars
+          --- @param hide_width number hides component when window width is smaller then hide_width
+          --- @param no_ellipsis boolean whether to disable adding '...' at end after truncation
+          --- return function that can format the component accordingly
+          local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
+            return function(str)
+              local win_width = vim.fn.winwidth(0)
+              if hide_width and win_width < hide_width then return ''
+              elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
+                 return str:sub(1, trunc_len) .. (no_ellipsis and '' or '...')
+              end
+              return str
+            end
+          end
             require"lualine".setup {
                 options = {
                     icons_enabled = true,
@@ -287,11 +306,7 @@ require("packer").startup(function(use)
                             colored = false
                         }
                     },
-                    lualine_x = {
-                        {"branch", icon = ""},
-                        {"diff", source = diff_source, colored = false},
-                        "progress", "location"
-                    },
+                    lualine_x = {{"branch", icon = "", fmt=trunc(150, 20, 60)}, {"diff", source = diff_source, colored = false},"fileformat", "encoding", "progress", "location"},
                     lualine_y = {},
                     lualine_z = {}
                 },
@@ -453,6 +468,54 @@ require("packer").startup(function(use)
     }
 
     use {'folke/lsp-colors.nvim'}
+
+    use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async',
+      setup=function ()
+        vim.o.foldcolumn = '1'
+        vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+        vim.o.foldlevelstart = 99
+        vim.o.foldenable = true
+      end,
+      config=function ()
+        vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+        vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+
+        local handler = function(virtText, lnum, endLnum, width, truncate)
+          local newVirtText = {}
+          local suffix = ('  %d '):format(endLnum - lnum)
+          local sufWidth = vim.fn.strdisplaywidth(suffix)
+          local targetWidth = width - sufWidth
+          local curWidth = 0
+          for _, chunk in ipairs(virtText) do
+              local chunkText = chunk[1]
+              local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+              if targetWidth > curWidth + chunkWidth then
+                  table.insert(newVirtText, chunk)
+              else
+                  chunkText = truncate(chunkText, targetWidth - curWidth)
+                  local hlGroup = chunk[2]
+                  table.insert(newVirtText, {chunkText, hlGroup})
+                  chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                  -- str width returned from truncate() may less than 2nd argument, need padding
+                  if curWidth + chunkWidth < targetWidth then
+                      suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+                  end
+                  break
+              end
+              curWidth = curWidth + chunkWidth
+          end
+          table.insert(newVirtText, {suffix, 'MoreMsg'})
+          return newVirtText
+      end
+
+        require('ufo').setup({
+            provider_selector = function(bufnr, filetype, buftype)
+                return {'treesitter', 'indent'}
+            end,
+            fold_virt_text_handler = handler
+        })
+      end
+    }
     -- }}}
 
     -- {{{ Debugger
@@ -503,7 +566,7 @@ require("packer").startup(function(use)
                         '/debuggers/vscode-node-debug2/out/src/nodeDebug.js'
                 }
             }
-            dap.configurations.javascript = {
+            local javascript = {
                 {
                     name = 'Launch',
                     type = 'node2',
@@ -521,6 +584,10 @@ require("packer").startup(function(use)
                     processId = require'dap.utils'.pick_process
                 }
             }
+
+            dap.configurations.javascript = javascript;
+            dap.configurations.typescript = javascript;
+            dap.configurations.typescriptreact = javascript;
         end
     }
 
@@ -546,6 +613,8 @@ require("packer").startup(function(use)
         },
         config = function()
             local cmp = require "cmp"
+            local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
+
             require('cmp-npm').setup({})
             cmp.setup({
                 snippet = {
@@ -559,14 +628,14 @@ require("packer").startup(function(use)
                         if cmp.visible() then
                             cmp.select_next_item()
                         else
-                            fallback()
+                            cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
                         end
                     end,
                     ["<S-Tab>"] = function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()
                         else
-                            fallback()
+                            cmp_ultisnips_mappings.jump_backwards(fallback)
                         end
                     end,
                     ["<c-n>"] = function(fallback)
@@ -665,6 +734,9 @@ require("packer").startup(function(use)
                         }
 
                     }
+                },
+                git = {
+                  ignore = false
                 }
             })
         end
@@ -683,7 +755,7 @@ require("packer").startup(function(use)
         "kdheepak/lazygit.nvim",
         config = function()
 
-            vim.g.lazygit_floating_window_winblend = 1
+            vim.g.lazygit_floating_window_winblend = 0
             vim.g.lazygit_floating_window_scaling_factor = 1
             vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>")
         end
@@ -709,7 +781,7 @@ require("packer").startup(function(use)
                            "<cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
             vim.keymap.set("n", "<leader>gj",
                            "<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>")
-            vim.keymap.set("n", "<leader>gl", "<cmd>GcLog<cr>")
+            vim.keymap.set("n", "<leader>gL", "<cmd>GcLog<cr>")
             vim.keymap.set("n", "<leader>gs",
                            "<cmd>G difftool --name-status<cr>")
             vim.keymap.set("n", "<leader><leader>gs", "<cmd>G difftool<cr>")
@@ -780,13 +852,6 @@ require("packer").startup(function(use)
 
     -- {{{ Theme
     use {
-        "doums/darcula",
-        config = function()
-            -- set_theme('darcula', 'gruvbox_dark')
-        end
-    }
-
-    use {
         'sainnhe/gruvbox-material',
         config = function()
             vim.g.gruvbox_material_enable_bold = 1
@@ -831,7 +896,7 @@ require("packer").startup(function(use)
     use {
         "sbdchd/neoformat",
         config = function()
-            vim.g.neoformat_only_msg_on_error = 1
+            vim.g.neoformat_only_msg_on_error = 0
             vim.g.neoformat_basic_format_trim = 1
 
             -- vim.g.neoformat_enabled_languagehere = {}
@@ -944,6 +1009,9 @@ require("packer").startup(function(use)
     -- }}}
 
     -- {{{ Utilities
+    use {"Pocco81/TrueZen.nvim", config=function ()
+      vim.keymap.set('n', '<leader>tz', '<cmd>:TZAtaraxis<cr>')
+    end}
     use {"romainl/vim-cool", config = function() vim.g.CoolTotalMatches = 1 end} -- show highlight when search
     use "godlygeek/tabular"
 
@@ -1004,6 +1072,10 @@ require("packer").startup(function(use)
             vim.keymap.set("n", "'3", function() ui.nav_file(3) end)
             vim.keymap.set("n", "'4", function() ui.nav_file(4) end)
             vim.keymap.set("n", "'5", function() ui.nav_file(5) end)
+            vim.keymap.set("n", "'6", function() ui.nav_file(6) end)
+            vim.keymap.set("n", "'7", function() ui.nav_file(7) end)
+            vim.keymap.set("n", "'8", function() ui.nav_file(8) end)
+            vim.keymap.set("n", "'9", function() ui.nav_file(9) end)
             vim.keymap.set("n", "mq", ui.toggle_quick_menu)
         end
     }
@@ -1081,12 +1153,18 @@ require("packer").startup(function(use)
             }
 
             -- Setup keymaps
-            vim.keymap.set('n', 'K', require('hover').hover,
+            vim.keymap.set('n', '<leader>k', require('hover').hover,
                            {desc = 'hover.nvim'})
-            vim.keymap.set('n', 'gK', require('hover').hover_select,
-                           {desc = 'hover.nvim (select)'})
         end
     }
+
+    use { 'xiyaowong/nvim-transparent', config=function ()
+            require("transparent").setup({
+        enable = true, -- boolean: enable transparent
+        extra_groups = {},
+        exclude = {}, -- table: groups you don't want to clear
+      })
+    end }
     -- }}}
 
     -- {{{ Packer end
@@ -1131,9 +1209,9 @@ vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("~/.vim/undo")
-vim.opt.cmdheight = 2
-vim.opt.listchars = "tab:▹ ,trail:·"
-vim.opt.list = true
+vim.opt.cmdheight = 1
+vim.opt.listchars = "tab:▹ ,trail:·,eol:↲,lead:·"
+vim.opt.list = false
 vim.opt.wrapscan = false
 
 vim.wo.signcolumn = "yes"
@@ -1141,13 +1219,13 @@ vim.wo.signcolumn = "yes"
 vim.bo.syntax = "enable"
 vim.bo.swapfile = false
 
-vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("OpenHelpOnRightMostWindow",
-                                        {clear = true}),
-    pattern = "*.txt",
-    command = "if &buftype == 'help' | wincmd L | endif",
-    desc = "Open help page on the right (default bottom)"
-})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--     group = vim.api.nvim_create_augroup("OpenHelpOnRightMostWindow",
+--                                         {clear = true}),
+--     pattern = "*.txt",
+--     command = "if &buftype == 'help' | wincmd L | endif",
+--     desc = "Open help page on the right (default bottom)"
+-- })
 
 local auto_set_file_type = vim.api.nvim_create_augroup("AutoSetFileType",
                                                        {clear = true});
@@ -1168,10 +1246,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
     command = "setlocal filetype=conf"
 })
 
-vim.api.nvim_create_autocmd("FileType zsh,vim.conf,lua", {
-    group = vim.api.nvim_create_augroup("SetFoldMethod", {clear = true}),
-    command = "setlocal foldmethod=marker"
-})
+-- vim.api.nvim_create_autocmd("FileType zsh,vim.conf,lua", {
+--     group = vim.api.nvim_create_augroup("SetFoldMethod", {clear = true}),
+--     command = "setlocal foldmethod=marker"
+-- })
 
 local cursor_line_only_in_active_window =
     vim.api.nvim_create_augroup("CursorLineOnlyInActiveWindow", {clear = true})
@@ -1188,12 +1266,12 @@ vim.api.nvim_create_autocmd("WinLeave", {
     command = "setlocal nocursorline"
 })
 
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
-    group = vim.api.nvim_create_augroup("AutoSetFoldLevelInitLua",
-                                        {clear = true}),
-    pattern = "*.lua",
-    command = "setlocal foldlevel=1"
-})
+-- vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+--     group = vim.api.nvim_create_augroup("AutoSetFoldLevelInitLua",
+--                                         {clear = true}),
+--     pattern = "*.lua",
+--     command = "setlocal foldlevel=1"
+-- })
 
 -- }}}2
 -- }}}1
@@ -1218,7 +1296,7 @@ vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>',
                {noremap = false})
 
 vim.keymap.set("n", "<leader>cl",
-               "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr>")
+               "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr>")
 vim.keymap.set("n", "<leader><leader>r",
                "<cmd>so %<cr><cmd>PackerCompile<cr>:syntax enable<cr>:PackerInstall<cr>")
 vim.keymap.set("n", "<leader><leader>R",
@@ -1250,7 +1328,7 @@ vim.keymap.set("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>')
 vim.keymap.set("n", "<leader><leader>H", 'yi\' :!npm home <c-r>"<cr>')
 vim.keymap.set("n", "<leader><leader>oe", "<cmd>!open -a textedit %<cr>")
 vim.keymap.set("n", "<leader><leader>oc",
-               "<cmd>!open -a visual studio code %<cr>")
+               "<cmd>!code %<cr>")
 vim.keymap.set("n", "<leader><leader>og", "<cmd>!open -a google chrome %<cr>")
 
 -- Windows
@@ -1323,6 +1401,41 @@ vim.keymap.set("n", "<leader><leader>gh", function()
     local ghPage = 'https://github.com/' .. package
     vim.cmd('!open ' .. ghPage);
 end, {silent = true})
+
+-- local function tm ()
+--   vim.ui.input({prompt = ':!tmux neww '}, function (command)
+--     if string.len(command) > 0 then
+--       vim.cmd(":!tmux neww " .. command)
+--     end
+--   end
+-- )
+-- end
+
+vim.keymap.set('n', '<leader>tm', ':!tmux neww ', { silent = false })
+
+local function build()
+  local json=require"lib.json"
+
+  local package = vim.fn.findfile("package.json", ".;")
+  if package ~= "package.json" then
+    local file =io.open(package, "rb")
+
+    local jsonString = file:read "*a"
+    file:close()
+    print(jsonString)
+
+    -- parse json with lunajson
+    -- local json = require 'lunajson'
+    local t = json.decode(jsonString)
+    local packageName = t["name"]
+    vim.notify("Building " ..packageName)
+
+    vim.cmd ("AsyncRun yarn workspace " .. packageName .. " build")
+    -- vim.cmd ("!tmux splitw -l 15 yarn workspace " .. packageName .. " build")
+  end
+end
+
+vim.keymap.set('n', '<leader>bd', build)
 
 -- }}}
 -- }}}1

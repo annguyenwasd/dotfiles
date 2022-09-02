@@ -494,6 +494,32 @@ function cf ()
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
 
 
+function gn() {
+  git branch | grep "*" | awk '{ print $2 }' | pbcopy
+}
+
+# set tmux window title as current directoty
+function dn() {
+  tmux rename-window $(echo ${PWD##*/})
+}
+
+code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
+
+
+function dd() {
+  # osascript -e 'display notification "hello world!" with title "Greeting" subtitle "More text" sound name "Submarine"'
+
+    osascript -e "display notification \"${1:=Done!}\" with title \"${2:=${PWD/~\//}}\" sound name \"Submarine\""
+}
+
+# tmux layout
+function tl() {
+  tmux killp -a
+  tmux clock-mode
+  tmux splitw
+  tmux selectl main-vertical
+}
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/annguyenwasd/.sdkman"
 [[ -s "/Users/annguyenwasd/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/annguyenwasd/.sdkman/bin/sdkman-init.sh"

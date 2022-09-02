@@ -1,5 +1,5 @@
 **/automatic_backups/
-**/plugged/
+**/plugged/ 
 **/undo/
 
 Session.vim
@@ -7,3 +7,5 @@ Session.vim
 .DS_Store
 
 nvim/.config/nvim/plugin/packer_compiled.lua
+nvim/.config/nvim/plugin
+nvim/.config/nvim/spell
