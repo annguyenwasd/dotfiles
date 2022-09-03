@@ -392,7 +392,7 @@ require("packer").startup(function(use)
 
                     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-                    -- vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                    vim.keymap.set("n", "<leader>kk", vim.lsp.buf.hover, opts)
                     -- vim.keymap.set("n", "K", show_documentation, opts)
                     -- vim.keymap.set("n", "gi",vim.lsp.buf.implementation, opts)
                     -- vim.keymap.set("n", "<C-k>",vim.lsp.buf.signature_help, opts)
@@ -1137,26 +1137,26 @@ require("packer").startup(function(use)
             vim.keymap.set('n', 'gmR', '<Plug>(grammarous-reset)')
         end
     }
-    use {
-        'lewis6991/hover.nvim',
-        config = function()
-            require('hover').setup {
-                init = function()
-                    -- Require providers
-                    require('hover.providers.lsp')
-                    require('hover.providers.gh')
-                    require('hover.providers.man')
-                    require('hover.providers.dictionary')
-                end,
-                preview_opts = {border = nil},
-                title = true
-            }
-
-            -- Setup keymaps
-            vim.keymap.set('n', '<leader>k', require('hover').hover,
-                           {desc = 'hover.nvim'})
-        end
-    }
+    --[[ use { ]]
+    --[[     'lewis6991/hover.nvim', ]]
+    --[[     config = function() ]]
+    --[[         require('hover').setup { ]]
+    --[[             init = function() ]]
+    --[[                 -- Require providers ]]
+    --[[                 require('hover.providers.lsp') ]]
+    --[[                 require('hover.providers.gh') ]]
+    --[[                 require('hover.providers.man') ]]
+    --[[                 require('hover.providers.dictionary') ]]
+    --[[             end, ]]
+    --[[             preview_opts = {border = nil}, ]]
+    --[[             title = true ]]
+    --[[         } ]]
+    --[[]]
+    --[[         -- Setup keymaps ]]
+    --[[         vim.keymap.set('n', '<leader>kk', require('hover').hover, ]]
+    --[[                        {desc = 'hover.nvim'}) ]]
+    --[[     end ]]
+    --[[ } ]]
 
     use { 'xiyaowong/nvim-transparent', config=function ()
             require("transparent").setup({
