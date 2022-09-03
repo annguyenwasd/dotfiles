@@ -549,6 +549,11 @@ function fff() {
   fi
 }
 
+function gw () {
+  ga .
+  gc -n -m "WIP"
+}
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/annguyenwasd/.sdkman"
 [[ -s "/Users/annguyenwasd/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/annguyenwasd/.sdkman/bin/sdkman-init.sh"
