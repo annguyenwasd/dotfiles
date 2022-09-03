@@ -327,99 +327,98 @@ require("packer").startup(function(use)
 
     -- {{{ LSP
     use {
-        "williamboman/nvim-lsp-installer",
-        run = function()
-            local required_servers = {
-                "yamlls", "jsonls", "html", "vimls", "bashls", "diagnosticls",
-                "dockerls", "sumneko_lua", "tsserver", "cssls", "eslint"
-            }
-            require"nvim-lsp-installer.ui.status-win"().open()
-            local lsp_installer_servers = require "nvim-lsp-installer.servers"
-            for _, required_server in pairs(required_servers) do
-                local _, server = lsp_installer_servers.get_server(
-                                      required_server)
-                if not server:is_installed() then
-                    server:install()
-                end
-            end
-        end
-    }
-
-    use {
-        "neovim/nvim-lspconfig",
-        requires = {
-            {"jose-elias-alvarez/nvim-lsp-ts-utils"}, {"b0o/schemastore.nvim"}
-        },
+        "williamboman/mason.nvim",
+        requires={"williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "b0o/schemastore.nvim", "jose-elias-alvarez/nvim-lsp-ts-utils"},
         config = function()
-            local lsp_installer = require("nvim-lsp-installer")
+          require("mason").setup()
+          require("mason-lspconfig").setup({
+              ensure_installed = {
+              "yamlls", "jsonls", "html", "vimls", "bashls", "diagnosticls",
+              "dockerls", "sumneko_lua", "tsserver", "cssls", "eslint"
+            }
+          })
 
-            -- local function show_documentation()
-            --     if (vim.lsp.buf.server_ready()) then
-            --         vim.lsp.buf.hover()
-            --     else
-            --         vim.api.nvim_command("execute 'h! '.expand('<cword>')")
-            --     end
-            -- end
+          local setup_ts_utils = function(bufnr, client)
+              local ts_utils = require("nvim-lsp-ts-utils")
 
-            local setup_ts_utils = function(bufnr, client)
-                local ts_utils = require("nvim-lsp-ts-utils")
+              ts_utils.setup({})
 
-                ts_utils.setup({})
+              -- required to fix code action ranges and filter diagnostics
+              ts_utils.setup_client(client)
 
-                -- required to fix code action ranges and filter diagnostics
-                ts_utils.setup_client(client)
+              local opts = {buffer = bufnr}
+              -- no default maps, so you may want to define some here
+              vim.keymap.set("n", "<leader><leader>oi", ":TSLspOrganize<CR>", opts)
+              vim.keymap.set("n", "<leader>rf", ":TSLspRenameFile<CR>", opts)
+              vim.keymap.set("n", "<leader><leader>i", ":TSLspImportAll<CR>", opts)
+            end
+
+            local on_attach = function(client, bufnr)
+              if client.name == 'tsserver' then
+                setup_ts_utils(bufnr, client)
+              end
+
+                vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
                 local opts = {buffer = bufnr}
-                -- no default maps, so you may want to define some here
-                vim.keymap.set("n", "<leader><leader>oi", ":TSLspOrganize<CR>",
+
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+                vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+                vim.keymap.set("n", "<leader>kk", vim.lsp.buf.hover, opts)
+                -- vim.keymap.set("n", "K", show_documentation, opts)
+                -- vim.keymap.set("n", "gi",vim.lsp.buf.implementation, opts)
+                -- vim.keymap.set("n", "<C-k>",vim.lsp.buf.signature_help, opts)
+                -- vim.keymap.set("n", "<leader>wa",vim.lsp.buf.add_workspace_folder, opts)
+                -- vim.keymap.set("n", "<leader>wr",vim.lsp.buf.remove_workspace_folder, opts)
+                -- vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+                -- vim.keymap.set("n", "<leader>>rn", vim.lsp.buf.rename, opts)
+                -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
+                --                opts)
+                vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
+                vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float,
                                opts)
-                vim.keymap.set("n", "<leader>rf", ":TSLspRenameFile<CR>", opts)
-                vim.keymap.set("n", "<leader><leader>i", ":TSLspImportAll<CR>",
-                               opts)
+                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+                vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+                vim.keymap.set("n", "<leader><leader>fm",
+                               vim.lsp.buf.formatting, opts)
+                vim.keymap.set("n", "<leader><leader>ee",
+                               "<cmd>EslintFixAll<CR>", opts)
+                -- vim.keymap.set("n", "<space>q",vim.diagnostic.set_loclist, opts)
+                -- vim.keymap.set("n", "<space>=",vim.lsp.buf.formatting, opts)
             end
 
-            local onServerReady = function(server)
-                local on_attach = function(client, bufnr)
+          require("mason-lspconfig").setup_handlers({
+            function (server_name) -- default handler (optional)
+                require("lspconfig")[server_name].setup {
+                  on_attach = on_attach
+                }
+            end,
+            ["tsserver"] = function ()
+              local capabilities = vim.lsp.protocol.make_client_capabilities()
+              capabilities.textDocument.completion.completionItem
+                  .snippetSupport = true
 
-                    vim.api.nvim_buf_set_option(bufnr, 'omnifunc',
-                                                'v:lua.vim.lsp.omnifunc')
-
-                    if server.name == "tsserver" then
-                        setup_ts_utils(bufnr, client)
-                    end
-
-                    local opts = {buffer = bufnr}
-
-                    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-                    vim.keymap.set("n", "<leader>kk", vim.lsp.buf.hover, opts)
-                    -- vim.keymap.set("n", "K", show_documentation, opts)
-                    -- vim.keymap.set("n", "gi",vim.lsp.buf.implementation, opts)
-                    -- vim.keymap.set("n", "<C-k>",vim.lsp.buf.signature_help, opts)
-                    -- vim.keymap.set("n", "<leader>wa",vim.lsp.buf.add_workspace_folder, opts)
-                    -- vim.keymap.set("n", "<leader>wr",vim.lsp.buf.remove_workspace_folder, opts)
-                    -- vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-                    -- vim.keymap.set("n", "<leader>>rn", vim.lsp.buf.rename, opts)
-                    -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
-                    --                opts)
-                    vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
-                    vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float,
-                                   opts)
-                    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-                    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-                    vim.keymap.set("n", "<leader><leader>fm",
-                                   vim.lsp.buf.formatting, opts)
-                    vim.keymap.set("n", "<leader><leader>ee",
-                                   "<cmd>EslintFixAll<CR>", opts)
-                    -- vim.keymap.set("n", "<space>q",vim.diagnostic.set_loclist, opts)
-                    -- vim.keymap.set("n", "<space>=",vim.lsp.buf.formatting, opts)
-                end
-
-                local settings = {}
-                local capabilities = {}
-                local init_options = {}
-
-                if server.name == "sumneko_lua" then
+              local settings = {
+                  json = {
+                      schemas = require("schemastore").json.schemas(),
+                      validate = {enable = true}
+                  }
+              }
+              require'lspconfig'.tsserver.setup {
+                on_attach = on_attach,
+                settings = settings,
+                capabilities = capabilities
+              }
+            end,
+            ["jsonls"] = function ()
+              require'lspconfig'.jsonls.setup {
+                init_options = require("nvim-lsp-ts-utils").init_options,
+                on_attach = on_attach,
+              }
+            end,
+            ["sumneko_lua"] = function ()
+                require'lspconfig'.sumneko_lua.setup {
+                  on_attach=on_attach,
                     settings = {
                         Lua = {
                             diagnostics = {
@@ -427,36 +426,9 @@ require("packer").startup(function(use)
                             }
                         }
                     }
-                end
-
-                if server.name == "jsonls" then
-                    capabilities = vim.lsp.protocol.make_client_capabilities()
-                    capabilities.textDocument.completion.completionItem
-                        .snippetSupport = true
-
-                    settings = {
-                        json = {
-                            schemas = require("schemastore").json.schemas(),
-                            validate = {enable = true}
-                        }
-                    }
-                end
-
-                if server.name == "tsserver" then
-                    init_options = require("nvim-lsp-ts-utils").init_options
-                end
-
-                server:setup({
-                    init_options = init_options,
-                    on_attach = on_attach,
-                    settings = settings,
-                    capabilities = capabilities
-                })
-
-                vim.cmd [[ do User LspAttachBuffers ]]
-            end
-
-            lsp_installer.on_server_ready(onServerReady)
+                }
+            end,
+        })
         end
     }
 
