@@ -1298,7 +1298,7 @@ vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>',
 vim.keymap.set("n", "<leader>cl",
                "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr>")
 vim.keymap.set("n", "<leader><leader>r",
-               "<cmd>so %<cr><cmd>PackerCompile<cr>:syntax enable<cr>:PackerInstall<cr>")
+               "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>:syntax enable<cr>:PackerInstall<cr>")
 vim.keymap.set("n", "<leader><leader>R",
                "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
 
