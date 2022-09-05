@@ -41,7 +41,7 @@ require("packer").startup(function(use)
             require'nvim-treesitter.configs'.setup {
                 refactor = {
                     highlight_definitions = {
-                        enable = true,
+                        enable = false,
                         clear_on_cursor_move = false
                     },
                     navigation = {
@@ -246,14 +246,6 @@ require("packer").startup(function(use)
         end
     }
 
-    use {
-        "fhill2/telescope-ultisnips.nvim",
-        config = function()
-            require("telescope").load_extension("ultisnips")
-
-            vim.keymap.set("n", "<leader>tu", "<cmd>Telescope ultisnips<cr>")
-        end
-    }
     -- }}}
 
     -- {{{ Status line
@@ -327,10 +319,34 @@ require("packer").startup(function(use)
 
     -- {{{ LSP
     use {
-        "williamboman/mason.nvim",
-        requires={"williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "b0o/schemastore.nvim", "jose-elias-alvarez/nvim-lsp-ts-utils"},
+      "williamboman/mason.nvim",
+      requires={"williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "b0o/schemastore.nvim", "jose-elias-alvarez/nvim-lsp-ts-utils",
+
+      {'ms-jpq/coq_nvim', branch = 'coq'},
+      {"SirVer/ultisnips"},
+      {'ms-jpq/coq.thirdparty', branch = '3p', config=function ()
+        require("coq_3p") {
+          { src = "nvimlua"},
+          {
+            src = "repl",
+            sh = "zsh",
+            shell = { p = "perl", n = "node"},
+            max_lines = 99,
+            deadline = 500,
+            unsafe = { "rm", "poweroff", "mv"}
+          },
+          { src = "cow", trigger = "!cow" },
+          {src="figlet", trigger="!fig" },
+          { src = "ultisnip" },
+
+        }
+
+      end}
+    },
         config = function()
           require("mason").setup()
+
+
           require("mason-lspconfig").setup({
               ensure_installed = {
               "yamlls", "jsonls", "html", "vimls", "bashls", "diagnosticls",
@@ -387,11 +403,21 @@ require("packer").startup(function(use)
                 -- vim.keymap.set("n", "<space>=",vim.lsp.buf.formatting, opts)
             end
 
+            vim.g.coq_settings = {
+              auto_start = true,
+              keymap = {
+                eval_snips= '<leader>se',
+                jump_to_mark = '<c-;>'
+              }
+
+            }
+            local coq = require'coq'
           require("mason-lspconfig").setup_handlers({
             function (server_name) -- default handler (optional)
-                require("lspconfig")[server_name].setup {
+                require("lspconfig")[server_name].setup(coq.lsp_ensure_capabilities( {
                   on_attach = on_attach
                 }
+                ))
             end,
             ["tsserver"] = function ()
               local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -404,20 +430,20 @@ require("packer").startup(function(use)
                       validate = {enable = true}
                   }
               }
-              require'lspconfig'.tsserver.setup {
+              require'lspconfig'.tsserver.setup (coq.lsp_ensure_capabilities( {
                 on_attach = on_attach,
                 settings = settings,
                 capabilities = capabilities
-              }
+              }))
             end,
             ["jsonls"] = function ()
-              require'lspconfig'.jsonls.setup {
+              require'lspconfig'.jsonls.setup (coq.lsp_ensure_capabilities( {
                 init_options = require("nvim-lsp-ts-utils").init_options,
                 on_attach = on_attach,
-              }
+              }))
             end,
             ["sumneko_lua"] = function ()
-                require'lspconfig'.sumneko_lua.setup {
+                require'lspconfig'.sumneko_lua.setup (coq.lsp_ensure_capabilities( {
                   on_attach=on_attach,
                     settings = {
                         Lua = {
@@ -426,7 +452,7 @@ require("packer").startup(function(use)
                             }
                         }
                     }
-                }
+                }))
             end,
         })
         end
@@ -452,53 +478,53 @@ require("packer").startup(function(use)
 
     use {'folke/lsp-colors.nvim'}
 
-    use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async',
-      setup=function ()
-        vim.o.foldcolumn = '1'
-        vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-        vim.o.foldlevelstart = 99
-        vim.o.foldenable = true
-      end,
-      config=function ()
-        vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-        vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-
-        local handler = function(virtText, lnum, endLnum, width, truncate)
-          local newVirtText = {}
-          local suffix = ('  %d '):format(endLnum - lnum)
-          local sufWidth = vim.fn.strdisplaywidth(suffix)
-          local targetWidth = width - sufWidth
-          local curWidth = 0
-          for _, chunk in ipairs(virtText) do
-              local chunkText = chunk[1]
-              local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-              if targetWidth > curWidth + chunkWidth then
-                  table.insert(newVirtText, chunk)
-              else
-                  chunkText = truncate(chunkText, targetWidth - curWidth)
-                  local hlGroup = chunk[2]
-                  table.insert(newVirtText, {chunkText, hlGroup})
-                  chunkWidth = vim.fn.strdisplaywidth(chunkText)
-                  -- str width returned from truncate() may less than 2nd argument, need padding
-                  if curWidth + chunkWidth < targetWidth then
-                      suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-                  end
-                  break
-              end
-              curWidth = curWidth + chunkWidth
-          end
-          table.insert(newVirtText, {suffix, 'MoreMsg'})
-          return newVirtText
-      end
-
-        require('ufo').setup({
-            provider_selector = function(bufnr, filetype, buftype)
-                return {'treesitter', 'indent'}
-            end,
-            fold_virt_text_handler = handler
-        })
-      end
-    }
+    --[[ use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async', ]]
+    --[[   setup=function () ]]
+    --[[     vim.o.foldcolumn = '1' ]]
+    --[[     vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value ]]
+    --[[     vim.o.foldlevelstart = 99 ]]
+    --[[     vim.o.foldenable = true ]]
+    --[[   end, ]]
+    --[[   config=function () ]]
+    --[[     vim.keymap.set('n', 'zR', require('ufo').openAllFolds) ]]
+    --[[     vim.keymap.set('n', 'zM', require('ufo').closeAllFolds) ]]
+    --[[]]
+    --[[     local handler = function(virtText, lnum, endLnum, width, truncate) ]]
+    --[[       local newVirtText = {} ]]
+    --[[       local suffix = ('  %d '):format(endLnum - lnum) ]]
+    --[[       local sufWidth = vim.fn.strdisplaywidth(suffix) ]]
+    --[[       local targetWidth = width - sufWidth ]]
+    --[[       local curWidth = 0 ]]
+    --[[       for _, chunk in ipairs(virtText) do ]]
+    --[[           local chunkText = chunk[1] ]]
+    --[[           local chunkWidth = vim.fn.strdisplaywidth(chunkText) ]]
+    --[[           if targetWidth > curWidth + chunkWidth then ]]
+    --[[               table.insert(newVirtText, chunk) ]]
+    --[[           else ]]
+    --[[               chunkText = truncate(chunkText, targetWidth - curWidth) ]]
+    --[[               local hlGroup = chunk[2] ]]
+    --[[               table.insert(newVirtText, {chunkText, hlGroup}) ]]
+    --[[               chunkWidth = vim.fn.strdisplaywidth(chunkText) ]]
+    --[[               -- str width returned from truncate() may less than 2nd argument, need padding ]]
+    --[[               if curWidth + chunkWidth < targetWidth then ]]
+    --[[                   suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth) ]]
+    --[[               end ]]
+    --[[               break ]]
+    --[[           end ]]
+    --[[           curWidth = curWidth + chunkWidth ]]
+    --[[       end ]]
+    --[[       table.insert(newVirtText, {suffix, 'MoreMsg'}) ]]
+    --[[       return newVirtText ]]
+    --[[   end ]]
+    --[[]]
+    --[[     require('ufo').setup({ ]]
+    --[[         provider_selector = function(bufnr, filetype, buftype) ]]
+    --[[             return {'treesitter', 'indent'} ]]
+    --[[         end, ]]
+    --[[         fold_virt_text_handler = handler ]]
+    --[[     }) ]]
+    --[[   end ]]
+    --[[ } ]]
     -- }}}
 
     -- {{{ Debugger
@@ -584,113 +610,6 @@ require("packer").startup(function(use)
         config = function() require("nvim-dap-virtual-text").setup() end
     }
 
-    -- }}}
-
-    -- {{{ Completion
-    use {
-        "hrsh7th/nvim-cmp",
-        requires = {
-            "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path",
-            "hrsh7th/cmp-cmdline", "hrsh7th/nvim-cmp", "SirVer/ultisnips",
-            "quangnguyen30192/cmp-nvim-ultisnips", "David-Kunz/cmp-npm"
-        },
-        config = function()
-            local cmp = require "cmp"
-            local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
-
-            require('cmp-npm').setup({})
-            cmp.setup({
-                snippet = {
-                    -- REQUIRED - you must specify a snippet engine
-                    expand = function(args)
-                        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-                    end
-                },
-                mapping = {
-                    ["<Tab>"] = function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        else
-                            cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-                        end
-                    end,
-                    ["<S-Tab>"] = function(fallback)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        else
-                            cmp_ultisnips_mappings.jump_backwards(fallback)
-                        end
-                    end,
-                    ["<c-n>"] = function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        else
-                            fallback()
-                        end
-                    end,
-                    ["<c-p>"] = function(fallback)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        else
-                            fallback()
-                        end
-                    end,
-                    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<cr>"] = cmp.mapping.confirm({select = false}),
-                    ["<C-e>"] = cmp.mapping.abort()
-                },
-                sources = cmp.config.sources({
-                    {name = "nvim_lsp"}, {name = "ultisnips"}
-                }, {{name = "buffer"}, {name = 'npm', keyword_length = 4}})
-            })
-
-            cmp.setup.cmdline('/', {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = {{name = 'buffer'}}
-            })
-
-            cmp.setup.cmdline(':', {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = cmp.config.sources({{name = 'path'}},
-                                             {{name = 'cmdline'}})
-            })
-        end
-    }
-
-    use {
-        "onsails/lspkind-nvim",
-        config = function()
-            local cmp = require("cmp")
-            local lspkind = require("lspkind")
-            cmp.setup {formatting = {format = lspkind.cmp_format()}}
-        end
-    }
-
-    use {
-        "SirVer/ultisnips",
-        requires = {{"honza/vim-snippets", rtp = "."}},
-        config = function()
-            vim.g.UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
-            vim.g.UltiSnipsJumpForwardTrigger = "<Plug>(ultisnips_jump_forward)"
-            vim.g.UltiSnipsJumpBackwardTrigger =
-                "<Plug>(ultisnips_jump_backward)"
-            vim.g.UltiSnipsListSnippets = "<c-x><c-s>"
-            vim.g.UltiSnipsRemoveSelectModeMappings = 0
-        end
-    }
-
-    use {
-        'kkharji/lspsaga.nvim',
-        config = function()
-            vim.keymap.set('n', "<leader>rn", "<cmd>Lspsaga rename<cr>")
-            vim.keymap.set('n', "<leader>ca", "<cmd>Lspsaga code_action<cr>")
-            vim.keymap.set('x', "<leader>ca",
-                           "<cmd>Lspsaga range_code_action<cr>")
-
-        end
-    }
     -- }}}
 
     -- {{{ Explorer
