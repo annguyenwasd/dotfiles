@@ -404,12 +404,7 @@ require("packer").startup(function(use)
             end
 
             vim.g.coq_settings = {
-              auto_start = true,
-              keymap = {
-                eval_snips= '<leader>se',
-                jump_to_mark = '<c-;>'
-              }
-
+              auto_start = true
             }
             local coq = require'coq'
           require("mason-lspconfig").setup_handlers({
