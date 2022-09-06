@@ -433,6 +433,17 @@ require("packer").startup(function(use)
     }
 
     use {
+        'kkharji/lspsaga.nvim',
+        config = function()
+            vim.keymap.set('n', "<leader>rn", "<cmd>Lspsaga rename<cr>")
+            vim.keymap.set('n', "<leader>ca", "<cmd>Lspsaga code_action<cr>")
+            vim.keymap.set('x', "<leader>ca",
+                           "<cmd>Lspsaga range_code_action<cr>")
+
+        end
+    }
+
+    use {
         "ray-x/lsp_signature.nvim",
         config = function()
             require"lsp_signature".setup {toggle_key = "<c-s>"}
