@@ -554,6 +554,9 @@ function gw () {
   gc -n -m "WIP"
 }
 
+alias gll="git log --pretty=format:%B--- -n$1 --no-merges"
+export NVIM_HOME=~/.config/nvim/
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/annguyenwasd/.sdkman"
 [[ -s "/Users/annguyenwasd/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/annguyenwasd/.sdkman/bin/sdkman-init.sh"
