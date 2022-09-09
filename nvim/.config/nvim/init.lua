@@ -807,7 +807,7 @@ require("packer").startup(function(use)
 		end,
 		config = function()
 			vim.keymap.set("n", "<leader>tt", require("material.functions").toggle_style)
-			set_theme("material")
+			--[[ set_theme("material") ]]
 		end,
 	})
 
@@ -825,7 +825,7 @@ require("packer").startup(function(use)
 			vim.g.vscode_style = "light"
 		end,
 		config = function()
-			-- set_theme("vscode")
+			set_theme("vscode")
 		end,
 	})
 
