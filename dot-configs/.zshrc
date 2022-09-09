@@ -358,6 +358,7 @@ function gcount {
 # git log --left-right --graph --cherry-pick --oneline feature...branch
 alias gd="git log --left-right --graph --cherry-pick --oneline "
 alias gac="ga;gc"
+alias gce="git commit -e"
 alias gca="git commit -v --amend"
 alias gcz="git cz"
 alias gco="git checkout"
