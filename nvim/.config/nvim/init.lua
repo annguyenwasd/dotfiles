@@ -718,7 +718,7 @@ require("packer").startup(function(use)
 		end,
 		config = function()
 			vim.keymap.set("n", "<leader>tt", require("material.functions").toggle_style)
-			--[[ set_theme("material") ]]
+			-- set_theme("material")
 		end,
 	})
 
