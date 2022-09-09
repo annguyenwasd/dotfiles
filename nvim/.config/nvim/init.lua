@@ -219,7 +219,7 @@ require("packer").startup(function(use)
 			end)
 
 			vim.keymap.set("n", "<leader>ds", function()
-				builtin.lsp_document_symbols({ initial_mode = "normal" })
+				builtin.lsp_document_symbols()
 			end)
 
 			vim.keymap.set(
@@ -266,75 +266,8 @@ require("packer").startup(function(use)
 		"nvim-lualine/lualine.nvim",
 		requires = "arkav/lualine-lsp-progress",
 		config = function()
-			local function diff_source()
-				local gitsigns = vim.b.gitsigns_status_dict
-				if gitsigns then
-					return {
-						added = gitsigns.added,
-						modified = gitsigns.changed,
-						removed = gitsigns.removed,
-					}
-				end
-			end
-			--- @param trunc_width number trunctates component when screen width is less then trunc_width
-			--- @param trunc_len number truncates component to trunc_len number of chars
-			--- @param hide_width number hides component when window width is smaller then hide_width
-			--- @param no_ellipsis boolean whether to disable adding '...' at end after truncation
-			--- return function that can format the component accordingly
-			local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
-				return function(str)
-					local win_width = vim.fn.winwidth(0)
-					if hide_width and win_width < hide_width then
-						return ""
-					elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
-						return str:sub(1, trunc_len) .. (no_ellipsis and "" or "...")
-					end
-					return str
-				end
-			end
-			require("lualine").setup({
-				options = {
-					icons_enabled = true,
-					theme = "auto",
-					component_separators = { left = "", right = "" },
-					section_separators = { left = "", right = "" },
-					disabled_filetypes = { "gitcommit" },
-					always_divide_middle = true,
-				},
-				sections = {
-					lualine_a = {},
-					lualine_b = {},
-					lualine_c = {
-						"mode",
-						"filename",
-						{
-							"diagnostics",
-							sources = { "nvim_diagnostic" },
-							colored = false,
-						},
-					},
-					lualine_x = {
-						{ "branch", icon = "", fmt = trunc(150, 20, 60) },
-						{ "diff", source = diff_source, colored = false },
-						"fileformat",
-						"encoding",
-						"progress",
-						"location",
-					},
-					lualine_y = {},
-					lualine_z = {},
-				},
-				inactive_sections = {
-					lualine_a = {},
-					lualine_b = {},
-					lualine_c = { "filename" },
-					lualine_x = { "location" },
-					lualine_y = {},
-					lualine_z = {},
-				},
-				tabline = {},
-				extensions = {},
-			})
+			-- require'lualine.eval'
+			require("lualine.default")
 		end,
 	})
 	-- }}}
@@ -510,59 +443,13 @@ require("packer").startup(function(use)
 
 	use({ "folke/lsp-colors.nvim" })
 
-	--[[ use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async', ]]
-	--[[   setup=function () ]]
-	--[[     vim.o.foldcolumn = '1' ]]
-	--[[     vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value ]]
-	--[[     vim.o.foldlevelstart = 99 ]]
-	--[[     vim.o.foldenable = true ]]
-	--[[   end, ]]
-	--[[   config=function () ]]
-	--[[     vim.keymap.set('n', 'zR', require('ufo').openAllFolds) ]]
-	--[[     vim.keymap.set('n', 'zM', require('ufo').closeAllFolds) ]]
-	--[[]]
-	--[[     local handler = function(virtText, lnum, endLnum, width, truncate) ]]
-	--[[       local newVirtText = {} ]]
-	--[[       local suffix = ('  %d '):format(endLnum - lnum) ]]
-	--[[       local sufWidth = vim.fn.strdisplaywidth(suffix) ]]
-	--[[       local targetWidth = width - sufWidth ]]
-	--[[       local curWidth = 0 ]]
-	--[[       for _, chunk in ipairs(virtText) do ]]
-	--[[           local chunkText = chunk[1] ]]
-	--[[           local chunkWidth = vim.fn.strdisplaywidth(chunkText) ]]
-	--[[           if targetWidth > curWidth + chunkWidth then ]]
-	--[[               table.insert(newVirtText, chunk) ]]
-	--[[           else ]]
-	--[[               chunkText = truncate(chunkText, targetWidth - curWidth) ]]
-	--[[               local hlGroup = chunk[2] ]]
-	--[[               table.insert(newVirtText, {chunkText, hlGroup}) ]]
-	--[[               chunkWidth = vim.fn.strdisplaywidth(chunkText) ]]
-	--[[               -- str width returned from truncate() may less than 2nd argument, need padding ]]
-	--[[               if curWidth + chunkWidth < targetWidth then ]]
-	--[[                   suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth) ]]
-	--[[               end ]]
-	--[[               break ]]
-	--[[           end ]]
-	--[[           curWidth = curWidth + chunkWidth ]]
-	--[[       end ]]
-	--[[       table.insert(newVirtText, {suffix, 'MoreMsg'}) ]]
-	--[[       return newVirtText ]]
-	--[[   end ]]
-	--[[]]
-	--[[     require('ufo').setup({ ]]
-	--[[         provider_selector = function(bufnr, filetype, buftype) ]]
-	--[[             return {'treesitter', 'indent'} ]]
-	--[[         end, ]]
-	--[[         fold_virt_text_handler = handler ]]
-	--[[     }) ]]
-	--[[   end ]]
-	--[[ } ]]
 	-- }}}
 
 	-- {{{ Debugger
 	use({
 		"mfussenegger/nvim-dap",
 		setup = function()
+			-- REPL COMPLETION
 			vim.cmd([[
       au FileType dap-repl lua require('dap.ext.autocompl').attach()
       ]])
@@ -598,37 +485,61 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "<localleader>df", function()
 				widgets.centered_float(widgets.frames)
 			end)
+		end,
+	})
 
-			dap.adapters.node2 = {
-				type = "executable",
-				command = "node",
-				args = {
-					os.getenv("HOME") .. "/debuggers/vscode-node-debug2/out/src/nodeDebug.js",
-				},
-			}
-			local javascript = {
-				{
-					name = "Launch",
-					type = "node2",
-					request = "launch",
-					program = "${file}",
-					cwd = vim.fn.getcwd(),
-					sourceMaps = true,
-					protocol = "inspector",
-					console = "integratedTerminal",
-				},
-				{
-					-- For this to work you need to make sure the node process is started with the `--inspect` flag.
-					name = "Attach to process",
-					type = "node2",
-					request = "attach",
-					processId = require("dap.utils").pick_process,
-				},
-			}
+	use({
+		"mxsdev/nvim-dap-vscode-js",
+		requires = {
+			"mfussenegger/nvim-dap",
+			{
 
-			dap.configurations.javascript = javascript
-			dap.configurations.typescript = javascript
-			dap.configurations.typescriptreact = javascript
+				"microsoft/vscode-js-debug",
+				run = "npm install --legacy-peer-deps && npm run compile",
+			},
+		},
+		config = function()
+			require("dap-vscode-js").setup({
+				-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+				debugger_path = os.getenv("HOME") .. "/.local/share/nvim/site/pack/packer/start/vscode-js-debug", -- Path to vscode-js-debug installation.
+				adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+			})
+
+			for _, language in ipairs({ "typescript", "javascript" }) do
+				require("dap").configurations[language] = {
+					{
+						type = "pwa-node",
+						request = "launch",
+						name = "Launch file",
+						program = "${file}",
+						cwd = "${workspaceFolder}",
+						console = "integratedTerminal",
+					},
+					{
+						type = "pwa-node",
+						request = "attach",
+						name = "Attach",
+						processId = require("dap.utils").pick_process,
+						cwd = "${workspaceFolder}",
+						console = "integratedTerminal",
+					},
+					{
+						type = "pwa-node",
+						request = "launch",
+						name = "Debug Jest Tests",
+						trace = true, -- include debugger info
+						runtimeExecutable = "node",
+						runtimeArgs = {
+							"./node_modules/jest/bin/jest.js",
+							"--runInBand",
+						},
+						rootPath = "${workspaceFolder}",
+						cwd = "${workspaceFolder}",
+						console = "integratedTerminal",
+						internalConsoleOptions = "neverOpen",
+					},
+				}
+			end
 		end,
 	})
 
@@ -829,6 +740,13 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	use({
+		"andrewferrier/debugprint.nvim",
+		config = function()
+			require("debugprint").setup()
+		end,
+	})
+
 	-- }}}
 
 	-- {{{ Formatter/Linter
@@ -926,28 +844,6 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- disable for now, quite annoying
-	use({
-		"dm1try/golden_size",
-		disable = true,
-		config = function()
-			local function ignore_by_buftype(types)
-				local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-				for _, type in pairs(types) do
-					if type == buftype then
-						return 1
-					end
-				end
-			end
-			local golden_size = require("golden_size")
-			-- set the callbacks, preserve the defaults
-			golden_size.set_ignore_callbacks({
-				{ ignore_by_buftype, { "terminal", "quickfix", "nofile" } },
-				{ golden_size.ignore_float_windows }, -- default one, ignore float windows
-				{ golden_size.ignore_by_window_flag }, -- default one, ignore windows with w:ignore_gold_size=1
-			})
-		end,
-	})
 	-- }}}
 
 	-- {{{ Utilities
@@ -1118,26 +1014,6 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "gmR", "<Plug>(grammarous-reset)")
 		end,
 	})
-	--[[ use { ]]
-	--[[     'lewis6991/hover.nvim', ]]
-	--[[     config = function() ]]
-	--[[         require('hover').setup { ]]
-	--[[             init = function() ]]
-	--[[                 -- Require providers ]]
-	--[[                 require('hover.providers.lsp') ]]
-	--[[                 require('hover.providers.gh') ]]
-	--[[                 require('hover.providers.man') ]]
-	--[[                 require('hover.providers.dictionary') ]]
-	--[[             end, ]]
-	--[[             preview_opts = {border = nil}, ]]
-	--[[             title = true ]]
-	--[[         } ]]
-	--[[]]
-	--[[         -- Setup keymaps ]]
-	--[[         vim.keymap.set('n', '<leader>kk', require('hover').hover, ]]
-	--[[                        {desc = 'hover.nvim'}) ]]
-	--[[     end ]]
-	--[[ } ]]
 
 	use({
 		"xiyaowong/nvim-transparent",
@@ -1149,6 +1025,9 @@ require("packer").startup(function(use)
 			})
 		end,
 	})
+
+  use { 'will133/vim-dirdiff' }
+
 	-- }}}
 
 	-- {{{ Packer end
@@ -1213,28 +1092,17 @@ vim.bo.swapfile = false
 --     desc = "Open help page on the right (default bottom)"
 -- })
 
-local auto_set_file_type = vim.api.nvim_create_augroup("AutoSetFileType", { clear = true })
-
-vim.api.nvim_create_autocmd("BufEnter", {
-	group = auto_set_file_type,
-	pattern = "*.zsh",
-	command = "setlocal filetype=zsh",
-})
-vim.api.nvim_create_autocmd("BufEnter", {
-	group = auto_set_file_type,
-	pattern = "*.todo",
-	command = "setlocal filetype=todo",
-})
-vim.api.nvim_create_autocmd("BufEnter", {
-	group = auto_set_file_type,
-	pattern = "*.conf",
-	command = "setlocal filetype=conf",
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+	group = vim.api.nvim_create_augroup("SetFoldMethod", { clear = true }),
+	pattern = { "*.vim", "*.lua", "*.zsh", "*.conf" },
+	command = "setlocal foldmethod=marker",
 })
 
--- vim.api.nvim_create_autocmd("FileType zsh,vim.conf,lua", {
---     group = vim.api.nvim_create_augroup("SetFoldMethod", {clear = true}),
---     command = "setlocal foldmethod=marker"
--- })
+vim.api.nvim_create_autocmd({ "BufRead" }, {
+	group = vim.api.nvim_create_augroup("AutoSetFoldLevelInitLua", { clear = true }),
+	pattern = { "*.lua" },
+	command = "setlocal foldlevel=1",
+})
 
 local cursor_line_only_in_active_window = vim.api.nvim_create_augroup("CursorLineOnlyInActiveWindow", { clear = true })
 
@@ -1249,13 +1117,6 @@ vim.api.nvim_create_autocmd("WinLeave", {
 	pattern = "*",
 	command = "setlocal nocursorline",
 })
-
--- vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
---     group = vim.api.nvim_create_augroup("AutoSetFoldLevelInitLua",
---                                         {clear = true}),
---     pattern = "*.lua",
---     command = "setlocal foldlevel=1"
--- })
 
 -- }}}2
 -- }}}1
