@@ -8,6 +8,7 @@ local function diff_source()
 		}
 	end
 end
+
 --- @param trunc_width number trunctates component when screen width is less then trunc_width
 --- @param trunc_len number truncates component to trunc_len number of chars
 --- @param hide_width number hides component when window width is smaller then hide_width
@@ -24,33 +25,43 @@ local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
 		return str
 	end
 end
+
+local diagnostic = {
+	"diagnostics",
+	sources = { "nvim_diagnostic" },
+	colored = false,
+}
+
+local branch = { "branch", icon = "", fmt = trunc(150, 20, 60) }
+local diff = { "diff", source = diff_source, colored = false }
+local jump_to_middle = "%="
+local name_with_flag = {
+	"%f %m",
+	fmt = trunc(100, 40, 39),
+}
+
 require("lualine").setup({
 	options = {
 		icons_enabled = true,
 		theme = "auto",
 		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
-		disabled_filetypes = { "gitcommit" },
+		disabled_filetypes = { "gitcommit", "NvimTree" },
 		always_divide_middle = true,
 	},
 	sections = {
 		lualine_a = {},
 		lualine_b = {},
 		lualine_c = {
-			"mode",
-			{
-				"diagnostics",
-				sources = { "nvim_diagnostic" },
-				colored = false,
-			},
-      "%=",
-			"%f",
-		},
-		lualine_x = {
-			{ "branch", icon = "", fmt = trunc(150, 20, 60) },
-			{ "diff", source = diff_source, colored = false },
 			"fileformat",
 			"encoding",
+			branch,
+			jump_to_middle,
+			diagnostic,
+			name_with_flag,
+		},
+		lualine_x = {
+			diff,
 			"progress",
 			"location",
 		},
@@ -60,8 +71,11 @@ require("lualine").setup({
 	inactive_sections = {
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
+		lualine_c = {
+			jump_to_middle,
+			name_with_flag,
+		},
+		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},
 	},
