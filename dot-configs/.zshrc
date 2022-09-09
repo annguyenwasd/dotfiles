@@ -393,6 +393,7 @@ alias fc="ga; gc \"update\";gpp"
 alias fast-commit="fc"
 alias gfp="git fetch --prune"
 alias grn="git branch -m"
+alias gcae="git commit --amend --no-edit"
 
 alias tinyhead="git diff --diff-filter=ACM --name-only HEAD | grep \".png\|.jpg\" | xargs tinypng"
 
