@@ -740,13 +740,6 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({
-		"andrewferrier/debugprint.nvim",
-		config = function()
-			require("debugprint").setup()
-		end,
-	})
-
 	-- }}}
 
 	-- {{{ Formatter/Linter
@@ -1026,7 +1019,14 @@ require("packer").startup(function(use)
 		end,
 	})
 
-  use { 'will133/vim-dirdiff' }
+	use({ "will133/vim-dirdiff" })
+
+	use({
+		"andrewferrier/debugprint.nvim",
+		config = function()
+			require("debugprint").setup()
+		end,
+	})
 
 	-- }}}
 
