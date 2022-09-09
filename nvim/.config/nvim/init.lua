@@ -1019,7 +1019,7 @@ require("packer").startup(function(use)
 		"xiyaowong/nvim-transparent",
 		config = function()
 			require("transparent").setup({
-				enable = true, -- boolean: enable transparent
+				enable = false, -- boolean: enable transparent
 				extra_groups = {},
 				exclude = {}, -- table: groups you don't want to clear
 			})
