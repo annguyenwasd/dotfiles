@@ -381,7 +381,6 @@ require("packer").startup(function(use)
 					"html",
 					"vimls",
 					"bashls",
-					"diagnosticls",
 					"dockerls",
 					"sumneko_lua",
 					"tsserver",
