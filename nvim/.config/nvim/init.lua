@@ -1,4 +1,7 @@
--- {{{1 Plugins
+require("settings")
+require("autocmd")
+require("mappings")
+
 -- {{{ Boostrap
 local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
@@ -98,7 +101,6 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find)
 			vim.keymap.set("n", "<leader>rg", builtin.live_grep)
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags)
-			vim.keymap.set("n", "<leader><leader>fh", builtin.man_pages)
 			vim.keymap.set("n", "<leader>ch", builtin.command_history)
 			vim.keymap.set("n", "<leader>sh", builtin.search_history)
 			vim.keymap.set("n", "<leader>fc", builtin.commands)
@@ -184,8 +186,8 @@ require("packer").startup(function(use)
 		"nvim-lualine/lualine.nvim",
 		requires = "arkav/lualine-lsp-progress",
 		config = function()
-			-- require'lualine.eval'
-			require("lualine.default")
+			-- require'plugin-configs.lualine.eval'
+			require("plugin-configs.lualine.default")
 		end,
 	})
 	-- }}}
@@ -266,8 +268,7 @@ require("packer").startup(function(use)
 
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-				vim.keymap.set("n", "<leader>kk", vim.lsp.buf.hover, opts)
-				-- vim.keymap.set("n", "K", show_documentation, opts)
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				-- vim.keymap.set("n", "gi",vim.lsp.buf.implementation, opts)
 				-- vim.keymap.set("n", "<C-k>",vim.lsp.buf.signature_help, opts)
 				-- vim.keymap.set("n", "<leader>wa",vim.lsp.buf.add_workspace_folder, opts)
@@ -959,243 +960,3 @@ require("packer").startup(function(use)
 end)
 
 -- }}}
--- }}}1
-
--- {{{1 Settings
--- {{{2
-vim.g.vimsyn_embed = "lPr"
-
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.opt.wildmenu = true
-vim.opt.termguicolors = true
-vim.opt.hidden = true
-vim.opt.ignorecase = true
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
-vim.opt.expandtab = true
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.cursorline = true
-vim.opt.exrc = true
-vim.opt.secure = true
-vim.opt.clipboard = "unnamed"
-vim.opt.updatetime = 50
-vim.opt.inccommand = "nosplit"
-vim.opt.mouse = "a"
-vim.opt.scrolloff = 8
-vim.opt.completeopt = { "menuone", "noinsert", "noselect" }
-vim.opt.shortmess:append({ c = true })
-vim.opt.smartindent = true
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
-vim.opt.tabstop = 2
-vim.opt.undofile = true
-vim.opt.undodir = vim.fn.expand("~/.vim/undo")
-vim.opt.cmdheight = 1
-vim.opt.listchars = "tab:▹ ,trail:·,eol:↲,lead:·"
-vim.opt.list = false
-vim.opt.wrapscan = false
-
-vim.wo.signcolumn = "yes"
-
-vim.bo.syntax = "enable"
-vim.bo.swapfile = false
-
--- vim.api.nvim_create_autocmd("BufEnter", {
---     group = vim.api.nvim_create_augroup("OpenHelpOnRightMostWindow",
---                                         {clear = true}),
---     pattern = "*.txt",
---     command = "if &buftype == 'help' | wincmd L | endif",
---     desc = "Open help page on the right (default bottom)"
--- })
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-	group = vim.api.nvim_create_augroup("SetFoldMethod", { clear = true }),
-	pattern = { "*.vim", "*.lua", "*.zsh", "*.conf" },
-	command = "setlocal foldmethod=marker",
-})
-
-vim.api.nvim_create_autocmd({ "BufRead" }, {
-	group = vim.api.nvim_create_augroup("AutoSetFoldLevelInitLua", { clear = true }),
-	pattern = { "*.lua" },
-	command = "setlocal foldlevel=1",
-})
-
-local cursor_line_only_in_active_window = vim.api.nvim_create_augroup("CursorLineOnlyInActiveWindow", { clear = true })
-
-vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
-	group = cursor_line_only_in_active_window,
-	pattern = "*",
-	command = "setlocal cursorline",
-})
-
-vim.api.nvim_create_autocmd("WinLeave", {
-	group = cursor_line_only_in_active_window,
-	pattern = "*",
-	command = "setlocal nocursorline",
-})
-
--- }}}2
--- }}}1
-
--- {{{1 Mappings
--- {{{
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
-vim.keymap.set("n", "n", "nzt", { noremap = false })
-vim.keymap.set("n", "N", "Nzt", { noremap = false })
-vim.keymap.set("n", "*", "*zt", { noremap = false })
-vim.keymap.set("n", "#", "#zt", { noremap = false })
-
-vim.keymap.set("n", "Y", "y$")
-
--- Duplicate everything selected
-vim.keymap.set("v", "D", "y'>p")
-
--- Do search with selected text in VISUAL mode
-vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>', { noremap = false })
-
-vim.keymap.set("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr>")
-vim.keymap.set(
-	"n",
-	"<leader><leader>R",
-	"<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>:syntax enable<cr>:PackerInstall<cr>"
-)
-vim.keymap.set("n", "<leader><leader>r", "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
-
-vim.keymap.set("n", "<c-w><c-e>", "<c-w>=")
-
--- Moving around in command mode
-vim.keymap.set("c", "<c-h>", "<left>", { silent = false })
-vim.keymap.set("c", "<c-j>", "<down>", { silent = false })
-vim.keymap.set("c", "<c-k>", "<up>", { silent = false })
-vim.keymap.set("c", "<c-l>", "<right>", { silent = false })
-
-vim.keymap.set("i", "<c-h>", "<left>", { silent = false })
-vim.keymap.set("i", "<c-j>", "<down>", { silent = false })
-vim.keymap.set("i", "<c-k>", "<up>", { silent = false })
-vim.keymap.set("i", "<c-l>", "<right>", { silent = false })
-
-vim.keymap.set("n", "<leader>e", "<cmd>b #<cr>")
-vim.keymap.set("n", "<leader><leader>e", "<cmd>e<cr>")
-vim.keymap.set("n", "<leader>td", ":vsp .todo<cr>")
-
--- Create file at same folder with vsplit/split
-vim.keymap.set("n", "<leader>vf", ":vsp %:h/", { silent = false })
-vim.keymap.set("n", "<leader>sf", ":sp %:h/", { silent = false })
-vim.keymap.set("n", "<leader><leader>ef", ":e %:h/", { silent = false })
-
-vim.keymap.set("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>')
-vim.keymap.set("n", "<leader><leader>H", "yi' :!npm home <c-r>\"<cr>")
-vim.keymap.set("n", "<leader><leader>oe", "<cmd>!open -a textedit %<cr>")
-vim.keymap.set("n", "<leader><leader>oc", "<cmd>!code %<cr>")
-vim.keymap.set("n", "<leader><leader>og", "<cmd>!open -a google chrome %<cr>")
-
--- Windows
-vim.keymap.set("n", "<c-w>v", "<c-w>v <c-w>l", { noremap = true })
-vim.keymap.set("n", "<c-w><c-v>", "<c-w>v <c-w>l", { noremap = true })
-vim.keymap.set("n", "<c-w>s", "<c-w>s <c-w>j", { noremap = true })
-vim.keymap.set("n", "<c-w><c-s>", "<c-w>s <c-w>j", { noremap = true })
-vim.keymap.set("n", "<c-w><c-w>", "<c-w>q", { noremap = true })
-vim.keymap.set("n", "<leader><leader>m", ":vert res 120<cr>", { noremap = true })
-vim.keymap.set("n", "<leader><leader>M", ":GoldenRatioToggle<cr>", { noremap = true })
-
-vim.keymap.set("n", "<leader>rr", '"rciw')
-vim.keymap.set("n", "<leader>cf", ":CopyFileName<cr>")
-vim.keymap.set("n", "<leader>fl", ":set foldlevel=", { silent = false })
-
-function _G.copyFileName()
-	vim.fn.setreg("*", vim.fn.expand("%:t:r"))
-	vim.fn.setreg("r", vim.fn.expand("%:t:r"))
-end
-
-function _G.copyAbsouPathPath()
-	vim.fn.setreg("*", vim.fn.expand("%:p"))
-	vim.fn.setreg("r", vim.fn.expand("%:p"))
-end
-
-function _G.copyFileRelativePath()
-	vim.fn.setreg("*", vim.fn.expand("%"))
-	vim.fn.setreg("r", vim.fn.expand("%"))
-end
-
-function _G.copyFileRelativeFolderPath()
-	vim.fn.setreg("*", vim.fn.expand("%:h"))
-	vim.fn.setreg("r", vim.fn.expand("%:h"))
-end
-
-function _G.copyFolderName()
-	vim.fn.setreg("*", vim.fn.expand("%:h:t"))
-	vim.fn.setreg("r", vim.fn.expand("%:h:t"))
-end
-
-function _G.openCurrentFolder()
-	vim.api.nvim_command("!open %:p:h")
-end
-
-function _G.googleJavaFormat()
-	vim.api.nvim_command("!google-java-format --replace % ")
-end
-
-vim.api.nvim_command("command! CopyFileName :call v:lua.copyFileName()")
-vim.api.nvim_command("command! Cfn :call v:lua.copyFileName()")
-
-vim.api.nvim_command("command! CopyFolderName :call v:lua.copyFolderName()")
-vim.api.nvim_command("command! Cdn :call v:lua.copyFolderName()")
-
-vim.api.nvim_command("command! CopyAbsouPathPath :call v:lua.copyAbsouPathPath()")
-vim.api.nvim_command("command! CopyRelativePath :call v:lua.copyFileRelativePath()")
-vim.api.nvim_command("command! CopyFolderPath :call v:lua.copyFileRelativeFolderPath()")
-
-vim.api.nvim_command("command! GoogleJavaFormat :call v:lua.googleJavaFormat()")
-
-vim.api.nvim_command("command! OpenFolder :call v:lua.openCurrentFolder()")
-vim.api.nvim_command("command! Od :call v:lua.openCurrentFolder()")
-
--- Open github page
-vim.keymap.set("n", "<leader><leader>gh", function()
-	vim.cmd('normal! yi"')
-	local package = vim.fn.getreg('"')
-	local ghPage = "https://github.com/" .. package
-	vim.cmd("!open " .. ghPage)
-end, { silent = true })
-
--- local function tm ()
---   vim.ui.input({prompt = ':!tmux neww '}, function (command)
---     if string.len(command) > 0 then
---       vim.cmd(":!tmux neww " .. command)
---     end
---   end
--- )
--- end
-
-vim.keymap.set("n", "<leader>tm", ":!tmux neww ", { silent = false })
-
-local function build()
-	local json = require("lib.json")
-
-	local package = vim.fn.findfile("package.json", ".;")
-	if package ~= "package.json" then
-		local file = io.open(package, "rb")
-
-		local jsonString = file:read("*a")
-		file:close()
-		print(jsonString)
-
-		-- parse json with lunajson
-		-- local json = require 'lunajson'
-		local t = json.decode(jsonString)
-		local packageName = t["name"]
-		vim.notify("Building " .. packageName)
-
-		vim.cmd("AsyncRun yarn workspace " .. packageName .. " build")
-		-- vim.cmd ("!tmux splitw -l 15 yarn workspace " .. packageName .. " build")
-	end
-end
-
-vim.keymap.set("n", "<leader>bd", build)
-
--- }}}
--- }}}1
