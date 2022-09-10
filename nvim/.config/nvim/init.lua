@@ -39,27 +39,6 @@ require("packer").startup(function(use)
 	})
 
 	use({
-		"nvim-treesitter/nvim-treesitter-refactor",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				refactor = {
-					highlight_definitions = {
-						enable = false,
-						clear_on_cursor_move = false,
-					},
-					navigation = {
-						enable = true,
-						keymaps = {
-							goto_next_usage = "]s",
-							goto_previous_usage = "[s",
-						},
-					},
-				},
-			})
-		end,
-	})
-
-	use({
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		config = function()
 			require("nvim-treesitter.configs").setup({
