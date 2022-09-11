@@ -157,3 +157,9 @@ vim.keymap.set("n", "<leader>kk", function()
 	local w = vim.fn.expand("<cword>")
 	vim.api.nvim_command("help " .. w)
 end, {noremap=true})
+
+
+function _G.set_theme(theme_name, lualine_theme)
+	vim.cmd("colorscheme " .. theme_name)
+	require("lualine").setup({ options = { theme = lualine_theme or theme_name } })
+end
