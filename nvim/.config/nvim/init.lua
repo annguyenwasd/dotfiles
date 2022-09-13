@@ -67,15 +67,39 @@ require("packer").startup(function(use)
 			"neovim/nvim-lspconfig",
 			"b0o/schemastore.nvim",
 			"jose-elias-alvarez/nvim-lsp-ts-utils",
-			"SirVer/ultisnips",
 			"kkharji/lspsaga.nvim",
 			"ray-x/lsp_signature.nvim",
 			"folke/lsp-colors.nvim",
-			{ "ms-jpq/coq_nvim", branch = "coq" },
+		},
+		config = require("plugin-configs.lsp.cmp"),
+	})
+
+	use({
+		"ms-jpq/coq_nvim",
+		branch = "coq",
+		disable = true,
+		requires = {
 			{ "ms-jpq/coq.artifacts", branch = "artifacts" },
 			{ "ms-jpq/coq.thirdparty", branch = "3p" },
 		},
-		config = require("plugin-configs.lsp"),
+	})
+
+	use({
+		"hrsh7th/nvim-cmp",
+		requires = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-cmdline",
+			"hrsh7th/nvim-cmp",
+			"quangnguyen30192/cmp-nvim-ultisnips",
+			"onsails/lspkind-nvim",
+		},
+	})
+
+	use({
+		"SirVer/ultisnips",
+		requires = { { "honza/vim-snippets", rtp = "." } },
 	})
 	-- }}}
 
@@ -222,22 +246,6 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- This break the lsp_installer :LSPInstallInfo. Disabled for now
-	use({
-		"sunjon/shade.nvim",
-		config = function()
-			require("shade").setup({
-				overlay_opacity = 50,
-				opacity_step = 1,
-				keys = {
-					brightness_up = "<C-Up>",
-					brightness_down = "<C-Down>",
-					toggle = "<leader>ss",
-				},
-			})
-		end,
-	})
-
 	use({
 		"airblade/vim-rooter",
 		setup = function()
@@ -282,7 +290,7 @@ require("packer").startup(function(use)
 		"ryanoasis/vim-devicons",
 		{
 			"kyazdani42/nvim-web-devicons",
-			config = require('plugin-configs.utilities.nvim-web-devicons'),
+			config = require("plugin-configs.utilities.nvim-web-devicons"),
 		},
 	})
 

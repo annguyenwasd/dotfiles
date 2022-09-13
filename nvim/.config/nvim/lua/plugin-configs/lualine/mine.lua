@@ -33,7 +33,7 @@ return function()
 		colored = false,
 	}
 
-	local branch = { "branch", icon = "", fmt = trunc(150, 20, 60) }
+	local branch = { "branch", icon = "", fmt = trunc(1600, 20, 60) }
 	local diff = { "diff", source = diff_source, colored = false }
 	local jump_to_middle = "%="
 	local name_with_flag = {

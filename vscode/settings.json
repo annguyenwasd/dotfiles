@@ -1,0 +1,460 @@
+{
+  "editor.renderWhitespace": "none",
+  "update.mode": "none",
+  "telemetry.telemetryLevel": "off",
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "workbench.startupEditor": "none",
+  "editor.minimap.enabled": false,
+  "vim.useSystemClipboard": true,
+  "gitlens.hovers.currentLine.over": "line",
+  "vim.visualModeKeyBindings": [
+    {
+      "before": [
+        ">"
+      ],
+      "commands": [
+        "editor.action.indentLines"
+      ]
+    },
+    {
+      "before": [
+        "<"
+      ],
+      "commands": [
+        "editor.action.outdentLines"
+      ]
+    }
+  ],
+  "vim.leader": "<space>",
+  "vim.normalModeKeyBindings": [
+    {
+      "before": [
+        "<leader>",
+        "g",
+        "i"
+      ],
+      "commands": [
+        "editor.action.goToImplementation"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "g",
+        "d"
+      ],
+      "commands": [
+        "editor.action.goToTypeDefinition"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "o"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "g",
+        "r"
+      ],
+      "commands": [
+        "editor.action.goToReferences"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "r",
+        "g"
+      ],
+      "commands": [
+        "workbench.action.findInFiles"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "i"
+      ],
+      "commands": [
+        "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "n"
+      ],
+      "commands": [
+        "workbench.view.explorer"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "w",
+        "w"
+      ],
+      "commands": [
+        "workbench.action.switchWindow"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "t",
+        "t"
+      ],
+      "commands": [
+        "terminal.focus"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "t",
+        "n"
+      ],
+      "commands": [
+        "workbench.action.terminal.new"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "w",
+        "s"
+      ],
+      "commands": [
+        "workbench.action.showAllSymbols"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "d",
+        "s"
+      ],
+      "commands": [
+        "workbench.action.gotoSymbol"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "f",
+        "m"
+      ],
+      "commands": [
+        "editor.action.formatDocument"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "a",
+        "f"
+      ],
+      "commands": [
+        "eslint.executeAutofix"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "r",
+        "n"
+      ],
+      "commands": [
+        "editor.action.rename"
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "s"
+      ],
+      "commands": [
+        "editor.action.wordHighlight.next"
+      ]
+    },
+    {
+      "before": [
+        "[",
+        "s"
+      ],
+      "commands": [
+        "editor.action.wordHighlight.prev"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "c",
+        "a"
+      ],
+      "commands": [
+        "editor.action.quickFix"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "s",
+        "a"
+      ],
+      "commands": [
+        "editor.action.sourceAction"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "d",
+        "a"
+      ],
+      "commands": [
+        "workbench.actions.view.problems",
+        "workbench.action.problems.focus"
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "d"
+      ],
+      "commands": [
+        "editor.action.marker.nextInFiles"
+      ]
+    },
+    {
+      "before": [
+        "[",
+        "d"
+      ],
+      "commands": [
+        "editor.action.marker.prevInFiles"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "m"
+      ],
+      "commands": [
+        "workbench.action.maximizeEditor",
+        "workbench.action.closePanel"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "l",
+        "d"
+      ],
+      "commands": [
+        "git.revertSelectedRanges"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "l",
+        "u"
+      ],
+      "commands": [
+        "git.unstageSelectedRanges"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "l",
+        "a"
+      ],
+      "commands": [
+        "git.stageSelectedRanges"
+      ]
+    },
+    {
+      "before": [
+        "<c-h>"
+      ],
+      "after": [
+        "<c-w>",
+        "h"
+      ]
+    },
+    {
+      "before": [
+        "<c-j>"
+      ],
+      "after": [
+        "<c-w>",
+        "j"
+      ]
+    },
+    {
+      "before": [
+        "<c-k>"
+      ],
+      "after": [
+        "<c-w>",
+        "k"
+      ]
+    },
+    {
+      "before": [
+        "<c-l>"
+      ],
+      "after": [
+        "<c-w>",
+        "l"
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "l",
+        "d"
+      ],
+      "commands": [
+        "git.revertSelectedRanges"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "l",
+        "u"
+      ],
+      "commands": [
+        "git.unstageSelectedRanges"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "l",
+        "a"
+      ],
+      "commands": [
+        "git.stageSelectedRanges"
+      ]
+    }
+  ],
+  "editor.fontLigatures": true,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "explorer.confirmDelete": false,
+  "vim.smartRelativeLine": true,
+  "explorer.openEditors.visible": 0,
+  "workbench.colorCustomizations": {
+    "[Gruvbox Dark Hard]": {
+      "peekViewEditor.matchHighlightBackground": "#436046"
+    },
+    "[Material Theme Ocean]": {
+      "activityBarBadge.background": "#616161",
+      "activityBar.activeBorder": "#616161",
+      "list.activeSelectionForeground": "#616161",
+      "list.inactiveSelectionForeground": "#616161",
+      "list.highlightForeground": "#616161",
+      "scrollbarSlider.activeBackground": "#61616150",
+      "editorSuggestWidget.highlightForeground": "#616161",
+      "textLink.foreground": "#616161",
+      "progressBar.background": "#616161",
+      "pickerGroup.foreground": "#616161",
+      "tab.activeBorder": "#616161",
+      "notificationLink.foreground": "#616161",
+      "editorWidget.resizeBorder": "#616161",
+      "editorWidget.border": "#616161",
+      "settings.modifiedItemIndicator": "#616161",
+      "settings.headerForeground": "#616161",
+      "panelTitle.activeBorder": "#616161",
+      "breadcrumb.activeSelectionForeground": "#616161",
+      "menu.selectionForeground": "#616161",
+      "menubar.selectionForeground": "#616161",
+      "editor.findMatchBorder": "#616161",
+      "selection.background": "#61616140",
+      "statusBarItem.remoteBackground": "#616161"
+    }
+  },
+  "materialTheme.accent": "Graphite",
+  "gitlens.currentLine.pullRequests.enabled": false,
+  "gitlens.hovers.enabled": false,
+  "gitlens.hovers.pullRequests.enabled": false,
+  "gitlens.hovers.autolinks.enabled": false,
+  "gitlens.hovers.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.details": false,
+  "gitlens.hovers.currentLine.changes": false,
+  "gitlens.hovers.annotations.enabled": false,
+  "gitlens.hovers.annotations.details": false,
+  "terminal.integrated.scrollback": 10000,
+  "vim.foldfix": true,
+  "vim.visualstar": true,
+  "material-icon-theme.activeIconPack": "react",
+  "material-icon-theme.folders.theme": "classic",
+  "editor.fontFamily": "'Source Code Pro Medium', 'Operator Mono','Dank Mono', Menlo, 'Fira Code', Monaco, 'Courier New', monospace",
+  "terminal.external.osxExec": "iTerm.app",
+  "terminal.integrated.cursorBlinking": true,
+  "debug.terminal.clearBeforeReusing": true,
+  "explorer.confirmDragAndDrop": false,
+  "editor.fontSize": 14,
+  "terminal.integrated.fontSize": 14,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "editor.largeFileOptimizations": false,
+  "explorer.compactFolders": false,
+  "terminal.integrated.fontFamily": "'MesloLGS NF'",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "scm.defaultViewMode": "tree",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "gitlens.statusBar.enabled": false,
+  "gitlens.views.contributors.showAllBranches": true,
+  "gitlens.showWelcomeOnInstall": false,
+  "gitlens.showWhatsNewAfterUpgrades": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+  "gitlens.codeLens.enabled": false,
+  "zenMode.fullScreen": false,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.wrapTabs": true,
+  "workbench.editor.closeEmptyGroups": true,
+  "gitlens.currentLine.enabled": false,
+  "gitlens.remotes": [
+    {
+      "domain": "github.aus.thenational.com",
+      "type": "Custom",
+      "name": "NAB",
+      "protocol": "https",
+      "urls": {
+        "repository": "https://github.aus.thenational.com/${repo}",
+        "branches": "https://github.aus.thenational.com/${repo}/branches",
+        "branch": "https://github.aus.thenational.com/${repo}/commits/${branch}",
+        "commit": "https://github.aus.thenational.com/${repo}/commit/${id}",
+        "file": "https://github.aus.thenational.com/${repo}?path=${file}${line}",
+        "fileInBranch": "https://github.aus.thenational.com/${repo}/blob/${branch}/${file}${line}",
+        "fileInCommit": "https://github.aus.thenational.com/${repo}/blob/${id}/${file}${line}",
+        "fileLine": "#L${line}",
+        "fileRange": "#L${start}-L${end}"
+      }
+    }
+  ],
+  "gitlens.currentLine.format": "${author, }${agoOrDate}${' via 'pullRequest}${ • message|50?}",
+  "cSpell.userWords": [
+    "IXNF",
+    "miniapp",
+    "miniapps",
+    "NXNV"
+  ],
+  "workbench.activityBar.visible": false,
+  "diffEditor.ignoreTrimWhitespace": false
+}
