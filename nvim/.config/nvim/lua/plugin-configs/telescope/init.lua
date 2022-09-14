@@ -1,5 +1,6 @@
 return function()
 	local actions = require("telescope.actions")
+	local actions_layout = require("telescope.actions.layout")
 
 	-- Falling back to find_files if git_files can't find a .git directory
 	local function project_files()
@@ -30,15 +31,22 @@ return function()
 				".vscode",
 				".idea",
 			},
+      preview = {
+        hide_on_startup=true
+      },
 			mappings = {
 				i = {
-					["<c-s>"] = actions.send_selected_to_qflist + actions.open_qflist,
+					["<c-w>"] = actions.send_selected_to_qflist + actions.open_qflist,
+					["<c-s>"] = actions.select_horizontal,
 					["<c-h>"] = actions.which_key,
+					["<c-\\>"] = actions_layout.toggle_preview,
 				},
 				n = {
-					["<c-s>"] = actions.send_selected_to_qflist + actions.open_qflist,
+					["<c-w>"] = actions.send_selected_to_qflist + actions.open_qflist,
+					["<c-s>"] = actions.select_horizontal,
 					["<c-h>"] = actions.which_key,
 					["<c-d>"] = actions.delete_buffer,
+					["<c-\\>"] = actions_layout.toggle_preview,
 				},
 			},
 		},
