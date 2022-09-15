@@ -6,7 +6,7 @@ endsnippet
 
 snippet use "Packer use" b
 use {
-	'$1', 
+	'$1',
 	config=function()
 		$2
 	end
@@ -19,3 +19,12 @@ return function()
 end
 endsnippet
 
+snippet module "Create lua module" b
+local M = {}
+
+M.$1 = function()
+	$2
+end
+
+return M
+endsnippet

@@ -134,5 +134,5 @@ return function()
 		{ src = "ultisnip" },
 	})
 
-  require('plugin-configs.lsp.common')
+	require("plugin-configs.lsp.common")()
 end

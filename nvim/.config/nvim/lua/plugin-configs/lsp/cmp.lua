@@ -31,7 +31,41 @@ return function()
 		vim.keymap.set("n", "<leader><leader>i", ":TSLspImportAll<CR>", opts)
 	end
 
+	local null_ls_format = function(bufnr)
+		vim.lsp.buf.format({
+			filter = function(client)
+				-- apply whatever logic you want (in this example, we'll only use null-ls)
+				return client.name == "null-ls"
+			end,
+			bufnr = bufnr,
+		})
+	end
+
+	local null_ls_range_format = function(bufnr)
+		vim.lsp.buf.range_format({
+			filter = function(client)
+				-- apply whatever logic you want (in this example, we'll only use null-ls)
+				return client.name == "null-ls"
+			end,
+			bufnr = bufnr,
+		})
+	end
+
+	-- if you want to set up formatting on save, you can use this as a callback
+	local format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
+
 	local on_attach = function(client, bufnr)
+		if client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({ group = format_on_save, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = format_on_save,
+				buffer = bufnr,
+				callback = function()
+					null_ls_format(bufnr)
+				end,
+			})
+		end
+
 		if client.name == "tsserver" then
 			setup_ts_utils(bufnr, client)
 		end
@@ -56,10 +90,10 @@ return function()
 		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 		vim.keymap.set("n", "<leader>fm", function()
-			vim.lsp.buf.formatting({ async = true })
+			null_ls_format(bufnr)
 		end, opts)
 		vim.keymap.set("x", "<leader>fm", function()
-			vim.lsp.buf.range_formatting({ async = true })
+			null_ls_range_format(bufnr)
 		end, opts)
 		vim.keymap.set("n", "<leader><leader>ee", "<cmd>EslintFixAll<CR>", opts)
 		-- vim.keymap.set("n", "<space>q",vim.diagnostic.set_loclist, opts)
@@ -185,6 +219,7 @@ return function()
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "ultisnips" },
+			{ name = "nvim_lua" },
 		}, {
 			{
 				name = "buffer",
@@ -208,5 +243,5 @@ return function()
 		sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 	})
 
-	require("plugin-configs.lsp.common")
+	require("plugin-configs.lsp.common")()
 end
