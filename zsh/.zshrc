@@ -2,7 +2,6 @@
 source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/personal.zsh
-source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # }}}
 
