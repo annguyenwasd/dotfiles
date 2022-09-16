@@ -62,6 +62,7 @@ vim.keymap.set("n", "<leader><leader>M", ":GoldenRatioToggle<cr>", { noremap = t
 vim.keymap.set("n", "<leader>rr", '"rciw')
 vim.keymap.set("n", "<leader>cf", ":CopyFileName<cr>")
 vim.keymap.set("n", "<leader>fl", ":set foldlevel=", { silent = false })
+vim.keymap.set("n", "<leader>cc", ":set cmdheight=1<cr>")
 
 function _G.copyFileName()
 	vim.fn.setreg("*", vim.fn.expand("%:t:r"))
@@ -156,8 +157,7 @@ vim.keymap.set("n", "<leader>bd", build)
 vim.keymap.set("n", "<leader>kk", function()
 	local w = vim.fn.expand("<cword>")
 	vim.api.nvim_command("help " .. w)
-end, {noremap=true})
-
+end, { noremap = true })
 
 function _G.set_theme(theme_name, lualine_theme)
 	vim.cmd("colorscheme " .. theme_name)

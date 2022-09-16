@@ -27,7 +27,7 @@ return function()
 			},
 			file_ignore_patterns = {
 				"node_modules",
-				".git",
+				"%.git/",
 				".vscode/",
 				".idea",
 			},
@@ -42,7 +42,7 @@ return function()
 					["<c-\\>"] = actions_layout.toggle_preview,
 				},
 				n = {
-					["<c-Q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+					["<c-e>"] = actions.send_selected_to_qflist + actions.open_qflist,
 					["<c-s>"] = actions.select_horizontal,
 					["<c-h>"] = actions.which_key,
 					["<c-d>"] = actions.delete_buffer,

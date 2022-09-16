@@ -1,14 +1,6 @@
 [user]
 	name = An Nguyen
 	email = an.nguyenwasd@gmail.com
-[pull]
-	rebase = false
-
-[merge]
-  tool =
-
-[mergetool]
-  keepBackup = false
 
 [mergetool ""]
   cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
