@@ -24,6 +24,9 @@ setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
 setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+
+# Turn off all beeps
+unsetopt BEEP
 # }}}
 
 # {{{ Exports
@@ -74,7 +77,7 @@ function fw() {
     loc=$1
   fi
 
-  dir=$(ls -l $loc | grep '^d' | cut -f 9 -w -| fzf)
+  dir=$(ls -1 $loc | fzf)
   if [ -n $dir ]
   then
     cd $loc/$dir
@@ -91,7 +94,7 @@ function ff() {
     loc=$1
   fi
 
-  dir=$(ls -l $loc | grep '^d' | cut -f 9 -w -| fzf)
+  dir=$(ls -1 $loc | fzf)
   if [ -n $dir ]
   then
     cd $loc/$dir
@@ -107,7 +110,7 @@ function fff() {
     loc=$1
   fi
 
-  dir=$(ls -l $loc | grep '^d' | cut -f 9 -w -| fzf)
+  dir=$(ls -1 $loc | fzf)
   if [ -n $dir ]
   then
     cd $loc/$dir
