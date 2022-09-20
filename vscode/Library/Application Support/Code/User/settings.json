@@ -456,5 +456,6 @@
     "NXNV"
   ],
   "workbench.activityBar.visible": false,
-  "diffEditor.ignoreTrimWhitespace": false
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.layoutControl.enabled": false
 }
