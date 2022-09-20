@@ -15,12 +15,23 @@ vim.keymap.set("v", "D", "y'>p")
 vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>', { noremap = false })
 
 vim.keymap.set("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr>")
-vim.keymap.set(
-	"n",
-	"<leader><leader>R",
-	"<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>:syntax enable<cr>:PackerInstall<cr>"
-)
-vim.keymap.set("n", "<leader><leader>r", "<cmd>so ~/.config/nvim/init.lua<cr><cmd>PackerCompile<cr>:syntax enable<cr>")
+
+local function refresh()
+	local paths = vim.split(vim.fn.glob("~/.config/nvim/lua/**/*.lua"), "\n")
+	for i, file in pairs(paths) do
+		vim.cmd("source " .. file)
+	end
+	vim.cmd("PackerCompile")
+	vim.cmd("syntax enable")
+	print("Sourced all config files")
+end
+
+vim.keymap.set("n", "<leader><leader>R", function()
+	refresh()
+	vim.cmd("PackerInstall")
+end)
+
+vim.keymap.set("n", "<leader><leader>r", refresh)
 
 vim.keymap.set("n", "<c-w><c-e>", "<c-w>=")
 
@@ -154,10 +165,6 @@ local function build()
 end
 
 vim.keymap.set("n", "<leader>bd", build)
-vim.keymap.set("n", "<leader>kk", function()
-	local w = vim.fn.expand("<cword>")
-	vim.api.nvim_command("help " .. w)
-end, { noremap = true })
 
 function _G.set_theme(theme_name, lualine_theme)
 	vim.cmd("colorscheme " .. theme_name)

@@ -37,6 +37,7 @@ require("packer").startup(function(use)
 	use({
 		"nvim-telescope/telescope.nvim",
 		requires = {
+			"nvim-telescope/telescope-file-browser.nvim",
 			"nvim-telescope/telescope-symbols.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",

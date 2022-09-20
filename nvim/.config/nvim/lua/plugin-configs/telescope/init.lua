@@ -3,10 +3,12 @@ return function()
 	local actions_layout = require("telescope.actions.layout")
 
 	-- Falling back to find_files if git_files can't find a .git directory
-	local function project_files()
-		local ok = pcall(require("telescope.builtin").git_files, { show_untracked = true })
+	local function project_files(opts)
+		opts = opts or {}
+		local ok =
+			pcall(require("telescope.builtin").git_files, vim.tbl_extend("force", { show_untracked = true }, opts))
 		if not ok then
-			require("telescope.builtin").find_files({ hidden = true })
+			require("telescope.builtin").find_files(vim.tbl_extend("force", { hidden = true }, opts))
 		end
 	end
 
@@ -34,6 +36,7 @@ return function()
 			preview = {
 				hide_on_startup = true,
 			},
+			sorting_strategy = "ascending",
 			mappings = {
 				i = {
 					["<c-e>"] = actions.send_selected_to_qflist + actions.open_qflist,
@@ -47,6 +50,7 @@ return function()
 					["<c-h>"] = actions.which_key,
 					["<c-d>"] = actions.delete_buffer,
 					["<c-\\>"] = actions_layout.toggle_preview,
+					["l"] = actions.select_default,
 				},
 			},
 		},
@@ -104,10 +108,6 @@ return function()
 
 	vim.keymap.set("n", "<leader>ws", ":Telescope lsp_workspace_symbols initial_mode=normal query=", { silent = false })
 
-	vim.keymap.set("n", "<leader>ff", function()
-		builtin.find_files({ hidden = true, cwd = "%:p:h" })
-	end)
-
 	-- ╭──────────────────────────────────────────────────────────╮
 	-- │         nvim-telescope/telescope-fzf-native.nvim         │
 	-- ╰──────────────────────────────────────────────────────────╯
@@ -128,4 +128,39 @@ return function()
 	-- ╰──────────────────────────────────────────────────────────╯
 
 	vim.keymap.set("n", "<leader>ts", "<cmd>Telescope symbols<cr>")
+
+	-- ╭──────────────────────────────────────────────────────────╮
+	-- │        nvim-telescope/telescope-file-browser.nvim        │
+	-- ╰──────────────────────────────────────────────────────────╯
+
+	-- To get telescope-file-browser loaded and working with telescope,
+	-- you need to call load_extension, somewhere after setup function:
+
+	local fb = require("telescope").extensions.file_browser
+
+	require("telescope").setup({
+		extensions = {
+			file_browser = {
+				initial_mode = "normal",
+				mappings = {
+					["n"] = {
+						["a"] = fb.actions.create,
+						["r"] = fb.actions.rename,
+						["x"] = fb.actions.move,
+						["c"] = fb.actions.copy,
+						["d"] = fb.actions.remove,
+						["o"] = fb.actions.open,
+						["h"] = fb.actions.goto_parent_dir,
+						["t"] = fb.actions.toggle_browser,
+					},
+				},
+			},
+		},
+	})
+
+	require("telescope").load_extension("file_browser")
+
+	vim.keymap.set("n", "<leader>ff", function()
+		fb.file_browser({ path = "%:h", hidden = true, hide_parent_dir = true })
+	end)
 end
