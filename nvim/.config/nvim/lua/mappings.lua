@@ -7,6 +7,7 @@ vim.keymap.set("n", "*", "*zt", { noremap = false })
 vim.keymap.set("n", "#", "#zt", { noremap = false })
 
 vim.keymap.set("n", "Y", "y$")
+vim.keymap.set("v", "<leader>p", '"_dP')
 
 -- Duplicate everything selected
 vim.keymap.set("v", "D", "y'>p")
