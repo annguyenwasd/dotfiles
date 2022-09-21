@@ -139,31 +139,31 @@ return function()
 	-- To get telescope-file-browser loaded and working with telescope,
 	-- you need to call load_extension, somewhere after setup function:
 
-	local fb = require("telescope").extensions.file_browser
-
-	require("telescope").setup({
-		extensions = {
-			file_browser = {
-				initial_mode = "normal",
-				mappings = {
-					["n"] = {
-						["a"] = fb.actions.create,
-						["r"] = fb.actions.rename,
-						["x"] = fb.actions.move,
-						["c"] = fb.actions.copy,
-						["d"] = fb.actions.remove,
-						["o"] = fb.actions.open,
-						["h"] = fb.actions.goto_parent_dir,
-						["t"] = fb.actions.toggle_browser,
-					},
-				},
-			},
-		},
-	})
-
-	require("telescope").load_extension("file_browser")
-
-	vim.keymap.set("n", "<leader>ff", function()
-		fb.file_browser({ path = "%:h", hidden = true, hide_parent_dir = true })
-	end)
+	--[[ local fb = require("telescope").extensions.file_browser ]]
+	--[[]]
+	--[[ require("telescope").setup({ ]]
+	--[[ 	extensions = { ]]
+	--[[ 		file_browser = { ]]
+	--[[ 			initial_mode = "normal", ]]
+	--[[ 			mappings = { ]]
+	--[[ 				["n"] = { ]]
+	--[[ 					["a"] = fb.actions.create, ]]
+	--[[ 					["r"] = fb.actions.rename, ]]
+	--[[ 					["x"] = fb.actions.move, ]]
+	--[[ 					["c"] = fb.actions.copy, ]]
+	--[[ 					["d"] = fb.actions.remove, ]]
+	--[[ 					["o"] = fb.actions.open, ]]
+	--[[ 					["h"] = fb.actions.goto_parent_dir, ]]
+	--[[ 					["t"] = fb.actions.toggle_browser, ]]
+	--[[ 				}, ]]
+	--[[ 			}, ]]
+	--[[ 		}, ]]
+	--[[ 	}, ]]
+	--[[ }) ]]
+	--[[]]
+	--[[ require("telescope").load_extension("file_browser") ]]
+	--[[]]
+	--[[ vim.keymap.set("n", "<leader>ff", function() ]]
+	--[[ 	fb.file_browser({ path = "%:h", hidden = true, hide_parent_dir = true }) ]]
+	--[[ end) ]]
 end
