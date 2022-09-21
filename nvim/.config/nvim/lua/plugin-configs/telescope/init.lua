@@ -109,7 +109,7 @@ return function()
 		builtin.lsp_document_symbols()
 	end)
 
-	vim.keymap.set("n", "<leader>ws", ":Telescope lsp_workspace_symbols initial_mode=normal query=", { silent = false })
+	vim.keymap.set("n", "<leader>ws", ":Telescope lsp_dynamic_workspace_symbols<cr>", { silent = false })
 
 	-- ╭──────────────────────────────────────────────────────────╮
 	-- │         nvim-telescope/telescope-fzf-native.nvim         │

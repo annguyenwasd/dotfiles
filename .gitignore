@@ -9,3 +9,5 @@ Session.vim
 nvim/.config/nvim/plugin/packer_compiled.lua
 nvim/.config/nvim/plugin
 nvim/.config/nvim/spell
+
+lazy/Library/Application Support/jesseduffield/lazygit/state.yml
