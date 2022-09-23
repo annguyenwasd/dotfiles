@@ -142,6 +142,7 @@ end, { silent = true })
 -- end
 
 vim.keymap.set("n", "<leader>tm", ":!tmux neww ", { silent = false })
+vim.keymap.set("n", "<leader>tM", ":!tmux splitw ", { silent = false })
 
 local function build()
 	local json = require("lib.json")
