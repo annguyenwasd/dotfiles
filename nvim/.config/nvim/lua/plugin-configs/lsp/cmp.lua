@@ -52,10 +52,10 @@ return function()
 		})
 	end
 
-	-- if you want to set up formatting on save, you can use this as a callback
-	local format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
+	local function do_format_on_save(client, bufnr)
+		-- if you want to set up formatting on save, you can use this as a callback
+		local format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
 
-	local on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
 			vim.api.nvim_clear_autocmds({ group = format_on_save, buffer = bufnr })
 			vim.api.nvim_create_autocmd("BufWritePre", {
@@ -66,7 +66,10 @@ return function()
 				end,
 			})
 		end
+	end
 
+	local on_attach = function(client, bufnr)
+		--[[ do_format_on_save(client, bufnr) ]]
 		if client.name == "tsserver" then
 			setup_ts_utils(bufnr, client)
 		end
