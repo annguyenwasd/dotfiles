@@ -116,6 +116,11 @@ require("packer").startup(function(use)
 		setup = require("plugin-configs.debugger.repl_completion"),
 		config = require("plugin-configs.debugger"),
 	})
+
+	use({
+		"rcarriga/nvim-dap-ui",
+		config = require("plugin-configs.debugger.ui"),
+	})
 	-- }}}
 
 	-- {{{ Explorer

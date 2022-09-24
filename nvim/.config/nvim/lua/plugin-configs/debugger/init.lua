@@ -21,7 +21,7 @@ return function()
 	vim.keymap.set("n", "<localleader>dt", dap.terminate)
 	vim.keymap.set("n", "<localleader>dr", dap.repl.toggle)
 	vim.keymap.set("n", "<localleader>dc", dap.run_to_cursor)
-	vim.keymap.set("n", "`h", widgets.hover)
+	--[[ vim.keymap.set("n", "`h", widgets.hover) ]]
 	vim.keymap.set("n", "<localleader>da", ":Telescope dap commands<cr>")
 	vim.keymap.set("n", "<localleader>ds", function()
 		widgets.centered_float(widgets.scopes)
