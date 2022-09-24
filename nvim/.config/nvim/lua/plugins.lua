@@ -304,6 +304,8 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	use({ "jbyuki/venn.nvim", config = require("plugin-configs.diagram") })
+
 	-- }}}
 
 	-- {{{ Packer end
