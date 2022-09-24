@@ -48,4 +48,11 @@ function gif {
   ffmpeg -i $1 -s 1366x768 -pix_fmt rgb24 -r 18 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
   echo "Done!"
 }
+
+function s() {
+ echo "Star syncing..."
+ mv ~/Download/p.patch $DOTFILES
+ git apply p.patch
+ dd "Sync finished"
+}
 # }}}
