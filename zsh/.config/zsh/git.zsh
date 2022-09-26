@@ -49,7 +49,7 @@ alias gpdr="git pull origin develop --rebase"
 alias gp="git pull;gfp"
 
 alias gbdr="git push origin -d"
-alias gpp="git push"
+alias gpp="git push --follow-tags"
 alias gpf="git push --force-with-lease"
 
 alias gsh="git stash -u"
@@ -103,7 +103,7 @@ function gcbb() {
 
 function gpu {
   branch_name=$(git rev-parse --abbrev-ref HEAD)
-  echo "Pushing to ${1:=origin} $branch_name"
+  echo "Pushing to ${1:=origin} $branch_name --follow-tags"
   git push -u ${1:=origin} $branch_name
 }
 
@@ -119,5 +119,11 @@ function gcount {
 
 function gn() {
   git branch | grep "*" | awk '{ print $2 }' | pbcopy
+}
+
+function gt () {
+  tag_name="sync-$(date '+%d-%b-%Y' |awk '{print tolower($0)}')"
+  date="$(date '+%d %b %Y')"
+  git tag -a "$tag_name" -m "Sync on $date"
 }
 # }}}

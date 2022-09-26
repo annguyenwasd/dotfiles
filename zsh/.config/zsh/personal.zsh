@@ -51,8 +51,10 @@ function gif {
 
 function s() {
  echo "Star syncing..."
- mv ~/Download/p.patch $DOTFILES
+ mv ~/Downloads/p.patch $DOTFILES/p.patch
+ cd $DOTFILES
  git apply p.patch
+ rm p.patch
  dd "Sync finished"
 }
 # }}}

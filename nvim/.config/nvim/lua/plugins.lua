@@ -27,6 +27,7 @@ require("packer").startup(function(use)
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				highlight = { enable = true },
+				auto_install = true,
 			})
 		end,
 		run = ":TSUpdate",
@@ -154,6 +155,7 @@ require("packer").startup(function(use)
 	use({ "marko-cerovac/material.nvim" })
 	use({ "shaunsingh/nord.nvim" })
 	use({ "mhartington/oceanic-next" })
+	use({ "ofirgall/ofirkai.nvim" })
 	-- }}}
 
 	-- {{{ Formatter/Linter
