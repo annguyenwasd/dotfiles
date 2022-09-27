@@ -137,4 +137,13 @@ function dd() {
     osascript -e "display notification \"${1:=Done!}\" with title \"${2:=${PWD/~\//}}\" sound name \"Submarine\""
 }
 
+# Fastest way to remove node_modules -> Non-block install new packages 
+# by `npm install` or `yarn install`
+rmm () {
+# Step 1: move all node_modules folder (recursively) to node_modules_rm
+  find . -name "${1:=node_modules}" -type d -prune -exec mv '{}' '{}_rm' ";"
+# Step 2: Remove all node_modules_rm folders
+  find . -name "${1:=node_modules}_rm" -type d -prune -exec rm -rf '{}' + &
+}
+
 # }}}
