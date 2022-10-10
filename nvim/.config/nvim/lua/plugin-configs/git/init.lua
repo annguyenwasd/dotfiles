@@ -34,7 +34,7 @@ return function()
 	vim.keymap.set(
 		"n",
 		"<leader>gp",
-		":AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
+		":AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>",
 		{ silent = false }
 	)
 

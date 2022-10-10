@@ -8,6 +8,8 @@ source $HOME/.config/zsh/personal.zsh
 # {{{ Settings
 # autocompletion
 autoload -Uz compinit && compinit
+setopt AUTO_CD
+setopt NOTIFY
 
 # History
 HISTFILE="$HOME/.zsh_history"
@@ -35,6 +37,7 @@ export REACT_EDITOR=code
 export WORKSPACE_FOLDER=~/workspace
 export NVIM_HOME=~/.config/nvim/
 export TERM=xterm-256color
+export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 #}}}
 
 # {{{ Alias
@@ -50,7 +53,6 @@ alias ev="nvim ~/.config/nvim/init.lua"
 
 alias sz="source ~/.zshrc && echo \"Sourced.\""
 
-alias ..="cd .."
 alias w="cd ~/workspace"
 alias d="cd ~/Desktop"
 alias dot="cd $DOTFILES && dn && nvim"
@@ -121,7 +123,9 @@ function fff() {
 
 # set tmux window title as current directoty
 function dn() {
-  tmux rename-window $(echo ${PWD##*/})
+  if [ -n $TMUX ]; then
+    tmux rename-window $(echo ${PWD##*/})
+  fi
 }
 
 # tmux layout
@@ -140,10 +144,14 @@ function dd() {
 # Fastest way to remove node_modules -> Non-block install new packages 
 # by `npm install` or `yarn install`
 rmm () {
+  unsetopt NOTIFY
 # Step 1: move all node_modules folder (recursively) to node_modules_rm
   find . -name "${1:=node_modules}" -type d -prune -exec mv '{}' '{}_rm' ";"
 # Step 2: Remove all node_modules_rm folders
   find . -name "${1:=node_modules}_rm" -type d -prune -exec rm -rf '{}' + &
 }
+
+# Change iterm2 profile. Usage it2prof ProfileName (case sensitive)
+it() { echo -e "\033]50;SetProfile=$1\a" }
 
 # }}}

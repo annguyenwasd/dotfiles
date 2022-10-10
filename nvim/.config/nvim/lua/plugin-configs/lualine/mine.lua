@@ -36,9 +36,10 @@ return function()
 	local branch = { "branch", icon = "", fmt = trunc(1600, 20, 60) }
 	local diff = { "diff", source = diff_source, colored = false }
 	local jump_to_middle = "%="
-	local name_with_flag = {
-		"%f %m",
-		fmt = trunc(100, 40, 39),
+	local file_name = {
+		"filename",
+    path=3,
+    shorting_target = 40,
 	}
 
 	require("lualine").setup({
@@ -56,13 +57,13 @@ return function()
 			lualine_c = {
 				"fileformat",
 				"encoding",
-				branch,
 				jump_to_middle,
 				diagnostic,
-				name_with_flag,
+				file_name,
 			},
 			lualine_x = {
 				diff,
+				branch,
 				"progress",
 				"location",
 			},
@@ -74,7 +75,7 @@ return function()
 			lualine_b = {},
 			lualine_c = {
 				jump_to_middle,
-				name_with_flag,
+				file_name,
 			},
 			lualine_x = {},
 			lualine_y = {},

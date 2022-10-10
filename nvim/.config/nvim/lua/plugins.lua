@@ -150,12 +150,16 @@ require("packer").startup(function(use)
 	-- }}}
 
 	-- {{{ Theme
-	use({ "Mofiqul/vscode.nvim" })
-	use({ "sainnhe/gruvbox-material" })
-	use({ "marko-cerovac/material.nvim" })
-	use({ "shaunsingh/nord.nvim" })
-	use({ "mhartington/oceanic-next" })
-	use({ "ofirgall/ofirkai.nvim" })
+	use("Mofiqul/vscode.nvim")
+	use("sainnhe/gruvbox-material")
+	use("marko-cerovac/material.nvim")
+	use("shaunsingh/nord.nvim")
+	use("mhartington/oceanic-next")
+	use("ofirgall/ofirkai.nvim")
+	use("rmehri01/onenord.nvim")
+	use("Yazeed1s/minimal.nvim")
+	use("kdheepak/monochrome.nvim")
+	use("lourenci/github-colors")
 	-- }}}
 
 	-- {{{ Formatter/Linter
