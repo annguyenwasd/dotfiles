@@ -1,1 +1,1 @@
-require('plugin-configs.themes.vscode').dark()
+require('plugin-configs.themes.oceanic').dark()

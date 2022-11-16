@@ -37,6 +37,8 @@
 	rc = rebase --continue
 	fp = fetch --prune
 	rn = branch -m
+  wt = worktree
+  wtf=config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 [interactive]
 	diffFilter = diff-so-fancy --patch
 [color]
@@ -54,3 +56,5 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[pull]
+	rebase = false

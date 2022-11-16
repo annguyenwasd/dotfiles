@@ -17,15 +17,28 @@ return function()
 	--- return function that can format the component accordingly
 	local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
 		return function(str)
+			local branch_name = str
 			local win_width = vim.fn.winwidth(0)
 			if hide_width and win_width < hide_width then
 				return ""
 			elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
-				return str:sub(1, trunc_len) .. (no_ellipsis and "" or "...")
+				branch_name = str:sub(1, trunc_len) .. (no_ellipsis and "" or "...")
 			end
-			return str
+
+			if vim.b.is_bare then
+				return "[bare] " .. branch_name
+			else
+				return branch_name
+			end
 		end
 	end
+
+	vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "FocusGained" }, {
+		callback = function()
+			local git_output = vim.fn.system("git config --local core.bare", true)
+			vim.b.is_bare = string.find(git_output, "true", 1, true) ~= nil
+		end,
+	})
 
 	local diagnostic = {
 		"diagnostics",
@@ -35,11 +48,10 @@ return function()
 
 	local branch = { "branch", icon = "", fmt = trunc(1600, 20, 60) }
 	local diff = { "diff", source = diff_source, colored = false }
-	local jump_to_middle = "%="
 	local file_name = {
 		"filename",
-    path=3,
-    shorting_target = 40,
+		path = 3,
+		shorting_target = 40,
 	}
 
 	require("lualine").setup({
@@ -55,17 +67,16 @@ return function()
 			lualine_a = {},
 			lualine_b = {},
 			lualine_c = {
-				"fileformat",
-				"encoding",
-				jump_to_middle,
-				diagnostic,
 				file_name,
+				diagnostic,
+				diff,
 			},
 			lualine_x = {
-				diff,
 				branch,
 				"progress",
 				"location",
+				"fileformat",
+				"encoding",
 			},
 			lualine_y = {},
 			lualine_z = {},
@@ -74,7 +85,6 @@ return function()
 			lualine_a = {},
 			lualine_b = {},
 			lualine_c = {
-				jump_to_middle,
 				file_name,
 			},
 			lualine_x = {},

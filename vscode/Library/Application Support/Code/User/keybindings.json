@@ -356,5 +356,9 @@
     "key": "ctrl+shift+g",
     "command": "-workbench.view.scm",
     "when": "workbench.scm.active && !gitlens:disabled && config.gitlens.keymap == 'chorded'"
+  },
+  {
+    "key": "shift+cmd+h",
+    "command": "pr:github.focus"
   }
 ]

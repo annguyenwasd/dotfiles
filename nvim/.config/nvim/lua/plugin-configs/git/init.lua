@@ -33,7 +33,13 @@ return function()
 	vim.keymap.set("n", "<leader>gw", '<cmd>G add -A <bar>G commit -n -m "WIP"<cr>')
 	vim.keymap.set(
 		"n",
-		"<leader>gp",
+		"gpp",
+		":AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
+		{ silent = false }
+	)
+	vim.keymap.set(
+		"n",
+		"gpt",
 		":AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>",
 		{ silent = false }
 	)
@@ -89,4 +95,18 @@ return function()
 			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 		end,
 	})
+
+--  ╭──────────────────────────────────────────────────────────╮
+--  │              ThePrimeagen/git-worktree.nvim              │
+--  ╰──────────────────────────────────────────────────────────╯
+	require("telescope").load_extension("git_worktree")
+	vim.keymap.set("n", "<leader>wt", require("telescope").extensions.git_worktree.git_worktrees)
+	vim.keymap.set("n", "<leader>wT", require("telescope").extensions.git_worktree.create_git_worktree)
+	vim.keymap.set("n", "<leader>WT", function()
+		vim.ui.input({ prompt = "Branch name: " }, function(branch_name)
+			if branch_name and string.len(branch_name) > 0 then
+				require("git-worktree").create_worktree(branch_name,branch_name, "origin")
+			end
+		end)
+	end)
 end

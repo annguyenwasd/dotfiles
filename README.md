@@ -1,12 +1,125 @@
-# dotfiles
+# Personal Development Envionment
 
-![my init.lua](.non-stow/docs/images/neovim.png)
-_my init.lua file_
+* [Personal Development Envionment](#personal-development-envionment)
+   * [Workflow](#workflow)
+      * [Prerequisites](#prerequisites)
+      * [Tmux + FZF](#tmux--fzf)
+      * [Neovim](#neovim)
+         * [Basic movement](#basic-movement)
+         * [LSP](#lsp)
+         * [Git inside neovim](#git-inside-neovim)
+   * [Installation](#installation)
+      * [Homebrew](#homebrew)
+      * [Stow](#stow)
+   * [Goal](#goal)
+   * [Non-Goal](#non-goal)
 
-- font used: [SauceCodePro Nerd Font](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf)
-- theme: `zenwritten` in [zenbones.nvim](https://github.com/zenbones.nvim)
+![](.non-stow/docs/images/neovim.png)
+
+## Workflow
+
+I'll show serveral keymaps for daily basis workflow (not all keymaps)
+
+Start a coding session with tmux
+
+```sh
+tmux
+```
+
+### Prerequisites
+- Set `WORKSPACE_FOLDER` to your folder containing your projects
+- Set `DOTFILES` to your dotifles folder
+
+
+### Tmux + FZF
+
+By setting `WORKSPACE_FOLDER` in the `.zshrc` file, navigates between project become eaziser when combines
+with `fzf`
+
+Mappings:
+- `fw` show list of folder under `WORKSPACE_FOLDER`. Press `Enter` will `cd` into that folder
+- `ff` show list of folder under `WORKSPACE_FOLDER`. Press `Enter` will `cd` into that folder, and open `nvim`
+- `fff` show list of folder under `WORKSPACE_FOLDER`. Press `Enter` will `cd` into that folder, open `nvim`, and change the `tmux` window's name by the current directory's name
+
+![](.non-stow/docs/images/fff-1.png)
+![](.non-stow/docs/images/fff-2.png)
+
+- `dot` will cd to `DOTFILES` folder, open `nvim` and set tmux window to folder's name
+
+- `c-a` + `o` will close all panes in current window
+- `c-a` + `O` (capital `O`) will close all window in current session and re-index current window to `1`
+
+![](.non-stow/docs/images/tmux-w-1.png)
+![](.non-stow/docs/images/tmux-w-2.png)
+
+
+### Neovim
+#### Basic movement
+
+- `space` + `o`: open fuzzy finder
+![](.non-stow/docs/images/neovim-s-o.png)
+
+- `space` + `i`: open list of open buffers
+![](.non-stow/docs/images/neovim-s-i.png)
+
+- `space` + `n`: toggle explorer tree
+![](.non-stow/docs/images/neovim-s-n.png)
+
+- `space` + `space` + `f` + `c`: open theme chooser, first choose theme, then choose variant
+![](.non-stow/docs/images/neovim-ss-fc-1.png)
+![](.non-stow/docs/images/neovim-ss-fc-2.png)
+
+- `space` + `space` + `f` + `h`: open help fuzzy finder
+![](.non-stow/docs/images/neovim-f-h.png)
+
+- `space` + `k` + `m`: open key map fuzzy finder
+![](.non-stow/docs/images/neovim-k-m.png)
+
+- `space` + `/`: fuzzy search current buffer
+![](.non-stow/docs/images/neovim-splash.png)
+
+#### LSP
+
+- `space` + `f` + `m`: format current buffer
+- `space` + `a` + `c`: show code action
+![](.non-stow/docs/images/lsp-ca.png)
+
+- `space` + `l` + `d`: show diagnostics
+![](.non-stow/docs/images/lsp-ld.png)
+- `K`: hover
+![](.non-stow/docs/images/lsp-k.png)
+
+#### Git inside neovim
+
+- `space` + `h` + `c`: show diff current hunk
+![](.non-stow/docs/images/git-hc.png)
+
+- `]` + `c`: go to next hunk
+- `[` + `c`: go to previous hunk
+- `space` + `h` + `a`: stage current hunk
+- `space` + `h` + `A`: stage whole current buffer
+- `space` + `h` + `d`: reset current hunk
+- `space` + `h` + `D`: reset whole current buffer
+- `space` + `b` + `l`: show floating blame
+![](.non-stow/docs/images/git-s-bl.png)
+- `space` + `space` + `b` + `l`: show whole buffer blame
+![](.non-stow/docs/images/git-ss-bl.png)
 
 ## Installation
+
+### Homebrew
+
+```sh
+  git clone https://github.com/Homebrew/brew.git ~/homebrew
+```
+
+then (add this to your shell profile)
+
+```sh
+  export PATH="$PATH:$HOME/homebrew/bin"
+```
+
+### Stow
 
 Make sure you installed [stow](https://formulae.brew.sh/formula/stow)
 
@@ -17,7 +130,7 @@ brew install stow
 After that, just clone my repo to your home directory
 
 ```sh
-cd ~ && git clone git@github.com:annguyenwasd/dotfiles.git && cd ~/dotfiles && rm -rf .non-stow && stow . && git stash -u
+cd ~ && git clone https://github.com/annguyenwasd/dotfiles.git && cd ~/dotfiles && rm -rf .non-stow && stow . && git stash -u
 ```
 
 if you just want to use neovim, just
@@ -26,135 +139,18 @@ if you just want to use neovim, just
 stow neovim
 ```
 
-## Details
+## Goal
 
-### neovim config
+- Minimalism
+- Speed
+- Fun
+- Fully personal customization
 
-### Plugins
+## Non-Goal
+- Become an IDE
+- Alternative pre-configured repos: Lunar.nvim, Astro.nvim, etc.
 
-**\*Note**: some plugins are not listed yet\*
-
-#### Treesitter
-
-- [nvim-treesitter](https://github.com/nvim-treesitter)
-- [nvim-treesitter-textobjects](https://github.com/nvim-treesitter-textobjects)
-- [nvim-ts-context-commentstring](https://github.com/nvim-ts-context-commentstring)
-
-#### Telescope
-
-- [telescope-fzf-native.nvim](https://github.com/telescope-fzf-native.nvim)
-- [telescope-symbols.nvim](https://github.com/telescope-symbols.nvim)
-- [telescope-ultisnips.nvim](https://github.com/telescope-ultisnips.nvim)
-- [telescope.nvim](https://github.com/telescope.nvim)
-
-#### Status line
-
-- [lualine-lsp-progress](https://github.com/lualine-lsp-progress)
-- [lualine.nvim](https://github.com/lualine.nvim)
-
-#### LSP
-
-- [lsp_signature.nvim](https://github.com/lsp_signature.nvim)
-- [lspkind-nvim](https://github.com/lspkind-nvim)
-- [nvim-lsp-installer](https://github.com/nvim-lsp-installer)
-- [nvim-lsp-ts-utils](https://github.com/nvim-lsp-ts-utils)
-- [nvim-lspconfig](https://github.com/nvim-lspconfig)
-- [schemastore.nvim](https://github.com/schemastore.nvim)
-- [ultisnips](https://github.com/ultisnips)
-
-#### Completion
-
-- [nvim-cmp](https://github.com/nvim-cmp)
-- [cmp-buffer](https://github.com/cmp-buffer)
-- [cmp-cmdline](https://github.com/cmp-cmdline)
-- [cmp-nvim-lsp](https://github.com/cmp-nvim-lsp)
-- [cmp-nvim-ultisnips](https://github.com/cmp-nvim-ultisnips)
-- [cmp-path](https://github.com/cmp-path)
-
-#### Explorer
-
-- [nvim-tree.lua](https://github.com/nvim-tree.lua)
-
-#### Tmux integration
-
-- [vim-tmux-navigator](https://github.com/vim-tmux-navigator)
-
-#### Git
-
-- [gitsigns.nvim](https://github.com/gitsigns.nvim)
-- [lazygit.nvim](https://github.com/lazygit.nvim)
-- [vim-fugitive](https://github.com/vim-fugitive)
-
-#### Theme
-
-- [darcula](https://github.com/darcula)
-- [lush.nvim](https://github.com/lush.nvim)
-- [material.nvim](https://github.com/material.nvim)
-- [vscode.nvim](https://github.com/vscode.nvim)
-- [zenbones.nvim](https://github.com/zenbones.nvim)
-
-#### Formatter
-
-- [neoformat](https://github.com/neoformat)
-
-#### Comment
-
-- [Comment.nvim](https://github.com/Comment.nvim)
-
-#### MISC
-
-- [BufOnly.nvim](https://github.com/BufOnly.nvim)
-- [asyncrun.vim](https://github.com/asyncrun.vim)
-- [golden_size](https://github.com/golden_size)
-- [harpoon](https://github.com/harpoon)
-- [markdown-preview.nvim](https://github.com/markdown-preview.nvim)
-- [plenary.nvim](https://github.com/plenary.nvim)
-- [popup.nvim](https://github.com/popup.nvim)
-- [tabular](https://github.com/tabular)
-- [mkdir.nvim](https://github.com/mkdir.nvim)
-- [nvim-bqf](https://github.com/nvim-bqf)
-- [nvim-colorizer.lua](https://github.com/nvim-colorizer.lua)
-- [nvim-web-devicons](https://github.com/nvim-web-devicons)
-- [vCoolor.vim](https://github.com/vCoolor.vim)
-- [vim-abolish](https://github.com/vim-abolish)
-- [vim-be-good](https://github.com/vim-be-good)
-- [vim-cool](https://github.com/vim-cool)
-- [vim-devicons](https://github.com/vim-devicons)
-- [vim-maximizer](https://github.com/vim-maximizer)
-- [vim-repeat](https://github.com/vim-repeat)
-- [vim-rooter](https://github.com/vim-rooter)
-- [vim-snippets](https://github.com/vim-snippets)
-- [vim-surround](https://github.com/vim-surround)
-- [vim-unimpaired](https://github.com/vim-unimpaired)
-
-#### Debugger
-
-- [nvim-dap](https://github.com/nvim-dap)
-- [telescope-dap.nvim](https://github.com/telescope-dap.nvim)
-- [undotree](https://github.com/undotree)
-
-### tmux config
-
-- prefix key map to `C-a` (`control + a`)
-- press `v` to start selection in `copy` mode, press `y` to copy text
-- support mouse's scroll wheel
-- customize theme to show minial info
-  - left: `[section name] [window number]:[window name] [Z: if has zoomed] [-: if last window used]
-  - right: [^a] - if `c-a` pressed
-
-### karabiner config
-
-- homepage: <https://karabiner-elements.pqrs.org/>
-
-### lazygit & lazydocker config
-
-- lazygit homepage: <https://github.com/jesseduffield/lazygit/>
-- lazy docker homepage: <https://github.com/jesseduffield/lazydocker>
-
-### zsh config
-
-#### aliases
-
-#### custom functions
-
-### etc
+## Issues
+- LSP not started in a single file
+- Diagnostic not working with javascript file
+- Find text in specific folder

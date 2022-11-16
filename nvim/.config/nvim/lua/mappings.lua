@@ -143,6 +143,7 @@ end, { silent = true })
 
 vim.keymap.set("n", "<leader>tm", ":!tmux neww ", { silent = false })
 vim.keymap.set("n", "<leader>tM", ":!tmux splitw ", { silent = false })
+vim.keymap.set("n", "<leader>as", ":AsyncRun ", { silent = false })
 
 local function build()
 	local json = require("lib.json")
@@ -172,3 +173,25 @@ function _G.set_theme(theme_name, lualine_theme)
 	vim.cmd("colorscheme " .. theme_name)
 	require("lualine").setup({ options = { theme = lualine_theme or theme_name } })
 end
+
+_G.large_file_on = false
+local function toggle_large_file()
+	if large_file_on then
+		_G.large_file_on = false
+    vim.cmd "TSDisable highlight"
+    vim.cmd "syntax off"
+    vim.cmd "set nocursorline"
+    vim.cmd "set norelativenumber"
+    vim.cmd "LspStop"
+	else
+		_G.large_file_on = true
+    vim.cmd "TSEnable highlight"
+    vim.cmd "syntax on"
+    vim.cmd "set cursorline"
+    vim.cmd "set relativenumber"
+    vim.cmd "LspStart"
+	end
+
+end
+
+vim.keymap.set("n", "<leader>lf", toggle_large_file)

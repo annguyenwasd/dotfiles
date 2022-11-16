@@ -403,7 +403,7 @@
   "vim.visualstar": true,
   "material-icon-theme.activeIconPack": "react",
   "material-icon-theme.folders.theme": "classic",
-  "editor.fontFamily": "'Source Code Pro Medium', 'Operator Mono','Dank Mono', Menlo, 'Fira Code', Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "'Source Code Pro', 'Operator Mono','Dank Mono', Menlo, 'Fira Code', Monaco, 'Courier New', monospace",
   "terminal.external.osxExec": "iTerm.app",
   "terminal.integrated.cursorBlinking": true,
   "debug.terminal.clearBeforeReusing": true,
@@ -457,5 +457,7 @@
   ],
   "workbench.activityBar.visible": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "workbench.layoutControl.enabled": false
+  "workbench.layoutControl.enabled": false,
+  "githubPullRequests.fileListLayout": "tree",
+  "workbench.colorTheme": "Oceanic Neo"
 }

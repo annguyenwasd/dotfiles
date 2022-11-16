@@ -8,7 +8,13 @@ setopt prompt_subst
 add-zsh-hook precmd vcs_info
 # add ${vcs_info_msg_0} to the prompt
 # e.g. here we add the Git information in red
-PROMPT='%1~ %F{white}${vcs_info_msg_0_}%f %# '
+bare_result=$(git config --local core.bare 2>/dev/null)
+if [ ${bare_result:="false"} = true ]; then
+  bare_status="[bare]"
+else
+  bare_status=""
+fi
+PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
 
 # Enable checking for (un)staged changes, enabling use of %u and %c
 zstyle ':vcs_info:*' check-for-changes true
@@ -49,7 +55,8 @@ alias gpdr="git pull origin develop --rebase"
 alias gp="git pull;gfp"
 
 alias gbdr="git push origin -d"
-alias gpp="git push --follow-tags"
+alias gpp="git push"
+alias gppt="git push --follow-tags"
 alias gpf="git push --force-with-lease"
 
 alias gsh="git stash -u"
@@ -69,7 +76,7 @@ alias gd="git diff"
 alias gdc="git diff --cached"
 
 alias gl="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s  %C(bold blue)<%an>%Creset %Cgreen%ar / %ad%Creset %n %b'"
- alias gll="git log --pretty=format:%B--- -n$1"
+alias gll="git log --pretty=format:%B--- -n$1"
 alias gla="git log --graph --all --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
 alias glao="git log --all --oneline "
 alias glo="git log --oneline"
@@ -103,8 +110,19 @@ function gcbb() {
 
 function gpu {
   branch_name=$(git rev-parse --abbrev-ref HEAD)
-  echo "Pushing to ${1:=origin} $branch_name --follow-tags"
+  echo "Pushing to ${1:=origin} $branch_name"
   git push -u ${1:=origin} $branch_name
+}
+
+function gpt {
+  branch_name=$(git rev-parse --abbrev-ref HEAD)
+  echo "Pushing to ${1:=origin} $branch_name"
+  git push -u ${1:=origin} $branch_name --follow-tags
+}
+
+function gbu {
+  branch_name=$(git rev-parse --abbrev-ref HEAD)
+  git branch -u "${1:=origin}/$branch_name"
 }
 
 # Delete branches has upstream deleted

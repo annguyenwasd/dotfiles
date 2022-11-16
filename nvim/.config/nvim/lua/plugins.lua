@@ -147,9 +147,21 @@ require("packer").startup(function(use)
 	use({ "tpope/vim-fugitive" })
 	use({ "kdheepak/lazygit.nvim" })
 	use({ "lewis6991/gitsigns.nvim" })
+	use({
+		"ThePrimeagen/git-worktree.nvim",
+	})
+	use({
+		"pwntester/octo.nvim",
+		config = function()
+			require("octo").setup()
+		end,
+	})
 	-- }}}
 
 	-- {{{ Theme
+	use("rktjmp/lush.nvim")
+	use("tjdevries/colorbuddy.nvim")
+
 	use("Mofiqul/vscode.nvim")
 	use("sainnhe/gruvbox-material")
 	use("marko-cerovac/material.nvim")
@@ -160,6 +172,10 @@ require("packer").startup(function(use)
 	use("Yazeed1s/minimal.nvim")
 	use("kdheepak/monochrome.nvim")
 	use("lourenci/github-colors")
+	use("Mofiqul/dracula.nvim")
+	use("ellisonleao/gruvbox.nvim")
+	use("lalitmee/cobalt2.nvim")
+	use("metalelf0/jellybeans-nvim")
 	-- }}}
 
 	-- {{{ Formatter/Linter
@@ -306,18 +322,35 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({ "will133/vim-dirdiff" })
+	use({
+		"will133/vim-dirdiff",
+		config = function()
+			vim.g.DirDiffExcludes = ".git,personal.*,.DS_Store,packer_compiled.lua,*.add,*.spl"
+		end,
+	})
 
 	use({
 		"andrewferrier/debugprint.nvim",
 		config = function()
 			require("debugprint").setup()
+			vim.keymap.set("n", "g?d", ":lua require('debugprint').deleteprints()<cr>")
 		end,
 	})
 
 	use({ "jbyuki/venn.nvim", config = require("plugin-configs.diagram") })
 
 	-- }}}
+
+	-- {{{ Markdown Previeww
+
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	})
+
+	--}}}
 
 	-- {{{ Packer end
 

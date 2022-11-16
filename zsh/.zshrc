@@ -43,10 +43,12 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 # {{{ Alias
 alias c="code"
 alias cc="code ."
+alias nviu="nvim -u NONE"
 
-alias l="la"
+alias ls="ls -G"
 alias ll="ls -a"
 alias la="ls -la"
+alias l="la"
 
 alias ez="nvim ~/.zshrc"
 alias ev="nvim ~/.config/nvim/init.lua"
@@ -62,6 +64,7 @@ alias cl="clear"
 alias x="exit 0"
 
 alias ys="yarn run start"
+alias yb="yarn run build"
 alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsay -f@ @'"
 # }}}
 
@@ -69,6 +72,15 @@ alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsa
 # kill process
 function kp() {
   kill -9 $(lsof -t -i:$1)
+}
+
+fzf_bare_branches() {
+  dir=$( find . -name ".git" -type f -maxdepth 3|sed 's+/.git++; s+./++'|fzf)
+  if [ ! -z $dir ]; then
+    cd $dir
+  else
+    echo "Aborted"
+  fi
 }
 
 function fw() {
@@ -80,9 +92,12 @@ function fw() {
   fi
 
   dir=$(ls -1 $loc | fzf)
-  if [ -n $dir ]
+  if [ ! -z $dir ]
   then
     cd $loc/$dir
+    if ( git config --local core.base = true ); then
+      fzf_bare_branches
+    fi
   else
     echo "No folder selected"
   fi
@@ -97,9 +112,12 @@ function ff() {
   fi
 
   dir=$(ls -1 $loc | fzf)
-  if [ -n $dir ]
+  if [ ! -z $dir ]
   then
     cd $loc/$dir
+    if ( git config --local core.base = true ); then
+      fzf_bare_branches
+    fi
     nvim
   fi
 }
@@ -113,11 +131,14 @@ function fff() {
   fi
 
   dir=$(ls -1 $loc | fzf)
-  if [ -n $dir ]
+  if [ ! -z $dir ]
   then
     cd $loc/$dir
-    dn
-    nvim
+    if ( git config --local core.base = true ); then
+      fzf_bare_branches
+    fi
+      dn
+      nvim
   fi
 }
 

@@ -52,21 +52,21 @@ return function()
 		})
 	end
 
-	local function do_format_on_save(client, bufnr)
-		-- if you want to set up formatting on save, you can use this as a callback
-		local format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
-
-		if client.supports_method("textDocument/formatting") then
-			vim.api.nvim_clear_autocmds({ group = format_on_save, buffer = bufnr })
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = format_on_save,
-				buffer = bufnr,
-				callback = function()
-					null_ls_format(bufnr)
-				end,
-			})
-		end
-	end
+	--[[ local function do_format_on_save(client, bufnr) ]]
+	--[[ 	-- if you want to set up formatting on save, you can use this as a callback ]]
+	--[[ 	local format_on_save = vim.api.nvim_create_augroup("LspFormatting", {}) ]]
+	--[[]]
+	--[[ 	if client.supports_method("textDocument/formatting") then ]]
+	--[[ 		vim.api.nvim_clear_autocmds({ group = format_on_save, buffer = bufnr }) ]]
+	--[[ 		vim.api.nvim_create_autocmd("BufWritePre", { ]]
+	--[[ 			group = format_on_save, ]]
+	--[[ 			buffer = bufnr, ]]
+	--[[ 			callback = function() ]]
+	--[[ 				null_ls_format(bufnr) ]]
+	--[[ 			end, ]]
+	--[[ 		}) ]]
+	--[[ 	end ]]
+	--[[ end ]]
 
 	local on_attach = function(client, bufnr)
 		--[[ do_format_on_save(client, bufnr) ]]
@@ -118,22 +118,26 @@ return function()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+			require("lspconfig").tsserver.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+			})
+		end,
+		["jsonls"] = function()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 			local settings = {
 				json = {
 					schemas = require("schemastore").json.schemas(),
 					validate = { enable = true },
 				},
 			}
-			require("lspconfig").tsserver.setup({
-				on_attach = on_attach,
-				settings = settings,
-				capabilities = capabilities,
-			})
-		end,
-		["jsonls"] = function()
 			require("lspconfig").jsonls.setup({
 				init_options = require("nvim-lsp-ts-utils").init_options,
 				on_attach = on_attach,
+				settings = settings,
+				capabilities = capabilities,
 			})
 		end,
 		["sumneko_lua"] = function()
