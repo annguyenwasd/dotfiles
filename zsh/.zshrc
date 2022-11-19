@@ -175,4 +175,10 @@ rmm () {
 # Change iterm2 profile. Usage it2prof ProfileName (case sensitive)
 it() { echo -e "\033]50;SetProfile=$1\a" }
 
+stow_all() {
+  ls -A1 $DOTFILES|sed "/non-stow/ d; /.git/ d; /README/ d" | xargs stow
+  if [ $? -eq 0 ]; then
+    dd "Stow all folders successfully"
+  fi
+}
 # }}}
