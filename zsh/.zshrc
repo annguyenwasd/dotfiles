@@ -75,27 +75,36 @@ function kp() {
 }
 
 fzf_bare_branches() {
-  dir=$( find . -name ".git" -type f -maxdepth 3|sed 's+/.git++; s+./++'|fzf)
+  bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
+# /Users/user-name/workspace/your-bare-path             (bare)
+# /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
+#
+# git worktree list              -> list worktree
+# |sed '/(bare)/ d'              -> remove line with (bare)
+# |sort                          -> sort alphabet order
+# |xargs -L 1                    -> execute 1 line each (needed for cut command)
+# | cut -d " " -f 1,3            -> get frist and third column only (/Users/user-name/workspace/your-bare-path/branch-name [some-branch-name])
+# |sed -E "s/^(.*) (.*)/\2 \1/g; -> swap position between branch name and folder ([some-branch-name] /Users/user-name/workspace/your-bare-path/branch-name)
+# s/\[//; s/\]//;                -> then remove [] from branch name (some-branch-name /Users/user-name/workspace/your-bare-path/branch-name)
+# s#$bare_path##"                -> remove base path (some-branch-name /branch-name)
+# | column -t                    -> display as column (because xargs remove the spaces as column)
+# |fzf                           -> pipe to fzf
+  selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
+  dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
   if [ ! -z $dir ]; then
-    cd $dir
+    cd "$bare_path/$dir"
   else
     echo "Aborted"
   fi
 }
 
 function fw() {
-  if [ -z $1 ]
-  then
-    loc=$WORKSPACE_FOLDER
-    else
-    loc=$1
-  fi
-
-  dir=$(ls -1 $loc | fzf)
+  loc=${1:-$WORKSPACE_FOLDER}
+  dir=$(ls -lA $loc|grep ^d|xargs -L 1|cut -d " " -f 9 | fzf --preview "ls -lA $loc/{}")
   if [ ! -z $dir ]
   then
     cd $loc/$dir
-    if ( git config --local core.base = true ); then
+    if $(git config --local --get core.bare) -eq true; then
       fzf_bare_branches
     fi
   else
@@ -104,18 +113,12 @@ function fw() {
 }
 
 function ff() {
-  if [ -z $1 ]
-  then
-    loc=$WORKSPACE_FOLDER
-    else
-    loc=$1
-  fi
-
-  dir=$(ls -1 $loc | fzf)
+  loc=${1:-$WORKSPACE_FOLDER}
+  dir=$(ls -lA $loc|grep ^d|xargs -L 1|cut -d " " -f 9 | fzf --preview "ls -lA $loc/{}")
   if [ ! -z $dir ]
   then
     cd $loc/$dir
-    if ( git config --local core.base = true ); then
+    if $(git config --local --get core.bare) -eq true; then
       fzf_bare_branches
     fi
     nvim
@@ -123,21 +126,16 @@ function ff() {
 }
 
 function fff() {
-  if [ -z $1 ]
-  then
-    loc=$WORKSPACE_FOLDER
-    else
-    loc=$1
-  fi
-
-  dir=$(ls -1 $loc | fzf)
+  loc=${1:-$WORKSPACE_FOLDER}
+  dir=$(ls -lA $loc|grep ^d|xargs -L 1|cut -d " " -f 9 | fzf --preview "ls -lA $loc/{}")
   if [ ! -z $dir ]
   then
     cd $loc/$dir
-    if ( git config --local core.base = true ); then
+    dn
+
+    if $(git config --local --get core.bare) -eq true; then
       fzf_bare_branches
     fi
-      dn
       nvim
   fi
 }
@@ -165,15 +163,15 @@ function dd() {
 # Fastest way to remove node_modules -> Non-block install new packages 
 # by `npm install` or `yarn install`
 rmm () {
-  unsetopt NOTIFY
-# Step 1: move all node_modules folder (recursively) to node_modules_rm
-  find . -name "${1:=node_modules}" -type d -prune -exec mv '{}' '{}_rm' ";"
-# Step 2: Remove all node_modules_rm folders
-  find . -name "${1:=node_modules}_rm" -type d -prune -exec rm -rf '{}' + &
+  if [[ "$1" = "-p" ]]; then
+    find . -name "${2:=node_modules}" -type d -prune -exec echo '{}' ";"
+  else
+    # Step 1: move all node_modules folder (recursively) to node_modules_rm
+    find . -name "${1:=node_modules}" -type d -prune -exec mv '{}' '{}_rm' ";"
+    # Step 2: Remove all node_modules_rm folders
+    find . -name "${1:=node_modules}_rm" -type d -prune -exec rm -rf '{}' + &
+  fi
 }
-
-# Change iterm2 profile. Usage it2prof ProfileName (case sensitive)
-it() { echo -e "\033]50;SetProfile=$1\a" }
 
 stow_all() {
   ls -A1 $DOTFILES|sed "/non-stow/ d; /.git/ d; /README/ d" | xargs stow

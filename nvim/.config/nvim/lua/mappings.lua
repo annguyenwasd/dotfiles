@@ -167,7 +167,15 @@ local function build()
 	end
 end
 
+local function open_nearest_package_json()
+	local package = vim.fn.findfile("package.json", ".;")
+	if package ~= "package.json" then
+    vim.cmd.edit(package)
+	end
+end
+
 vim.keymap.set("n", "<leader>bd", build)
+vim.keymap.set("n", "<leader>bp", open_nearest_package_json)
 
 function _G.set_theme(theme_name, lualine_theme)
 	vim.cmd("colorscheme " .. theme_name)
