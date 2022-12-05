@@ -6,14 +6,23 @@ autoload -Uz add-zsh-hook vcs_info
 setopt prompt_subst
 # Run vcs_info just before a prompt is displayed (precmd)
 add-zsh-hook precmd vcs_info
+add-zsh-hook precmd is_bare_repo
+
+function is_bare_repo() {
+  bare_status=""
+  git config --local --get core.bare >/dev/null 2>&1
+  if [ $? -eq 0 ]; then
+
+    if $(git config --local --get core.bare) -eq true; then
+        bare_status="[bare]"
+    fi
+  else
+  fi
+
+  PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
+}
 # add ${vcs_info_msg_0} to the prompt
 # e.g. here we add the Git information in red
-bare_result=$(git config --local core.bare 2>/dev/null)
-if [ ${bare_result:="false"} = true ]; then
-  bare_status="[bare]"
-else
-  bare_status=""
-fi
 PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
 
 # Enable checking for (un)staged changes, enabling use of %u and %c
@@ -76,7 +85,7 @@ alias gd="git diff"
 alias gdc="git diff --cached"
 
 alias gl="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s  %C(bold blue)<%an>%Creset %Cgreen%ar / %ad%Creset %n %b'"
-alias gll="git log --pretty=format:%B--- -n$1"
+alias gll="git log --reverse --pretty=format:%B--- -n$1"
 alias gla="git log --graph --all --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
 alias glao="git log --all --oneline "
 alias glo="git log --oneline"

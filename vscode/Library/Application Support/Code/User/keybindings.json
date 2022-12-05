@@ -360,5 +360,9 @@
   {
     "key": "shift+cmd+h",
     "command": "pr:github.focus"
+  },
+  {
+    "key": "shift+cmd+a",
+    "command": "workbench.action.toggleActivityBarVisibility"
   }
 ]
