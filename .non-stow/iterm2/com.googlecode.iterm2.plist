@@ -86959,7 +86959,7 @@
 			<key>Title Components</key>
 			<integer>258</integer>
 			<key>Transparency</key>
-			<real>0.0</real>
+			<real>0.5</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -90417,7 +90417,7 @@
 			<key>Title Components</key>
 			<integer>258</integer>
 			<key>Transparency</key>
-			<real>0.0</real>
+			<real>0.50115460334940165</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>

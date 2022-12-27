@@ -1,1 +1,1 @@
-require('plugin-configs.themes.oceanic').dark()
+require('plugin-configs.themes.colbalt2').dark()
