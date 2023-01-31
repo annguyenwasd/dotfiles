@@ -1,3 +1,6 @@
+# fnm
+export PATH="/home/annguyenwasd/.local/share/fnm:$PATH"
+eval "`fnm env`"
 eval "$(fnm env --use-on-cd)"
 
 # {{{ Export
