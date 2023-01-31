@@ -1,1 +1,1 @@
-require('plugin-configs.themes.gruvbox').light()
+require('plugin-configs.themes.gruvbox').dark()
