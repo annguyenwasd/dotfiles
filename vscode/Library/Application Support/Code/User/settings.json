@@ -455,9 +455,13 @@
     "miniapps",
     "NXNV"
   ],
-  "workbench.activityBar.visible": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "workbench.layoutControl.enabled": false,
   "githubPullRequests.fileListLayout": "tree",
-  "workbench.colorTheme": "Oceanic Neo"
+  "workbench.colorTheme": "Oceanic Neo",
+  "workbench.editorAssociations": {
+    "*.db": "default"
+  },
+  "workbench.layoutControl.enabled": false,
+  "sqltools.useNodeRuntime": true,
+  "workbench.activityBar.visible": false
 }

@@ -80727,7 +80727,7 @@
 		</dict>
 	</dict>
 	<key>Default Bookmark Guid</key>
-	<string>39F796E2-4384-46C2-881C-78C592A24DDB</string>
+	<string>3ABC1695-814C-4246-AE84-F8F087888F86</string>
 	<key>DimBackgroundWindows</key>
 	<false/>
 	<key>DimInactiveSplitPanes</key>
@@ -86959,7 +86959,7 @@
 			<key>Title Components</key>
 			<integer>258</integer>
 			<key>Transparency</key>
-			<real>0.5</real>
+			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -90417,7 +90417,7 @@
 			<key>Title Components</key>
 			<integer>258</integer>
 			<key>Transparency</key>
-			<real>0.50115460334940165</real>
+			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -90498,7 +90498,7 @@
 	<key>RightCommand</key>
 	<integer>1</integer>
 	<key>RightOption</key>
-	<integer>3</integer>
+	<integer>1</integer>
 	<key>SeparateStatusBarsPerPane</key>
 	<false/>
 	<key>SeparateWindowTitlePerTab</key>

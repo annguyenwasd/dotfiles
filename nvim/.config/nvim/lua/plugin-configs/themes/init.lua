@@ -1,1 +1,1 @@
-require('plugin-configs.themes.colbalt2').dark()
+require('plugin-configs.themes.gruvbox').light()

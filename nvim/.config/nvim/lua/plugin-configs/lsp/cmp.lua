@@ -13,7 +13,6 @@ return function()
 			"tsserver",
 			"cssls",
 			"eslint",
-			"shfmt",
 		},
 	})
 

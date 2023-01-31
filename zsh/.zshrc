@@ -57,7 +57,7 @@ alias sz="source ~/.zshrc && echo \"Sourced.\""
 
 alias w="cd ~/workspace"
 alias d="cd ~/Desktop"
-alias dot="cd $DOTFILES && dn && nvim"
+alias dot="cd $DOTFILES && if [ -n $TMUX ] ;then dn; fi && nvim"
 
 alias mk="mkdir -vp"
 alias cl="clear"

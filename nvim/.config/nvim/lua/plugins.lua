@@ -241,9 +241,13 @@ require("packer").startup(function(use)
 
 	-- {{{ Utilities
 	use({
-		"Pocco81/TrueZen.nvim",
+		"shortcuts/no-neck-pain.nvim",
+		tag = "*",
 		config = function()
-			vim.keymap.set("n", "<leader>tz", "<cmd>:TZAtaraxis<cr>")
+			require("no-neck-pain").setup({
+				width = 120,
+        toggleMapping= '<leader>cc'
+			})
 		end,
 	})
 

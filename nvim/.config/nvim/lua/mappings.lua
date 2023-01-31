@@ -74,7 +74,6 @@ vim.keymap.set("n", "<leader><leader>M", ":GoldenRatioToggle<cr>", { noremap = t
 vim.keymap.set("n", "<leader>rr", '"rciw')
 vim.keymap.set("n", "<leader>cf", ":CopyFileName<cr>")
 vim.keymap.set("n", "<leader>fl", ":set foldlevel=", { silent = false })
-vim.keymap.set("n", "<leader>cc", ":set cmdheight=1<cr>")
 
 function _G.copyFileName()
 	vim.fn.setreg("*", vim.fn.expand("%:t:r"))

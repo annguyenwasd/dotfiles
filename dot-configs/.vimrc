@@ -118,9 +118,7 @@ nnoremap <localleader>ff :e %:h/
 
 nnoremap <leader><leader>h yi" :!npm home <c-r>"<cr>
 nnoremap <leader><leader>H yi' :!npm home <c-r>"<cr>
-nnoremap <leader><leader>oj 0/[DT-<cr>yi[<cmd>nohl<cr> :!open -a google\ chrome https://dolenglish.atlassian.net/browse/<c-r>"<cr>
 nnoremap <leader><leader>oe <cmd>!open -a textedit %<cr>
-nnoremap <leader><leader>ov <cmd>!open -a vimr %<cr>
 nnoremap <leader><leader>oc <cmd>!open -a visual\ studio\ code %<cr>
 nnoremap <leader><leader>og <cmd>!open -a google\ chrome %<cr>
 

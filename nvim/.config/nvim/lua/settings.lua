@@ -35,3 +35,4 @@ vim.opt.syntax = "enable"
 vim.opt.swapfile = false
 vim.opt.keywordprg = ":help" -- set program for K (default)
 vim.opt.lazyredraw = false
+vim.opt.wrap = false
