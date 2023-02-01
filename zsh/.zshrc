@@ -3,6 +3,7 @@ source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/personal.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -d $HOME/Android/Sdk ] && export ANDROID_HOME=$HOME/Android/Sdk && export PATH=$PATH:$ANDROID_HOME/platform-tools
 # }}}
 
 # {{{ Settings
