@@ -1,7 +1,9 @@
 # fnm
-export PATH="/home/annguyenwasd/.local/share/fnm:$PATH"
-eval "`fnm env`"
-eval "$(fnm env --use-on-cd)"
+if [[ -d $HOME/.local/share/fnm ]]; then
+  export PATH="$HOME/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+  eval "$(fnm env --use-on-cd)"
+fi
 
 # {{{ Export
 export DOTFILES=$HOME/dotfiles
