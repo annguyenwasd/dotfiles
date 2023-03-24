@@ -61,4 +61,13 @@ function s() {
  rm p.patch
  dd "Sync finished"
 }
+
+function aur() {
+  d
+  git clone https://aur.archlinux.org/$1-git.git
+  cd $1-git
+  makepkg -si
+  cd ..
+  rm -rf $1-git
+}
 # }}}
