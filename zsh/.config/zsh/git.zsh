@@ -6,21 +6,34 @@ autoload -Uz add-zsh-hook vcs_info
 setopt prompt_subst
 # Run vcs_info just before a prompt is displayed (precmd)
 add-zsh-hook precmd vcs_info
-add-zsh-hook precmd is_bare_repo
+add-zsh-hook precmd add_bare_string
 
 function is_bare_repo() {
-  bare_status=""
   git config --local --get core.bare >/dev/null 2>&1
   if [ $? -eq 0 ]; then
 
     if $(git config --local --get core.bare) -eq true; then
-        bare_status="[bare]"
+      true
+      return
     fi
-  else
   fi
 
-  PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
+  false
 }
+
+function add_bare_string() {
+  bare_status=""
+  dir_path="%1~"
+  if is_bare_repo; then
+        bare_status="[bare]"
+        bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
+        dir_path="${bare_path:t}/${PWD/$bare_path\//}"
+  fi
+
+  PROMPT='$dir_path %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
+}
+
+
 # add ${vcs_info_msg_0} to the prompt
 # e.g. here we add the Git information in red
 PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
@@ -52,8 +65,6 @@ alias gca="git commit -v --amend"
 alias gcae="git commit -v --amend --no-edit"
 alias gce="git commit -e"
 
-alias gco="git checkout"
-alias gcb="git checkout -b"
 alias gcm="git checkout master"
 alias gcd="git checkout develop"
 
@@ -101,20 +112,66 @@ function gc {
   git commit -v -m $@
 }
 
-function gcoo {
-  branch_name=$(git branch -a | fzf)
-  branch_name_with_spaces=${branch_name/remotes\/origin\//}
-  git checkout $(echo $branch_name_with_spaces | tr -d " ")
+function bare_branch_checkout() {
+  branch_name=$1
+  is_create_new_branch=${2:=false}
+  derived_from=${3:=$(git branch --show-current)}
+
+  if is_bare_repo; then
+    dir=$(git worktree list|grep $branch_name | head -n 1 |awk '{ print $1 }')
+    if [[ -n $dir ]]; then
+      cd $dir
+    else
+      root=$(git worktree list | grep bare | awk '{ print $1 }')
+      dir="$root/$branch_name"
+      if [[ $(git branch| grep $branch_name | wc -l) -eq 0 ]]; then
+        if $is_create_new_branch; then
+          git branch $branch_name $derived_from
+        else
+          git branch --track $branch_name origin/$branch_name
+        fi
+      fi
+      git worktree add $dir $branch_name
+      cd $dir
+    fi
+  else
+    if $is_create_new_branch; then
+      git checkout -b $branch_name
+    else
+      git checkout $branch_name
+    fi
+  fi
 }
 
-function gcof {
-  git fetch --prune
-  git checkout $(git branch -a | fzf)
+# Get a branch name from fzf, remove remotes/origin/
+# if a bare repository
+#
+# else
+#   just checkout
+function gcoo {
+  # list all branch
+  # remove HEAd
+  # put in fzf
+  # get rid of * branch_name or + branch_name
+  # get rid of space
+  branch_name=$(git branch -a | sed '/HEAD/ d' | fzf | sed 's/\*//; s/\+//; s/ //' | sed 's#remotes/origin/##' | awk '{ print $1 }')
+
+  bare_branch_checkout $branch_name
+}
+
+function gco() {
+  branch_name=$1
+  bare_branch_checkout $branch_name
+}
+
+function gcb() {
+  bare_branch_checkout $1 true $2
 }
 
 # Ex: gcbb feature/Abc def ghik ---> brach created: feature/abc_def_ghik
 function gcbb() {
-  git checkout -b $(echo ${@:l} | sed "s/ \{1,\}/-/g" | sed "s/\[.*\]//" | sed "s/{.*}//" | sed "s/(.*)//")
+ branch_name=$(echo ${@:l} | sed "s/ \{1,\}/-/g" | sed "s/\[.*\]//" | sed "s/{.*}//" | sed "s/(.*)//")
+ bare_branch_checkout $branch_name true
 }
 
 function gpu {
@@ -153,4 +210,40 @@ function gt () {
   date="$(date '+%d %b %Y')"
   git tag -a "$tag_name" -m "Sync on $date"
 }
+
+fzf_bare_branches() {
+  bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
+# /Users/user-name/workspace/your-bare-path             (bare)
+# /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
+#
+# git worktree list              -> list worktree
+# |sed '/(bare)/ d'              -> remove line with (bare)
+# |sort                          -> sort alphabet order
+# |xargs -L 1                    -> execute 1 line each (needed for cut command)
+# | cut -d " " -f 1,3            -> get frist and third column only (/Users/user-name/workspace/your-bare-path/branch-name [some-branch-name])
+# |sed -E "s/^(.*) (.*)/\2 \1/g; -> swap position between branch name and folder ([some-branch-name] /Users/user-name/workspace/your-bare-path/branch-name)
+# s/\[//; s/\]//;                -> then remove [] from branch name (some-branch-name /Users/user-name/workspace/your-bare-path/branch-name)
+# s#$bare_path##"                -> remove base path (some-branch-name /branch-name)
+# | column -t                    -> display as column (because xargs remove the spaces as column)
+# |fzf                           -> pipe to fzf
+  selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
+  dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
+  if [ ! -z $dir ]; then
+    cd "$bare_path/$dir"
+  else
+    echo "Aborted"
+  fi
+}
+
+function tobare() {
+  # Remove all but not .git folder
+  ls -A1 | sed "/.git$/ d"|xargs rm -rf
+  mv ./.git/* .
+  rm -rf .git
+  git config --local core.bare true
+  git wtf
+  gcb ${1:=master}
+
+}
+
 # }}}

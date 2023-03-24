@@ -3,7 +3,6 @@ source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/personal.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -d $HOME/Android/Sdk ] && export ANDROID_HOME=$HOME/Android/Sdk && export PATH=$PATH:$ANDROID_HOME/platform-tools
 # }}}
 
 # {{{ Settings
@@ -45,6 +44,8 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 alias c="code"
 alias cc="code ."
 alias nviu="nvim -u NONE"
+alias grep="grep --color"
+alias ls="ls --color"
 
 alias ls="ls -G"
 alias ll="ls -a"
@@ -65,7 +66,10 @@ alias cl="clear"
 alias x="exit 0"
 
 alias ys="yarn run start"
+alias yt="yarn test"
 alias yb="yarn run build"
+alias yl="yarn list"
+alias yw="yarn why"
 alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsay -f@ @'"
 # }}}
 
@@ -134,7 +138,7 @@ function fff() {
     cd $loc/$dir
     dn
 
-    if $(git config --local --get core.bare) -eq true; then
+    if is_bare_repo; then
       fzf_bare_branches
     fi
       nvim
@@ -144,7 +148,12 @@ function fff() {
 # set tmux window title as current directoty
 function dn() {
   if [ -n $TMUX ]; then
-    tmux rename-window $(echo ${PWD##*/})
+    window_name=$(echo ${PWD##*/})
+    if is_bare_repo; then
+        bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
+        window_name=${bare_path:t}
+    fi
+    tmux rename-window $window_name
   fi
 }
 
@@ -161,7 +170,7 @@ function dd() {
     osascript -e "display notification \"${1:=Done!}\" with title \"${2:=${PWD/~\//}}\" sound name \"Submarine\""
 }
 
-# Fastest way to remove node_modules -> Non-block install new packages 
+# Fastest way to remove node_modules -> Non-block install new packages
 # by `npm install` or `yarn install`
 rmm () {
   if [[ "$1" = "-p" ]]; then

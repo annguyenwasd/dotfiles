@@ -183,6 +183,13 @@ require("packer").startup(function(use)
 		"jose-elias-alvarez/null-ls.nvim",
 		config = require("plugin-configs.null-ls"),
 	})
+
+	use({
+		"cappyzawa/trim.nvim",
+		config = function()
+			require("trim").setup({})
+		end,
+	})
 	-- }}}
 
 	-- {{{ Comment
@@ -246,7 +253,7 @@ require("packer").startup(function(use)
 		config = function()
 			require("no-neck-pain").setup({
 				width = 120,
-        toggleMapping= '<leader>cc'
+				toggleMapping = "<leader>cc",
 			})
 		end,
 	})
