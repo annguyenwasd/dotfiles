@@ -110,19 +110,19 @@ scrolling:
   multiplier: 3
 
 # Font configuration
-# font:
+font:
   # Normal (roman) font face
-  # normal:
+  normal:
     # Font family
     #
     # Default:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    # family: SauCodeProd Nerd Font
+    family: Sauce Code Pro Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
-    #style: Regular
+    style: Regular
 
   # Bold font face
   #bold:
