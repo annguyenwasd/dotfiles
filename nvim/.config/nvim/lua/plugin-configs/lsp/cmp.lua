@@ -9,7 +9,6 @@ return function()
 			"vimls",
 			"bashls",
 			"dockerls",
-			"sumneko_lua",
 			"tsserver",
 			"cssls",
 			"eslint",
