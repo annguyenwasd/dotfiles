@@ -253,7 +253,9 @@ require("packer").startup(function(use)
 		config = function()
 			require("no-neck-pain").setup({
 				width = 120,
-				toggleMapping = "<leader>cc",
+        mappings = {
+          toggle = "<leader>cc",
+        }
 			})
 		end,
 	})
