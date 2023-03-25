@@ -59,7 +59,7 @@ alias sz="source ~/.zshrc && echo \"Sourced.\""
 
 alias w="cd ~/workspace"
 alias d="cd ~/Desktop"
-alias dot="cd $DOTFILES && if [ -n $TMUX ] ;then dn; fi && nvim"
+alias dot="cd $DOTFILES && if [[ -n $TMUX ]] ;then dn; fi && nvim"
 
 alias mk="mkdir -vp"
 alias cl="clear"
@@ -101,7 +101,7 @@ fzf_bare_branches() {
   else
     echo "Aborted"
   fi
-}
+if [ -n $TMUX ] ;then dn; fi && nvim}
 
 function fw() {
   loc=${1:-$WORKSPACE_FOLDER}
@@ -147,7 +147,7 @@ function fff() {
 
 # set tmux window title as current directoty
 function dn() {
-  if [ -n $TMUX ]; then
+  if [[ -n $TMUX ]]; then
     window_name=$(echo ${PWD##*/})
     if is_bare_repo; then
         bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
@@ -172,7 +172,7 @@ function dd() {
 
 # Fastest way to remove node_modules -> Non-block install new packages
 # by `npm install` or `yarn install`
-rmm () {
+function rmm () {
   if [[ "$1" = "-p" ]]; then
     find . -name "${2:=node_modules}" -type d -prune -exec echo '{}' ";"
   else
@@ -183,7 +183,7 @@ rmm () {
   fi
 }
 
-stow_all() {
+function stow_all() {
   ls -A1 $DOTFILES|sed "/non-stow/ d; /.git/ d; /README/ d" | xargs stow
   if [ $? -eq 0 ]; then
     dd "Stow all folders successfully"
