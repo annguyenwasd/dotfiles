@@ -1,0 +1,38 @@
+general {
+  output_format = "i3bar"
+  colors = true
+  interval = 5
+}
+
+#order += "disk /"
+#order += "disk /home"
+order += "ethernet eno1"
+order += "memory"
+order += "tztime local"
+
+ethernet eno1 {
+       format_up = "eno1: %ip (%speed)"
+       format_down = "eno1: down"
+}
+
+tztime local {
+       format = "%Y-%m-%d %H:%M:%S"
+}
+
+memory {
+       format = "M: %used/%total"
+       threshold_degraded = "10%"
+       format_degraded = "MEMORY: %free"
+}
+
+disk "/" {
+       format = "root: %used/%total"
+}
+
+disk "/home" {
+       format = "home: %used/%total"
+}
+
+read_file uptime {
+       path = "/proc/uptime"
+}
