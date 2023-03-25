@@ -3,6 +3,7 @@ source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/personal.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
 # }}}
 
 # {{{ Settings
@@ -59,7 +60,7 @@ alias sz="source ~/.zshrc && echo \"Sourced.\""
 
 alias w="cd ~/workspace"
 alias d="cd ~/Desktop"
-alias dot="cd $DOTFILES && if [[ -n $TMUX ]] ;then dn; fi && nvim"
+alias dot="cd $DOTFILES && if [ -n $TMUX ] ;then dn; fi && nvim"
 
 alias mk="mkdir -vp"
 alias cl="clear"
@@ -147,7 +148,7 @@ function fff() {
 
 # set tmux window title as current directoty
 function dn() {
-  if [[ -n $TMUX ]]; then
+  if [ -n $TMUX ]; then
     window_name=$(echo ${PWD##*/})
     if is_bare_repo; then
         bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
