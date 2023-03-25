@@ -66,7 +66,7 @@ function aur() {
   name=$1
 
   if [[ ${2:=true} = "true" ]]; then
-    $name=$1-git
+    name="$1-git"
   fi
 
   cd ~/Desktop/
