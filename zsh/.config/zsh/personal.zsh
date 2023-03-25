@@ -63,11 +63,17 @@ function s() {
 }
 
 function aur() {
-  d
-  git clone https://aur.archlinux.org/$1-git.git
-  cd $1-git
+  name=$1
+
+  if [[ ${2:=true} = "true" ]]; then
+    $name=$1-git
+  fi
+
+  cd ~/Desktop/
+  git clone https://aur.archlinux.org/$name.git
+  cd $name
   makepkg -si
   cd ..
-  rm -rf $1-git
+  rm -rf $name
 }
 # }}}

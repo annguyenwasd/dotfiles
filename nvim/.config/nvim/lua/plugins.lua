@@ -325,17 +325,6 @@ require("packer").startup(function(use)
 	})
 
 	use({
-		"xiyaowong/nvim-transparent",
-		config = function()
-			require("transparent").setup({
-				enable = false, -- boolean: enable transparent
-				extra_groups = {},
-				exclude = {}, -- table: groups you don't want to clear
-			})
-		end,
-	})
-
-	use({
 		"will133/vim-dirdiff",
 		config = function()
 			vim.g.DirDiffExcludes = ".git,personal.*,.DS_Store,packer_compiled.lua,*.add,*.spl"
