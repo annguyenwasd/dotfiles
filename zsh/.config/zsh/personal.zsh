@@ -65,7 +65,7 @@ function s() {
 function aur() {
   name=$1
 
-  if [[ ${2:=true} = "true" ]]; then
+  if [[ ${2:=false} = "true" ]]; then
     name="$1-git"
   fi
 
