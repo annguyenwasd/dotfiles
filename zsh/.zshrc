@@ -58,7 +58,7 @@ alias ev="nvim ~/.config/nvim/init.lua"
 
 alias sz="source ~/.zshrc && echo \"Sourced.\""
 
-alias w="cd ~/workspace"
+alias w="cd $WORKSPACE_FOLDER"
 alias d="cd ~/Desktop"
 alias dot="cd $DOTFILES && if [ -n $TMUX ] ;then dn; fi && nvim"
 
@@ -105,45 +105,38 @@ fzf_bare_branches() {
 if [ -n $TMUX ] ;then dn; fi && nvim}
 
 function fw() {
-  loc=${1:-$WORKSPACE_FOLDER}
-  dir=$(ls -lA $loc|grep ^d|xargs -L 1|cut -d " " -f 9 | fzf --preview "ls -lA $loc/{}")
-  if [ ! -z $dir ]
-  then
+  loc=${1:=$WORKSPACE_FOLDER}
+  is_changed_tmux_window_name=${2:=false}
+  is_open_nvim=${3:=false}
+
+  dir=$(ls -d $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --preview "ls -lA $loc/{}")
+
+  if [ ! -z $dir ]; then
     cd $loc/$dir
-    if $(git config --local --get core.bare) -eq true; then
+
+    if $is_changed_tmux_window_name; then
+      dn
+    fi
+
+    if is_bare_repo; then
       fzf_bare_branches
     fi
+
+    if $is_open_nvim; then
+      nvim
+    fi
+
   else
     echo "No folder selected"
   fi
 }
 
 function ff() {
-  loc=${1:-$WORKSPACE_FOLDER}
-  dir=$(ls -lA $loc|grep ^d|xargs -L 1|cut -d " " -f 9 | fzf --preview "ls -lA $loc/{}")
-  if [ ! -z $dir ]
-  then
-    cd $loc/$dir
-    if $(git config --local --get core.bare) -eq true; then
-      fzf_bare_branches
-    fi
-    nvim
-  fi
+  fw ${1:=$WORKSPACE_FOLDER} false true
 }
 
 function fff() {
-  loc=${1:-$WORKSPACE_FOLDER}
-  dir=$(ls -lA $loc|grep ^d|xargs -L 1|cut -d " " -f 9 | fzf --preview "ls -lA $loc/{}")
-  if [ ! -z $dir ]
-  then
-    cd $loc/$dir
-    dn
-
-    if is_bare_repo; then
-      fzf_bare_branches
-    fi
-      nvim
-  fi
+  fw ${1:=$WORKSPACE_FOLDER} true true
 }
 
 # set tmux window title as current directoty
