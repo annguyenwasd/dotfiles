@@ -23,6 +23,10 @@ export PATH="$PATH:-I/usr/local/opt/openssl@1.1/include"
 export PATH="$PATH:/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+[ -s "/home/annguyenwasd/.jabba/jabba.sh" ] && source "/home/annguyenwasd/.jabba/jabba.sh"
 #}}}
 
 # {{{ Alias
