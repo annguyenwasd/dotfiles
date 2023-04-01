@@ -1,3 +1,4 @@
+#! /bin/zsh
 # {{{ Sources
 source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/git.zsh
@@ -60,7 +61,7 @@ alias sz="source ~/.zshrc && echo \"Sourced.\""
 
 alias w="cd $WORKSPACE_FOLDER"
 alias d="cd ~/Desktop"
-alias dot="cd $DOTFILES && if [ -n $TMUX ] ;then dn; fi && nvim"
+alias dot="cd $DOTFILES && [ ! $TMUX = '' ] && dn; nvim"
 
 alias mk="mkdir -vp"
 alias cl="clear"
