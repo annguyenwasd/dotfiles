@@ -33,7 +33,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 alias ydl="youtube-dl -i"
 alias lzd="lazydocker"
 alias r="ranger"
-alias pacman="sudo pacman"
 
 alias md="mvn spring-boot:run -Dspring-boot.run.jvmArguments=\"-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005\" -Dspring-boot.run.profiles=local"
 alias mc="mvn clean install -DskipTests=true"
