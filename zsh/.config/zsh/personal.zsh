@@ -5,6 +5,8 @@ if [[ -d $HOME/.local/share/fnm ]]; then
   eval "$(fnm env --use-on-cd)"
 fi
 
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+
 # {{{ Export
 export DOTFILES=$HOME/dotfiles
 export LC_CTYPE=en_US.UTF-8
