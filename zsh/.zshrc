@@ -1,4 +1,3 @@
-#! /bin/zsh
 # {{{ Sources
 source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/git.zsh
@@ -82,20 +81,21 @@ function kp() {
 }
 
 fzf_bare_branches() {
+  is_open_nvim=${1}
   bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
-# /Users/user-name/workspace/your-bare-path             (bare)
-# /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
-#
-# git worktree list              -> list worktree
-# |sed '/(bare)/ d'              -> remove line with (bare)
-# |sort                          -> sort alphabet order
-# |xargs -L 1                    -> execute 1 line each (needed for cut command)
-# | cut -d " " -f 1,3            -> get frist and third column only (/Users/user-name/workspace/your-bare-path/branch-name [some-branch-name])
-# |sed -E "s/^(.*) (.*)/\2 \1/g; -> swap position between branch name and folder ([some-branch-name] /Users/user-name/workspace/your-bare-path/branch-name)
-# s/\[//; s/\]//;                -> then remove [] from branch name (some-branch-name /Users/user-name/workspace/your-bare-path/branch-name)
-# s#$bare_path##"                -> remove base path (some-branch-name /branch-name)
-# | column -t                    -> display as column (because xargs remove the spaces as column)
-# |fzf                           -> pipe to fzf
+  # /Users/user-name/workspace/your-bare-path             (bare)
+  # /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
+  #
+  # git worktree list              -> list worktree
+  # |sed '/(bare)/ d'              -> remove line with (bare)
+  # |sort                          -> sort alphabet order
+  # |xargs -L 1                    -> execute 1 line each (needed for cut command)
+  # | cut -d " " -f 1,3            -> get frist and third column only (/Users/user-name/workspace/your-bare-path/branch-name [some-branch-name])
+  # |sed -E "s/^(.*) (.*)/\2 \1/g; -> swap position between branch name and folder ([some-branch-name] /Users/user-name/workspace/your-bare-path/branch-name)
+  # s/\[//; s/\]//;                -> then remove [] from branch name (some-branch-name /Users/user-name/workspace/your-bare-path/branch-name)
+  # s#$bare_path##"                -> remove base path (some-branch-name /branch-name)
+  # | column -t                    -> display as column (because xargs remove the spaces as column)
+  # |fzf                           -> pipe to fzf
   selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
   dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
   if [ ! -z $dir ]; then
@@ -103,7 +103,13 @@ fzf_bare_branches() {
   else
     echo "Aborted"
   fi
-if [ -n $TMUX ] ;then dn; fi && nvim}
+  if [ -n $TMUX ] ;then
+    dn;
+  fi
+  if $is_open_nvim; then
+   nvim
+  fi
+}
 
 function fw() {
   loc=${1:=$WORKSPACE_FOLDER}
@@ -120,7 +126,7 @@ function fw() {
     fi
 
     if is_bare_repo; then
-      fzf_bare_branches
+      fzf_bare_branches $3
     fi
 
     if $is_open_nvim; then

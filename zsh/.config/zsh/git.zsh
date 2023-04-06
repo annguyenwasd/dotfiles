@@ -65,8 +65,8 @@ alias gca="git commit -v --amend"
 alias gcae="git commit -v --amend --no-edit"
 alias gce="git commit -e"
 
-alias gcm="git checkout master"
-alias gcd="git checkout develop"
+alias gcm="gco master"
+alias gcd="gco develop"
 
 alias gf="git fetch"
 alias gfp="git fetch --prune"
