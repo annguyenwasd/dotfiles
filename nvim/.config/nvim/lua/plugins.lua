@@ -70,13 +70,13 @@ require("packer").startup(function(use)
 			"folke/lsp-colors.nvim",
 			"hrsh7th/cmp-nvim-lua",
 		},
-		config = require("plugin-configs.lsp.cmp"),
+		config = require("plugin-configs.lsp.coq"),
 	})
 
 	use({
 		"ms-jpq/coq_nvim",
 		branch = "coq",
-		disable = true,
+		disable = false,
 		requires = {
 			{ "ms-jpq/coq.artifacts", branch = "artifacts" },
 			{ "ms-jpq/coq.thirdparty", branch = "3p" },
