@@ -11,7 +11,7 @@ return function()
 			"dockerls",
 			"tsserver",
 			"cssls",
-			"eslint",
+      "lua_ls"
 		},
 	})
 

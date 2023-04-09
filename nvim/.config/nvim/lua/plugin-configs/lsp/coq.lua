@@ -11,7 +11,7 @@ return function()
 			"dockerls",
 			"tsserver",
 			"cssls",
-			"eslint",
+			"lua_ls",
 		},
 	})
 
@@ -107,20 +107,46 @@ return function()
 	end
 
 	vim.g.coq_settings = {
-    display = {
-      icons = {
-        spacing = 2,
-        mappings = { Text = "", Method = "", Function = "", Constructor = "", Field = "ﰠ", Variable = "", Class = "ﴯ", Interface = "", Module = "", Property = "ﰠ", Unit = "塞", Value = "", Enum = "", Keyword = "", Snippet = "", Color = "", File = "", Reference = "", Folder = "", EnumMember = "", Constant = "", Struct = "פּ", Event = "", Operator = "", TypeParameter = "" }
-      },
-      pum = {
-        source_context = {"[", "]" }
-      }
-    },
-    auto_start = 'shut-up',
-    keymap = {
-      eval_snips = "<leader>se",
-      jump_to_mark = "<c-]>",
-    },
+		display = {
+			icons = {
+				spacing = 2,
+				mappings = {
+					Text = "",
+					Method = "",
+					Function = "",
+					Constructor = "",
+					Field = "ﰠ",
+					Variable = "",
+					Class = "ﴯ",
+					Interface = "",
+					Module = "",
+					Property = "ﰠ",
+					Unit = "塞",
+					Value = "",
+					Enum = "",
+					Keyword = "",
+					Snippet = "",
+					Color = "",
+					File = "",
+					Reference = "",
+					Folder = "",
+					EnumMember = "",
+					Constant = "",
+					Struct = "פּ",
+					Event = "",
+					Operator = "",
+					TypeParameter = "",
+				},
+			},
+			pum = {
+				source_context = { "[", "]" },
+			},
+		},
+		auto_start = "shut-up",
+		keymap = {
+			eval_snips = "<leader>se",
+			jump_to_mark = "<c-]>",
+		},
 	}
 
 	local coq = require("coq")
