@@ -23,6 +23,7 @@ export PATH="$PATH:/usr/local/opt/openssl@1.1/bin"
 export PATH="$PATH:-L/usr/local/opt/openssl@1.1/lib"
 export PATH="$PATH:-I/usr/local/opt/openssl@1.1/include"
 export PATH="$PATH:/usr/local/opt/openssl@1.1/lib/pkgconfig"
+export PATH="$PATH:$HOME/bin/flipper"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
 export PATH=$PATH:$ANDROID_HOME/emulator
