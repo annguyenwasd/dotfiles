@@ -130,7 +130,7 @@ require("packer").startup(function(use)
 		setup = function()
 			vim.gnvim_tree_respect_buf_cwd = 1 -- 0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 		end,
-		config = require("plugin-configs.explorer"),
+		config = require("plugin-configs.explorer.nvim-tree"),
 	})
 	-- }}}
 
