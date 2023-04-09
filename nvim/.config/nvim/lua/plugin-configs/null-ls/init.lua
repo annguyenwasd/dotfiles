@@ -1,13 +1,17 @@
 return function()
+	local null_ls = require("null-ls")
 	require("null-ls").setup({
 		sources = {
-			require("null-ls").builtins.formatting.stylua,
-			require("null-ls").builtins.formatting.prettierd,
-			require("null-ls").builtins.formatting.shfmt,
-			require("null-ls").builtins.formatting.yamlfmt,
-			require("null-ls").builtins.formatting.ktlint,
-			require("null-ls").builtins.formatting.markdownlint,
-			require("null-ls").builtins.formatting.trim_whitespace,
+			null_ls.builtins.formatting.stylua,
+			null_ls.builtins.formatting.prettierd,
+			null_ls.builtins.formatting.shfmt,
+			null_ls.builtins.formatting.yamlfmt,
+			null_ls.builtins.formatting.ktlint,
+			null_ls.builtins.formatting.markdownlint,
+			null_ls.builtins.formatting.trim_whitespace,
+
+			null_ls.builtins.diagnostics.eslint_d,
+			null_ls.builtins.code_actions.eslint_d,
 		},
 	})
 end
