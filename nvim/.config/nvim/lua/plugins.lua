@@ -74,7 +74,7 @@ require("packer").startup(function(use)
 	use({
 		"ms-jpq/coq_nvim",
 		branch = "coq",
-		disable = true,
+		disable = false,
 		requires = {
 			{ "ms-jpq/coq.artifacts", branch = "artifacts" },
 			{ "ms-jpq/coq.thirdparty", branch = "3p" },
@@ -84,7 +84,7 @@ require("packer").startup(function(use)
 
 	use({
 		"hrsh7th/nvim-cmp",
-		disable = false,
+		disable = true,
 		requires = {
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp",
