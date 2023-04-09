@@ -68,24 +68,25 @@ require("packer").startup(function(use)
 			"kkharji/lspsaga.nvim",
 			"ray-x/lsp_signature.nvim",
 			"folke/lsp-colors.nvim",
-			"hrsh7th/cmp-nvim-lua",
 		},
-		config = require("plugin-configs.lsp.coq"),
 	})
 
 	use({
 		"ms-jpq/coq_nvim",
 		branch = "coq",
-		disable = false,
+		disable = true,
 		requires = {
 			{ "ms-jpq/coq.artifacts", branch = "artifacts" },
 			{ "ms-jpq/coq.thirdparty", branch = "3p" },
 		},
+		config = require("plugin-configs.lsp.coq"),
 	})
 
 	use({
 		"hrsh7th/nvim-cmp",
+		disable = false,
 		requires = {
+			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -94,6 +95,7 @@ require("packer").startup(function(use)
 			"quangnguyen30192/cmp-nvim-ultisnips",
 			"onsails/lspkind-nvim",
 		},
+		config = require("plugin-configs.lsp.cmp"),
 	})
 
 	use({
