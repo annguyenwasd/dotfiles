@@ -45,7 +45,7 @@ require("packer").startup(function(use)
 				run = "make",
 			},
 		},
-		config = require("plugin-configs.telescope"),
+		config = require("plugin-configs.telescope-config"),
 	})
 	-- }}}
 
@@ -253,9 +253,9 @@ require("packer").startup(function(use)
 		config = function()
 			require("no-neck-pain").setup({
 				width = 120,
-        mappings = {
-          toggle = "<leader>cc",
-        }
+				mappings = {
+					toggle = "<leader>cc",
+				},
 			})
 		end,
 	})
@@ -357,15 +357,7 @@ require("packer").startup(function(use)
 	-- {{{ Leetcode
 	use({
 		"ianding1/leetcode.vim",
-		config = function()
-			vim.g.leetcode_browser = "chrome"
-			vim.g.leetcode_solution_filetype = "javascript"
-
-			vim.keymap.set("n", "<leader>ll", ":LeetCodeList<cr>")
-			vim.keymap.set("n", "<leader>lt", ":LeetCodeTest<cr>")
-			vim.keymap.set("n", "<leader>ls", ":LeetCodeSubmit<cr>")
-			vim.keymap.set("n", "<leader>li", ":LeetCodeSignIn<cr>")
-		end,
+		config = require("plugin-configs.leetcode"),
 	})
 	-- }}}
 
