@@ -65,9 +65,15 @@ require("packer").startup(function(use)
 			"neovim/nvim-lspconfig",
 			"b0o/schemastore.nvim",
 			"jose-elias-alvarez/nvim-lsp-ts-utils",
-			"ray-x/lsp_signature.nvim",
 			"folke/lsp-colors.nvim",
 		},
+	})
+
+	use({
+		"ray-x/lsp_signature.nvim",
+		config = function()
+			require("lsp_signature").setup({ toggle_key = "<c-s>" })
+		end,
 	})
 
 	use({
