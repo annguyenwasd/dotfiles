@@ -37,12 +37,20 @@ return function()
 			pum = {
 				source_context = { "[", "]" },
 			},
+      preview = {
+        resolve_timeout = 0.2
+      }
 		},
 		auto_start = "shut-up",
 		keymap = {
 			eval_snips = "<leader>se",
 			jump_to_mark = "<c-]>",
 		},
+    clients = {
+      lsp = {
+        resolve_timeout = 0.2
+      }
+    }
 	}
 
 	local coq = require("coq")
