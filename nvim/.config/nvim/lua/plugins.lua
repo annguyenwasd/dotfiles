@@ -65,10 +65,17 @@ require("packer").startup(function(use)
 			"neovim/nvim-lspconfig",
 			"b0o/schemastore.nvim",
 			"jose-elias-alvarez/nvim-lsp-ts-utils",
-			"kkharji/lspsaga.nvim",
 			"ray-x/lsp_signature.nvim",
 			"folke/lsp-colors.nvim",
 		},
+	})
+
+	use({
+		"jinzhongjia/LspUI.nvim",
+		-- event = 'VimEnter',
+		config = function()
+			require("LspUI").setup()
+		end,
 	})
 
 	use({
