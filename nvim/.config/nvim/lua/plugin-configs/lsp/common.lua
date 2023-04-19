@@ -19,6 +19,12 @@ M.setup_mason = function()
 end
 
 M.setup_on_attach = function()
+	local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+	for type, icon in pairs(signs) do
+		local hl = "DiagnosticSign" .. type
+		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  end
+
 	local setup_ts_utils = function(bufnr, client)
 		local ts_utils = require("nvim-lsp-ts-utils")
 

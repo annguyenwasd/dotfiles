@@ -65,9 +65,27 @@ return function()
 			capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			local settings = {
-				json = {
-					schemas = require("schemastore").json.schemas(),
-					validate = { enable = true },
+				typescript = {
+					inlayHints = {
+						includeInlayParameterNameHints = "all",
+						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+						includeInlayFunctionParameterTypeHints = true,
+						includeInlayVariableTypeHints = true,
+						includeInlayPropertyDeclarationTypeHints = true,
+						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayEnumMemberValueHints = true,
+					},
+				},
+				javascript = {
+					inlayHints = {
+						includeInlayParameterNameHints = "all",
+						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+						includeInlayFunctionParameterTypeHints = true,
+						includeInlayVariableTypeHints = true,
+						includeInlayPropertyDeclarationTypeHints = true,
+						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayEnumMemberValueHints = true,
+					},
 				},
 			}
 			require("lspconfig").tsserver.setup(coq.lsp_ensure_capabilities({
@@ -77,9 +95,18 @@ return function()
 			}))
 		end,
 		["jsonls"] = function()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			local settings = {
+				json = {
+					schemas = require("schemastore").json.schemas(),
+					validate = { enable = true },
+				},
+			}
 			require("lspconfig").jsonls.setup(coq.lsp_ensure_capabilities({
 				init_options = require("nvim-lsp-ts-utils").init_options,
 				on_attach = on_attach,
+				settings = settings,
+				capabilities = capabilities,
 			}))
 		end,
 		["lua_ls"] = function()

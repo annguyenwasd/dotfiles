@@ -115,6 +115,13 @@ require("packer").startup(function(use)
 		"SirVer/ultisnips",
 		requires = { { "honza/vim-snippets", rtp = "." } },
 	})
+
+	use({
+		"lvimuser/lsp-inlayhints.nvim",
+		config = function()
+			require("lsp-inlayhints").setup()
+		end,
+	})
 	-- }}}
 
 	-- {{{ Debugger
