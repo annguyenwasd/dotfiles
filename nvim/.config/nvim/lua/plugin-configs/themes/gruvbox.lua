@@ -6,7 +6,12 @@ M.dark = function()
 		undercurl = true,
 		underline = true,
 		bold = true,
-		italic = false,
+		italic = {
+			strings = false,
+			comments = false,
+			operators = false,
+			folds = false,
+		},
 		strikethrough = true,
 		invert_selection = false,
 		invert_signs = false,

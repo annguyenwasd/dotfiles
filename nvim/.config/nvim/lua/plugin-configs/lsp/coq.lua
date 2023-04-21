@@ -37,20 +37,20 @@ return function()
 			pum = {
 				source_context = { "[", "]" },
 			},
-      preview = {
-        resolve_timeout = 0.2
-      }
+			preview = {
+				resolve_timeout = 0.2,
+			},
 		},
 		auto_start = "shut-up",
 		keymap = {
 			eval_snips = "<leader>se",
 			jump_to_mark = "<c-]>",
 		},
-    clients = {
-      lsp = {
-        resolve_timeout = 0.2
-      }
-    }
+		clients = {
+			lsp = {
+				resolve_timeout = 0.2,
+			},
+		},
 	}
 
 	local coq = require("coq")
@@ -61,65 +61,16 @@ return function()
 			}))
 		end,
 		["tsserver"] = function()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-			local settings = {
-				typescript = {
-					inlayHints = {
-						includeInlayParameterNameHints = "all",
-						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-						includeInlayFunctionParameterTypeHints = true,
-						includeInlayVariableTypeHints = true,
-						includeInlayPropertyDeclarationTypeHints = true,
-						includeInlayFunctionLikeReturnTypeHints = true,
-						includeInlayEnumMemberValueHints = true,
-					},
-				},
-				javascript = {
-					inlayHints = {
-						includeInlayParameterNameHints = "all",
-						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-						includeInlayFunctionParameterTypeHints = true,
-						includeInlayVariableTypeHints = true,
-						includeInlayPropertyDeclarationTypeHints = true,
-						includeInlayFunctionLikeReturnTypeHints = true,
-						includeInlayEnumMemberValueHints = true,
-					},
-				},
-			}
-			require("lspconfig").tsserver.setup(coq.lsp_ensure_capabilities({
-				on_attach = on_attach,
-				settings = settings,
-				capabilities = capabilities,
-			}))
+			local setup = require("plugin-configs.lsp.setup").tsserver()
+			require("lspconfig").tsserver.setup(coq.lsp_ensure_capabilities(setup))
 		end,
 		["jsonls"] = function()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			local settings = {
-				json = {
-					schemas = require("schemastore").json.schemas(),
-					validate = { enable = true },
-				},
-			}
-			require("lspconfig").jsonls.setup(coq.lsp_ensure_capabilities({
-				init_options = require("nvim-lsp-ts-utils").init_options,
-				on_attach = on_attach,
-				settings = settings,
-				capabilities = capabilities,
-			}))
+			local setup = require("plugin-configs.lsp.setup").jsonls()
+			require("lspconfig").jsonls.setup(coq.lsp_ensure_capabilities(setup))
 		end,
 		["lua_ls"] = function()
-			require("lspconfig").lua_ls.setup(coq.lsp_ensure_capabilities({
-				on_attach = on_attach,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim", "packer_bootstrap" },
-						},
-					},
-				},
-			}))
+			local setup = require("plugin-configs.lsp.setup").lua_ls()
+			require("lspconfig").lua_ls.setup(coq.lsp_ensure_capabilities(setup))
 		end,
 	})
 

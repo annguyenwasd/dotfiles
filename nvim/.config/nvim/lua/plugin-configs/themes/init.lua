@@ -1,1 +1,1 @@
-require('plugin-configs.themes.jellybeans').dark()
+require('plugin-configs.themes.gruvbox').dark()

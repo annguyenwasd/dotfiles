@@ -122,6 +122,9 @@ require("packer").startup(function(use)
 			require("lsp-inlayhints").setup()
 		end,
 	})
+
+	use("davidosomething/format-ts-errors.nvim")
+
 	-- }}}
 
 	-- {{{ Debugger

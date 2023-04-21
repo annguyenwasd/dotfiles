@@ -1,6 +1,7 @@
 return function()
 	require("plugin-configs.lsp.common").setup_mason()
 	local on_attach = require("plugin-configs.lsp.common").setup_on_attach()
+
 	require("mason-lspconfig").setup_handlers({
 		function(server_name) -- default handler (optional)
 			require("lspconfig")[server_name].setup({
@@ -8,68 +9,16 @@ return function()
 			})
 		end,
 		["tsserver"] = function()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-			local settings = {
-				typescript = {
-					inlayHints = {
-						includeInlayParameterNameHints = "all",
-						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-						includeInlayFunctionParameterTypeHints = true,
-						includeInlayVariableTypeHints = true,
-						includeInlayPropertyDeclarationTypeHints = true,
-						includeInlayFunctionLikeReturnTypeHints = true,
-						includeInlayEnumMemberValueHints = true,
-					},
-				},
-				javascript = {
-					inlayHints = {
-						includeInlayParameterNameHints = "all",
-						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-						includeInlayFunctionParameterTypeHints = true,
-						includeInlayVariableTypeHints = true,
-						includeInlayPropertyDeclarationTypeHints = true,
-						includeInlayFunctionLikeReturnTypeHints = true,
-						includeInlayEnumMemberValueHints = true,
-					},
-				},
-			}
-
-			require("lspconfig").tsserver.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = settings,
-			})
+      local setup = require('plugin-configs.lsp.setup').tsserver()
+			require("lspconfig").tsserver.setup(setup)
 		end,
 		["jsonls"] = function()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-			local settings = {
-				json = {
-					schemas = require("schemastore").json.schemas(),
-					validate = { enable = true },
-				},
-			}
-			require("lspconfig").jsonls.setup({
-				init_options = require("nvim-lsp-ts-utils").init_options,
-				on_attach = on_attach,
-				settings = settings,
-				capabilities = capabilities,
-			})
+      local setup = require('plugin-configs.lsp.setup').jsonls()
+			require("lspconfig").jsonls.setup(setup)
 		end,
 		["lua_ls"] = function()
-			require("lspconfig").lua_ls.setup({
-				on_attach = on_attach,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim", "packer_bootstrap" },
-						},
-					},
-				},
-			})
+      local setup = require('plugin-configs.lsp.setup').lua_ls()
+			require("lspconfig").lua_ls.setup(setup)
 		end,
 	})
 
