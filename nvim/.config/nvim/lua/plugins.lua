@@ -107,6 +107,7 @@ require("packer").startup(function(use)
 			"hrsh7th/nvim-cmp",
 			"quangnguyen30192/cmp-nvim-ultisnips",
 			"onsails/lspkind-nvim",
+			"lukas-reineke/cmp-under-comparator",
 		},
 		config = require("plugin-configs.lsp.cmp"),
 	})

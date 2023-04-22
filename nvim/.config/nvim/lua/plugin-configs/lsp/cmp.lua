@@ -9,15 +9,15 @@ return function()
 			})
 		end,
 		["tsserver"] = function()
-      local setup = require('plugin-configs.lsp.setup').tsserver()
+			local setup = require("plugin-configs.lsp.setup").tsserver()
 			require("lspconfig").tsserver.setup(setup)
 		end,
 		["jsonls"] = function()
-      local setup = require('plugin-configs.lsp.setup').jsonls()
+			local setup = require("plugin-configs.lsp.setup").jsonls()
 			require("lspconfig").jsonls.setup(setup)
 		end,
 		["lua_ls"] = function()
-      local setup = require('plugin-configs.lsp.setup').lua_ls()
+			local setup = require("plugin-configs.lsp.setup").lua_ls()
 			require("lspconfig").lua_ls.setup(setup)
 		end,
 	})
@@ -30,7 +30,21 @@ return function()
 
 	local cmp = require("cmp")
 	local lspkind = require("lspkind")
-	cmp.setup({ formatting = { format = lspkind.cmp_format() } })
+	cmp.setup({
+		formatting = { format = lspkind.cmp_format() },
+		sorting = {
+			comparators = {
+				cmp.config.compare.offset,
+				cmp.config.compare.exact,
+				cmp.config.compare.score,
+				require("cmp-under-comparator").under,
+				cmp.config.compare.kind,
+				cmp.config.compare.sort_text,
+				cmp.config.compare.length,
+				cmp.config.compare.order,
+			},
+		},
+	})
 
 	-- ╭──────────────────────────────────────────────────────────╮
 	-- │                     SirVer/ultisnips                     │
