@@ -126,6 +126,22 @@ require("packer").startup(function(use)
 
 	use("davidosomething/format-ts-errors.nvim")
 
+	use({
+		"utilyre/barbecue.nvim",
+		tag = "*",
+		requires = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
+		after = "nvim-web-devicons", -- keep this if you're using NvChad
+		config = function()
+			require("barbecue").setup({
+				show_dirname = false,
+				show_basename = false,
+			})
+		end,
+	})
+
 	-- }}}
 
 	-- {{{ Debugger
