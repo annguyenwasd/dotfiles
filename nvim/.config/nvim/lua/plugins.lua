@@ -70,13 +70,6 @@ require("packer").startup(function(use)
 	})
 
 	use({
-		"ray-x/lsp_signature.nvim",
-		config = function()
-			require("lsp_signature").setup({ toggle_key = "<c-s>", hint_enable = false })
-		end,
-	})
-
-	use({
 		"jinzhongjia/LspUI.nvim",
 		-- event = 'VimEnter',
 		config = function()
