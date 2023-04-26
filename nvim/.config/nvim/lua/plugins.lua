@@ -110,13 +110,6 @@ require("packer").startup(function(use)
 		requires = { { "honza/vim-snippets", rtp = "." } },
 	})
 
-	use({
-		"lvimuser/lsp-inlayhints.nvim",
-		config = function()
-			require("lsp-inlayhints").setup()
-		end,
-	})
-
 	use("davidosomething/format-ts-errors.nvim")
 
 	-- }}}
@@ -166,9 +159,6 @@ require("packer").startup(function(use)
 	use({ "tpope/vim-fugitive" })
 	use({ "kdheepak/lazygit.nvim" })
 	use({ "lewis6991/gitsigns.nvim" })
-	use({
-		"ThePrimeagen/git-worktree.nvim",
-	})
 	use({
 		"pwntester/octo.nvim",
 		config = function()
@@ -273,6 +263,7 @@ require("packer").startup(function(use)
 			require("no-neck-pain").setup({
 				width = 120,
 				mappings = {
+					enabled = true,
 					toggle = "<leader>cc",
 				},
 			})
@@ -346,7 +337,7 @@ require("packer").startup(function(use)
 	use({
 		"will133/vim-dirdiff",
 		config = function()
-			vim.g.DirDiffExcludes = ".git,personal.*,.DS_Store,packer_compiled.lua,*.add,*.spl"
+			vim.g.DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*"
 		end,
 	})
 

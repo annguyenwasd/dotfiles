@@ -80727,7 +80727,7 @@
 		</dict>
 	</dict>
 	<key>Default Bookmark Guid</key>
-	<string>FF8CCD14-C89C-463E-AAC9-7A016F6FBBFD</string>
+	<string>22770C45-B7D5-4FD6-AAB5-E0E0FF825195</string>
 	<key>DimBackgroundWindows</key>
 	<false/>
 	<key>DimInactiveSplitPanes</key>
@@ -80779,6 +80779,10 @@
 	<key>NeverWarnAboutShortLivedSessions_359D02F5-8ECD-4E17-864A-0008F46672D8</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_359D02F5-8ECD-4E17-864A-0008F46672D8_selection</key>
+	<integer>0</integer>
+	<key>NeverWarnAboutShortLivedSessions_FF8CCD14-C89C-463E-AAC9-7A016F6FBBFD</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_FF8CCD14-C89C-463E-AAC9-7A016F6FBBFD_selection</key>
 	<integer>0</integer>
 	<key>New Bookmarks</key>
 	<array>
@@ -89357,9 +89361,11 @@
 			<key>Name</key>
 			<string>jellybeans</string>
 			<key>Non Ascii Font</key>
-			<string>Monaco 12</string>
+			<string>HackNerdFontComplete-Regular 15</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
+			<key>Non-ASCII Ligatures</key>
+			<false/>
 			<key>Normal Font</key>
 			<string>SauceCodeProNerdFontComplete-Regular 15</string>
 			<key>Only The Default BG Color Uses Transparency</key>
@@ -89552,7 +89558,7 @@
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Use Non-ASCII Font</key>
-			<false/>
+			<true/>
 			<key>Use Tab Color</key>
 			<false/>
 			<key>Vertical Spacing</key>
@@ -90453,6 +90459,16 @@
 	<key>OpenTmuxWindowsIn</key>
 	<integer>0</integer>
 	<key>PMPrintingExpandedStateForPrint2</key>
+	<false/>
+	<key>PasteSpecialChunkDelay</key>
+	<real>0.01</real>
+	<key>PasteSpecialChunkSize</key>
+	<integer>1024</integer>
+	<key>PasteSpecialRegex</key>
+	<string></string>
+	<key>PasteSpecialSubstitution</key>
+	<string></string>
+	<key>PasteSpecialUseRegexSubstitution</key>
 	<false/>
 	<key>PerPaneBackgroundImage</key>
 	<false/>

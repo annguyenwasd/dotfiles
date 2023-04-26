@@ -4,8 +4,6 @@
 vim.g.lazygit_floating_window_winblend = 0
 vim.g.lazygit_floating_window_scaling_factor = 1
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>")
--- Not gonna show shit messages when run git hook via husky
-vim.g.fugitive_pty = 0
 
 -- ╭──────────────────────────────────────────────────────────╮
 -- │                    tpope/vim-fugitive                    │
@@ -15,6 +13,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	pattern = "fugitive://*",
 	command = "set bufhidden=delete",
 })
+
+-- Not gonna show shit messages when run git hook via husky
+vim.g.fugitive_pty = 0
 
 local function vsplitCommit()
 	vim.cmd("split term://git commit|:startinsert")
@@ -94,17 +95,3 @@ require("gitsigns").setup({
 		map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 	end,
 })
-
---  ╭──────────────────────────────────────────────────────────╮
---  │              ThePrimeagen/git-worktree.nvim              │
---  ╰──────────────────────────────────────────────────────────╯
-require("telescope").load_extension("git_worktree")
-vim.keymap.set("n", "<leader>wt", require("telescope").extensions.git_worktree.git_worktrees)
-vim.keymap.set("n", "<leader>wT", require("telescope").extensions.git_worktree.create_git_worktree)
-vim.keymap.set("n", "<leader>WT", function()
-	vim.ui.input({ prompt = "Branch name: " }, function(branch_name)
-		if branch_name and string.len(branch_name) > 0 then
-			require("git-worktree").create_worktree(branch_name, branch_name, "origin")
-		end
-	end)
-end)
