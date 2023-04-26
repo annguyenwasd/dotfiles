@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-scale '/usr/share/backgrounds/archlinux/wave.png' 
+feh --no-fehbg --bg-fill '/home/annguyenwasd/workspace/nordic-wallpapers/wallpapers/ign_endeavour2.png' 
