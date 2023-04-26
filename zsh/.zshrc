@@ -37,15 +37,8 @@ export EDITOR=nvim
 export REACT_EDITOR=code
 export WORKSPACE_FOLDER=~/workspace
 export NVIM_HOME=~/.config/nvim/
+export TERM=xterm-256color
 export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
-
-
-if [ $TMUX ]; then
-  export TERM=screen-256color
-else
-  export TERM=xterm-256color
-fi
-
 #}}}
 
 # {{{ Alias
