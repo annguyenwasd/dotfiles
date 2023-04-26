@@ -174,7 +174,7 @@ require("packer").startup(function(use)
 	use("Mofiqul/vscode.nvim")
 	use("sainnhe/gruvbox-material")
 	use("marko-cerovac/material.nvim")
-	use("shaunsingh/nord.nvim")
+	use({ "gbprod/nord.nvim", config = require("plugin-configs.themes.nord").config() })
 	use("mhartington/oceanic-next")
 	use("ofirgall/ofirkai.nvim")
 	use("rmehri01/onenord.nvim")
@@ -337,7 +337,8 @@ require("packer").startup(function(use)
 	use({
 		"will133/vim-dirdiff",
 		config = function()
-			vim.g.DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*"
+			vim.g.DirDiffExcludes =
+				".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*"
 		end,
 	})
 
