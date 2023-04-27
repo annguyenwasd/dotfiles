@@ -44,6 +44,8 @@ return function()
 		"diagnostics",
 		sources = { "nvim_diagnostic" },
 		colored = false,
+    symbols = { error = " ", warn = " ", hint = " ", info = "i " }
+
 	}
 
 	local branch = { "branch", icon = "", fmt = trunc(1600, 20, 60, false), }
