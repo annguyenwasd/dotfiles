@@ -32,6 +32,8 @@ require("packer").startup(function(use)
 		end,
 		run = ":TSUpdate",
 	})
+
+	use("nvim-treesitter/nvim-treesitter-context")
 	--}}}
 
 	-- {{{ Telescope
