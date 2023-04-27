@@ -65,7 +65,6 @@ require("packer").startup(function(use)
 			"neovim/nvim-lspconfig",
 			"b0o/schemastore.nvim",
 			"jose-elias-alvarez/nvim-lsp-ts-utils",
-			"folke/lsp-colors.nvim",
 		},
 	})
 
@@ -265,6 +264,9 @@ require("packer").startup(function(use)
 				mappings = {
 					enabled = true,
 					toggle = "<leader>cc",
+					widthUp = false,
+					widthDown = false,
+					scratchPad = false,
 				},
 			})
 		end,
