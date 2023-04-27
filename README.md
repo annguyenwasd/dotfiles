@@ -154,3 +154,4 @@ stow neovim
 - LSP not started in a single file
 - Diagnostic not working with javascript file
 - Find text in specific folder
+- jose-elias-alvarez/nvim-lsp-ts-utils oudated
