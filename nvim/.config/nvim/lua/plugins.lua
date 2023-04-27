@@ -86,9 +86,30 @@ require("packer").startup(function(use)
 	})
 
 	use({
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		after = "nvim-treesitter",
-		requires = "nvim-treesitter/nvim-treesitter",
+		"nvim-treesitter/nvim-treesitter-refactor",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				refactor = {
+					highlight_definitions = {
+						enable = true,
+						-- Set to false if you have an `updatetime` of ~100.
+						clear_on_cursor_move = true,
+					},
+					highlight_current_scope = { enable = false },
+					navigation = {
+						enable = true,
+						-- Assign keymaps to false to disable them, e.g. `goto_definition = false`.
+						keymaps = {
+							goto_definition = false,
+							list_definitions = false,
+							list_definitions_toc = false,
+							goto_next_usage = "]s",
+							goto_previous_usage = "[s",
+						},
+					},
+				},
+			})
+		end,
 	})
 	--}}}
 
