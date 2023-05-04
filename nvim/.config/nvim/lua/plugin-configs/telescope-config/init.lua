@@ -34,7 +34,7 @@ return function()
 				".idea",
 			},
 			preview = {
-				hide_on_startup = true,
+				hide_on_startup = false,
 			},
 			layout_config = {
 				prompt_position = "top",
