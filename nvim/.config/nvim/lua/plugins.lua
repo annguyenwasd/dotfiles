@@ -327,7 +327,7 @@ require("packer").startup(function(use)
 	use({
 		"szw/vim-maximizer",
 		config = function()
-			vim.keymap.set("n", "<leader>m", ":MaximizerToggle<cr>")
+			vim.keymap.set("n", "<leader>mm", ":MaximizerToggle<cr>")
 		end,
 	})
 
@@ -433,14 +433,39 @@ require("packer").startup(function(use)
 
 	use({ "jbyuki/venn.nvim", config = require("plugin-configs.diagram") })
 
-	-- }}}
+	use({
+		"Wansmer/treesj",
+		requires = { "nvim-treesitter" },
+		config = function()
+			require("treesj").setup({ use_default_keymaps = false, max_join_length = 99999999 })
+			vim.keymap.set("n", "gst", require("treesj").toggle)
+			vim.keymap.set("n", "gss", require("treesj").split)
+			vim.keymap.set("n", "gsj", require("treesj").join)
+		end,
+	})
 
-	-- {{{ Markdown Previeww
+	use({
+		"phaazon/mind.nvim",
+		branch = "v2.2",
+		requires = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("mind").setup()
+			vim.keymap.set("n", "<leader>mi", require("mind").open_main)
+			vim.keymap.set("n", "<leader>mI", require("mind").close)
+		end,
+	})
 
 	use({
 		"iamcco/markdown-preview.nvim",
 		run = function()
 			vim.fn["mkdp#util#install"]()
+		end,
+	})
+
+	use({
+		"yorickpeterse/nvim-window",
+		config = function()
+			vim.keymap.set("n", "<leader>ww", require("nvim-window").pick)
 		end,
 	})
 
