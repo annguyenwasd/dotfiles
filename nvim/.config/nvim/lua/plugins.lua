@@ -293,7 +293,9 @@ require("packer").startup(function(use)
 	-- }}}
 
 	-- {{{ Buffer
-	use("kevinhwang91/nvim-bqf")
+	use({ "kevinhwang91/nvim-bqf", requires = {
+		{ "junegunn/fzf.vim" },
+	} })
 
 	use({
 		"numtostr/BufOnly.nvim",
