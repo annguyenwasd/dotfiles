@@ -343,13 +343,11 @@ require("packer").startup(function(use)
 			require("no-neck-pain").setup({
 				width = 120,
 				mappings = {
-					enabled = true,
-					toggle = "<leader>cc",
-					widthUp = false,
-					widthDown = false,
-					scratchPad = false,
+					enabled = false,
 				},
 			})
+
+      vim.keymap.set("n", "<leader>cc", ":NoNeckPain<cr")
 		end,
 	})
 
