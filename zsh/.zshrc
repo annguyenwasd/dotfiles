@@ -81,7 +81,7 @@ function kp() {
 }
 
 fzf_bare_branches() {
-  is_open_nvim=${1}
+  is_open_nvim=${1:=false}
   bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
   # /Users/user-name/workspace/your-bare-path             (bare)
   # /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
@@ -126,7 +126,7 @@ function fw() {
     fi
 
     if is_bare_repo; then
-      fzf_bare_branches $3
+      fzf_bare_branches is_open_nvim
     fi
 
     if $is_open_nvim; then
