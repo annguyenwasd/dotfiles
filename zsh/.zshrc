@@ -44,14 +44,11 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 # {{{ Alias
 alias c="code"
 alias cc="code ."
-alias nviu="nvim -u NONE"
 alias grep="grep --color"
 alias ls="ls --color"
 
-alias ls="ls -G"
 alias ll="ls -a"
-alias la="ls -la"
-alias l="la"
+alias la="ls -la --color"
 
 alias ez="nvim ~/.zshrc"
 alias ev="nvim ~/.config/nvim/init.lua"
