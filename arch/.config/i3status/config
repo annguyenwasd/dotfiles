@@ -7,13 +7,20 @@ general {
 #order += "disk /"
 #order += "disk /home"
 order += "ethernet eno1"
+order += "wireless wlan0"
 order += "memory"
 order += "tztime local"
 
 ethernet eno1 {
-       format_up = "eno1: %ip (%speed)"
-       format_down = "eno1: down"
+       format_up = "wire: %ip (%speed)"
+       format_down = "wire: down"
 }
+
+wireless wlan0 {
+       format_up = "wifi: (%quality at %essid, %bitrate) %ip"
+       format_down = "wifi: down"
+}
+
 
 tztime local {
        format = "%Y-%m-%d %H:%M:%S"
