@@ -1,6 +1,6 @@
 #!/usr/bin/sh
 su
-yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh pipewire pipewire-alsa wireplumber pipewire-pulse alsa-utils java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober
+yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh pipewire pipewire-alsa wireplumber pipewire-pulse alsa-utils java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit
 
 zsh
 chsh
