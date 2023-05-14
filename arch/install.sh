@@ -1,5 +1,6 @@
 #!/usr/bin/sh
-yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh pipewire pipewire-alsa wireplumber pipewire-pulse alsa-utils
+su
+yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh pipewire pipewire-alsa wireplumber pipewire-pulse alsa-utils java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober
 
 zsh
 chsh
@@ -21,7 +22,14 @@ git clone https://github.com/linuxdotexe/nordic-wallpapers.git ~/workspace/nordi
 # setup auto login
 yes|sudo pacman -S util-linux
 stty onlcr
-echo "Please follow this link https://wiki.archlinux.org/title/Getty"
 
+# setup grub with windows
+sudo mount /dev/sda1 /mnt
+sudo os-prober
+sudo sed -i "s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/" /etc/default/grub
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl --user --now enable pipewire pipewire-pulse wireplumber
+echo "TODO:"
+echo "[AUTOLOGIN] https://wiki.archlinux.org/title/Getty"
+echo "[GRUB] https://wiki.archlinux.org/title/GRUB#Detecting_other_operating_systems"
