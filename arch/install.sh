@@ -17,3 +17,8 @@ curl -fsSL https://fnm.vercel.app/install | bash
 
 [ ! -d ~/workspace ] && mkdir ~/workspace
 git clone https://github.com/linuxdotexe/nordic-wallpapers.git ~/workspace/nordic-wallpapers
+
+# setup auto login
+yes|sudo pacman -S util-linux
+stty onlcr
+echo "Please follow this link https://wiki.archlinux.org/title/Getty"
