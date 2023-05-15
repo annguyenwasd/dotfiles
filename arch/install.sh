@@ -1,6 +1,6 @@
 #!/usr/bin/sh
 su
-yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh pipewire pipewire-alsa wireplumber pipewire-pulse alsa-utils java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit
+yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh pipewire pipewire-alsa wireplumber pipewire-pulse alsa-utils java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit sudo vi
 
 zsh
 chsh
@@ -30,6 +30,9 @@ sudo sed -i "s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/" /etc/default/gru
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl --user --now enable pipewire pipewire-pulse wireplumber
+
+
+
 echo "TODO:"
 echo "[AUTOLOGIN] https://wiki.archlinux.org/title/Getty"
-echo "[GRUB] https://wiki.archlinux.org/title/GRUB#Detecting_other_operating_systems"
+echo "[ROOTUSER] https://www.linuxtechi.com/create-configure-sudo-user-on-arch-linux/
