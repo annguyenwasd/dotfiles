@@ -35,6 +35,9 @@ systemctl --user --now enable pipewire pipewire-pulse wireplumber
 # Create default folders
 xdg-user-dirs-update
 
+# install android studio
+yes|aur android-studio
+
 echo "TODO:"
 echo "[AUTOLOGIN] https://wiki.archlinux.org/title/Getty"
 echo "[ROOTUSER] https://www.linuxtechi.com/create-configure-sudo-user-on-arch-linux/
