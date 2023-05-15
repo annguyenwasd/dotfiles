@@ -13,7 +13,7 @@ yes|aur google chrome
 python -m ensurepip --upgradepython -m ensurepip --upgrade
 pip3 install neovim
 
-sudo npm i -g diff-so-fancy
+sudo npm i -g diff-so-fancy yarn
 curl -fsSL https://fnm.vercel.app/install | bash
 
 [ ! -d ~/workspace ] && mkdir ~/workspace
