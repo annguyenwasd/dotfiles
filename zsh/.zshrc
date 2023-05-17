@@ -113,7 +113,7 @@ function fw() {
   is_changed_tmux_window_name=${2:=false}
   is_open_nvim=${3:=false}
 
-  dir=$(ls -d $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --preview "ls -lA $loc/{}")
+  dir=$(ls -d $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --ansi --preview "ls -lA $loc/{}")
 
   if [ ! -z $dir ]; then
     cd $loc/$dir
