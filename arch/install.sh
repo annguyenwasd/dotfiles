@@ -1,6 +1,6 @@
 #!/usr/bin/sh
 su
-yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh pipewire pipewire-alsa wireplumber pipewire-pulse alsa-utils java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit sudo vi xdg-user-dirs
+yes|sudo pacman -S i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit sudo vi xdg-user-dirs
 
 zsh
 chsh
@@ -28,9 +28,6 @@ sudo mount /dev/sda1 /mnt
 sudo os-prober
 sudo sed -i "s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/" /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
-
-# Sound
-systemctl --user --now enable pipewire pipewire-pulse wireplumber
 
 # Create default folders
 xdg-user-dirs-update
