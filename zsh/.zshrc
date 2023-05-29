@@ -44,14 +44,11 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 # {{{ Alias
 alias c="code"
 alias cc="code ."
-alias nviu="nvim -u NONE"
 alias grep="grep --color"
 alias ls="ls --color"
 
-alias ls="ls -G"
 alias ll="ls -a"
-alias la="ls -la"
-alias l="la"
+alias la="ls -la --color"
 
 alias ez="nvim ~/.zshrc"
 alias ev="nvim ~/.config/nvim/init.lua"
@@ -116,7 +113,7 @@ function fw() {
   is_changed_tmux_window_name=${2:=false}
   is_open_nvim=${3:=false}
 
-  dir=$(ls -d $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --preview "ls -lA $loc/{}")
+  dir=$(ls -d $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --ansi --preview "ls -lA $loc/{}")
 
   if [ ! -z $dir ]; then
     cd $loc/$dir
