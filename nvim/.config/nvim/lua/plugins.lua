@@ -347,7 +347,7 @@ require("packer").startup(function(use)
 				},
 			})
 
-      vim.keymap.set("n", "<leader>cc", ":NoNeckPain<cr")
+			vim.keymap.set("n", "<leader>cc", ":NoNeckPain<cr")
 		end,
 	})
 
@@ -450,7 +450,10 @@ require("packer").startup(function(use)
 		requires = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("mind").setup()
-			vim.keymap.set("n", "<leader>mi", require("mind").open_main)
+			vim.keymap.set("n", "<leader>mi", require("mind").open_project)
+			vim.keymap.set("n", "<leader><leader>mi", function()
+				require("mind").open_project({ use_global = true })
+			end)
 			vim.keymap.set("n", "<leader>mI", require("mind").close)
 		end,
 	})
