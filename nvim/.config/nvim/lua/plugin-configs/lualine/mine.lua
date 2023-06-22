@@ -48,7 +48,7 @@ return function()
 
 	}
 
-	local branch = { "branch", icon = "", fmt = trunc(1600, 20, 60, false), }
+	local branch = { "branch", icon = "" }
 	local diff = { "diff", source = diff_source, colored = false }
 	local file_name = {
 		"filename",

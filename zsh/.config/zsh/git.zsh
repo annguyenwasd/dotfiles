@@ -246,4 +246,9 @@ function tobare() {
 
 }
 
+# Remove all except master & develop worktree
+function git_worktree_clean() {
+  git worktree list|cut -ws -f 1|sed '1d;/.*\/master$/d;/.*\/develop$/d'|xargs -n 1 git worktree remove -f
+}
+
 # }}}

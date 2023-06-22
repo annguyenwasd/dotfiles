@@ -32,6 +32,10 @@ return function()
 				"%.git/",
 				".vscode/",
 				".idea",
+				"coverage/",
+				"build/",
+				"reports/",
+				"dist/",
 			},
 			preview = {
 				hide_on_startup = false,
