@@ -65,6 +65,7 @@ alias cl="clear"
 alias x="exit 0"
 
 alias ys="yarn run start"
+alias yd="yarn run dev"
 alias yt="yarn test"
 alias yb="yarn run build"
 alias yl="yarn list"
@@ -79,7 +80,6 @@ function kp() {
 }
 
 fzf_bare_branches() {
-  is_open_nvim=${1:=false}
   bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
   # /Users/user-name/workspace/your-bare-path             (bare)
   # /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
@@ -101,12 +101,6 @@ fzf_bare_branches() {
   else
     echo "Aborted"
   fi
-  if [ -n $TMUX ] ;then
-    dn;
-  fi
-  if $is_open_nvim; then
-   nvim
-  fi
 }
 
 function fw() {
@@ -119,12 +113,12 @@ function fw() {
   if [ ! -z $dir ]; then
     cd $loc/$dir
 
-    if $is_changed_tmux_window_name; then
+    if [ -n $TMUX ] && $is_changed_tmux_window_name; then
       dn
     fi
 
     if is_bare_repo; then
-      fzf_bare_branches is_open_nvim
+      fzf_bare_branches
     fi
 
     if $is_open_nvim; then

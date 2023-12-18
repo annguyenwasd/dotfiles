@@ -12,7 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("settings")
 require("autocmd")
-require("global-mapping")
 require("mappings")
 require("lazy").setup("plugins")
 require("themes.__output__")

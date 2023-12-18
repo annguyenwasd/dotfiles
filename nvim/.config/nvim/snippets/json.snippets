@@ -1,0 +1,44 @@
+snippet java "Vimspector snippet for Java" b
+  {
+    "adapters": {
+      "java-debug-server": {
+        "name": "vscode-java",
+        "port": "\${AdapterPort\}"
+      }
+    },
+    "configurations": {
+      "Java Attach": {
+        "default": true,
+        "adapter": "java-debug-server",
+        "configuration": {
+          "request": "attach",
+          "host": "127.0.0.1",
+          "port": "5005"
+        },
+        "breakpoints": {
+          "exception": {
+            "caught": "N",
+            "uncaught": "N"
+          }
+        }
+      }
+    }
+  }
+
+
+snippet node "Vimspector snippet for Node" b
+  {
+    "configurations": {
+      "run": {
+        "adapter": "vscode-node",
+        "configuration": {
+          "request": "launch",
+          "protocol": "auto",
+          "stopOnEntry": true,
+          "console": "integratedTerminal",
+          "program": "\${workspaceRoot}/simple.js",
+          "cwd": "\${workspaceRoot}"
+        }
+      }
+    }
+  }

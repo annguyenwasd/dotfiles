@@ -1,203 +1,206 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-vim.keymap.set("n", "n", "nzt", { noremap = false })
-vim.keymap.set("n", "N", "Nzt", { noremap = false })
-vim.keymap.set("n", "*", "*zt", { noremap = false })
-vim.keymap.set("n", "#", "#zt", { noremap = false })
+vim.keymap.set("n", "n", "nzt", make_mapping_opts("Override. next occurrence and make cursor top", { noremap = false }))
+vim.keymap.set("n", "N", "Nzt", make_mapping_opts("Override. prev occurrence and make cursor top", { noremap = false }))
+vim.keymap.set(
+	"n",
+	"*",
+	"*zt",
+	make_mapping_opts("Override. next whole world occurrence and make cursor top", { noremap = false })
+)
+vim.keymap.set(
+	"n",
+	"#",
+	"#zt",
+	make_mapping_opts("Override. prev whole world occurrence and make cursor top", { noremap = false })
+)
 
-vim.keymap.set("n", "Y", "y$")
-vim.keymap.set("v", "<leader>p", '"_dP')
+vim.keymap.set("n", "Y", "y$", make_mapping_opts("yarnk from current position to end of line"))
+vim.keymap.set("v", "<leader>p", '"_dP', make_mapping_opts("Paste without replace current value by replaced value"))
 
--- Duplicate everything selected
-vim.keymap.set("v", "D", "y'>p")
+vim.keymap.set("v", "D", "y'>p", make_mapping_opts("Duplicate everything selected"))
 
--- Do search with selected text in VISUAL mode
-vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>', { noremap = false })
+vim.keymap.set(
+	"v",
+	"*",
+	'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>',
+	make_mapping_opts("Do search with selected text in VISUAL mode ", { noremap = false })
+)
 
-vim.keymap.set("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr>")
+vim.keymap.set(
+	"n",
+	"<leader>cl",
+	"<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr>",
+	make_mapping_opts("Closing quickfix windows/location list windows")
+)
 
-local function refresh()
+vim.keymap.set("n", "<leader><leader>r", function()
 	local paths = vim.split(vim.fn.glob("~/.config/nvim/lua/**/*.lua"), "\n")
-	for i, file in pairs(paths) do
+	for _, file in pairs(paths) do
 		vim.cmd("source " .. file)
 	end
-	vim.cmd("PackerCompile")
 	vim.cmd("syntax enable")
 	print("Sourced all config files")
-end
+end, make_mapping_opts("Source all lua files"))
 
-vim.keymap.set("n", "<leader><leader>R", function()
-	refresh()
-	vim.cmd("PackerInstall")
-end)
-
-vim.keymap.set("n", "<leader><leader>r", refresh)
-
-vim.keymap.set("n", "<c-w><c-e>", "<c-w>=")
+vim.keymap.set("n", "<c-w><c-e>", "<c-w>=", make_mapping_opts("Make windows equally"))
 
 -- Moving around in command mode
-vim.keymap.set("c", "<c-h>", "<left>", { silent = false })
-vim.keymap.set("c", "<c-j>", "<down>", { silent = false })
-vim.keymap.set("c", "<c-k>", "<up>", { silent = false })
-vim.keymap.set("c", "<c-l>", "<right>", { silent = false })
+vim.keymap.set({ "c", "i" }, "<c-h>", "<left>", make_mapping_opts("go to left window. mode: c/i", { silent = false }))
+vim.keymap.set({ "c", "i" }, "<c-j>", "<down>", make_mapping_opts("go to bottom window. mode: c/i", { silent = false }))
+vim.keymap.set({ "c", "i" }, "<c-k>", "<up>", make_mapping_opts("go to top window. mode: c/i", { silent = false }))
+vim.keymap.set({ "c", "i" }, "<c-l>", "<right>", make_mapping_opts("go to right window. mode: c/i", { silent = false }))
 
-vim.keymap.set("i", "<c-h>", "<left>", { silent = false })
-vim.keymap.set("i", "<c-j>", "<down>", { silent = false })
-vim.keymap.set("i", "<c-k>", "<up>", { silent = false })
-vim.keymap.set("i", "<c-l>", "<right>", { silent = false })
-
-vim.keymap.set("n", "<leader>e", "<cmd>b #<cr>")
-vim.keymap.set("n", "<leader><leader>e", "<cmd>e<cr>")
-vim.keymap.set("n", "<leader>td", ":vsp .todo<cr>")
+vim.keymap.set("n", "<leader>e", "<cmd>b #<cr>", make_mapping_opts("Swap current buffer with alternative buffer"))
 
 -- Create file at same folder with vsplit/split
-vim.keymap.set("n", "<leader>vf", ":vsp %:h/", { silent = false })
-vim.keymap.set("n", "<leader>sf", ":sp %:h/", { silent = false })
-vim.keymap.set("n", "<leader><leader>ef", ":e %:h/", { silent = false })
+vim.keymap.set(
+	"n",
+	"<leader>fv",
+	":vsp %:h/",
+	make_mapping_opts("Create a new file in same folder in vertical split", { silent = false })
+)
+vim.keymap.set(
+	"n",
+	"<leader>fs",
+	":sp %:h/",
+	make_mapping_opts("Create a new file in same folder in horizontal split", { silent = false })
+)
+vim.keymap.set(
+	"n",
+	"<leader>fe",
+	":e %:h/",
+	make_mapping_opts("Edit a file in current folder in same window", { silent = false })
+)
 
-vim.keymap.set("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>')
-vim.keymap.set("n", "<leader><leader>H", "yi' :!npm home <c-r>\"<cr>")
-vim.keymap.set("n", "<leader><leader>oe", "<cmd>!open -a textedit %<cr>")
-vim.keymap.set("n", "<leader><leader>oc", "<cmd>!code %<cr>")
-vim.keymap.set("n", "<leader><leader>og", "<cmd>!open -a google chrome %<cr>")
+-- TODO: optimise
+vim.keymap.set("n", "<leader><leader>h", 'yi" :!npm home <c-r>"<cr>', make_mapping_opts("Open npm homepage")) -- merge with bellow
+vim.keymap.set("n", "<leader><leader>H", "yi' :!npm home <c-r>\"<cr>", make_mapping_opts("Open npm homepage"))
+vim.keymap.set(
+	"n",
+	"<leader><leader>oe",
+	"<cmd>!open -a textedit %<cr>",
+	make_mapping_opts("Open current file in text edit")
+) -- check os
+vim.keymap.set("n", "<leader><leader>oc", "<cmd>!code %<cr>", make_mapping_opts("Open current file in VSCode"))
+vim.keymap.set(
+	"n",
+	"<leader><leader>og",
+	"<cmd>!open -a google chrome %<cr>",
+	make_mapping_opts("Open current file in google chrome")
+) -- check os
 
 -- Windows
-vim.keymap.set("n", "<c-w>v", "<c-w>v <c-w>l", { noremap = true })
-vim.keymap.set("n", "<c-w><c-v>", "<c-w>v <c-w>l", { noremap = true })
-vim.keymap.set("n", "<c-w>s", "<c-w>s <c-w>j", { noremap = true })
-vim.keymap.set("n", "<c-w><c-s>", "<c-w>s <c-w>j", { noremap = true })
-vim.keymap.set("n", "<c-w><c-w>", "<c-w>q", { noremap = true })
-vim.keymap.set("n", "<leader>mv", ":vert res 120<cr>", { noremap = true })
+vim.keymap.set(
+	"n",
+	"<c-w>v",
+	"<c-w>v <c-w>l",
+	make_mapping_opts("Create a vertical split and move to new one", { noremap = true })
+)
 
-vim.keymap.set("n", "<leader>rr", '"rciw')
-vim.keymap.set("n", "<leader>cf", ":CopyFileName<cr>")
-vim.keymap.set("n", "<leader>fl", ":set foldlevel=", { silent = false })
+vim.keymap.set(
+	"n",
+	"<c-w><c-v>",
+	"<c-w>v <c-w>l",
+	make_mapping_opts("Create a vertical split and move to new one", { noremap = true })
+)
 
-function _G.copyFileName()
-	vim.fn.setreg("*", vim.fn.expand("%:t:r"))
-	vim.fn.setreg("r", vim.fn.expand("%:t:r"))
-end
+vim.keymap.set(
+	"n",
+	"<c-w>s",
+	"<c-w>s <c-w>j",
+	make_mapping_opts("Create a horizontal split and move to new one", { noremap = true })
+)
 
-function _G.copyAbsouPathPath()
-	vim.fn.setreg("*", vim.fn.expand("%:p"))
-	vim.fn.setreg("r", vim.fn.expand("%:p"))
-end
+vim.keymap.set(
+	"n",
+	"<c-w><c-s>",
+	"<c-w>s <c-w>j",
+	make_mapping_opts("Create a horizontal split and move to new one", { noremap = true })
+)
 
-function _G.copyFileRelativePath()
-	vim.fn.setreg("*", vim.fn.expand("%"))
-	vim.fn.setreg("r", vim.fn.expand("%"))
-end
+vim.keymap.set("n", "<c-w><c-w>", "<c-w>q", make_mapping_opts("Close current window/split", { noremap = true }))
+vim.keymap.set("n", "<leader>fl", ":set foldlevel=", make_mapping_opts("set custom fold level", { silent = false }))
 
-function _G.copyFileRelativeFolderPath()
-	vim.fn.setreg("*", vim.fn.expand("%:h"))
-	vim.fn.setreg("r", vim.fn.expand("%:h"))
-end
+vim.keymap.set(
+	"n",
+	"<leader>mv",
+	":vert res 120<cr>",
+	make_mapping_opts("Set current window width 120 length", { noremap = true })
+)
 
-function _G.copyFolderName()
-	vim.fn.setreg("*", vim.fn.expand("%:h:t"))
-	vim.fn.setreg("r", vim.fn.expand("%:h:t"))
-end
+vim.keymap.set(
+	"n",
+	"<leader>gh",
+	function()
+		vim.cmd('normal! yi"')
+		local package = vim.fn.getreg('"')
+		print(package)
+		local gh_page = "https://github.com/" .. package
+		vim.fn.setreg("*", gh_page)
+		print("Saved " .. gh_page .. " to clipboard")
+		if is_mac_os() then
+			vim.cmd("silent !open " .. gh_page)
+		else
+			print("Not supported at current OS yet")
+		end
+	end,
+	make_mapping_opts(
+		"Grab usename/repo then append to github url, save it to clipboard and open it in browser",
+		{ silent = true }
+	)
+)
 
-function _G.openCurrentFolder()
-	vim.api.nvim_command("!open %:p:h")
-end
+vim.keymap.set(
+	"n",
+	"<leader>tm",
+	":!tmux neww ",
+	make_mapping_opts("Run a command in a new tmux window", { silent = false })
+)
+vim.keymap.set(
+	"n",
+	"<leader>tM",
+	":!tmux splitw ",
+	make_mapping_opts("Run a command in a new tmux pane", { silent = false })
+)
+vim.keymap.set(
+	"n",
+	"<leader>as",
+	":AsyncRun ",
+	make_mapping_opts("Run a command asynchronously inside neovim", { silent = false })
+)
 
-function _G.googleJavaFormat()
-	vim.api.nvim_command("!google-java-format --replace % ")
-end
-
-vim.api.nvim_command("command! CopyFileName :call v:lua.copyFileName()")
-vim.api.nvim_command("command! Cfn :call v:lua.copyFileName()")
-
-vim.api.nvim_command("command! CopyFolderName :call v:lua.copyFolderName()")
-vim.api.nvim_command("command! Cdn :call v:lua.copyFolderName()")
-
-vim.api.nvim_command("command! CopyAbsouPathPath :call v:lua.copyAbsouPathPath()")
-vim.api.nvim_command("command! CopyRelativePath :call v:lua.copyFileRelativePath()")
-vim.api.nvim_command("command! CopyFolderPath :call v:lua.copyFileRelativeFolderPath()")
-
-vim.api.nvim_command("command! GoogleJavaFormat :call v:lua.googleJavaFormat()")
-
-vim.api.nvim_command("command! OpenFolder :call v:lua.openCurrentFolder()")
-vim.api.nvim_command("command! Od :call v:lua.openCurrentFolder()")
-
--- Open github page
-vim.keymap.set("n", "<leader><leader>gh", function()
-	vim.cmd('normal! yi"')
-	local package = vim.fn.getreg('"')
-	local ghPage = "https://github.com/" .. package
-	vim.cmd("!open " .. ghPage)
-end, { silent = true })
-
--- local function tm ()
---   vim.ui.input({prompt = ':!tmux neww '}, function (command)
---     if string.len(command) > 0 then
---       vim.cmd(":!tmux neww " .. command)
---     end
---   end
--- )
--- end
-
-vim.keymap.set("n", "<leader>tm", ":!tmux neww ", { silent = false })
-vim.keymap.set("n", "<leader>tM", ":!tmux splitw ", { silent = false })
-vim.keymap.set("n", "<leader>as", ":AsyncRun ", { silent = false })
-
-local function build()
-	local json = require("lib.json")
-
+vim.keymap.set("n", "<leader>bd", function()
 	local package = vim.fn.findfile("package.json", ".;")
 	if package ~= "package.json" then
 		local file = io.open(package, "rb")
+
+		if file == nil then
+			print("no package.json found")
+			return
+		end
 
 		local jsonString = file:read("*a")
 		file:close()
 		print(jsonString)
 
-		-- parse json with lunajson
-		-- local json = require 'lunajson'
-		local t = json.decode(jsonString)
+		local t = vim.json.decode(jsonString)
 		local packageName = t["name"]
 		vim.notify("Building " .. packageName)
 
 		vim.cmd("AsyncRun yarn workspace " .. packageName .. " build")
-		-- vim.cmd ("!tmux splitw -l 15 yarn workspace " .. packageName .. " build")
 	end
-end
+end, make_mapping_opts("Find nearest upper package.json file and build that package"))
 
-local function open_nearest_package_json()
+vim.keymap.set("n", "<leader>bp", function()
 	local package = vim.fn.findfile("package.json", ".;")
 	if package ~= "package.json" then
-    vim.cmd.edit(package)
+		vim.cmd.edit(package)
 	end
-end
+end, make_mapping_opts("Open nearest package.json file"))
 
-vim.keymap.set("n", "<leader>bd", build)
-vim.keymap.set("n", "<leader>bp", open_nearest_package_json)
-
-function _G.set_theme(theme_name, lualine_theme)
-	vim.cmd("colorscheme " .. theme_name)
-	require("lualine").setup({ options = { theme = lualine_theme or theme_name } })
-end
-
-_G.large_file_on = false
-local function toggle_large_file()
-	if large_file_on then
-		_G.large_file_on = false
-    vim.cmd "TSDisable highlight"
-    vim.cmd "syntax off"
-    vim.cmd "set nocursorline"
-    vim.cmd "set norelativenumber"
-    vim.cmd "LspStop"
-	else
-		_G.large_file_on = true
-    vim.cmd "TSEnable highlight"
-    vim.cmd "syntax on"
-    vim.cmd "set cursorline"
-    vim.cmd "set relativenumber"
-    vim.cmd "LspStart"
-	end
-
-end
-
-vim.keymap.set("n", "<leader>lf", toggle_large_file)
+vim.keymap.set("n", "<leader>K", function()
+	local w = vim.fn.expand("<cword>")
+	vim.api.nvim_command("help " .. w)
+end, make_mapping_opts("Show vim's documentation on current word", { noremap = true }))

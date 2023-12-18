@@ -1,15 +1,24 @@
-if [[ ! -d  "$HOME/.zsh-vi-mode" ]]; then
-  echo "Cloning zsh-vi-mode..."
-  git clone https://github.com/scresante/zsh-vi-mode.git -b fixpacman $HOME/.zsh-vi-mode  # fix the esc in tmux delete previous line
-fi
+function add_plugin(){
+  short_url=$1 #username/reponame
+  branch=$2
+  repo_name=$(echo "$1"|sed "s/.*\///")
+  dst="$HOME/"."$repo_name"
+  url="https://github.com/$short_url.git"
+  if [[ ! -d  $dst ]]; then
+    echo "Cloning $short_url"
+    if [[ ! -z $branch ]]; then
+      git clone $url -b $branch $dst
+    else
+      git clone $url $dst
+    fi
+  fi
 
-if [[ ! -d  "$HOME/.zsh-command-time" ]]; then
-  echo "Cloning .zsh-command-time..."
-  git clone https://github.com/popstas/zsh-command-time.git $HOME/.zsh-command-time
-fi
+  source $dst/$(ls -1 $dst | grep ".plugin.zsh")
+}
 
-source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
-source $HOME/.zsh-command-time/command-time.plugin.zsh
+add_plugin "scresante/zsh-vi-mode" "fixpacman"
+add_plugin "popstas/zsh-command-time"
+add_plugin "mroth/evalcache"
 
 # Message to display (set to "" for disable).
 ZSH_COMMAND_TIME_MSG="Took: %s"

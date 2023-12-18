@@ -1,0 +1,44 @@
+extends javascript
+snippet mobx "Create simple mobx store"
+  import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
+
+  export const $1 = types
+    .model('$1', {
+      $2
+    })
+    .actions((self) => {
+      return {
+      $3
+      };
+    })
+    .views((self) => {
+      return {
+      $4
+      };
+    });
+
+  export interface $1Instance extends Instance<typeof $1> {}
+  export interface $1SnapshotIn extends SnapshotIn<typeof $1> {}
+  export interface $1SnapshotOut extends SnapshotOut<typeof $1> {}
+
+
+snippet mobxenum "Create mobx enum declaration" b
+  types.enumeration<$1>('$1', Object.values($1))
+
+
+snippet mobxnamed "Create simple mobx store using existing mobx model"
+  import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
+  import { $2 } from '$4';
+
+  export const $1 = $2.named('$1')
+    .props({})
+    .actions((self) => {
+      return {};
+    })
+    .views((self) => {
+      return {};
+    });
+
+  export interface $1Instance extends Instance<typeof $1> {}
+  export interface $1SnapshotIn extends SnapshotIn<typeof $1> {}
+  export interface $1SnapshotOut extends SnapshotOut<typeof $1> {}

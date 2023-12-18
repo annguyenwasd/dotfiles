@@ -1,0 +1,29 @@
+snippet cmt "Vim marker comment"
+  -- {{{ $1
+  $2
+  -- }}}
+
+
+snippet use "Packer use" b
+  use {
+    '$1',
+    config=function()
+      $2
+    end
+  }
+
+
+snippet return "return a whole function as module" b
+  return function()
+    $1
+  end
+
+
+snippet module "Create lua module" b
+  local M = {}
+
+  M.$1 = function()
+    $2
+  end
+
+  return M

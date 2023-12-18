@@ -5,21 +5,21 @@ let g:vimsyn_embed = 'lPr'
 
 set splitbelow
 set splitright
-set wildmenu 
-set termguicolors 
-set nowrap 
-set hidden 
-set noswapfile 
-set ignorecase 
-set incsearch 
-set hlsearch 
-set expandtab 
-set nohlsearch 
-set number 
-set relativenumber 
-set noerrorbells 
+set wildmenu
+set termguicolors
+set nowrap
+set hidden
+set noswapfile
+set ignorecase
+set incsearch
+set hlsearch
+set expandtab
+set nohlsearch
+set number
+set relativenumber
+set noerrorbells
 set cursorline
-set exrc 
+set exrc
 set secure
 set signcolumn=yes
 set clipboard=unnamed
@@ -108,7 +108,6 @@ inoremap <c-l> <right>
 
 nnoremap <leader>ff <cmd>Files %:h<cr>
 nnoremap <leader>e <cmd>b #<cr>
-nnoremap <leader><leader>e <cmd>e<cr>
 nnoremap <silent> <leader><leader>b <cmd>BufOnly<cr>
 
 " Create file at same folder with vsplit/split
