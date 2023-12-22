@@ -10,6 +10,7 @@ return {
 			},
 		},
 	},
+
 	{
 		"numtostr/BufOnly.nvim",
 		init = function()
@@ -19,6 +20,7 @@ return {
 			{ "<leader>bo", ":BufOnly<CR>", desc = make_desc("buf only") },
 		},
 	},
+
 	{
 		"yorickpeterse/nvim-window",
 		config = function()

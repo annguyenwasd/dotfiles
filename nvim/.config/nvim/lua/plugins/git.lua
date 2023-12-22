@@ -9,6 +9,7 @@ return {
 			{ "<leader>lg", "<cmd>LazyGit<cr>", desc = make_desc("git: open lazy git") },
 		},
 	},
+
 	{
 		"tpope/vim-fugitive",
 		init = function()
@@ -77,6 +78,7 @@ return {
 			},
 		},
 	},
+
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
@@ -105,7 +107,7 @@ return {
 							gs.prev_hunk()
 						end)
 						return "<Ignore>"
-					end, make_desc({ expr = true, desc = make_desc("git: prev change") }))
+					end, get_opts({ expr = true, desc = make_desc("git: prev change") }))
 
 					-- Actions
 					vim.keymap.set(
@@ -151,6 +153,7 @@ return {
 			})
 		end,
 	},
+
 	{
 		"tpope/vim-rhubarb",
 		init = function()

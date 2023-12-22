@@ -108,6 +108,38 @@ alias gd2="git log --left-right --graph --cherry-pick --oneline "
 # }}}
 
 # {{{ Functions
+
+# only get bare path
+function get_bare_path(){
+  git worktree list| grep "(bare)"|cut -d " " -f 1
+}
+
+function fzf_bare_branches() {
+  bare_path=$(get_bare_path)
+  # /Users/user-name/workspace/your-bare-path             (bare)
+  # /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
+  #
+  # git worktree list              -> list worktree
+  # |sed '/(bare)/ d'              -> remove line with (bare)
+  # |sort                          -> sort alphabet order
+  # |xargs -L 1                    -> execute 1 line each (needed for cut command)
+  # | cut -d " " -f 1,3            -> get frist and third column only (/Users/user-name/workspace/your-bare-path/branch-name [some-branch-name])
+  # |sed -E "s/^(.*) (.*)/\2 \1/g; -> swap position between branch name and folder ([some-branch-name] /Users/user-name/workspace/your-bare-path/branch-name)
+  # s/\[//; s/\]//;                -> then remove [] from branch name (some-branch-name /Users/user-name/workspace/your-bare-path/branch-name)
+  # s#$bare_path##"                -> remove base path (some-branch-name /branch-name)
+  # | column -t                    -> display as column (because xargs remove the spaces as column)
+  # |fzf                           -> pipe to fzf
+  selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
+  dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
+  if [ ! -z $dir ]; then
+    cd "$bare_path/$dir"
+    true
+  else
+    echo "Aborted by user."
+    false
+  fi
+}
+
 function gc {
   git commit -v -m $@
 }
@@ -211,30 +243,6 @@ function gt () {
   git tag -a "$tag_name" -m "Sync on $date"
 }
 
-fzf_bare_branches() {
-  bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
-# /Users/user-name/workspace/your-bare-path             (bare)
-# /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
-#
-# git worktree list              -> list worktree
-# |sed '/(bare)/ d'              -> remove line with (bare)
-# |sort                          -> sort alphabet order
-# |xargs -L 1                    -> execute 1 line each (needed for cut command)
-# | cut -d " " -f 1,3            -> get frist and third column only (/Users/user-name/workspace/your-bare-path/branch-name [some-branch-name])
-# |sed -E "s/^(.*) (.*)/\2 \1/g; -> swap position between branch name and folder ([some-branch-name] /Users/user-name/workspace/your-bare-path/branch-name)
-# s/\[//; s/\]//;                -> then remove [] from branch name (some-branch-name /Users/user-name/workspace/your-bare-path/branch-name)
-# s#$bare_path##"                -> remove base path (some-branch-name /branch-name)
-# | column -t                    -> display as column (because xargs remove the spaces as column)
-# |fzf                           -> pipe to fzf
-  selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
-  dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
-  if [ ! -z $dir ]; then
-    cd "$bare_path/$dir"
-  else
-    echo "Aborted"
-  fi
-}
-
 function tobare() {
   # Remove all but not .git folder
   ls -A1 | sed "/.git$/ d"|xargs rm -rf
@@ -244,6 +252,32 @@ function tobare() {
   git wtf
   gcb ${1:=master}
 
+}
+
+
+# Remove a git branch or branches
+# if stands in a bare repo, remove work tree first then remove branch
+# if stands in a normal repo, remove branch
+# if no param passed, show fzf prompt to select checked out branch(es)
+#
+# @param $1 string branch name, if pass anhy
+function grm() {
+  if [ -z $1 ]
+  then
+    branches=$(git branch |grep ^+ | sed "s/+ //"|fzf -m)
+    for i in $(echo $branches) ; do
+      grm $i
+    done
+    return
+  fi
+
+
+  if is_bare_repo
+  then
+    root=$(get_bare_path)
+    $(git worktree remove --force $root/$1 2>/dev/null)
+  fi
+  git branch -D $1
 }
 
 # Remove all except master & develop worktree

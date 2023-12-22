@@ -114,6 +114,7 @@ return {
 			})
 		end,
 	},
+
 	{
 		"onsails/lspkind-nvim",
 		event = "VeryLazy",

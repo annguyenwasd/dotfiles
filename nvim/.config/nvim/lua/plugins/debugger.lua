@@ -48,7 +48,6 @@ return {
 			vim.keymap.set("n", "<localleader>df", function()
 				widgets.centered_float(widgets.frames)
 			end, make_mapping_opts("debug: show frames"))
-
 		end,
 		keys = {
 			{
@@ -72,9 +71,19 @@ return {
 				dapui.close()
 			end
 
-			vim.keymap.set("n", "<localleader>du", ':lua require("dapui").open()<cr>', make_mapping_opts("debug: dapui open"))
+			vim.keymap.set(
+				"n",
+				"<localleader>du",
+				':lua require("dapui").open()<cr>',
+				make_mapping_opts("debug: dapui open")
+			)
 			vim.keymap.set("n", "`h", ':lua require("dapui").eval()<cr>', make_mapping_opts("debug: dapui eval"))
-			vim.keymap.set("v", "`h", ':lua require("dapui").eval()<cr>', make_mapping_opts("debug: dapui selection eval"))
+			vim.keymap.set(
+				"v",
+				"`h",
+				':lua require("dapui").eval()<cr>',
+				make_mapping_opts("debug: dapui selection eval")
+			)
 
 			vim.keymap.set(
 				"n",
@@ -82,18 +91,19 @@ return {
 				":lua require('dapui').eval('')<left><left>",
 				make_mapping_opts("debug; dapui eval with prompts")
 			)
-
 		end,
 		keys = {
 			"<localleader>du",
 		},
 	},
+
 	{
 		"theHamsta/nvim-dap-virtual-text",
 		config = function()
 			require("nvim-dap-virtual-text").setup()
 		end,
 	},
+
 	{
 		"nvim-telescope/telescope-dap.nvim",
 		lazy = true,
@@ -101,6 +111,7 @@ return {
 			require("telescope").load_extension("dap")
 		end,
 	},
+
 	"mxsdev/nvim-dap-vscode-js",
 	{
 		"microsoft/vscode-js-debug",

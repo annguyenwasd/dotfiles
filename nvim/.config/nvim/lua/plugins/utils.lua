@@ -1,13 +1,18 @@
 return {
+	"cappyzawa/trim.nvim",
+	"godlygeek/tabular",
+	"jghauser/mkdir.nvim",
+	"ThePrimeagen/vim-be-good",
+	"nvim-lua/plenary.nvim",
+	"nvim-lua/popup.nvim",
+
 	{
 		"szw/vim-maximizer",
-		"godlygeek/tabular",
-		"jghauser/mkdir.nvim",
-		"ThePrimeagen/vim-be-good",
 		keys = {
 			{ "<leader>mm", ":MaximizerToggle<cr>", desc = make_desc("toggle maximizer") },
 		},
 	},
+
 	{
 		"shortcuts/no-neck-pain.nvim",
 		config = function()
@@ -22,6 +27,7 @@ return {
 			{ "<leader>cc", ":NoNeckPain<cr>", desc = make_desc("toggle NoNeckPain") },
 		},
 	},
+
 	{
 		"romainl/vim-cool", -- show highlight when search
 		init = function()
@@ -36,12 +42,14 @@ return {
 			vim.g.rooter_manual_only = 1
 		end,
 	},
+
 	{
 		"mbbill/undotree",
 		keys = {
 			{ "<leader>u", ":UndotreeShow<cr>", desc = make_desc("toggle Undotree") },
 		},
 	},
+
 	{
 		"ThePrimeagen/harpoon",
 		config = function()
@@ -94,6 +102,7 @@ return {
 			vim.keymap.set("n", "mq", ui.toggle_quick_menu, make_mapping_opts("harpoon: show list of bookmarks"))
 		end,
 	},
+
 	{
 		"skywind3000/asyncrun.vim",
 		init = function()
@@ -105,6 +114,7 @@ return {
      ]])
 		end,
 	},
+
 	{
 		"will133/vim-dirdiff",
 		init = function()
@@ -112,6 +122,14 @@ return {
 				".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*"
 		end,
 	},
+
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+	},
+
 	{
 		"andrewferrier/debugprint.nvim",
 		config = true,
@@ -120,6 +138,7 @@ return {
 			{ "g?d", ":lua require('debugprint').deleteprints()<cr>", desc = "log debug line" },
 		},
 	},
+
 	{
 		"Wansmer/treesj",
 		config = function()
@@ -134,6 +153,7 @@ return {
 			"gsj",
 		},
 	},
+
 	{
 		"phaazon/mind.nvim",
 		branch = "v2.2",
@@ -159,12 +179,51 @@ return {
 			"<leader>mi",
 		},
 	},
+
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 		ft = { "markdown" },
 		build = function()
 			vim.fn["mkdp#util#install"]()
+		end,
+	},
+
+	{
+		"nvim-tree/nvim-web-devicons",
+		config = function()
+			require("nvim-web-devicons").setup({
+				override = {
+					typescriptreact = {
+						icon = "",
+						color = "#519aba",
+						name = "Tsx",
+					},
+					javascriptreact = {
+						icon = "",
+						color = "#519aba",
+						name = "Jsx",
+					},
+					typescript = {
+						icon = "",
+						color = "#519aba",
+						name = "Ts",
+					},
+					javascript = {
+						icon = "",
+						color = "#519ada",
+						name = "Js",
+					},
+				},
+				default = true,
+			})
+		end,
+	},
+
+	{
+		"christoomey/vim-tmux-navigator",
+		init = function()
+			vim.g.tmux_navigator_disable_when_zoomed = 1
 		end,
 	},
 }

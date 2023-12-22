@@ -1,4 +1,6 @@
 return {
+	"LudoPinelli/comment-box.nvim",
+
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 		init = function()
@@ -11,6 +13,7 @@ return {
 			require("ts_context_commentstring").setup({})
 		end,
 	},
+
 	{
 		"numToStr/Comment.nvim",
 		config = function()
@@ -33,5 +36,4 @@ return {
 			})
 		end,
 	},
-	"LudoPinelli/comment-box.nvim",
 }

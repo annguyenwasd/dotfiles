@@ -79,39 +79,16 @@ function kp() {
   kill -9 $(lsof -t -i:$1)
 }
 
-fzf_bare_branches() {
-  bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
-  # /Users/user-name/workspace/your-bare-path             (bare)
-  # /Users/user-name/workspace/your-bare-path/branch-name dbae018f [some-branch-name]
-  #
-  # git worktree list              -> list worktree
-  # |sed '/(bare)/ d'              -> remove line with (bare)
-  # |sort                          -> sort alphabet order
-  # |xargs -L 1                    -> execute 1 line each (needed for cut command)
-  # | cut -d " " -f 1,3            -> get frist and third column only (/Users/user-name/workspace/your-bare-path/branch-name [some-branch-name])
-  # |sed -E "s/^(.*) (.*)/\2 \1/g; -> swap position between branch name and folder ([some-branch-name] /Users/user-name/workspace/your-bare-path/branch-name)
-  # s/\[//; s/\]//;                -> then remove [] from branch name (some-branch-name /Users/user-name/workspace/your-bare-path/branch-name)
-  # s#$bare_path##"                -> remove base path (some-branch-name /branch-name)
-  # | column -t                    -> display as column (because xargs remove the spaces as column)
-  # |fzf                           -> pipe to fzf
-  selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
-  dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
-  if [ ! -z $dir ]; then
-    cd "$bare_path/$dir"
-  else
-    echo "Aborted"
-  fi
-}
-
 function fw() {
   loc=${1:=$WORKSPACE_FOLDER}
   is_changed_tmux_window_name=${2:=false}
   is_open_nvim=${3:=false}
+  before="$PWD"
 
   dir=$(ls -d --color=never $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --ansi --preview "ls -lA $loc/{}")
 
   if [ ! -z $dir ]; then
-    cd $loc/$dir
+    cd $loc"/"$dir
 
     if [ -n $TMUX ] && $is_changed_tmux_window_name; then
       dn
@@ -119,6 +96,10 @@ function fw() {
 
     if is_bare_repo; then
       fzf_bare_branches
+      if [ $? -eq 1 ]
+      then
+        cd $before
+      fi
     fi
 
     if $is_open_nvim; then
@@ -143,7 +124,7 @@ function dn() {
   if [ $TMUX ]; then
     window_name=$(echo ${PWD##*/})
     if is_bare_repo; then
-        bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
+        bare_path=$(get_bare_path) # only get bare path
         window_name=${bare_path:t}
     fi
     tmux rename-window $window_name

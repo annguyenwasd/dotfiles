@@ -1,7 +1,7 @@
 local M = {}
 
 local map_default_lsp_fns = function(bufnr)
-  local get_opts = make_on_attach_opts(bufnr)
+	local get_opts = make_on_attach_opts(bufnr)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, get_opts("lsp: rename"))
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, get_opts("lsp: show code action"))
 	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, get_opts("lsp: next diagnostic"))
@@ -10,7 +10,7 @@ local map_default_lsp_fns = function(bufnr)
 end
 
 local map_lsp_ui_fns = function(bufnr)
-  local get_opts = make_on_attach_opts(bufnr)
+	local get_opts = make_on_attach_opts(bufnr)
 	vim.keymap.set("n", "<leader>rn", "<cmd>LspUI rename<cr>", get_opts("lsp: rename"))
 	vim.keymap.set("n", "<leader>ca", "<cmd>LspUI code_action<cr>", get_opts("lsp: show code action"))
 	vim.keymap.set("n", "]d", "<cmd>LspUI diagnostic next<cr>", get_opts("lsp: next diagnostic"))
@@ -31,9 +31,9 @@ local get_on_attach_fn = function()
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 	end
 
-	local setup_ts_utils = function(bufnr, client)
+	local setup_ts_utils = function(client, bufnr)
 		local ts_utils = require("nvim-lsp-ts-utils")
-  local get_opts = make_on_attach_opts(bufnr)
+		local get_opts = make_on_attach_opts(bufnr)
 
 		ts_utils.setup({})
 
@@ -43,28 +43,28 @@ local get_on_attach_fn = function()
 		-- no default maps, so you may want to define some here
 		vim.keymap.set("n", "<leader><leader>oi", "<cmd>TSLspOrganize<CR>", get_opts("lsp: Organize imports"))
 		vim.keymap.set("n", "<leader>rf", "<cmd>TSLspRenameFile<CR>", get_opts("lsp: Rename file"))
-		vim.keymap.set(
-			"n",
-			"<leader><leader>i",
-			"<cmd>TSLspImportAll<CR>",
-			get_opts("lsp: Import missing packages")
-		)
+		vim.keymap.set("n", "<leader><leader>i", "<cmd>TSLspImportAll<CR>", get_opts("lsp: Import missing packages"))
 	end
 
-  return function(client, bufnr)
+	return function(client, bufnr)
 		if client.name == "tsserver" then
-			setup_ts_utils(client)
+			setup_ts_utils(client, bufnr)
 		end
 
 		if is_work_profile() then
-			require("work").lsp_on_attach_fns(bufrn)
+			require("work").lsp_on_attach_fns(bufnr)
 		end
 
 		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-    local get_opts = make_on_attach_opts(bufnr)
+		local get_opts = make_on_attach_opts(bufnr)
 
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, get_opts("lsp: Jumps to the declaration of the symbol under the cursor."))
+		vim.keymap.set(
+			"n",
+			"gD",
+			vim.lsp.buf.declaration,
+			get_opts("lsp: Jumps to the declaration of the symbol under the cursor.")
+		)
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, get_opts("lsp: Go to definition"))
 		vim.keymap.set(
 			"n",
@@ -112,7 +112,6 @@ local get_on_attach_fn = function()
 			map_default_lsp_fns(bufnr)
 		end
 	end
-
 end
 
 M.get_on_attach_fn = get_on_attach_fn
