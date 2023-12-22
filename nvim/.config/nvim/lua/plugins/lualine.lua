@@ -43,11 +43,13 @@ return {
 				end,
 			})
 
+      local signs = require"utils.lsp".signs
+
 			local diagnostic = {
 				"diagnostics",
 				sources = { "nvim_diagnostic" },
 				colored = false,
-				symbols = { error = " ", warn = " ", hint = " ", info = "i " },
+				symbols = { error = signs.Error, warn = signs.Warn, hint = signs.Hint, info = signs.Info},
 			}
 
 			local branch = { "branch", icon = "" }

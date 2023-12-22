@@ -18,14 +18,16 @@ local map_lsp_ui_fns = function(bufnr)
 	vim.keymap.set("n", "K", "<cmd>LspUI hover<cr>", get_opts("lsp: hover"))
 end
 
-local get_on_attach_fn = function()
-	local signs = {
-		Error = " ",
-		Warn = " ",
-		Info = " ",
-		Hint = " ",
-	}
+local signs = {
+	Error = " ",
+	Warn = " ",
+	Info = " ",
+	Hint = " ",
+}
 
+M.signs = signs
+
+local get_on_attach_fn = function()
 	for type, icon in pairs(signs) do
 		local hl = "DiagnosticSign" .. type
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
