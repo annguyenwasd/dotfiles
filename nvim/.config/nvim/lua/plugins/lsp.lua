@@ -28,6 +28,7 @@ return {
 					"cssls",
 					"lua_ls",
 				},
+				automatic_installation = true,
 			})
 
 			local lsp = require("utils.lsp")
