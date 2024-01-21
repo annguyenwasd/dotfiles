@@ -7,13 +7,14 @@ return {
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
+			--[[ "hrsh7th/cmp-path", ]]
+			--[[ "hrsh7th/cmp-cmdline", ]]
 			"hrsh7th/nvim-cmp",
 			"lukas-reineke/cmp-under-comparator",
 			"dcampos/nvim-snippy",
 			"dcampos/cmp-snippy",
 			"honza/vim-snippets",
+			"bydlw98/cmp-env",
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -90,6 +91,7 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "snippy" },
 					{ name = "nvim_lua" },
+					{ name = "env" },
 				}, {
 					{
 						name = "buffer",
@@ -103,15 +105,15 @@ return {
 				}),
 			})
 
-			cmp.setup.cmdline("/", {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = { { name = "buffer" } },
-			})
-
-			cmp.setup.cmdline(":", {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-			})
+			--[[ cmp.setup.cmdline("/", { ]]
+			--[[ 	mapping = cmp.mapping.preset.cmdline(), ]]
+			--[[ 	sources = { { name = "buffer" } }, ]]
+			--[[ }) ]]
+			--[[]]
+			--[[ cmp.setup.cmdline(":", { ]]
+			--[[ 	mapping = cmp.mapping.preset.cmdline(), ]]
+			--[[ 	sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }), ]]
+			--[[ }) ]]
 		end,
 	},
 

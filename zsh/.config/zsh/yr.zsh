@@ -43,3 +43,17 @@ function yr() {
     fi
   fi
 }
+
+function yrr() {
+  ws_list=$(yarn workspaces info|sed '1 d;$ d'|jq 'to_entries[] |.key'|sed 's/"//g'|awk '{$1=$1};1')
+  echo $ws_list|xargs -L 1 -I {} yarn workspace {} $1
+}
+
+function ylink() {
+  current_dir=$PWD
+  cd $WORKSPACE_FOLDER/nab-x-sdk/master
+  ws_list=$(yarn workspaces info|sed '1 d;$ d'|jq 'to_entries[] |.key'|sed 's/"//g'|awk '{$1=$1};1')
+  cd $current_dir
+  echo $ws_list|xargs -L 1 -I {} yarn link {}
+}
+

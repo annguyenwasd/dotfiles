@@ -4,6 +4,7 @@ return {
 		dependencies = {
 			"nvim-telescope/telescope-symbols.nvim",
 		},
+		lazy = false,
 		config = function()
 			local actions = require("telescope.actions")
 			local actions_layout = require("telescope.actions.layout")
@@ -61,16 +62,12 @@ return {
 
 			local builtin = require("telescope.builtin")
 
-			vim.keymap.set("n", "<leader>o", function(opts)
-				opts = opts or {}
-				local ok = pcall(
-					require("telescope.builtin").git_files,
-					vim.tbl_extend("force", { show_untracked = true }, opts)
-				)
-				if not ok then
-					require("telescope.builtin").find_files(vim.tbl_extend("force", { hidden = true }, opts))
-				end
-			end, make_mapping_opts("telescope: find files"))
+			vim.keymap.set(
+				"n",
+				"<leader>o",
+				require("utils.nvim-tree").find_files,
+				make_mapping_opts("telescope: find files")
+			)
 
 			vim.keymap.set("n", "<leader>O", function()
 				builtin.find_files({ no_ignore = true, no_ignore_parent = true, hidden = true })
@@ -94,7 +91,7 @@ return {
 				make_mapping_opts("telescope: theme chooser")
 			)
 
-			vim.keymap.set("n", "<leader>rg", builtin.live_grep, make_mapping_opts("telescope: live grep"))
+			--[[ vim.keymap.set("n", "<leader>rg", builtin.live_grep, make_mapping_opts("telescope: live grep")) ]]
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, make_mapping_opts("telescope: help tags"))
 			vim.keymap.set("n", "<leader>ch", builtin.command_history, make_mapping_opts("telescope: command history"))
 			vim.keymap.set("n", "<leader>sh", builtin.search_history, make_mapping_opts("telescope: search history"))
@@ -148,7 +145,7 @@ return {
 			"<leader>O",
 			"<leader>i",
 			"<leader>/",
-			"<leader>rg",
+			--[[ "<leader>rg", ]]
 			"<leader>fh",
 			"<leader>ch",
 			"<leader>sh",
@@ -225,6 +222,21 @@ return {
 				function()
 					local fb = require("telescope").extensions.file_browser
 					fb.file_browser({ path = "%:h", hidden = true, hide_parent_dir = true })
+				end,
+			},
+		},
+	},
+	{
+		"fdschmidt93/telescope-egrepify.nvim",
+		lazy = false,
+		config = function()
+			require("telescope").load_extension("egrepify")
+		end,
+		keys = {
+			{
+				"<leader>rg",
+				function()
+					require("telescope").extensions.egrepify.egrepify({})
 				end,
 			},
 		},

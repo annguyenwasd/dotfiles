@@ -95,7 +95,7 @@ function fw() {
     fi
 
     if is_bare_repo; then
-      fzf_bare_branches
+      gcoo
       if [ $? -eq 1 ]
       then
         cd $before

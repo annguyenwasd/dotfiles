@@ -22,6 +22,7 @@ return {
 			-- Not gonna show shit messages when run git hook via husky
 			vim.g.fugitive_pty = 0
 		end,
+		cmd = "G",
 		keys = {
 			{
 				"<leader>gf",

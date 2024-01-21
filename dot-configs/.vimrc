@@ -33,7 +33,7 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set undofile
-set udir=$HOME/.vim/undo
+set udir=$HOME/.vim/undo-vim
   set cmdheight=2
 set listchars=eol:¬,tab:▹\ ,trail:+,space:·
 set nolist

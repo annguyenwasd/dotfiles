@@ -150,7 +150,7 @@ function bare_branch_checkout() {
   derived_from=${3:=$(git branch --show-current)}
 
   if is_bare_repo; then
-    dir=$(git worktree list|grep $branch_name | head -n 1 |awk '{ print $1 }')
+    dir=$(git worktree list|grep -F "[$branch_name]" | head -n 1 |awk '{ print $1 }')
     if [[ -n $dir ]]; then
       cd $dir
     else
@@ -175,20 +175,25 @@ function bare_branch_checkout() {
   fi
 }
 
-# Get a branch name from fzf, remove remotes/origin/
-# if a bare repository
-#
-# else
-#   just checkout
-function gcoo {
-  # list all branch
-  # remove HEAd
-  # put in fzf
-  # get rid of * branch_name or + branch_name
-  # get rid of space
-  branch_name=$(git branch -a | sed '/HEAD/ d' | fzf | sed 's/\*//; s/\+//; s/ //' | sed 's#remotes/origin/##' | awk '{ print $1 }')
+# returns either code 1 or branch name string
+function select_branch(){
+  branch_name=$(git branch -a | sed '/HEAD/ d' | fzf)
+  if [ $? -eq 0 ]; then
+    branch_name=$(echo $branch_name | sed 's/\*//; s/\+//; s/ //' | sed 's#remotes/origin/##' | awk '{ print $1 }')
+    echo $branch_name
+  else
+    false
+  fi
 
-  bare_branch_checkout $branch_name
+}
+
+function gcoo {
+  branch_name=$(select_branch)
+  if [ -z $branch_name ]; then
+    echo "No branch selected. Aborting..."
+  else
+    bare_branch_checkout $branch_name
+  fi
 }
 
 function gco() {
@@ -234,7 +239,7 @@ function gcount {
 }
 
 function gn() {
-  git branch | grep "*" | awk '{ print $2 }' | pbcopy
+  echo -n $(git branch --show-current)|pbcopy
 }
 
 function gt () {
