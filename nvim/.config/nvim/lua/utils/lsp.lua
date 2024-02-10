@@ -53,6 +53,10 @@ local get_on_attach_fn = function()
 			setup_ts_utils(client, bufnr)
 		end
 
+		if vim.lsp.inlay_hint then
+			vim.lsp.inlay_hint.enable(bufnr, true)
+		end
+
 		if is_work_profile() then
 			require("work").lsp_on_attach_fns(bufnr)
 		end
@@ -74,12 +78,15 @@ local get_on_attach_fn = function()
 			vim.lsp.buf.implementation,
 			get_opts("lsp: Lists all the implementations for the symbol under the cursor in the quickfix window.")
 		)
-		vim.keymap.set(
-			"n",
-			"<leader>D",
-			vim.lsp.buf.type_definition,
-			get_opts("lsp: Jumps to the definition of the type of the symbol under the cursor.")
-		)
+		vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, make_mapping_opts("lsp: show type definitions"))
+
+		vim.keymap.set("n", "<leader>ti", function()
+			if vim.lsp.inlay_hint.is_enabled() then
+				vim.lsp.inlay_hint.enable(0, false)
+			else
+				vim.lsp.inlay_hint.enable(0, true)
+			end
+		end, get_opts("lsp: toggle inlayHints"))
 
 		vim.keymap.set("n", "gvd", function()
 			vim.cmd("vsp")
@@ -96,8 +103,6 @@ local get_on_attach_fn = function()
 
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, get_opts("lsp: Show lsp references on"))
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, make_mapping_opts("lsp: show implementations"))
-
-		vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, make_mapping_opts("lsp: show type definitions"))
 
 		vim.keymap.set("n", "<leader>da", function()
 			local diagnostics = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
@@ -222,6 +227,7 @@ M.lua_ls = function()
 		on_attach = on_attach,
 		settings = {
 			Lua = {
+				hint = { enable = true },
 				diagnostics = {
 					globals = { "vim" },
 				},
