@@ -12,6 +12,7 @@ return {
 
 	{
 		"tpope/vim-fugitive",
+		lazy = false,
 		init = function()
 			vim.api.nvim_create_autocmd("BufReadPost", {
 				group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer", { clear = true }),
@@ -82,6 +83,7 @@ return {
 
 	{
 		"lewis6991/gitsigns.nvim",
+		lazy = false,
 		config = function()
 			require("gitsigns").setup({
 				on_attach = function(bufnr)

@@ -9,6 +9,13 @@ return {
 				build = "./install --bin",
 			},
 		},
+		config = function()
+			require("bqf").setup({
+				preview = {
+					winblend = 0,
+				},
+			})
+		end,
 	},
 
 	{

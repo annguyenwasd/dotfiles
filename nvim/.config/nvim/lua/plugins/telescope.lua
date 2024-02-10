@@ -13,17 +13,6 @@ return {
 			-- the loading is important
 			require("telescope").setup({
 				defaults = {
-					vimgrep_arguments = {
-						"rg",
-						"--color=never",
-						"--no-heading",
-						"--hidden",
-						"--with-filename",
-						"--line-number",
-						"--column",
-						"--smart-case",
-						"-u", -- thats the new thing
-					},
 					file_ignore_patterns = {
 						"node_modules",
 						"%.git/",
@@ -99,7 +88,6 @@ return {
 			vim.keymap.set("n", "<leader>km", builtin.keymaps, make_mapping_opts("telescope: keymaps"))
 			vim.keymap.set("n", "<leader>hi", builtin.highlights, make_mapping_opts("telescope: highlights"))
 			vim.keymap.set("n", "<leader>gS", builtin.git_status, make_mapping_opts("telescope: git status"))
-			vim.keymap.set("n", "gcoo", builtin.git_branches, make_mapping_opts("telescope: git branches"))
 			vim.keymap.set("n", "<leader>gl", builtin.git_commits, make_mapping_opts("telescope: git commits"))
 			vim.keymap.set("n", "<leader>bgl", builtin.git_bcommits, make_mapping_opts("telescope: git bcommits"))
 			vim.keymap.set("n", "<leader>bgl", builtin.git_bcommits, make_mapping_opts("telescope: git bcommits"))
@@ -108,26 +96,6 @@ return {
 			vim.keymap.set("n", "<leader>tr", function()
 				builtin.resume({ initial_mode = "normal" })
 			end, make_mapping_opts("telescope: resume"))
-
-			vim.keymap.set("n", "gr", function()
-				builtin.lsp_references({ initial_mode = "normal" })
-			end, make_mapping_opts("telescope: lsp references"))
-
-			vim.keymap.set("n", "gi", function()
-				builtin.lsp_implementations({ initial_mode = "normal" })
-			end, make_mapping_opts("telescope: lsp implementations"))
-
-			vim.keymap.set("n", "gy", function()
-				builtin.lsp_type_definitions({ initial_mode = "normal" })
-			end, make_mapping_opts("telescope: lsp type definitions"))
-
-			vim.keymap.set("n", "<leader>da", function()
-				builtin.diagnostics({ initial_mode = "normal", bufnr = 0 })
-			end, make_mapping_opts("telescope: diagnostics"))
-
-			vim.keymap.set("n", "<leader><leader>da", function()
-				builtin.diagnostics({ initial_mode = "normal" })
-			end, make_mapping_opts("telescope: diagnostics"))
 
 			vim.keymap.set("n", "<leader>ds", function()
 				builtin.lsp_document_symbols()
@@ -145,7 +113,6 @@ return {
 			"<leader>O",
 			"<leader>i",
 			"<leader>/",
-			--[[ "<leader>rg", ]]
 			"<leader>fh",
 			"<leader>ch",
 			"<leader>sh",
@@ -154,17 +121,11 @@ return {
 			"<leader>km",
 			"<leader>hi",
 			"<leader>gS",
-			"gcoo",
 			"<leader>gl",
 			"<leader>bgl",
 			"<leader>bgl",
 			"<localleader>gh",
 			"<leader>tr",
-			"gr",
-			"gi",
-			"gy",
-			"<leader>da",
-			"<leader><leader>da",
 			"<leader>ds",
 			"<leader>ws",
 			{ "<leader>ts", "<cmd>Telescope symbols<cr>" },
@@ -173,7 +134,6 @@ return {
 
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		lazy = true,
 		build = "make",
 		config = function()
 			require("telescope").setup({

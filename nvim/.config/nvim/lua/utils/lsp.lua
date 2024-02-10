@@ -94,7 +94,23 @@ local get_on_attach_fn = function()
 		vim.keymap.set("n", "<c-s>", vim.lsp.buf.signature_help, get_opts("lsp: Show signature help"))
 		vim.keymap.set("i", "<c-s>", vim.lsp.buf.signature_help, get_opts("lsp: Show signature help"))
 
-		vim.keymap.set("n", "gR", vim.lsp.buf.references, get_opts("lsp: Show references on Telescope"))
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, get_opts("lsp: Show lsp references on"))
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, make_mapping_opts("lsp: show implementations"))
+
+		vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, make_mapping_opts("lsp: show type definitions"))
+
+		vim.keymap.set("n", "<leader>da", function()
+			local diagnostics = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+			local qflist = vim.diagnostic.toqflist(diagnostics)
+			vim.fn.setqflist(qflist)
+			vim.cmd("cw")
+		end, make_mapping_opts("lsp: show document diagnostics"))
+
+		vim.keymap.set("n", "<leader>dw", function()
+			vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+			vim.diagnostic.setqflist()
+		end, make_mapping_opts("lsp: show workspace diagnostics"))
+
 		vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, get_opts("lsp: Show diagnostics"))
 		vim.keymap.set("n", "<leader>fm", function()
 			vim.lsp.buf.format({
