@@ -226,4 +226,31 @@ return {
 			vim.g.tmux_navigator_disable_when_zoomed = 1
 		end,
 	},
+	{
+		"rmagatti/auto-session",
+		config = function()
+			require("auto-session").setup({
+				log_level = "error",
+				auto_session_suppress_dirs = { "~/", "~/workspace", "~/Downloads", "/" },
+			})
+		end,
+	},
+	{
+		"sontungexpt/url-open",
+		event = "VeryLazy",
+		cmd = "URLOpenUnderCursor",
+		config = function()
+			local status_ok, url_open = pcall(require, "url-open")
+			if not status_ok then
+				return
+			end
+			url_open.setup({})
+		end,
+		keys = {
+			{
+				"<leader>gu",
+				"<cmd>URLOpenUnderCursor<cr>",
+			},
+		},
+	},
 }

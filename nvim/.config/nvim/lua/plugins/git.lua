@@ -86,6 +86,8 @@ return {
 		lazy = false,
 		config = function()
 			require("gitsigns").setup({
+				auto_attach = true,
+				attach_to_untracked = true,
 				on_attach = function(bufnr)
 					local gs = package.loaded.gitsigns
 
