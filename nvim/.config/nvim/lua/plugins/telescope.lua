@@ -187,16 +187,18 @@ return {
 		},
 	},
 	{
-		"fdschmidt93/telescope-egrepify.nvim",
-		lazy = false,
+		"nvim-telescope/telescope-live-grep-args.nvim",
+		-- This will not install any breaking changes.
+		-- For major updates, this must be adjusted manually.
+		version = "^1.0.0",
 		config = function()
-			require("telescope").load_extension("egrepify")
+			require("telescope").load_extension("live_grep_args")
 		end,
 		keys = {
 			{
 				"<leader>rg",
 				function()
-					require("telescope").extensions.egrepify.egrepify({})
+					require("telescope").extensions.live_grep_args.live_grep_args()
 				end,
 			},
 		},
