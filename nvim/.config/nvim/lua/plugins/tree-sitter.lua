@@ -65,6 +65,7 @@ return {
 
 	{
 		"nvim-treesitter/nvim-treesitter-refactor",
+		event = "VeryLazy",
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				refactor = {
