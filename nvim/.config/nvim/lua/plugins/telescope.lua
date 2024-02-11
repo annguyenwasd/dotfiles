@@ -38,7 +38,7 @@ return {
 						hide_on_startup = false,
 					},
 					layout_config = {
-						prompt_position = "top",
+						-- prompt_position = "top",
 					},
 					sorting_strategy = "ascending",
 					mappings = {
