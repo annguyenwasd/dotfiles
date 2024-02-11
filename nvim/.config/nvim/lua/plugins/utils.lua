@@ -52,6 +52,7 @@ return {
 
 	{
 		"ThePrimeagen/harpoon",
+		lazy = "false",
 		config = function()
 			require("harpoon").setup({ menu = { width = 120, height = 30 } })
 			local ui = require("harpoon.ui")
