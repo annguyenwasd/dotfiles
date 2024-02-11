@@ -142,7 +142,6 @@ return {
 			{ "<leader>ts", "<cmd>Telescope symbols<cr>" },
 		},
 	},
-
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = "make",
@@ -162,6 +161,7 @@ return {
 	},
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 		config = function()
 			local fb = require("telescope").extensions.file_browser
 
@@ -169,6 +169,8 @@ return {
 				extensions = {
 					file_browser = {
 						initial_mode = "normal",
+						-- disables netrw and use telescope-file-browser in its place
+						hijack_netrw = true,
 						mappings = {
 							["n"] = {
 								["a"] = fb.actions.create,
@@ -196,33 +198,33 @@ return {
 				end,
 			},
 		},
-		{
-			"nvim-telescope/telescope-live-grep-args.nvim",
-			config = function()
-				require("telescope").load_extension("live_grep_args")
-				vim.keymap.set(
-					"n",
-					"<leader>rw",
-					require("telescope-live-grep-args.shortcuts").grep_word_under_cursor,
-					make_mapping_opts("telescope: grep word under cursor", { silent = false })
-				)
-				vim.keymap.set(
-        {"v", "n", "x"},
-					"<leader>rv",
-					require("telescope-live-grep-args.shortcuts").grep_visual_selection,
-					make_mapping_opts("telescope: grep word in selection", { silent = false })
-				)
-			end,
-			keys = {
-				{
-					"<leader>rg",
-					function()
-						require("telescope").extensions.live_grep_args.live_grep_args()
-					end,
-				},
+	},
+	{
+		"nvim-telescope/telescope-live-grep-args.nvim",
+		config = function()
+			require("telescope").load_extension("live_grep_args")
+			vim.keymap.set(
+				"n",
 				"<leader>rw",
+				require("telescope-live-grep-args.shortcuts").grep_word_under_cursor,
+				make_mapping_opts("telescope: grep word under cursor", { silent = false })
+			)
+			vim.keymap.set(
+				{ "v", "n", "x" },
 				"<leader>rv",
+				require("telescope-live-grep-args.shortcuts").grep_visual_selection,
+				make_mapping_opts("telescope: grep word in selection", { silent = false })
+			)
+		end,
+		keys = {
+			{
+				"<leader>rg",
+				function()
+					require("telescope").extensions.live_grep_args.live_grep_args()
+				end,
 			},
+			"<leader>rw",
+			"<leader>rv",
 		},
 	},
 }
