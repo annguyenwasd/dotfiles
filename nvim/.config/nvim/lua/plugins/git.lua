@@ -12,7 +12,7 @@ return {
 
 	{
 		"tpope/vim-fugitive",
-		lazy = false,
+		event = "VeryLazy",
 		init = function()
 			vim.api.nvim_create_autocmd("BufReadPost", {
 				group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer", { clear = true }),
@@ -83,7 +83,7 @@ return {
 
 	{
 		"lewis6991/gitsigns.nvim",
-		lazy = false,
+		event = "VeryLazy",
 		config = function()
 			require("gitsigns").setup({
 				auto_attach = true,
@@ -161,6 +161,7 @@ return {
 
 	{
 		"tpope/vim-rhubarb",
+		event = "VeryLazy",
 		init = function()
 			if is_work_profile() then
 				vim.g.github_enterprise_urls = require("work").github_enterprise_urls
