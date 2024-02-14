@@ -170,7 +170,7 @@ M.tsserver = function()
 	}
 
 	local handlers = {
-		["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+		["textDocument/publishDiagnostics"] = vim.lsp.with(function(_, result, ctx, config)
 			if result.diagnostics == nil then
 				return
 			end
@@ -193,7 +193,13 @@ M.tsserver = function()
 			end
 
 			vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
-		end,
+		end, {
+			underline = true,
+			virtual_text = {
+				spacing = 5,
+			},
+			update_in_insert = true,
+		}),
 	}
 
 	return {
