@@ -235,6 +235,12 @@ return {
 				auto_session_suppress_dirs = { "~/", "~/workspace", "~/Downloads", "/" },
 			})
 		end,
+    keys={
+			{
+				"<leader>sd",
+				"<cmd>SessionDelete<cr>",
+			},
+    }
 	},
 	{
 		"sontungexpt/url-open",
