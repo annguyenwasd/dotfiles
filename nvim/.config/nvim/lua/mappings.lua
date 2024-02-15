@@ -132,28 +132,6 @@ vim.keymap.set(
 
 vim.keymap.set(
 	"n",
-	"<leader>gh",
-	function()
-		vim.cmd('normal! yi"')
-		local package = vim.fn.getreg('"')
-		print(package)
-		local gh_page = "https://github.com/" .. package
-		vim.fn.setreg("*", gh_page)
-		print("Saved " .. gh_page .. " to clipboard")
-		if is_mac_os() then
-			vim.cmd("silent !open " .. gh_page)
-		else
-			print("Not supported at current OS yet")
-		end
-	end,
-	make_mapping_opts(
-		"Grab usename/repo then append to github url, save it to clipboard and open it in browser",
-		{ silent = true }
-	)
-)
-
-vim.keymap.set(
-	"n",
 	"<leader>tm",
 	":!tmux neww ",
 	make_mapping_opts("Run a command in a new tmux window", { silent = false })

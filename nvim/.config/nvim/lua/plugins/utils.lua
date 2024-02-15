@@ -255,7 +255,7 @@ return {
 		end,
 		keys = {
 			{
-				"<leader>gu",
+				"<leader>gh",
 				"<cmd>URLOpenUnderCursor<cr>",
 			},
 		},
