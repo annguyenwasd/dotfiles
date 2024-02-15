@@ -20,7 +20,7 @@ return {
 						"--with-filename",
 						"--line-number",
 						"--column",
-						"-uu",
+						"--hidden",
 						"--smart-case",
 						"--trim", -- add this value
 					},
