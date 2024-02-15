@@ -200,58 +200,6 @@ return {
 		},
 	},
 	{
-		"nvim-telescope/telescope-live-grep-args.nvim",
-		event = "VeryLazy",
-		enabled = false,
-		config = function()
-			local telescope = require("telescope")
-			local lga_actions = require("telescope-live-grep-args.actions")
-
-			telescope.setup({
-				extensions = {
-					live_grep_args = {
-						auto_quoting = true, -- enable/disable auto-quoting
-						-- define mappings, e.g.
-						mappings = { -- extend mappings
-							i = {
-								["<C-k>"] = lga_actions.quote_prompt(),
-								["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-							},
-						},
-						-- ... also accepts theme settings, for example:
-						-- theme = "dropdown", -- use dropdown theme
-						-- theme = { }, -- use own theme spec
-						-- layout_config = { mirror=true }, -- mirror preview pane
-					},
-				},
-			})
-			require("telescope").load_extension("live_grep_args")
-			vim.keymap.set(
-				"n",
-				"<leader>rw",
-				require("telescope-live-grep-args.shortcuts").grep_word_under_cursor,
-				make_mapping_opts("telescope: grep word under cursor", { silent = false })
-			)
-			vim.keymap.set(
-				{ "v", "n", "x" },
-				"<leader>rv",
-				require("telescope-live-grep-args.shortcuts").grep_visual_selection,
-				make_mapping_opts("telescope: grep word in selection", { silent = false })
-			)
-		end,
-		keys = {
-			{
-				"<leader>rg",
-				function()
-					require("telescope").extensions.live_grep_args.live_grep_args()
-				end,
-			},
-			"<leader>rw",
-			"<leader>rv",
-		},
-	},
-
-	{
 		"fdschmidt93/telescope-egrepify.nvim",
 		event = "VeryLazy",
 		config = function()
