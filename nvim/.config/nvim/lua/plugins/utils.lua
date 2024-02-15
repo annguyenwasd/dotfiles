@@ -52,7 +52,7 @@ return {
 
 	{
 		"ThePrimeagen/harpoon",
-    event="VeryLazy",
+		event = "VeryLazy",
 		config = function()
 			require("harpoon").setup({ menu = { width = 120, height = 30 } })
 			local ui = require("harpoon.ui")
@@ -226,21 +226,6 @@ return {
 		init = function()
 			vim.g.tmux_navigator_disable_when_zoomed = 1
 		end,
-	},
-	{
-		"rmagatti/auto-session",
-		config = function()
-			require("auto-session").setup({
-				log_level = "error",
-				auto_session_suppress_dirs = { "~/", "~/workspace", "~/Downloads", "/" },
-			})
-		end,
-    keys={
-			{
-				"<leader>sd",
-				"<cmd>SessionDelete<cr>",
-			},
-    }
 	},
 	{
 		"sontungexpt/url-open",
