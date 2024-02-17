@@ -116,6 +116,7 @@ return {
 	{
 		"microsoft/vscode-js-debug",
 		build = "npm install --legacy-peer-deps && npm run compile",
+    pin=true,
 		config = function()
 			require("dap-vscode-js").setup({
 				-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"

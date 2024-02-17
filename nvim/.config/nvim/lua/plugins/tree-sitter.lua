@@ -1,21 +1,18 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		event = "VeryLazy",
+		build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				highlight = { enable = true },
-				auto_install = false,
+				highlight = { enable = true, additional_vim_regex_highlighting = false },
 			})
 		end,
-		build = ":TSUpdate",
 	},
 
 	"nvim-treesitter/nvim-treesitter-context",
 
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
-		event = "VeryLazy",
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				textobjects = {
@@ -66,7 +63,6 @@ return {
 
 	{
 		"nvim-treesitter/nvim-treesitter-refactor",
-		event = "VeryLazy",
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				refactor = {
@@ -93,16 +89,8 @@ return {
 	},
 	{
 		"windwp/nvim-ts-autotag",
-    dependencies={"nvim-treesitter/nvim-treesitter"},
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				autotag = {
-					enable = true,
-					enable_rename = true,
-					enable_close = false,
-					enable_close_on_slash = true,
-				},
-			})
+			require("nvim-ts-autotag").setup()
 		end,
 	},
 }
