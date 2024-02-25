@@ -1,25 +1,28 @@
 local M = {}
 
 local map_default_lsp_fns = function(bufnr)
-	local get_opts = make_on_attach_opts(bufnr)
-	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, get_opts("lsp: rename"))
-	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, get_opts("lsp: show code action"))
+	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = desc("lsp: rename") })
+	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = desc("lsp: show code action") })
 	vim.keymap.set("n", "]d", function()
 		vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-	end, get_opts("lsp: next diagnostic"))
+	end, { buffer = bufnr, desc = desc("lsp: next diagnostic") })
 	vim.keymap.set("n", "[d", function()
 		vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-	end, get_opts("lsp: prev diagnostic"))
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, get_opts("lsp: hover"))
+	end, { buffer = bufnr, desc = desc("lsp: prev diagnostic") })
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = desc("lsp: hover") })
 end
 
 local map_lsp_ui_fns = function(bufnr)
-	local get_opts = make_on_attach_opts(bufnr)
-	vim.keymap.set("n", "<leader>rn", "<cmd>LspUI rename<cr>", get_opts("lsp: rename"))
-	vim.keymap.set("n", "<leader>ca", "<cmd>LspUI code_action<cr>", get_opts("lsp: show code action"))
-	vim.keymap.set("n", "]d", "<cmd>LspUI diagnostic next<cr>", get_opts("lsp: next diagnostic"))
-	vim.keymap.set("n", "[d", "<cmd>LspUI diagnostic prev<cr>", get_opts("lsp: prev diagnostic"))
-	vim.keymap.set("n", "K", "<cmd>LspUI hover<cr>", get_opts("lsp: hover"))
+	vim.keymap.set("n", "<leader>rn", "<cmd>LspUI rename<cr>", { buffer = bufnr, desc = desc("lsp: rename") })
+	vim.keymap.set(
+		"n",
+		"<leader>ca",
+		"<cmd>LspUI code_action<cr>",
+		{ buffer = bufnr, desc = desc("lsp: show code action") }
+	)
+	vim.keymap.set("n", "]d", "<cmd>LspUI diagnostic next<cr>", { buffer = bufnr, desc = desc("lsp: next diagnostic") })
+	vim.keymap.set("n", "[d", "<cmd>LspUI diagnostic prev<cr>", { buffer = bufnr, desc = desc("lsp: prev diagnostic") })
+	vim.keymap.set("n", "K", "<cmd>LspUI hover<cr>", { buffer = bufnr, desc = desc("lsp: hover") })
 end
 
 local signs = {
@@ -39,7 +42,6 @@ local get_on_attach_fn = function()
 
 	local setup_ts_utils = function(client, bufnr)
 		local ts_utils = require("nvim-lsp-ts-utils")
-		local get_opts = make_on_attach_opts(bufnr)
 
 		ts_utils.setup({})
 
@@ -47,9 +49,24 @@ local get_on_attach_fn = function()
 		ts_utils.setup_client(client)
 
 		-- no default maps, so you may want to define some here
-		vim.keymap.set("n", "<leader><leader>oi", "<cmd>TSLspOrganize<CR>", get_opts("lsp: Organize imports"))
-		vim.keymap.set("n", "<leader>rf", "<cmd>TSLspRenameFile<CR>", get_opts("lsp: Rename file"))
-		vim.keymap.set("n", "<leader><leader>i", "<cmd>TSLspImportAll<CR>", get_opts("lsp: Import missing packages"))
+		vim.keymap.set(
+			"n",
+			"<leader><leader>oi",
+			"<cmd>TSLspOrganize<CR>",
+			{ buffer = bufnr, desc = desc("lsp: Organize imports") }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader>rf",
+			"<cmd>TSLspRenameFile<CR>",
+			{ buffer = bufnr, desc = desc("lsp: Rename file") }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader><leader>i",
+			"<cmd>TSLspImportAll<CR>",
+			{ buffer = bufnr, desc = desc("lsp: Import missing packages") }
+		)
 	end
 
 	return function(client, bufnr)
@@ -67,22 +84,30 @@ local get_on_attach_fn = function()
 
 		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-		local get_opts = make_on_attach_opts(bufnr)
-
 		vim.keymap.set(
 			"n",
 			"gD",
 			vim.lsp.buf.declaration,
-			get_opts("lsp: Jumps to the declaration of the symbol under the cursor.")
+			{ buffer = bufnr, desc = desc("lsp: Jumps to the declaration of the symbol under the cursor.") }
 		)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, get_opts("lsp: Go to definition"))
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = desc("lsp: Go to definition") })
 		vim.keymap.set(
 			"n",
 			"gi",
 			vim.lsp.buf.implementation,
-			get_opts("lsp: Lists all the implementations for the symbol under the cursor in the quickfix window.")
+			{
+				buffer = bufnr,
+				desc = desc(
+					"lsp: Lists all the implementations for the symbol under the cursor in the quickfix window."
+				),
+			}
 		)
-		vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, make_mapping_opts("lsp: show type definitions"))
+		vim.keymap.set(
+			"n",
+			"gy",
+			vim.lsp.buf.type_definition,
+			{ buffer = bufnr, desc = desc("lsp: show type definitions") }
+		)
 
 		vim.keymap.set("n", "<leader>ti", function()
 			if vim.lsp.inlay_hint.is_enabled() then
@@ -90,37 +115,62 @@ local get_on_attach_fn = function()
 			else
 				vim.lsp.inlay_hint.enable(0, true)
 			end
-		end, get_opts("lsp: toggle inlayHints"))
+		end, { buffer = bufnr, desc = desc("lsp: toggle inlayHints") })
 
 		vim.keymap.set("n", "gvd", function()
 			vim.cmd("vsp")
 			vim.lsp.buf.definition()
-		end, get_opts("lsp: Split vertical pane then go to definition"))
+		end, { buffer = bufnr, desc = desc("lsp: Split vertical pane then go to definition") })
 
 		vim.keymap.set("n", "gsd", function()
 			vim.cmd("sp")
 			vim.lsp.buf.definition()
-		end, get_opts("lsp: Split horizontal pane then go to definition"))
+		end, { buffer = bufnr, desc = desc("lsp: Split horizontal pane then go to definition") })
 
-		vim.keymap.set("n", "<c-s>", vim.lsp.buf.signature_help, get_opts("lsp: Show signature help"))
-		vim.keymap.set("i", "<c-s>", vim.lsp.buf.signature_help, get_opts("lsp: Show signature help"))
+		vim.keymap.set(
+			"n",
+			"<c-s>",
+			vim.lsp.buf.signature_help,
+			{ buffer = bufnr, desc = desc("lsp: Show signature help") }
+		)
+		vim.keymap.set(
+			"i",
+			"<c-s>",
+			vim.lsp.buf.signature_help,
+			{ buffer = bufnr, desc = desc("lsp: Show signature help") }
+		)
 
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, get_opts("lsp: Show lsp references on"))
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, make_mapping_opts("lsp: show implementations"))
+		vim.keymap.set(
+			"n",
+			"gr",
+			vim.lsp.buf.references,
+			{ buffer = bufnr, desc = desc("lsp: Show lsp references on") }
+		)
+		vim.keymap.set(
+			"n",
+			"gi",
+			vim.lsp.buf.implementation,
+			{ buffer = bufnr, desc = desc("lsp: show implementations") }
+		)
 
 		vim.keymap.set("n", "<leader>da", function()
 			local diagnostics = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
 			local qflist = vim.diagnostic.toqflist(diagnostics)
 			vim.fn.setqflist(qflist)
 			vim.cmd("cw")
-		end, make_mapping_opts("lsp: show document diagnostics"))
+		end, { buffer = bufnr, desc = desc("lsp: show document diagnostics") })
 
 		vim.keymap.set("n", "<leader>dw", function()
 			vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
 			vim.diagnostic.setqflist()
-		end, make_mapping_opts("lsp: show workspace diagnostics"))
+		end, { buffer = bufnr, desc = desc("lsp: show workspace diagnostics") })
 
-		vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, get_opts("lsp: Show diagnostics"))
+		vim.keymap.set(
+			"n",
+			"<leader>ld",
+			vim.diagnostic.open_float,
+			{ buffer = bufnr, desc = desc("lsp: Show diagnostics") }
+		)
 		vim.keymap.set("n", "<leader>fm", function()
 			vim.lsp.buf.format({
 				filter = function(_client)
@@ -129,9 +179,14 @@ local get_on_attach_fn = function()
 				end,
 				bufnr = bufnr,
 			})
-		end, get_opts("lsp: null-ls format"))
+		end, { buffer = bufnr, desc = desc("lsp: null-ls format") })
 
-		vim.keymap.set("n", "<leader>fa", "<cmd>EslintFixAll<CR>", get_opts("lsp: eslint fix all"))
+		vim.keymap.set(
+			"n",
+			"<leader>fa",
+			"<cmd>EslintFixAll<CR>",
+			{ buffer = bufnr, desc = desc("lsp: eslint fix all") }
+		)
 
 		if package.loaded["LspUI"] then
 			map_lsp_ui_fns(bufnr)

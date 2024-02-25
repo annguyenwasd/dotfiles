@@ -12,27 +12,27 @@ return {
 		config = function()
 			require("bqf").setup({
 				preview = {
+					auto_preview = false,
 					winblend = 0,
+					win_height = 999,
 				},
 			})
 		end,
 	},
-
 	{
 		"numtostr/BufOnly.nvim",
 		init = function()
 			vim.g.bufonly_delete_non_modifiable = true
 		end,
 		keys = {
-			{ "<leader>bo", ":BufOnly<CR>", desc = make_desc("buf only") },
+			{ "<leader>bo", ":BufOnly<CR>", desc = desc("buf: buf only") },
 		},
 	},
-
 	{
 		"yorickpeterse/nvim-window",
-		config = function()
-			vim.keymap.set("n", "<leader>ww", require("nvim-window").pick, make_mapping_opts("Picking neovim's window"))
-		end,
-		keys = "<leader>ww",
+		config = true,
+		keys = {
+			{ "<leader>ww", "<cmd>lua require('nvim-window').pick()<cr>", desc = desc("buf: Picking neovim's window") },
+		},
 	},
 }

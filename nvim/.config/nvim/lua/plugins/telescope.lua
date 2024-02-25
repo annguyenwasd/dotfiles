@@ -1,5 +1,6 @@
 return {
 	{
+		-- TODO: remove tag
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.5",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -52,91 +53,87 @@ return {
 							["<c-h>"] = actions.which_key,
 							["<c-d>"] = actions.delete_buffer,
 							["<c-\\>"] = actions_layout.toggle_preview,
-							["l"] = actions.select_default,
 						},
 					},
 				},
 			})
-
-			local builtin = require("telescope.builtin")
-
-			vim.keymap.set(
-				"n",
-				"<leader>o",
-				require("utils.nvim-tree").find_files,
-				make_mapping_opts("telescope: find files")
-			)
-
-			vim.keymap.set("n", "<leader>O", function()
-				builtin.find_files({ no_ignore = true, no_ignore_parent = true, hidden = true })
-			end, make_mapping_opts("telescope: find files with ignored files"))
-
-			vim.keymap.set("n", "<leader>i", function()
-				builtin.buffers({ sort_rmu = true, sort_lastused = true, show_all_buffers = true })
-			end, make_mapping_opts("telescope: show opened buffers"))
-
-			vim.keymap.set(
-				"n",
-				"<leader>/",
-				builtin.current_buffer_fuzzy_find,
-				make_mapping_opts("telescope: current buffer fuzzy find")
-			)
-
-			vim.keymap.set(
-				"n",
-				"<leader><leader>fc",
-				require("utils.theme-chooser"),
-				make_mapping_opts("telescope: theme chooser")
-			)
-
-			--[[ vim.keymap.set("n", "<leader>rg", builtin.live_grep, make_mapping_opts("telescope: live grep")) ]]
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, make_mapping_opts("telescope: help tags"))
-			vim.keymap.set("n", "<leader>ch", builtin.command_history, make_mapping_opts("telescope: command history"))
-			vim.keymap.set("n", "<leader>sh", builtin.search_history, make_mapping_opts("telescope: search history"))
-			vim.keymap.set("n", "<leader>fc", builtin.commands, make_mapping_opts("telescope: commands"))
-			vim.keymap.set("n", "<leader>km", builtin.keymaps, make_mapping_opts("telescope: keymaps"))
-			vim.keymap.set("n", "<leader>hi", builtin.highlights, make_mapping_opts("telescope: highlights"))
-			vim.keymap.set("n", "<leader>gS", builtin.git_status, make_mapping_opts("telescope: git status"))
-			vim.keymap.set("n", "<leader>gl", builtin.git_commits, make_mapping_opts("telescope: git commits"))
-			vim.keymap.set("n", "<leader>bgl", builtin.git_bcommits, make_mapping_opts("telescope: git bcommits"))
-			vim.keymap.set("n", "<leader>bgl", builtin.git_bcommits, make_mapping_opts("telescope: git bcommits"))
-			vim.keymap.set("n", "<localleader>gh", builtin.git_stash, make_mapping_opts("telescope: git stash"))
-
-			vim.keymap.set("n", "<leader>tr", function()
-				builtin.resume({ initial_mode = "normal" })
-			end, make_mapping_opts("telescope: resume"))
-
-			vim.keymap.set("n", "<leader>ds", function()
-				builtin.lsp_document_symbols()
-			end, make_mapping_opts("telescope: lsp document symbols"))
-
-			vim.keymap.set(
-				"n",
-				"<leader>ws",
-				":Telescope lsp_dynamic_workspace_symbols<cr>",
-				make_mapping_opts("telescope: lsp dynamic workspace symbols", { silent = false })
-			)
 		end,
 		keys = {
-			"<leader>o",
-			"<leader>O",
-			"<leader>i",
-			"<leader>/",
-			"<leader>fh",
-			"<leader>ch",
-			"<leader>sh",
-			"<leader>fc",
-			"<leader><leader>fc",
-			"<leader>km",
-			"<leader>hi",
-			"<leader>gS",
-			"<leader>gl",
-			"<leader>bgl",
-			"<leader>bgl",
-			"<localleader>gh",
-			"<leader>tr",
-			"<leader>ds",
-			"<leader>ws",
+			{
+				"<leader>o",
+				"<cmd>lua require('utils.explorer').find_files()<cr>",
+				desc = desc("telescope: find files"),
+			},
+			{
+				"<leader>O",
+				function()
+					require("telescope.builtin").find_files({ no_ignore = true, no_ignore_parent = true, hidden = true })
+				end,
+				desc = desc("telescope: find files with ignored files"),
+			},
+			{
+				"<leader>i",
+				function()
+					require("telescope.builtin").buffers({
+						sort_rmu = true,
+						sort_lastused = true,
+						show_all_buffers = true,
+					})
+				end,
+				desc = desc("telescope: show opened buffers"),
+			},
+			{
+				"<leader>/",
+				"<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>",
+				desc = desc("telescope: current buffer fuzzy find"),
+			},
+			{
+				"<leader><leader>fc",
+				"<cmd>lua require('utils.theme-chooser')()<cr>",
+				desc = desc("telescope: theme chooser"),
+			},
+			-- { "<leader>rg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", desc=desc("telescope: live grep")},
+			{
+				"<leader>fh",
+				"<cmd>lua require('telescope.builtin').help_tags()<cr>",
+				desc = desc("telescope: help tags"),
+			},
+			{
+				"<leader>ch",
+				"<cmd>lua require('telescope.builtin').command_history()<cr>",
+				desc = desc("telescope: command history"),
+			},
+			{
+				"<leader>sh",
+				"<cmd>lua require('telescope.builtin').search_history()<cr>",
+				desc = desc("telescope: search history"),
+			},
+			{
+				"<leader>fc",
+				"<cmd>lua require('telescope.builtin').commands()<cr>",
+				desc = desc("telescope: commands"),
+			},
+			{ "<leader>km", "<cmd>lua require('telescope.builtin').keymaps()<cr>", desc = desc("telescope: keymaps") },
+			{
+				"<leader>tr",
+				function()
+					require("telescope.builtin").resume({ initial_mode = "normal" })
+				end,
+				desc = desc("telescope: resume"),
+			},
+			{
+				"<leader>ds",
+				function()
+					require("telescope.builtin").lsp_document_symbols()
+				end,
+				desc = desc("telescope: lsp document symbols"),
+			},
+			{
+				"<leader>ws",
+				":Telescope lsp_dynamic_workspace_symbols<cr>",
+				desc = "telescope: lsp dynamic workspace symbols",
+				silent = false,
+			},
 		},
 	},
 	{

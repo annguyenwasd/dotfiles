@@ -1,16 +1,30 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
+		build = function()
+			require("nvim-treesitter.install").update({ with_sync = true })()
+		end,
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				highlight = { enable = true, additional_vim_regex_highlighting = false },
+				indent = { enable = true },
 			})
 		end,
 	},
-
-	"nvim-treesitter/nvim-treesitter-context",
-
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		lazy = false,
+		keys = {
+			{
+				"{",
+				function()
+					require("treesitter-context").go_to_context(vim.v.count1)
+				end,
+				silent = true,
+				desc = desc("Jump to upper context"),
+			},
+		},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		config = function()

@@ -1,19 +1,14 @@
 return {
-	"b0o/schemastore.nvim",
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
-	"jose-elias-alvarez/nvim-lsp-ts-utils",
-	{
-		"davidosomething/format-ts-errors.nvim",
-		event = "VeryLazy",
-	},
-	{
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		config = true,
-	},
 	{
 		"williamboman/mason-lspconfig.nvim",
+		dependencies = {
+			"b0o/schemastore.nvim",
+			"davidosomething/format-ts-errors.nvim",
+			-- TODO: https://github.com/pmizio/typescript-tools.nvim to replace ts-server & this tool
+			"jose-elias-alvarez/nvim-lsp-ts-utils",
+		},
 		config = function()
 			require("mason").setup()
 			require("mason-lspconfig").setup({
@@ -52,6 +47,7 @@ return {
 			})
 		end,
 	},
+  -- TODO: remove branch
 	{
 		"jinzhongjia/LspUI.nvim",
 		config = true,
@@ -60,5 +56,10 @@ return {
 			prompt = false,
 			event = "VeryLazy",
 		},
+	},
+	{
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		config = true,
 	},
 }

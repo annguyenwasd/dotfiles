@@ -1,7 +1,6 @@
 return {
 	{
 		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
@@ -102,10 +101,8 @@ return {
 			})
 		end,
 	},
-
 	{
 		"onsails/lspkind-nvim",
-		event = "VeryLazy",
 		config = function()
 			local lspkind = require("lspkind")
 			require("cmp").setup({

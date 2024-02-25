@@ -13,43 +13,12 @@ _G.set_theme = function(theme_name, lualine_theme)
 	end
 end
 
-_G.merge_table = function(t1, t2)
-	for key, value in pairs(t2) do
-		t1[key] = value
-	end
-
-	return t1
-end
-
-_G.make_desc = function(desc)
+_G.desc = function(desc)
 	local str
 	if desc ~= nil then
-		str = "[🧩 ] " .. desc
+		str = "[annguyenwasd ] " .. desc
   else
-		str = "[🧩 ] No desc provided"
+		str = "[annguyenwasd ] No desc provided"
 	end
 	return str
-end
-
---- Make mapping options
---- @param _desc string description
---- @param opts table vim.keymap.set's opts
-_G.make_mapping_opts = function(_desc, opts)
-	local desc_table = { desc = make_desc(_desc) }
-	if opts ~= nil and type(opts) == "table" then
-		return merge_table(opts, desc_table)
-	end
-
-	return desc_table
-end
-
-_G.make_on_attach_opts = function(bufnr)
-	return function(_desc)
-		local opts = { buffer = bufnr }
-		if type(_desc) == "table" then
-			return merge_table(opts, _desc)
-		end
-
-		return merge_table(opts, { desc = make_desc(_desc) })
-	end
 end
