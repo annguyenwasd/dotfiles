@@ -261,11 +261,12 @@ M.tsserver = function()
 
 			vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
 		end, {
-			underline = true,
-			virtual_text = {
-				spacing = 5,
-			},
+			underline = false,
+			virtual_text = false,
 			update_in_insert = true,
+			signs = function()
+				return false
+			end,
 		}),
 	}
 

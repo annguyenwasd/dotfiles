@@ -15,9 +15,6 @@ return {
 				null_ls.builtins.formatting.markdownlint,
 				null_ls.builtins.formatting.trim_whitespace,
 
-				null_ls.builtins.diagnostics.eslint_d,
-				null_ls.builtins.code_actions.eslint_d,
-
 				null_ls.builtins.hover.dictionary,
 				null_ls.builtins.hover.printenv,
 			},

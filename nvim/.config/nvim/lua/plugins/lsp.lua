@@ -19,6 +19,7 @@ return {
 					"dockerls",
 					"cssls",
 					"lua_ls",
+          "eslint"
 				},
 				automatic_installation = true,
 			})
