@@ -83,6 +83,7 @@ return {
 		"lewis6991/gitsigns.nvim",
 		config = function()
 			require("gitsigns").setup({
+				sign_priority = 100,
 				auto_attach = true,
 				on_attach = function(bufnr)
 					local gs = package.loaded.gitsigns
