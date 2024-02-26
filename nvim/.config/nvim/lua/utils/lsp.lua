@@ -40,38 +40,60 @@ local get_on_attach_fn = function()
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 	end
 
-	local setup_ts_utils = function(client, bufnr)
-		local ts_utils = require("nvim-lsp-ts-utils")
-
-		ts_utils.setup({})
-
-		-- required to fix code action ranges and filter diagnostics
-		ts_utils.setup_client(client)
-
-		-- no default maps, so you may want to define some here
+	local setup_ts_tools = function(_, bufnr)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>oi",
-			"<cmd>TSLspOrganize<CR>",
+			"<cmd>TSToolsOrganizeImports<CR>",
 			{ buffer = bufnr, desc = desc("lsp: Organize imports") }
 		)
 		vim.keymap.set(
 			"n",
-			"<leader>rf",
-			"<cmd>TSLspRenameFile<CR>",
+			"<leader><leader>si",
+			"<cmd>TSToolsSortImports<CR>",
+			{ buffer = bufnr, desc = desc("lsp: Sort imports") }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader><leader>gd",
+			"<cmd>TSToolsGoToSourceDefinition<CR>",
+			{ buffer = bufnr, desc = desc("lsp: go to source definition (since TS v. 4.7)") }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader><leader>gr",
+			"<cmd>TSToolsFileReferences<CR>",
+			{ buffer = bufnr, desc = desc("lsp: go to file references (since TS v. 4.2)") }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader><leader>ru",
+			"<cmd>TSToolsRemoveUnused<CR>",
+			{ buffer = bufnr, desc = desc("lsp: remove unused statements") }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader><leader>rf",
+			"<cmd>TSToolsRenameFile<CR>",
 			{ buffer = bufnr, desc = desc("lsp: Rename file") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>i",
-			"<cmd>TSLspImportAll<CR>",
-			{ buffer = bufnr, desc = desc("lsp: Import missing packages") }
+			"<cmd>TSToolsAddMissingImports<CR>",
+			{ buffer = bufnr, desc = desc("lsp: Import missing imports") }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader><leader>fa",
+			"<cmd>TSToolsFixAll<CR>",
+			{ buffer = bufnr, desc = desc("lsp: fix all") }
 		)
 	end
 
 	return function(client, bufnr)
-		if client.name == "tsserver" then
-			setup_ts_utils(client, bufnr)
+		if client.name == "typescript-tools" then
+			setup_ts_tools(client, bufnr)
 		end
 
 		if vim.lsp.inlay_hint then
@@ -91,17 +113,10 @@ local get_on_attach_fn = function()
 			{ buffer = bufnr, desc = desc("lsp: Jumps to the declaration of the symbol under the cursor.") }
 		)
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = desc("lsp: Go to definition") })
-		vim.keymap.set(
-			"n",
-			"gi",
-			vim.lsp.buf.implementation,
-			{
-				buffer = bufnr,
-				desc = desc(
-					"lsp: Lists all the implementations for the symbol under the cursor in the quickfix window."
-				),
-			}
-		)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {
+			buffer = bufnr,
+			desc = desc("lsp: Lists all the implementations for the symbol under the cursor in the quickfix window."),
+		})
 		vim.keymap.set(
 			"n",
 			"gy",
@@ -181,13 +196,6 @@ local get_on_attach_fn = function()
 			})
 		end, { buffer = bufnr, desc = desc("lsp: null-ls format") })
 
-		vim.keymap.set(
-			"n",
-			"<leader>fa",
-			"<cmd>EslintFixAll<CR>",
-			{ buffer = bufnr, desc = desc("lsp: eslint fix all") }
-		)
-
 		if package.loaded["LspUI"] then
 			map_lsp_ui_fns(bufnr)
 		else
@@ -262,7 +270,6 @@ M.tsserver = function()
 	}
 
 	return {
-		init_options = require("nvim-lsp-ts-utils").init_options,
 		on_attach = on_attach,
 		capabilities = capabilities,
 		settings = settings,

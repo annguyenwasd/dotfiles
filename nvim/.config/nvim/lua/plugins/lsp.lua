@@ -6,8 +6,6 @@ return {
 		dependencies = {
 			"b0o/schemastore.nvim",
 			"davidosomething/format-ts-errors.nvim",
-			-- TODO: https://github.com/pmizio/typescript-tools.nvim to replace ts-server & this tool
-			"jose-elias-alvarez/nvim-lsp-ts-utils",
 		},
 		config = function()
 			require("mason").setup()
@@ -19,7 +17,6 @@ return {
 					"vimls",
 					"bashls",
 					"dockerls",
-					"tsserver",
 					"cssls",
 					"lua_ls",
 				},
@@ -35,9 +32,6 @@ return {
 						on_attach = on_attach,
 					})
 				end,
-				["tsserver"] = function()
-					require("lspconfig").tsserver.setup(lsp.tsserver())
-				end,
 				["jsonls"] = function()
 					require("lspconfig").jsonls.setup(lsp.jsonls())
 				end,
@@ -47,7 +41,7 @@ return {
 			})
 		end,
 	},
-  -- TODO: remove branch
+	-- TODO: remove branch
 	{
 		"jinzhongjia/LspUI.nvim",
 		config = true,
@@ -61,5 +55,12 @@ return {
 		"j-hui/fidget.nvim",
 		tag = "legacy",
 		config = true,
+	},
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		config = function()
+			require("typescript-tools").setup(require("utils.lsp").tsserver())
+		end,
 	},
 }
