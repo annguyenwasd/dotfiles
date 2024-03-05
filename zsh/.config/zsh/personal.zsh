@@ -9,11 +9,7 @@ fi
 
 # {{{ Export
 export DOTFILES=$HOME/dotfiles
-export LC_CTYPE=en_US.UTF-8
 export SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
-export LANGUAGE=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 
 export PATH="$PATH:/usr/local/sbin"
 export PATH="$PATH:/usr/local/opt/ruby/bin"
@@ -34,6 +30,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 #}}}
 
 # {{{ Alias
+alias p="pnpm"
 alias ydl="youtube-dl -i"
 alias lzd="lazydocker"
 alias r="ranger"

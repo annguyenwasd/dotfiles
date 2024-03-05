@@ -196,3 +196,6 @@ vim.keymap.set("n", "<leader>K", function()
 	local w = vim.fn.expand("<cword>")
 	vim.api.nvim_command("help " .. w)
 end, { desc = desc("mappings: Show vim's documentation on current word"), noremap = true })
+
+vim.keymap.set("n", "<leader>vt", ":vsplit term://", { desc = desc("mappings: Open terminal with vertial split"), noremap = true })
+vim.keymap.set("n", "<leader>st", ":split term://", { desc = desc("mappings: Open terminal with horizontal split"), noremap = true })
