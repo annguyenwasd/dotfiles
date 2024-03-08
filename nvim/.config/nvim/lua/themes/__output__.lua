@@ -1,1 +1,1 @@
-require('themes.monokai').darkblue()
+require('themes.gruvbox').dark()

@@ -15,4 +15,5 @@ return {
 	{ "ellisonleao/gruvbox.nvim" },
 	{ "lalitmee/cobalt2.nvim" },
 	{ "metalelf0/jellybeans-nvim" },
+	{ "josebalius/vim-light-chromeclipse" },
 }
