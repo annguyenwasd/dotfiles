@@ -80917,6 +80917,8 @@
 	<integer>7</integer>
 	<key>LeftOption</key>
 	<integer>2</integer>
+	<key>LeftTabBarWidth</key>
+	<real>200</real>
 	<key>NeverWarnAboutShortLivedSessions_13D085DC-D69E-45C0-AA19-0663AC44A017</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_13D085DC-D69E-45C0-AA19-0663AC44A017_selection</key>
@@ -81786,7 +81788,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Title Components</key>
-			<integer>258</integer>
+			<integer>4</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
@@ -81796,6 +81798,8 @@
 			<key>Use Bright Bold</key>
 			<true/>
 			<key>Use Cursor Guide</key>
+			<false/>
+			<key>Use Custom Window Title</key>
 			<false/>
 			<key>Use Italic Font</key>
 			<true/>
@@ -83642,6 +83646,8 @@
 			<string>No</string>
 			<key>Allow Title Reporting</key>
 			<false/>
+			<key>Allow Title Setting</key>
+			<false/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -83991,6 +83997,8 @@
 			<string>22770C45-B7D5-4FD6-AAB5-E0E0FF825195</string>
 			<key>Has Hotkey</key>
 			<false/>
+			<key>Hide After Opening</key>
+			<false/>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
 			<key>HotKey Activated By Modifier</key>
@@ -84338,6 +84346,8 @@
 			<string>SauceCodeProNerdFontComplete-Regular 15</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
+			<key>Open Toolbelt</key>
+			<false/>
 			<key>Option Key Sends</key>
 			<integer>1</integer>
 			<key>Prompt Before Closing 2</key>
@@ -84533,7 +84543,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Title Components</key>
-			<integer>258</integer>
+			<integer>4</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
@@ -84543,6 +84553,8 @@
 			<key>Use Bright Bold</key>
 			<true/>
 			<key>Use Cursor Guide</key>
+			<false/>
+			<key>Use Custom Window Title</key>
 			<false/>
 			<key>Use Italic Font</key>
 			<true/>
@@ -90673,7 +90685,7 @@
 	<key>SeparateWindowTitlePerTab</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowMetalFPSmeter</key>
 	<false/>
 	<key>ShowNewOutputIndicator</key>
@@ -90725,7 +90737,7 @@
 	<key>disableMetalWhenUnplugged</key>
 	<false/>
 	<key>findMode_iTerm</key>
-	<integer>0</integer>
+	<integer>4</integer>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

@@ -6,7 +6,6 @@
   cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
 
 [core]
-	pager = diff-so-fancy | less --tabs=4 -RFX
 	autocrlf = input
 	autolf = true
 	eol = lf
@@ -40,7 +39,6 @@
   wt = worktree
   wtf=config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 [interactive]
-	diffFilter = diff-so-fancy --patch
 [color]
 	ui = true
 [color "diff-highlight"]

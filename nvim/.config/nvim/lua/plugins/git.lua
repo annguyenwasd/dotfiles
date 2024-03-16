@@ -11,6 +11,7 @@ return {
 	},
 	{
 		"tpope/vim-fugitive",
+		event = "VeryLazy",
 		init = function()
 			vim.api.nvim_create_autocmd("BufReadPost", {
 				group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer", { clear = true }),
@@ -81,7 +82,7 @@ return {
 
 	{
 		"lewis6991/gitsigns.nvim",
-    event="VeryLazy",
+		event = "VeryLazy",
 		config = function()
 			require("gitsigns").setup({
 				sign_priority = 100,

@@ -457,7 +457,7 @@
   ],
   "diffEditor.ignoreTrimWhitespace": false,
   "githubPullRequests.fileListLayout": "tree",
-  "workbench.colorTheme": "Oceanic Neo",
+  "workbench.colorTheme": "Nord",
   "workbench.editorAssociations": {
     "*.db": "default"
   },

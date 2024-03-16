@@ -249,4 +249,20 @@ return {
 			},
 		},
 	},
+	{
+		"andymass/vim-matchup",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+		init = function()
+			vim.g.matchup_surround_enabled = 1
+		end,
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				matchup = {
+					enable = true,
+				},
+			})
+		end,
+	},
 }
