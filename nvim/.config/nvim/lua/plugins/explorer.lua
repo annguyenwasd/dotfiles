@@ -84,6 +84,7 @@ return {
 					icons = {
 						glyphs = {
 							default = "",
+              bookmark="m",
 							symlink = "->",
 							modified = "~",
 							folder = {
