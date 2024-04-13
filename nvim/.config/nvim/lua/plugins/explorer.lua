@@ -79,7 +79,35 @@ return {
 					always_show_folders = false,
 				},
 				actions = { open_file = { quit_on_open = true } },
-				renderer = { indent_markers = { enable = true } },
+				renderer = {
+					indent_markers = { enable = true },
+					icons = {
+						glyphs = {
+							default = "",
+							symlink = "->",
+							modified = "~",
+							folder = {
+								arrow_closed = ">",
+								arrow_open = "<",
+								default = "",
+								open = "",
+								empty = "",
+								empty_open = "",
+								symlink = "->",
+								symlink_open = "->",
+							},
+							git = {
+								unstaged = "~",
+								staged = "U",
+								unmerged = "",
+								renamed = "->",
+								untracked = "?",
+								deleted = "-",
+								ignored = "x",
+							},
+						},
+					},
+				},
 				update_focused_file = { enable = true },
 				view = {
 					width = function()
@@ -114,6 +142,12 @@ return {
 					ignore_dirs = { "node_modules", ".git" },
 				},
 			})
+
+			-- https://github.com/nvim-tree/nvim-tree.lua/wiki/Recipes#automatically-open-file-upon-creation
+			local api = require("nvim-tree.api")
+			api.events.subscribe(api.events.Event.FileCreated, function(file)
+				vim.cmd("edit " .. file.fname)
+			end)
 		end,
 	},
 }

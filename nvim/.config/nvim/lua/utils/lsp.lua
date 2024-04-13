@@ -32,6 +32,14 @@ local signs = {
 	Hint = " ",
 }
 
+if not is_use_icons() then
+	signs = {
+		Error = "E ",
+		Warn = "W ",
+		Info = "I ",
+		Hint = "H ",
+	}
+end
 M.signs = signs
 
 local get_on_attach_fn = function()
@@ -186,15 +194,6 @@ local get_on_attach_fn = function()
 			vim.diagnostic.open_float,
 			{ buffer = bufnr, desc = desc("lsp: Show diagnostics") }
 		)
-		vim.keymap.set("n", "<leader>fm", function()
-			vim.lsp.buf.format({
-				filter = function(_client)
-					-- only use null-ls as formatter
-					return _client.name == "null-ls"
-				end,
-				bufnr = bufnr,
-			})
-		end, { buffer = bufnr, desc = desc("lsp: null-ls format") })
 
 		if package.loaded["LspUI"] then
 			map_lsp_ui_fns(bufnr)
@@ -212,6 +211,11 @@ M.tsserver = function()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	local settings = {
+		publish_diagnostic_on = "insert_leave",
+		jsx_close_tag = {
+			enable = true,
+			filetypes = { "javascriptreact", "typescriptreact" },
+		},
 		typescript = {
 			inlayHints = {
 				includeInlayParameterNameHints = "all",
@@ -261,6 +265,10 @@ M.tsserver = function()
 
 			vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
 		end, {
+			underline = true,
+			virtual_text = {
+				spacing = 5,
+			},
 			update_in_insert = true,
 		}),
 	}

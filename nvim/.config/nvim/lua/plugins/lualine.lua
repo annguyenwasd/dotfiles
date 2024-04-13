@@ -20,22 +20,33 @@ return {
 				end,
 			})
 
-      local signs = require"utils.lsp".signs
+			local signs = require("utils.lsp").signs
 
 			local diagnostic = {
 				"diagnostics",
 				sources = { "nvim_diagnostic" },
 				colored = false,
-				symbols = { error = signs.Error, warn = signs.Warn, hint = signs.Hint, info = signs.Info},
+				symbols = { error = signs.Error, warn = signs.Warn, hint = signs.Hint, info = signs.Info },
 			}
 
 			local branch = { "branch", icon = "" }
+			if not is_use_icons() then
+				branch = { "branch", icon = "" }
+			end
 			local diff = { "diff", source = diff_source, colored = false }
 			local file_name = {
 				"filename",
 				path = 3,
 				shorting_target = 40,
 			}
+			local fileformat = { "fileformat" }
+			if not is_use_icons() then
+				fileformat.symbols = {
+					unix = "unix", -- e712
+					dos = "dos", -- e70f
+					mac = "mac", -- e711
+				}
+			end
 
 			require("lualine").setup({
 				options = {
@@ -58,7 +69,7 @@ return {
 						branch,
 						"progress",
 						"location",
-						"fileformat",
+						fileformat,
 						"encoding",
 					},
 					lualine_y = {},

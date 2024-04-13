@@ -1,14 +1,16 @@
 return {
 	"neovim/nvim-lspconfig",
-	"williamboman/mason.nvim",
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"williamboman/mason.nvim",
 		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
 			"b0o/schemastore.nvim",
 			"davidosomething/format-ts-errors.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
 		},
 		config = function()
 			require("mason").setup()
+			local mason_tool_installer = require("mason-tool-installer")
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"yamlls",
@@ -19,9 +21,17 @@ return {
 					"dockerls",
 					"cssls",
 					"lua_ls",
-          "eslint"
+					"eslint",
 				},
 				automatic_installation = true,
+			})
+
+			mason_tool_installer.setup({
+				ensure_installed = {
+					"prettierd",
+					"stylua",
+					"eslint_d",
+				},
 			})
 
 			local lsp = require("utils.lsp")
@@ -45,6 +55,7 @@ return {
 	-- TODO: remove branch
 	{
 		"jinzhongjia/LspUI.nvim",
+		enabled = false,
 		config = true,
 		branch = "legacy",
 		opts = {

@@ -103,6 +103,7 @@ return {
 	},
 	{
 		"onsails/lspkind-nvim",
+		enabled = is_use_icons,
 		config = function()
 			local lspkind = require("lspkind")
 			require("cmp").setup({

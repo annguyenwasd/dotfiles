@@ -6,6 +6,10 @@ _G.is_work_profile = function()
 	return os.getenv("ANNGUYENWASD_PROFILE") == "work"
 end
 
+_G.is_use_icons = function()
+	return os.getenv("ANNGUYENWASD_USE_ICONS") == true
+end
+
 _G.set_theme = function(theme_name, lualine_theme)
 	vim.cmd("colorscheme " .. theme_name)
 	if package.loaded["lualine"] ~= nil then
