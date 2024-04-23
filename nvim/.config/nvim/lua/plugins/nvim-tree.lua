@@ -19,7 +19,7 @@ return {
 
 				api.config.mappings.default_on_attach(bufnr)
 
-				local utils = require("utils.explorer")
+				local utils = require("utils.nvim-tree")
 
 				vim.keymap.set(
 					"n",
