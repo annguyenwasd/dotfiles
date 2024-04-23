@@ -80,16 +80,25 @@ return {
 				},
 				actions = { open_file = { quit_on_open = true } },
 				renderer = {
-					indent_markers = { enable = true },
+					indent_markers = {
+						enable = true,
+						icons = {
+							edge = "|",
+							item = "|",
+							bottom = "-",
+							none = " ",
+							corner = "L",
+						},
+					},
 					icons = {
 						glyphs = {
 							default = "",
-              bookmark="m",
+							bookmark = "m",
 							symlink = "->",
 							modified = "~",
 							folder = {
 								arrow_closed = ">",
-								arrow_open = "<",
+								arrow_open = "v",
 								default = "",
 								open = "",
 								empty = "",
