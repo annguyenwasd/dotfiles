@@ -61,7 +61,7 @@ return {
 		keys = {
 			{
 				"<leader>o",
-				"<cmd>lua require('utils.explorer').find_files()<cr>",
+				"<cmd>lua require('utils.nvim-tree').find_files()<cr>",
 				desc = desc("telescope: find files"),
 			},
 			{
