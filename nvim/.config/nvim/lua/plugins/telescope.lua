@@ -154,6 +154,7 @@ return {
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 		config = function()
 			local fb = require("telescope").extensions.file_browser
+			local actions = require("telescope.actions")
 
 			require("telescope").setup({
 				extensions = {
@@ -170,6 +171,7 @@ return {
 								["d"] = fb.actions.remove,
 								["o"] = fb.actions.open,
 								["h"] = fb.actions.goto_parent_dir,
+								["l"] = actions.select_default,
 								["t"] = fb.actions.toggle_browser,
 							},
 						},
