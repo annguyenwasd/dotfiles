@@ -1,6 +1,6 @@
 local M = {}
 
-local config = function()
+M.dark = function()
 	require("nord").setup({
 		styles = {
 			keywords = { bold = false },
@@ -8,10 +8,6 @@ local config = function()
 			variables = { bold = true },
 		},
 	})
-end
-
-M.dark = function()
-	config()
 	vim.o.background = "dark"
 	set_theme("nord")
 end
