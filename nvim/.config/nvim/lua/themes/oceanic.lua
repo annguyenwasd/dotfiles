@@ -5,9 +5,4 @@ M.dark = function()
 	set_theme("OceanicNext")
 end
 
-M.light = function()
-	vim.o.background = "light"
-	set_theme("OceanicNextLight")
-end
-
 return M

@@ -11,14 +11,8 @@ local config = function()
 end
 
 M.dark = function()
+	config()
 	vim.o.background = "dark"
-	config()
-	set_theme("nord")
-end
-
-M.light = function()
-	vim.o.background = "light"
-	config()
 	set_theme("nord")
 end
 
