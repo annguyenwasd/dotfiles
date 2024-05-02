@@ -213,7 +213,7 @@ M.tsserver = function()
 	local settings = {
 		publish_diagnostic_on = "insert_leave",
 		jsx_close_tag = {
-			enable = true,
+			enable = false,
 			filetypes = { "javascriptreact", "typescriptreact" },
 		},
 		typescript = {
