@@ -7,6 +7,7 @@ return {
 			"b0o/schemastore.nvim",
 			"davidosomething/format-ts-errors.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			"folke/neodev.nvim",
 		},
 		config = function()
 			require("mason").setup()
@@ -33,6 +34,8 @@ return {
 					"eslint_d",
 				},
 			})
+
+			require("neodev").setup({})
 
 			local lsp = require("utils.lsp")
 			local on_attach = lsp.get_on_attach_fn()
