@@ -72,6 +72,16 @@ return {
 				desc = desc("git: push to origin"),
 			},
 			{
+				"<leader>GW",
+				function()
+					vim.cmd('G add -A')
+					vim.cmd('G commit -n -m "WIP"')
+					vim.cmd("AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease")
+				end,
+				silent = false,
+				desc = desc("git: add all -> create WIP commit -> push to origin"),
+			},
+			{
 				"gpt",
 				":AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>",
 				silent = false,
