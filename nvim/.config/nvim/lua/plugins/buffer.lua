@@ -12,7 +12,7 @@ return {
 		config = function()
 			require("bqf").setup({
 				preview = {
-					auto_preview = false,
+					auto_preview = true,
 					winblend = 0,
 					win_height = 999,
 				},

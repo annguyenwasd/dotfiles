@@ -24,12 +24,13 @@ return {
 
 			cmp.setup({
 				sorting = {
+          priority_weight= 1,
 					comparators = {
+						cmp.config.compare.kind,
 						cmp.config.compare.offset,
 						cmp.config.compare.exact,
 						cmp.config.compare.score,
 						require("cmp-under-comparator").under,
-						cmp.config.compare.kind,
 						cmp.config.compare.sort_text,
 						cmp.config.compare.length,
 						cmp.config.compare.order,
@@ -86,7 +87,6 @@ return {
 				sources = {
 					{ name = "nvim_lsp" },
 					{ name = "snippy" },
-					{ name = "env" },
 					{ name = "nvim_lua" },
 					{
 						name = "buffer",
@@ -97,6 +97,7 @@ return {
 							end,
 						},
 					},
+					{ name = "env" },
 				},
 			})
 		end,
