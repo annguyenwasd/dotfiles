@@ -11,7 +11,7 @@ return {
 			vim.opt.termguicolors = true
 		end,
 		keys = {
-			{ "<leader>n", "<cmd>NvimTreeToggle<cr>", desc = desc("nvim-tree: toggle") },
+			{ "<leader>ff", "<cmd>NvimTreeToggle<cr>", desc = desc("nvim-tree: toggle") },
 		},
 		config = function()
 			local function on_attach(bufnr)

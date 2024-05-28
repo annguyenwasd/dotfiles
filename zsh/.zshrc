@@ -206,3 +206,4 @@ zsh_command_time() {
 
 precmd_functions+=(_command_time_precmd)
 preexec_functions+=(_command_time_preexec)
+eval "$(zellij setup --generate-auto-start zsh)"

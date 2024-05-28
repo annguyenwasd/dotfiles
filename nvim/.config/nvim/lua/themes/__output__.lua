@@ -1,1 +1,1 @@
-require('themes.nord').dark()
+require('themes.oceanic').dark()

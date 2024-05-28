@@ -14,5 +14,9 @@ require("settings")
 require("autocmd")
 require("global-mapping")
 require("mappings")
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+	change_detection = {
+		notify = false,
+	},
+})
 require("themes.__output__")
