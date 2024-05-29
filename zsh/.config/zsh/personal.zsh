@@ -68,19 +68,4 @@ function s() {
  rm p.patch
  dd "Sync finished"
 }
-
-function aur() {
-  name=$1
-
-  if [[ ${2:=false} = "true" ]]; then
-    name="$1-git"
-  fi
-
-  cd ~/Desktop/
-  git clone https://aur.archlinux.org/$name.git
-  cd $name
-  makepkg -si
-  cd ..
-  rm -rf $name
-}
 # }}}
