@@ -30,13 +30,13 @@ function add_bare_string() {
         dir_path="${bare_path:t}/${PWD/$bare_path\//}"
   fi
 
-  PROMPT='$dir_path %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
+  PROMPT='$dir_path %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %(1j.[%j] .)%# '
 }
 
 
 # add ${vcs_info_msg_0} to the prompt
 # e.g. here we add the Git information in red
-PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %# '
+PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %(1j.[%j] .)%# '
 
 # Enable checking for (un)staged changes, enabling use of %u and %c
 zstyle ':vcs_info:*' check-for-changes true

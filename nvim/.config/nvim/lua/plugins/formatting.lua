@@ -27,6 +27,7 @@ return {
 				async = false,
 				timeout_ms = 1000,
 			})
+			vim.diagnostic.reset()
 			require("lint").try_lint()
 		end, { desc = desc("lsp: format file (range)") })
 	end,

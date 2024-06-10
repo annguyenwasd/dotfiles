@@ -197,5 +197,27 @@ vim.keymap.set("n", "<leader>K", function()
 	vim.api.nvim_command("help " .. w)
 end, { desc = desc("mappings: Show vim's documentation on current word"), noremap = true })
 
-vim.keymap.set("n", "<leader>vt", ":vsplit term://", { desc = desc("mappings: Open terminal with vertial split"), noremap = true })
-vim.keymap.set("n", "<leader>st", ":split term://", { desc = desc("mappings: Open terminal with horizontal split"), noremap = true })
+vim.keymap.set(
+	"n",
+	"<leader>vt",
+	":vsplit term://",
+	{ desc = desc("mappings: Open terminal with vertial split"), noremap = true }
+)
+vim.keymap.set(
+	"n",
+	"<leader>st",
+	":split term://",
+	{ desc = desc("mappings: Open terminal with horizontal split"), noremap = true }
+)
+-- vim.keymap.set({"n", "v", "i"}, "<UP>", function()
+-- 	vim.notify("disabled")
+-- end, { desc = desc("mappings: disabled key"), noremap = true })
+-- vim.keymap.set({"n", "v", "i"}, "<DOWN>", function()
+-- 	vim.notify("disabled")
+-- end, { desc = desc("mappings: disabled key"), noremap = true })
+-- vim.keymap.set({"n", "v", "i"}, "<LEFT>", function()
+-- 	vim.notify("disabled")
+-- end, { desc = desc("mappings: disabled key"), noremap = true })
+-- vim.keymap.set({"n", "v", "i"}, "<RIGHT>", function()
+-- 	vim.notify("disabled")
+-- end, { desc = desc("mappings: disabled key"), noremap = true })

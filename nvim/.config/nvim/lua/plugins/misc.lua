@@ -266,4 +266,12 @@ return {
 			})
 		end,
 	},
+	{
+		"zdcthomas/yop.nvim",
+		config = function()
+			require("yop").op_map({ "n", "v" }, "<leader>Rg", function(lines, info)
+				require("telescope.builtin").grep_string({ search = lines[1] })
+			end)
+		end,
+	},
 }

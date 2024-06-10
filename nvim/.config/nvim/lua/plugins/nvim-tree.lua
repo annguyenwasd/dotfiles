@@ -11,7 +11,7 @@ return {
 			vim.opt.termguicolors = true
 		end,
 		keys = {
-			{ "<leader>ff", "<cmd>NvimTreeToggle<cr>", desc = desc("nvim-tree: toggle") },
+			{ "<leader><leader>n", "<cmd>NvimTreeToggle<cr>", desc = desc("nvim-tree: toggle") },
 		},
 		config = function()
 			local function on_attach(bufnr)
@@ -120,11 +120,12 @@ return {
 				},
 				update_focused_file = { enable = true },
 				view = {
+					side = "right",
 					width = function()
 						return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
 					end,
 					float = {
-						enable = true,
+						enable = false,
 						open_win_config = function()
 							local screen_w = vim.opt.columns:get()
 							local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
