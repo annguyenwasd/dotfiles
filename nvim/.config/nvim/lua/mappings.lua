@@ -209,6 +209,19 @@ vim.keymap.set(
 	":split term://",
 	{ desc = desc("mappings: Open terminal with horizontal split"), noremap = true }
 )
+
+vim.keymap.set(
+	"n",
+	"<leader>vT",
+	":vsplit term://$SHELL<cr>",
+	{ desc = desc("mappings: Open terminal with vertial split with default shell"), noremap = true }
+)
+vim.keymap.set(
+	"n",
+	"<leader>sT",
+	":split term://$SHELL<cr>",
+	{ desc = desc("mappings: Open terminal with horizontal split with default shell"), noremap = true }
+)
 -- vim.keymap.set({"n", "v", "i"}, "<UP>", function()
 -- 	vim.notify("disabled")
 -- end, { desc = desc("mappings: disabled key"), noremap = true })

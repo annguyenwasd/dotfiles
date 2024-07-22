@@ -92,5 +92,6 @@
   "vim-unimpaired": { "branch": "master", "commit": "6d44a6dc2ec34607c41ec78acf81657248580bf1" },
   "vscode-js-debug": { "branch": "main", "commit": "6858e89c81bcdd83da649bbc0e4aa92f7ef4fe25" },
   "vscode.nvim": { "branch": "main", "commit": "3f3bd3efbd74bf1d9b78dce0c9672c917f28f9f5" },
-  "yop.nvim": { "branch": "main", "commit": "ec26d86cfa96783f6894babcc509e5287aef9a25" }
+  "yop.nvim": { "branch": "main", "commit": "ec26d86cfa96783f6894babcc509e5287aef9a25" },
+  "zen-mode.nvim": { "branch": "main", "commit": "a31cf7113db34646ca320f8c2df22cf1fbfc6f2a" }
 }

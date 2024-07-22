@@ -36,9 +36,14 @@ return {
 			},
 			{ "<leader>gL", "<cmd>GcLog<cr>", desc = desc("git: fugitive: show log") },
 			{
-				"<leader>gs",
+				"<leader>Gs",
 				"<cmd>G difftool --name-status<cr>",
 				desc = desc("git: show list of changed files in quickfix list"),
+			},
+			{
+				"<leader>gs",
+				"<cmd>G<cr>",
+				desc = desc("git: open git fugitive status"),
 			},
 			{
 				"<leader><leader>gs",
