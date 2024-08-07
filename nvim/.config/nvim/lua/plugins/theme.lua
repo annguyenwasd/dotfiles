@@ -9,12 +9,13 @@ return {
 	"ofirgall/ofirkai.nvim",
 	"rmehri01/onenord.nvim",
 	"Yazeed1s/minimal.nvim",
-	"kdheepak/monochrome.nvim",
 	"lourenci/github-colors",
 	"Mofiqul/dracula.nvim",
 	"lalitmee/cobalt2.nvim",
 	"metalelf0/jellybeans-nvim",
 	"josebalius/vim-light-chromeclipse",
   "folke/tokyonight.nvim",
-  "oxfist/night-owl.nvim"
+  "oxfist/night-owl.nvim",
+  "pbrisbin/vim-colors-off",
+  "annguyenwasd/nineties.nvim"
 }

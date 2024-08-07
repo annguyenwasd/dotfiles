@@ -1,1 +1,1 @@
-require('themes.oceanic').dark()
+require('themes.black_and_white').nineties()

@@ -1,7 +1,8 @@
 return {
-	"neovim/nvim-lspconfig",
+	{ "neovim/nvim-lspconfig", event = "BufReadPost" },
 	{
 		"williamboman/mason.nvim",
+		event = "BufReadPost",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
 			"b0o/schemastore.nvim",
@@ -14,17 +15,11 @@ return {
 			local mason_tool_installer = require("mason-tool-installer")
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"yamlls",
-					"jsonls",
 					"html",
-					"vimls",
 					"bashls",
-					"dockerls",
-					"cssls",
 					"lua_ls",
-					"eslint",
 				},
-				automatic_installation = true,
+				automatic_installation = false,
 			})
 
 			mason_tool_installer.setup({
@@ -58,6 +53,7 @@ return {
 	-- TODO: remove branch
 	{
 		"jinzhongjia/LspUI.nvim",
+		event = "BufReadPost",
 		enabled = false,
 		config = true,
 		branch = "legacy",
@@ -68,11 +64,13 @@ return {
 	},
 	{
 		"j-hui/fidget.nvim",
+		event = "BufReadPost",
 		tag = "legacy",
 		config = true,
 	},
 	{
 		"pmizio/typescript-tools.nvim",
+		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		config = function()
 			require("typescript-tools").setup(require("utils.lsp").tsserver())

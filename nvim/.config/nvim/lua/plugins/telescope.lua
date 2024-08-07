@@ -131,25 +131,25 @@ return {
 			{
 				"<leader>ws",
 				":Telescope lsp_dynamic_workspace_symbols<cr>",
-				desc = "telescope: lsp dynamic workspace symbols",
+				desc = desc("telescope: lsp dynamic workspace symbols"),
 				silent = false,
 			},
 			{
 				"<leader>qf",
 				":Telescope quickfix<cr>",
-				desc = "telescope: from quickfix list",
+				desc = desc("telescope: from quickfix list"),
 				silent = false,
 			},
 			{
 				"<leader>qh",
 				":Telescope quickfixhistory<cr>",
-				desc = "telescope: list quickfix history",
+				desc = desc("telescope: list quickfix history"),
 				silent = false,
 			},
 			{
 				"<leader>RG",
 				":Telescope grep_string<cr>",
-				desc = "telescope: grep current word",
+				desc = desc("telescope: grep current word"),
 				silent = false,
 			},
 		},
@@ -157,11 +157,12 @@ return {
 	{
 		"nvim-telescope/telescope-symbols.nvim",
 		keys = {
-			{ "<leader>ts", "<cmd>Telescope symbols<cr>" },
+			{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = desc("telescope: symbols") },
 		},
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
+		lazy = true,
 		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 		config = function()
 			require("telescope").load_extension("fzf")
@@ -222,6 +223,7 @@ return {
 				function()
 					require("telescope").extensions.egrepify.egrepify({})
 				end,
+				desc = desc("telescope: live grep"),
 			},
 		},
 	},

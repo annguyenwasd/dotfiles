@@ -11,7 +11,6 @@ return {
 	},
 	{
 		"tpope/vim-fugitive",
-		event = "VeryLazy",
 		init = function()
 			vim.api.nvim_create_autocmd("BufReadPost", {
 				group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer", { clear = true }),
@@ -97,7 +96,7 @@ return {
 
 	{
 		"lewis6991/gitsigns.nvim",
-		event = "VeryLazy",
+		event = "BufReadPre",
 		config = function()
 			require("gitsigns").setup({
 				sign_priority = 100,
@@ -199,11 +198,26 @@ return {
 		"ruifm/gitlinker.nvim",
 		config = function()
 			require("gitlinker").setup({
+				mappings = false,
 				callbacks = {
 					["github.aus.thenational.com"] = require("gitlinker.hosts").get_github_type_url,
 				},
 			})
 		end,
+		keys = {
+			{
+				"<leader>gy",
+				'<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>',
+				mode = "n",
+				desc = desc("git: copy url for current line"),
+			},
+			{
+				"<leader>gy",
+				'<cmd>lua require"gitlinker".get_buf_range_url("v")<cr>',
+				mode = "v",
+				desc = desc("git: copy url for current block"),
+			},
+		},
 	},
 	{
 		"ThePrimeagen/git-worktree.nvim",
@@ -217,14 +231,14 @@ return {
 				function()
 					require("telescope").extensions.git_worktree.git_worktrees()
 				end,
-				desc("git: worktree checkout"),
+				desc = desc("git: worktree checkout"),
 			},
 			{
 				"<leader>wj",
 				function()
 					require("telescope").extensions.git_worktree.create_git_worktree()
 				end,
-				desc("git: create git worktree"),
+				desc = desc("git: create git worktree"),
 			},
 		},
 	},

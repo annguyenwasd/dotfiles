@@ -2,6 +2,7 @@ local root = os.getenv("ANNGUYENWASD_JOURNAL_ROOT") or "~/.config/journal"
 
 return {
 	"jakobkhansen/journal.nvim",
+	cmd = "Journal",
 	config = function()
 		require("journal").setup({
 			root = root,

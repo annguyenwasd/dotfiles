@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
+		event = "BufReadPre",
 		config = function()
 			local function diff_source()
 				local gitsigns = vim.b.gitsigns_status_dict

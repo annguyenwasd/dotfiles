@@ -53,49 +53,49 @@ local get_on_attach_fn = function()
 			"n",
 			"<leader><leader>oi",
 			"<cmd>TSToolsOrganizeImports<CR>",
-			{ buffer = bufnr, desc = desc("lsp: Organize imports") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): Organize imports") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>si",
 			"<cmd>TSToolsSortImports<CR>",
-			{ buffer = bufnr, desc = desc("lsp: Sort imports") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): Sort imports") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>gd",
 			"<cmd>TSToolsGoToSourceDefinition<CR>",
-			{ buffer = bufnr, desc = desc("lsp: go to source definition (since TS v. 4.7)") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): go to source definition (since TS v. 4.7)") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>gr",
 			"<cmd>TSToolsFileReferences<CR>",
-			{ buffer = bufnr, desc = desc("lsp: go to file references (since TS v. 4.2)") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): go to file references (since TS v. 4.2)") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>ru",
 			"<cmd>TSToolsRemoveUnused<CR>",
-			{ buffer = bufnr, desc = desc("lsp: remove unused statements") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): remove unused statements") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>rf",
 			"<cmd>TSToolsRenameFile<CR>",
-			{ buffer = bufnr, desc = desc("lsp: Rename file") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): Rename file") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>i",
 			"<cmd>TSToolsAddMissingImports<CR>",
-			{ buffer = bufnr, desc = desc("lsp: Import missing imports") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): Import missing imports") }
 		)
 		vim.keymap.set(
 			"n",
 			"<leader><leader>fa",
 			"<cmd>TSToolsFixAll<CR>",
-			{ buffer = bufnr, desc = desc("lsp: fix all") }
+			{ buffer = bufnr, desc = desc("lsp(typescript): fix all - not sure if it works :)") }
 		)
 	end
 
@@ -177,7 +177,7 @@ local get_on_attach_fn = function()
 		)
 
 		vim.keymap.set("n", "<leader>da", function()
-			local diagnostics = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+			local diagnostics = vim.diagnostic.get(0, {})
 			local qflist = vim.diagnostic.toqflist(diagnostics)
 			vim.fn.setqflist(qflist)
 			vim.cmd("cw")
@@ -192,7 +192,7 @@ local get_on_attach_fn = function()
 		end, { buffer = bufnr, desc = desc("lsp: toggle diagnostic") })
 
 		vim.keymap.set("n", "<leader>dw", function()
-			vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+			vim.diagnostic.get(nil, {})
 			vim.diagnostic.setqflist()
 		end, { buffer = bufnr, desc = desc("lsp: show workspace diagnostics") })
 

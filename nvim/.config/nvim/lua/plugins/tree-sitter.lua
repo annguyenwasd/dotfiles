@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		event = "BufReadPost",
 		build = function()
 			require("nvim-treesitter.install").update({ with_sync = true })()
 		end,
@@ -13,7 +14,7 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",
-		lazy = false,
+		event = "BufReadPost",
 		keys = {
 			{
 				"{",
@@ -27,6 +28,7 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
+		event = "BufReadPost",
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				textobjects = {
@@ -77,6 +79,7 @@ return {
 
 	{
 		"nvim-treesitter/nvim-treesitter-refactor",
+		event = "BufReadPost",
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				refactor = {

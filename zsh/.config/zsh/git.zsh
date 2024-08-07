@@ -1,53 +1,3 @@
-# {{{ Show Git Info
-# Ref: https://salferrarello.com/zsh-git-status-prompt/
-# Autoload zsh add-zsh-hook and vcs_info functions (-U autoload w/o substition, -z use zsh style)
-autoload -Uz add-zsh-hook vcs_info
-# Enable substitution in the prompt.
-setopt prompt_subst
-# Run vcs_info just before a prompt is displayed (precmd)
-add-zsh-hook precmd vcs_info
-add-zsh-hook precmd add_bare_string
-
-function is_bare_repo() {
-  git config --local --get core.bare >/dev/null 2>&1
-  if [ $? -eq 0 ]; then
-
-    if $(git config --local --get core.bare) -eq true; then
-      true
-      return
-    fi
-  fi
-
-  false
-}
-
-function add_bare_string() {
-  bare_status=""
-  dir_path="%1~"
-  if is_bare_repo; then
-        bare_status="[bare]"
-        bare_path=$(git worktree list| grep "(bare)"|cut -d " " -f 1) # only get bare path
-        dir_path="${bare_path:t}/${PWD/$bare_path\//}"
-  fi
-
-  PROMPT='$dir_path %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %(1j.[%j] .)%# '
-}
-
-
-# add ${vcs_info_msg_0} to the prompt
-# e.g. here we add the Git information in red
-PROMPT='%1~ %F{yellow}$bare_status%F{white}${vcs_info_msg_0_}%f %(1j.[%j] .)%# '
-
-# Enable checking for (un)staged changes, enabling use of %u and %c
-zstyle ':vcs_info:*' check-for-changes true
-# Set custom strings for an unstaged vcs repo changes (*) and staged changes (+)
-zstyle ':vcs_info:*' unstagedstr ' *'
-zstyle ':vcs_info:*' stagedstr ' +'
-# Set the format of the Git information for vcs_info
-zstyle ':vcs_info:git:*' formats       '(%b%u%c)'
-zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
-# }}}
-
 # {{{ Alias
 alias lg="lazygit"
 
@@ -65,7 +15,6 @@ alias gca="git commit -v --amend"
 alias gcae="git commit -v --amend --no-edit"
 alias gce="git commit -e"
 
-alias gcm="gco master"
 alias gcd="gco develop"
 
 alias gf="git fetch"
@@ -290,4 +239,39 @@ function git_worktree_clean() {
   git worktree list|cut -ws -f 1|sed '1d;/.*\/master$/d;/.*\/develop$/d'|xargs -n 1 git worktree remove -f
 }
 
+function is_branch_exist() {
+  git rev-parse --verify $1 >/dev/null 2>&1
+
+  if [ $? = 0 ]; then
+    true
+  else
+    false
+  fi
+
+}
+
+function gcm() {
+  if is_branch_exist master ; then
+    gco master
+    return 0
+  fi
+
+  if is_branch_exist main ; then
+    gco main
+    return 0
+  fi
+}
+
+function is_bare_repo() {
+  git config --local --get core.bare >/dev/null 2>&1
+  if [ $? -eq 0 ]; then
+
+    if $(git config --local --get core.bare) -eq true; then
+      true
+      return
+    fi
+  fi
+
+  false
+}
 # }}}

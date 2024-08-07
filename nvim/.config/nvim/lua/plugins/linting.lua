@@ -11,18 +11,18 @@ return {
 			typescriptreact = { "eslint_d" },
 		}
 
-		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+		-- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
-		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+		--[[ vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			group = lint_augroup,
 			callback = function()
         vim.diagnostic.reset();
 				lint.try_lint()
 			end,
-		})
+		}) ]]
 		vim.keymap.set("n", "<leader>li", function()
-        vim.diagnostic.reset();
+			-- vim.diagnostic.reset()
 			lint.try_lint()
-		end, { desc = "lsp: Trigger linting for current file" })
+		end, { desc = desc("lsp: Trigger linting for current file") })
 	end,
 }

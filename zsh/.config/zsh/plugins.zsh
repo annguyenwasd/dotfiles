@@ -20,6 +20,10 @@ add_plugin "scresante/zsh-vi-mode" "fixpacman"
 add_plugin "popstas/zsh-command-time"
 add_plugin "mroth/evalcache"
 
+# TODO https://github.com/mafredri/zsh-async
+# https://github.com/wincent/wincent/blob/85fc42d9e96d408a/aspects/dotfiles/files/.zshrc
+add_plugin "mafredri/zsh-async"
+
 # Message to display (set to "" for disable).
 ZSH_COMMAND_TIME_MSG="Took: %s"
 

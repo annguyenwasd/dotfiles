@@ -1,18 +1,28 @@
-# {{{ Sources
-source $HOME/.config/zsh/plugins.zsh
-source $HOME/.config/zsh/git.zsh
-source $HOME/.config/zsh/personal.zsh
-source $HOME/.config/zsh/yr.zsh
-source $HOME/.config/zellij/mappings.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
-# }}}
+#
+# Start profiling (uncomment when necessary)
+#
+# See: https://stackoverflow.com/a/4351664/2103996
+
+# Per-command profiling:
+
+# zmodload zsh/datetime
+# setopt promptsubst
+# PS4='+$EPOCHREALTIME %N:%i> '
+# exec 3>&2 2> startlog.$$
+# setopt xtrace prompt_subst
+
+# Per-function profiling:
+
+# zmodload zsh/zprof
 
 # {{{ Settings
 # autocompletion
 autoload -Uz compinit && compinit
+autoload -Uz add-zsh-hook
+zmodload -F zsh/stat b:zstat
 setopt AUTO_CD
 setopt NOTIFY
+setopt prompt_subst
 
 # History
 HISTFILE="$HOME/.zsh_history"
@@ -34,6 +44,17 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 unsetopt BEEP
 # }}}
 
+# {{{ Sources
+source $HOME/.config/zsh/plugins.zsh
+source $HOME/.config/zsh/git.zsh
+source $HOME/.config/zsh/vcs-info.zsh
+source $HOME/.config/zsh/personal.zsh
+source $HOME/.config/zsh/yr.zsh
+source $HOME/.config/zellij/mappings.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
+# }}}
+
 # {{{ Exports
 export EDITOR=nvim
 export REACT_EDITOR=code
@@ -44,8 +65,6 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 #}}}
 
 # {{{ Alias
-alias c="code"
-alias cc="code ."
 alias grep="grep --color"
 alias ls="ls --color -L"
 
@@ -155,16 +174,38 @@ function dd() {
     osascript -e "display notification \"${1:=Done!}\" with title \"${2:=${PWD/~\//}}\" sound name \"Submarine\""
 }
 
+function install_rmm_dep() {
+  if [ $ANNGUYENWASD_PROFILE = "work" ]; then
+    nvmm
+    if ! type trash > /dev/null; then
+      npm i -g trash-cli
+    fi
+
+    if ! type empty-trash > /dev/null; then
+      npm i -g empty-trash-cli
+    fi
+
+  fi
+}
+
 # Fastest way to remove node_modules -> Non-block install new packages
 # by `npm install` or `yarn install`
 function rmm () {
+  install_rmm_dep
   if [[ "$1" = "-p" ]]; then
     find . -name "${2:=node_modules}" -type d -prune -exec echo '{}' ";"
   else
-    # Step 1: move all node_modules folder (recursively) to node_modules_rm
-    find . -name "${1:=node_modules}" -type d -prune -exec mv '{}' '{}_rm' ";"
-    # Step 2: Remove all node_modules_rm folders
-    find . -name "${1:=node_modules}_rm" -type d -prune -exec rm -rf '{}' + &
+    if [ $ANNGUYENWASD_PROFILE = "work" ]; then
+      nvmm
+      find . -name "${1:=node_modules}" -type d -prune -exec trash '{}' + &
+      
+      empty-trash 2> /dev/null &
+    else
+      # Step 1: move all node_modules folder (recursively) to node_modules_rm
+      find . -name "${1:=node_modules}" -type d -prune -exec mv '{}' '{}_rm' ";"
+      # Step 2: Remove all node_modules_rm folders
+      find . -name "${1:=node_modules}_rm" -type d -prune -exec rm -rf '{}' + &
+    fi
   fi
 }
 
@@ -217,3 +258,15 @@ zsh_command_time() {
 
 precmd_functions+=(_command_time_precmd)
 preexec_functions+=(_command_time_preexec)
+#
+# End profiling (uncomment when necessary)
+#
+
+# Per-command profiling:
+
+# unsetopt xtrace
+# exec 2>&3 3>&-
+
+# Per-function profiling:
+
+# zprof

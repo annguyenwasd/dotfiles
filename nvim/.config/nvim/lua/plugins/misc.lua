@@ -1,10 +1,9 @@
 return {
-	"cappyzawa/trim.nvim",
-	"godlygeek/tabular",
 	"jghauser/mkdir.nvim",
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
 
+	{ "godlygeek/tabular", cmd = "Tabularize" },
 	{
 		"szw/vim-maximizer",
 		keys = {
@@ -33,6 +32,7 @@ return {
 	},
 	{
 		"airblade/vim-rooter",
+		cmd = "Rooter",
 		init = function()
 			vim.g.rooter_patterns = { ".git" }
 			vim.g.rooter_manual_only = 1
@@ -128,6 +128,7 @@ return {
 	},
 	{
 		"skywind3000/asyncrun.vim",
+		cmd = "AsyncRun",
 		init = function()
 			vim.cmd([[
         augroup local-asyncrun
@@ -139,9 +140,10 @@ return {
 	},
 	{
 		"will133/vim-dirdiff",
+		cmd = "DirDiff",
 		init = function()
 			vim.g.DirDiffExcludes =
-				".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*"
+				".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*"
 		end,
 	},
 	{
@@ -152,14 +154,22 @@ return {
 	},
 	{
 		"andrewferrier/debugprint.nvim",
-		event = "VeryLazy",
 		config = true,
 		keys = {
-			{ "g?d", ":lua require('debugprint').deleteprints()<cr>", desc = "log debug line" },
+			"g?p",
+			"g?o",
+			"g?P",
+			"g?O",
+			{
+				"g?d",
+				":lua require('debugprint').deleteprints()<cr>",
+				desc = desc("debugprint: remove all debug lines in current file"),
+			},
 		},
 	},
 	{
 		"Wansmer/treesj",
+		event = "BufReadPost",
 		config = function()
 			require("treesj").setup({ use_default_keymaps = false, max_join_length = 99999999 })
 		end,
@@ -234,7 +244,6 @@ return {
 	},
 	{
 		"sontungexpt/url-open",
-		event = "VeryLazy",
 		cmd = "URLOpenUnderCursor",
 		config = function()
 			local status_ok, url_open = pcall(require, "url-open")
@@ -252,6 +261,7 @@ return {
 	},
 	{
 		"andymass/vim-matchup",
+		event = "BufReadPost",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 		},
@@ -268,6 +278,7 @@ return {
 	},
 	{
 		"zdcthomas/yop.nvim",
+		event = "BufReadPost",
 		config = function()
 			require("yop").op_map({ "n", "v" }, "<leader>Rg", function(lines, info)
 				require("telescope.builtin").grep_string({ search = lines[1] })
@@ -281,5 +292,9 @@ return {
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 		},
+	},
+	{
+		"cappyzawa/trim.nvim",
+		opts = {},
 	},
 }

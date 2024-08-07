@@ -11,7 +11,7 @@ _G.is_use_icons = function()
 end
 
 _G.set_theme = function(theme_name, lualine_theme)
-	vim.cmd("colorscheme " .. theme_name)
+	vim.cmd.colorscheme(theme_name)
 	if package.loaded["lualine"] ~= nil then
 		require("lualine").setup({ options = { theme = lualine_theme or theme_name } })
 	end
@@ -20,9 +20,14 @@ end
 _G.desc = function(desc)
 	local str
 	if desc ~= nil then
-		str = "[annguyenwasd ] " .. desc
+		str = "[annguyenwasd] " .. desc
   else
-		str = "[annguyenwasd ] No desc provided"
+		str = "[annguyenwasd] No desc provided"
 	end
 	return str
+end
+
+function _G.is_file_exist(path)
+   local f = io.open(path, "r")
+   return f ~= nil and io.close(f)
 end
