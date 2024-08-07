@@ -18,6 +18,7 @@ return {
 				["<C-t>"] = "actions.select_tab",
 				["<C-p>"] = "actions.preview",
 				["<C-c>"] = "actions.close",
+				["<c-y>"] = "actions.copy_entry_path",
 				["<C-r>"] = "actions.refresh",
 				["-"] = "actions.parent",
 				["<c-h>"] = "actions.parent",

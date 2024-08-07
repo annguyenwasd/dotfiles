@@ -36,9 +36,14 @@ return {
 			},
 			{ "<leader>gL", "<cmd>GcLog<cr>", desc = desc("git: fugitive: show log") },
 			{
-				"<leader>gs",
+				"<leader>Gs",
 				"<cmd>G difftool --name-status<cr>",
 				desc = desc("git: show list of changed files in quickfix list"),
+			},
+			{
+				"<leader>gs",
+				"<cmd>G<cr>",
+				desc = desc("git: open git fugitive status"),
 			},
 			{
 				"<leader><leader>gs",
@@ -74,7 +79,7 @@ return {
 			{
 				"<leader>GW",
 				function()
-					vim.cmd('G add -A')
+					vim.cmd("G add -A")
 					vim.cmd('G commit -n -m "WIP"')
 					vim.cmd("AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease")
 				end,
@@ -191,12 +196,36 @@ return {
 		end,
 	},
 	{
-		"tpope/vim-rhubarb",
-		event = "VeryLazy",
-		init = function()
-			if is_work_profile() then
-				vim.g.github_enterprise_urls = require("work").github_enterprise_urls
-			end
+		"ruifm/gitlinker.nvim",
+		config = function()
+			require("gitlinker").setup({
+				callbacks = {
+					["github.aus.thenational.com"] = require("gitlinker.hosts").get_github_type_url,
+				},
+			})
 		end,
+	},
+	{
+		"ThePrimeagen/git-worktree.nvim",
+		config = function()
+			require("git-worktree").setup({})
+			require("telescope").load_extension("git_worktree")
+		end,
+		keys = {
+			{
+				"<leader>wl",
+				function()
+					require("telescope").extensions.git_worktree.git_worktrees()
+				end,
+				desc("git: worktree checkout"),
+			},
+			{
+				"<leader>wj",
+				function()
+					require("telescope").extensions.git_worktree.create_git_worktree()
+				end,
+				desc("git: create git worktree"),
+			},
+		},
 	},
 }

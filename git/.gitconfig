@@ -56,3 +56,5 @@
 	whitespace = red reverse
 [pull]
 	rebase = false
+[rerere]
+	enabled = true

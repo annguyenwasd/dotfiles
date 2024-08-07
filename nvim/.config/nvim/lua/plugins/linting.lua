@@ -16,10 +16,12 @@ return {
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			group = lint_augroup,
 			callback = function()
+        vim.diagnostic.reset();
 				lint.try_lint()
 			end,
 		})
 		vim.keymap.set("n", "<leader>li", function()
+        vim.diagnostic.reset();
 			lint.try_lint()
 		end, { desc = "lsp: Trigger linting for current file" })
 	end,

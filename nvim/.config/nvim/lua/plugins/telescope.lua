@@ -134,6 +134,24 @@ return {
 				desc = "telescope: lsp dynamic workspace symbols",
 				silent = false,
 			},
+			{
+				"<leader>qf",
+				":Telescope quickfix<cr>",
+				desc = "telescope: from quickfix list",
+				silent = false,
+			},
+			{
+				"<leader>qh",
+				":Telescope quickfixhistory<cr>",
+				desc = "telescope: list quickfix history",
+				silent = false,
+			},
+			{
+				"<leader>RG",
+				":Telescope grep_string<cr>",
+				desc = "telescope: grep current word",
+				silent = false,
+			},
 		},
 	},
 	{

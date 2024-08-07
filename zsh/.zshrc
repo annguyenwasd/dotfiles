@@ -3,6 +3,7 @@ source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/personal.zsh
 source $HOME/.config/zsh/yr.zsh
+source $HOME/.config/zellij/mappings.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
 # }}}
@@ -46,10 +47,10 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 alias c="code"
 alias cc="code ."
 alias grep="grep --color"
-alias ls="ls --color"
+alias ls="ls --color -L"
 
 alias ll="ls -a"
-alias la="ls -la --color"
+alias la="ls -la --color -L"
 
 alias ez="nvim ~/.zshrc"
 alias ev="nvim ~/.config/nvim/init.lua"
@@ -58,7 +59,7 @@ alias sz="source ~/.zshrc && echo \"Sourced.\""
 
 alias w="cd $WORKSPACE_FOLDER"
 alias d="cd ~/Desktop"
-alias dot="cd $DOTFILES && [ ! $TMUX = '' ] && dn; nvim"
+alias dot="cd $DOTFILES && [ ! $TMUX = '' ] && dn; [ ! $ZELLIJ = '' ] && dn; nvim"
 
 alias mk="mkdir -vp"
 alias cl="clear"
@@ -94,6 +95,10 @@ function fw() {
       dn
     fi
 
+    if [ -n $ZELLIJ ] && $is_changed_tmux_window_name; then
+      dn
+    fi
+
     if is_bare_repo; then
       gcoo
       if [ $? -eq 1 ]
@@ -121,14 +126,20 @@ function fff() {
 
 # set tmux window title as current directoty
 function dn() {
-  if [ $TMUX ]; then
     window_name=$(echo ${PWD##*/})
     if is_bare_repo; then
         bare_path=$(get_bare_path) # only get bare path
         window_name=${bare_path:t}
     fi
+
+  if [ $TMUX ]; then
     tmux rename-window $window_name
   fi
+  
+  if [ $ZELLIJ ]; then
+   zellij action rename-tab $window_name
+  fi
+
 }
 
 # tmux layout

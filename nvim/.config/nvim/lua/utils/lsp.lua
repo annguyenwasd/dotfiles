@@ -183,6 +183,14 @@ local get_on_attach_fn = function()
 			vim.cmd("cw")
 		end, { buffer = bufnr, desc = desc("lsp: show document diagnostics") })
 
+		vim.keymap.set("n", "<leader>dt", function()
+			if vim.diagnostic.is_disabled() then
+				vim.diagnostic.enable()
+			else
+				vim.diagnostic.disable()
+			end
+		end, { buffer = bufnr, desc = desc("lsp: toggle diagnostic") })
+
 		vim.keymap.set("n", "<leader>dw", function()
 			vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
 			vim.diagnostic.setqflist()
