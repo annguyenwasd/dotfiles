@@ -14,8 +14,8 @@ return {
 	"lalitmee/cobalt2.nvim",
 	"metalelf0/jellybeans-nvim",
 	"josebalius/vim-light-chromeclipse",
-  "folke/tokyonight.nvim",
-  "oxfist/night-owl.nvim",
-  "pbrisbin/vim-colors-off",
-  "annguyenwasd/nineties.nvim"
+	"folke/tokyonight.nvim",
+	"oxfist/night-owl.nvim",
+	"pbrisbin/vim-colors-off",
+	{ "annguyenwasd/nineties.nvim", dir = "~/workspace/nineties" },
 }
