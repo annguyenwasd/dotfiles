@@ -2,11 +2,20 @@
 ! add Lock = Escape
 ! keysym Caps_Lock = Escape
 ! keysym Escape = Caps_Lock
-!
-! !Swap right control and right alt
+
+!Swap right control and right alt
 ! remove Control = Control_R
 ! remove Mod1 = Alt_R
 ! keycode 105 = Alt_R
 ! keycode 108 = Control_R
 ! add Control = Control_R
 ! add Mod1 = Alt_R
+
+! Swap left control and left alt
+remove Control = Control_L
+remove Mod1 = Alt_L
+keycode 37 = Alt_L 
+! 119 = Delete
+keycode 119 = Control_L
+add Control = Control_L
+add Mod1 = Alt_L
