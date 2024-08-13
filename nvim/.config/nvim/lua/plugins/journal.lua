@@ -7,12 +7,21 @@ return {
 		require("journal").setup({
 			root = root,
 		})
-		vim.keymap.set("n", "<leader>tj", function()
-			require("telescope.builtin").find_files({ cwd = root })
-		end, { desc = desc("Telescope: find in journal") })
-
-		vim.keymap.set("n", "<leader>Nj", function()
-			require("nvim-tree.api").tree.open({ path = vim.fn.expand(root) })
-		end, { desc = desc("NvimTree: tree in journal") })
 	end,
+	keys = {
+		{
+			"<leader>tj",
+			function()
+				require("telescope.builtin").find_files({ cwd = root })
+			end,
+			desc = desc("Telescope: find in journal"),
+		},
+		{
+			"<leader>Nj",
+			function()
+				require("nvim-tree.api").tree.open({ path = vim.fn.expand(root) })
+			end,
+			desc = desc("NvimTree: tree in journal"),
+		},
+	},
 }

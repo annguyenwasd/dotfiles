@@ -37,6 +37,6 @@ return {
 		})
 	end,
 	keys = {
-		{ "<leader>n", "<CMD>Oil<CR>", desc = desc("Open parent directory") },
+		{ "-", "<CMD>Oil<CR>", desc = desc("Open parent directory") },
 	},
 }

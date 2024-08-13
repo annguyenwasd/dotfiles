@@ -26,6 +26,7 @@ return {
 	},
 	{
 		"romainl/vim-cool", -- show highlight when search
+		enabled = false,
 		init = function()
 			vim.g.CoolTotalMatches = 1
 		end,
@@ -288,7 +289,11 @@ return {
 	},
 	{
 		"folke/zen-mode.nvim",
+		cmd = "ZenMode",
 		opts = {},
+		keys = {
+			{ "<leader>cc", "<cmd>ZenMode<cr>", desc = desc("Toggle zen mode") },
+		},
 	},
 	{
 		"michaelb/sniprun",

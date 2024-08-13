@@ -10,7 +10,7 @@ vim.opt.hlsearch = true
 vim.opt.expandtab = true
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.exrc = true
 vim.opt.secure = true
 vim.opt.clipboard = "unnamedplus"
@@ -36,3 +36,7 @@ vim.opt.swapfile = false
 vim.opt.keywordprg = ":help" -- set program for K (default)
 vim.opt.lazyredraw = false
 vim.opt.wrap = false
+
+_G.annguyenwasd = {
+  is_present_mode=false
+}

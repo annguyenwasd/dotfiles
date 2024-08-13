@@ -199,7 +199,9 @@ function gt () {
 
 function tobare() {
   # Remove all but not .git folder
-  ls -A1 | sed "/.git$/ d"|xargs rm -rf
+  for item in $(ls -A1 --color=never |grep --color=never -vE ".git$"); do
+    rm -rf $item
+  done
   mv ./.git/* .
   rm -rf .git
   git config --local core.bare true
@@ -207,7 +209,6 @@ function tobare() {
   gcb ${1:=master}
 
 }
-
 
 # Remove a git branch or branches
 # if stands in a bare repo, remove work tree first then remove branch

@@ -9,10 +9,13 @@ local THEME_FOLDER = "themes/"
 local APP_NAME = os.getenv("NVIM_APPNAME") or "nvim"
 local THEME_FOLDER_FULL_PATH = vim.fn.expand("$HOME/.config/" .. APP_NAME .. "/lua/" .. THEME_FOLDER)
 
+local function execute_theme(file_name, func_name)
+	require(THEME_FOLDER .. file_name)[func_name]()
+end
 local function write_file(file_name, func_name)
 	vim.fn.writefile(
 		{ "require('themes." .. file_name .. "')." .. func_name .. "()" },
-		THEME_FOLDER_FULL_PATH ..OUTPUT_FILE_NAME
+		THEME_FOLDER_FULL_PATH .. OUTPUT_FILE_NAME
 	)
 end
 
@@ -28,12 +31,12 @@ local pick_color = function(opts, file_name)
 			prompt_title = "Variant",
 			finder = finders.new_table(fns),
 			sorter = conf.generic_sorter(opts),
-			attach_mappings = function(prompt_bufnr, map)
+			attach_mappings = function(prompt_bufnr)
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
 					local selection = action_state.get_selected_entry()
 					local func_name = selection[1]
-					require(THEME_FOLDER .. file_name)[func_name]()
+					execute_theme(file_name, func_name)
 					write_file(file_name, func_name)
 				end)
 				return true
@@ -69,6 +72,12 @@ local pick_file = function(opts)
 		:find()
 end
 
-return function()
-	pick_file(require("telescope.themes").get_dropdown({}))
-end
+return {
+	choose = function()
+		pick_file(require("telescope.themes").get_dropdown({}))
+	end,
+	set = function(file_name, func_name)
+		execute_theme(file_name, func_name)
+		write_file(file_name, func_name)
+	end,
+}

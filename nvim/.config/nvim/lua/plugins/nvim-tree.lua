@@ -11,7 +11,7 @@ return {
 			vim.opt.termguicolors = true
 		end,
 		keys = {
-			{ "<leader><leader>n", "<cmd>NvimTreeToggle<cr>", desc = desc("nvim-tree: toggle") },
+			{ "<leader>n", "<cmd>NvimTreeToggle<cr>", desc = desc("nvim-tree: toggle") },
 		},
 		config = function()
 			local function on_attach(bufnr)
@@ -107,13 +107,13 @@ return {
 								symlink_open = "->",
 							},
 							git = {
-								unstaged = "~",
-								staged = "U",
+								unstaged = "",
+								staged = "",
 								unmerged = "",
-								renamed = "->",
-								untracked = "?",
-								deleted = "-",
-								ignored = "x",
+								renamed = "",
+								untracked = "",
+								deleted = "",
+								ignored = "",
 							},
 						},
 					},

@@ -89,7 +89,7 @@ return {
 			},
 			{
 				"<leader><leader>fc",
-				"<cmd>lua require('utils.theme-chooser')()<cr>",
+				"<cmd>lua require('utils.theme-chooser').choose()<cr>",
 				desc = desc("telescope: theme chooser"),
 			},
 			-- { "<leader>rg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", desc=desc("telescope: live grep")},

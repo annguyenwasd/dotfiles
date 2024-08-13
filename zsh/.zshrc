@@ -145,18 +145,18 @@ function fff() {
 
 # set tmux window title as current directoty
 function dn() {
-    window_name=$(echo ${PWD##*/})
-    if is_bare_repo; then
-        bare_path=$(get_bare_path) # only get bare path
-        window_name=${bare_path:t}
-    fi
+  window_name=$(echo ${PWD##*/})
+  if is_bare_repo; then
+    bare_path=$(get_bare_path) # only get bare path
+    window_name=${bare_path:t}
+  fi
 
   if [ $TMUX ]; then
     tmux rename-window $window_name
   fi
-  
+
   if [ $ZELLIJ ]; then
-   zellij action rename-tab $window_name
+    zellij action rename-tab $window_name
   fi
 
 }
@@ -171,41 +171,37 @@ function tl() {
 
 function dd() {
   # osascript -e 'display notification "hello world!" with title "Greeting" subtitle "More text" sound name "Submarine"'
-    osascript -e "display notification \"${1:=Done!}\" with title \"${2:=${PWD/~\//}}\" sound name \"Submarine\""
+  osascript -e "display notification \"${1:=Done!}\" with title \"${2:=${PWD/~\//}}\" sound name \"Submarine\""
 }
 
-function install_rmm_dep() {
-  if [ $ANNGUYENWASD_PROFILE = "work" ]; then
-    nvmm
-    if ! type trash > /dev/null; then
-      npm i -g trash-cli
-    fi
-
-    if ! type empty-trash > /dev/null; then
-      npm i -g empty-trash-cli
-    fi
-
-  fi
+# output example: 679-764-994-561-683-256-584-774
+function unique_name() {
+  local numbers=( )
+  for n in {1..8} ; do
+    # random a xxx number
+    local num=$(jot -r 1 999)
+    numbers+=($num)
+  done
+  # join by '-' character
+  echo ${(j:-:)numbers}
 }
 
 # Fastest way to remove node_modules -> Non-block install new packages
 # by `npm install` or `yarn install`
 function rmm () {
-  install_rmm_dep
+  local trash_dir_name=$(unique_name)
+  local trash_dir_path="/tmp/trash/$trash_dir_name"
+  mkdir -p $trash_dir_path
+
   if [[ "$1" = "-p" ]]; then
     find . -name "${2:=node_modules}" -type d -prune -exec echo '{}' ";"
   else
-    if [ $ANNGUYENWASD_PROFILE = "work" ]; then
-      nvmm
-      find . -name "${1:=node_modules}" -type d -prune -exec trash '{}' + &
-      
-      empty-trash 2> /dev/null &
-    else
-      # Step 1: move all node_modules folder (recursively) to node_modules_rm
-      find . -name "${1:=node_modules}" -type d -prune -exec mv '{}' '{}_rm' ";"
-      # Step 2: Remove all node_modules_rm folders
-      find . -name "${1:=node_modules}_rm" -type d -prune -exec rm -rf '{}' + &
-    fi
+    local list=( $(find . -name "${1:=node_modules}" -type d -prune|sed "s/\.\///") )
+    for dir in $list; do
+      local new_name=$(unique_name)
+      mv -f $dir $trash_dir_path/$new_name
+    done
+    rm -rf $trash_dir_path &
   fi
 }
 

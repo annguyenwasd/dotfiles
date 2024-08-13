@@ -18,16 +18,16 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 --[[ 	command = "setlocal foldlevel=1", ]]
 --[[ }) ]]
 
-local cursor_line_only_in_active_window = vim.api.nvim_create_augroup("CursorLineOnlyInActiveWindow", { clear = true })
-
-vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
-	group = cursor_line_only_in_active_window,
-	pattern = "*",
-	command = "setlocal cursorline",
-})
-
-vim.api.nvim_create_autocmd("WinLeave", {
-	group = cursor_line_only_in_active_window,
-	pattern = "*",
-	command = "setlocal nocursorline",
-})
+-- local cursor_line_only_in_active_window = vim.api.nvim_create_augroup("CursorLineOnlyInActiveWindow", { clear = true })
+--
+-- vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
+-- 	group = cursor_line_only_in_active_window,
+-- 	pattern = "*",
+-- 	command = "setlocal cursorline",
+-- })
+--
+-- vim.api.nvim_create_autocmd("WinLeave", {
+-- 	group = cursor_line_only_in_active_window,
+-- 	pattern = "*",
+-- 	command = "setlocal nocursorline",
+-- })
