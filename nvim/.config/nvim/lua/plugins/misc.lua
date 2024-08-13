@@ -256,6 +256,7 @@ return {
 			{
 				"<leader>gh",
 				"<cmd>URLOpenUnderCursor<cr>",
+				desc = desc("Open url/githut repo under cursor"),
 			},
 		},
 	},
@@ -287,11 +288,7 @@ return {
 	},
 	{
 		"folke/zen-mode.nvim",
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-		},
+		opts = {},
 	},
 	{
 		"michaelb/sniprun",
@@ -312,8 +309,8 @@ return {
 	},
 	{
 		"cappyzawa/trim.nvim",
-		cmd = { "Trim", "TrimToggle"},
-    event="BufWritePre",
+		cmd = { "Trim", "TrimToggle" },
+		event = "BufWritePre",
 		opts = {},
 	},
 }
