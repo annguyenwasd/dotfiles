@@ -64,9 +64,18 @@ return {
 	},
 	{
 		"j-hui/fidget.nvim",
+		enabled = false,
 		event = "BufReadPost",
 		tag = "legacy",
 		config = true,
+	},
+	{
+		"deathbeam/lspecho.nvim",
+		event = "BufReadPost",
+		opts = {
+			echo = true, -- Echo progress messages, if set to false you can use .message() to get the current message
+			decay = 3000, -- Message decay time in milliseconds
+		},
 	},
 	{
 		"pmizio/typescript-tools.nvim",
