@@ -293,4 +293,21 @@ return {
 			-- refer to the configuration section below
 		},
 	},
+	{
+		"michaelb/sniprun",
+		build = "sh ./install.sh 1",
+		opts = {
+			display = {
+				"VirtualText",
+			},
+		},
+		keys = {
+			{
+				mode = { "n", "v" },
+				"<leader>sr",
+				"<cmd>SnipRun<cr>",
+				desc = desc("Run current line/visual"),
+			},
+		},
+	},
 }
