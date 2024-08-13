@@ -310,4 +310,10 @@ return {
 			},
 		},
 	},
+	{
+		"cappyzawa/trim.nvim",
+		cmd = { "Trim", "TrimToggle"},
+    event="BufWritePre",
+		opts = {},
+	},
 }
