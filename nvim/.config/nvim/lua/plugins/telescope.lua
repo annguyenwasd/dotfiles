@@ -44,13 +44,11 @@ return {
 						i = {
 							["<c-e>"] = actions.send_selected_to_qflist + actions.open_qflist,
 							["<c-s>"] = actions.select_horizontal,
-							["<c-h>"] = actions.which_key,
 							["<c-\\>"] = actions_layout.toggle_preview,
 						},
 						n = {
 							["<c-e>"] = actions.send_selected_to_qflist + actions.open_qflist,
 							["<c-s>"] = actions.select_horizontal,
-							["<c-h>"] = actions.which_key,
 							["<c-d>"] = actions.delete_buffer,
 							["<c-\\>"] = actions_layout.toggle_preview,
 						},
@@ -215,6 +213,52 @@ return {
 		"fdschmidt93/telescope-egrepify.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 		config = function()
+			local egrep_actions = require("telescope._extensions.egrepify.actions")
+			require("telescope").setup({
+				extensions = {
+					egrepify = {
+						-- intersect tokens in prompt ala "str1.*str2" that ONLY matches
+						-- if str1 and str2 are consecutively in line with anything in between (wildcard)
+						AND = true, -- default
+						permutations = true, -- opt-in to imply AND & match all permutations of prompt tokens
+						lnum = true, -- default, not required
+						lnum_hl = "EgrepifyLnum", -- default, not required, links to `Constant`
+						col = false, -- default, not required
+						col_hl = "EgrepifyCol", -- default, not required, links to `Constant`
+						title = true, -- default, not required, show filename as title rather than inline
+						filename_hl = "EgrepifyFile", -- default, not required, links to `Title`
+						results_ts_hl = false, -- set to true if you want results ts highlighting, may increase latency!
+						-- suffix = long line, see screenshot
+						-- EXAMPLE ON HOW TO ADD PREFIX!
+						prefixes = {
+							-- ADDED ! to invert matches
+							-- example prompt: ! sorter
+							-- matches all lines that do not comprise sorter
+							-- rg --invert-match -- sorter
+							["!"] = {
+								flag = "glob",
+								cb = function(input)
+									return string.format([[!*{%s}*]], input)
+								end,
+							},
+							-- HOW TO OPT OUT OF PREFIX
+							-- ^ is not a default prefix and safe example
+							["^"] = false,
+						},
+						-- default mappings
+						mappings = {
+							i = {
+								-- toggle prefixes, prefixes is default
+								["<C-z>"] = egrep_actions.toggle_prefixes,
+								-- toggle AND, AND is default, AND matches tokens and any chars in between
+								["<C-x>"] = egrep_actions.toggle_and,
+								-- toggle permutations, permutations of tokens is opt-in
+								["<C-r>"] = egrep_actions.toggle_permutations,
+							},
+						},
+					},
+				},
+			})
 			require("telescope").load_extension("egrepify")
 		end,
 		keys = {
