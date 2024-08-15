@@ -62,10 +62,11 @@ export WORKSPACE_FOLDER=~/workspace
 export NVIM_HOME=~/.config/nvim/
 export TERM=xterm-256color
 export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 #}}}
 
 # {{{ Alias
-alias grep="grep --color"
+alias manrg="rg --generate man | man -l -"
 
 alias ll="ls -a"
 alias la="ls -la"
