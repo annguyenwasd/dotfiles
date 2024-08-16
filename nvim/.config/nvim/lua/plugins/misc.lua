@@ -11,20 +11,6 @@ return {
 		},
 	},
 	{
-		"shortcuts/no-neck-pain.nvim",
-		config = function()
-			require("no-neck-pain").setup({
-				width = 120,
-				mappings = {
-					enabled = false,
-				},
-			})
-		end,
-		keys = {
-			{ "<leader>cc", ":NoNeckPain<cr>", desc = desc("utils: toggle NoNeckPain") },
-		},
-	},
-	{
 		"romainl/vim-cool", -- show highlight when search
 		enabled = false,
 		init = function()
@@ -131,12 +117,12 @@ return {
 		"skywind3000/asyncrun.vim",
 		cmd = "AsyncRun",
 		init = function()
-			vim.cmd([[
-        augroup local-asyncrun
-          au!
-          au User AsyncRunStop copen | wincmd p
-        augroup END
-     ]])
+			-- vim.cmd([[
+   --      augroup local-asyncrun
+   --        au!
+   --        au User AsyncRunStop copen | wincmd p
+   --      augroup END
+   --   ]])
 		end,
 	},
 	{

@@ -150,6 +150,11 @@ return {
 				desc = desc("telescope: grep current word"),
 				silent = false,
 			},
+			{
+				"<leader>ss",
+				":Telescope spell_suggest<cr>",
+				desc = desc("telescope: suggets spell correction under cursor"),
+			},
 		},
 	},
 	{
