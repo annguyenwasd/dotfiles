@@ -141,7 +141,35 @@ return {
 	},
 	{
 		"andrewferrier/debugprint.nvim",
-		config = true,
+		opts = function()
+			local js = {
+				left = 'console.log("',
+				right = '")',
+				mid_var = '", ',
+				right_var = ")",
+				---@param node TSNode
+				find_treesitter_variable = function(node)
+					if node:type() == "property_identifier" and node:parent() ~= nil then
+						local parent = node:parent()
+						---@cast parent TSNode
+						return vim.treesitter.get_node_text(parent, 0)
+					elseif node:type() == "identifier" then
+						return vim.treesitter.get_node_text(node, 0)
+					else
+						return nil
+					end
+				end,
+			}
+
+			return {
+				filetypes = {
+					["javascript"] = js,
+					["javascriptreact"] = js,
+					["typescript"] = js,
+					["typescriptreact"] = js,
+				},
+			}
+		end,
 		keys = {
 			"g?p",
 			"g?o",
