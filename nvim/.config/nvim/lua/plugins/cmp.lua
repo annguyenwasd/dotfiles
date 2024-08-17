@@ -2,33 +2,6 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		event = "BufReadPost",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-nvim-lua",
-			"hrsh7th/nvim-cmp",
-			"lukas-reineke/cmp-under-comparator",
-			"dcampos/nvim-snippy",
-			{
-				"dcampos/cmp-snippy",
-				config = function()
-					require("snippy").setup({
-						mappings = {
-							is = {
-								["<c-j>"] = "expand",
-								["<c-l>"] = "next",
-								["<c-h>"] = "previous",
-							},
-							nx = {
-								["<leader>x"] = "cut_text",
-							},
-						},
-					})
-				end,
-			},
-			"honza/vim-snippets",
-			"bydlw98/cmp-env",
-		},
 		config = function()
 			local cmp = require("cmp")
 
@@ -90,21 +63,48 @@ return {
 				},
 			})
 		end,
-	},
-	{
-		"onsails/lspkind-nvim",
-		cond = is_use_icons,
-		config = function()
-			local lspkind = require("lspkind")
-			require("cmp").setup({
-				formatting = {
-					format = lspkind.cmp_format({
-						mode = "symbol", -- show only symbol annotations
-						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-					}),
-				},
-			})
-		end,
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-nvim-lua",
+			"hrsh7th/nvim-cmp",
+			"lukas-reineke/cmp-under-comparator",
+			"bydlw98/cmp-env",
+			"dcampos/nvim-snippy",
+			"honza/vim-snippets",
+			{
+				"dcampos/cmp-snippy",
+				config = function()
+					require("snippy").setup({
+						mappings = {
+							is = {
+								["<c-j>"] = "expand",
+								["<c-l>"] = "next",
+								["<c-h>"] = "previous",
+							},
+							nx = {
+								["<leader>x"] = "cut_text",
+							},
+						},
+					})
+				end,
+			},
+			{
+				"onsails/lspkind-nvim",
+				cond = is_use_icons,
+				config = function()
+					local lspkind = require("lspkind")
+					require("cmp").setup({
+						formatting = {
+							format = lspkind.cmp_format({
+								mode = "symbol", -- show only symbol annotations
+								maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+								ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+							}),
+						},
+					})
+				end,
+			},
+		},
 	},
 }
