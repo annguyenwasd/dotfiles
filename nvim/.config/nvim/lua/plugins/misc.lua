@@ -1,7 +1,5 @@
 return {
 	"jghauser/mkdir.nvim",
-	"nvim-lua/plenary.nvim",
-	"nvim-lua/popup.nvim",
 
 	{ "godlygeek/tabular", cmd = "Tabularize" },
 	{
@@ -32,88 +30,6 @@ return {
 		},
 	},
 	{
-		"ThePrimeagen/harpoon",
-		keys = {
-			{
-				"ma",
-				function()
-					require("harpoon.mark").add_file()
-				end,
-				desc = desc("harpoon: add file to harpoon list"),
-			},
-			{
-				"mq",
-				function()
-					require("harpoon.ui").toggle_quick_menu()
-				end,
-				desc = desc("harpoon: show list of bookmarks"),
-			},
-			{
-				"'1",
-				function()
-					require("harpoon.ui").nav_file(1)
-				end,
-				desc = desc("harpoon: navigate to file #1"),
-			},
-			{
-				"'2",
-				function()
-					require("harpoon.ui").nav_file(2)
-				end,
-				desc = desc("harpoon: navigate to file #2"),
-			},
-			{
-				"'3",
-				function()
-					require("harpoon.ui").nav_file(3)
-				end,
-				desc = desc("harpoon: navigate to file #3"),
-			},
-			{
-				"'4",
-				function()
-					require("harpoon.ui").nav_file(4)
-				end,
-				desc = desc("harpoon: navigate to file #4"),
-			},
-			{
-				"'5",
-				function()
-					require("harpoon.ui").nav_file(5)
-				end,
-				desc = desc("harpoon: navigate to file #5"),
-			},
-			{
-				"'6",
-				function()
-					require("harpoon.ui").nav_file(6)
-				end,
-				desc = desc("harpoon: navigate to file #6"),
-			},
-			{
-				"'7",
-				function()
-					require("harpoon.ui").nav_file(7)
-				end,
-				desc = desc("harpoon: navigate to file #7"),
-			},
-			{
-				"'8",
-				function()
-					require("harpoon.ui").nav_file(8)
-				end,
-				desc = desc("harpoon: navigate to file #8"),
-			},
-			{
-				"'9",
-				function()
-					require("harpoon.ui").nav_file(9)
-				end,
-				desc = desc("harpoon: navigate to file #9"),
-			},
-		},
-	},
-	{
 		"skywind3000/asyncrun.vim",
 		cmd = "AsyncRun",
 		init = function()
@@ -135,59 +51,13 @@ return {
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
+		event = "BufReadPost",
 		config = function()
 			require("colorizer").setup()
 		end,
 	},
 	{
-		"andrewferrier/debugprint.nvim",
-		opts = function()
-			local js = {
-				left = 'console.log("',
-				right = '")',
-				mid_var = '", ',
-				right_var = ")",
-				---@param node TSNode
-				find_treesitter_variable = function(node)
-					if node:type() == "property_identifier" and node:parent() ~= nil then
-						local parent = node:parent()
-						---@cast parent TSNode
-						return vim.treesitter.get_node_text(parent, 0)
-					elseif node:type() == "identifier" then
-						return vim.treesitter.get_node_text(node, 0)
-					else
-						return nil
-					end
-				end,
-			}
-
-			return {
-				print_tag = "ANNGUYENWASD",
-				filetypes = {
-					["javascript"] = js,
-					["javascriptreact"] = js,
-					["typescript"] = js,
-					["typescriptreact"] = js,
-				},
-			}
-		end,
-		keys = {
-			"g?p",
-			"g?P",
-			"g?o",
-			"g?O",
-			"g?v",
-			"g?V",
-			{
-				"g?d",
-				":lua require('debugprint').deleteprints()<cr>",
-				desc = desc("debugprint: remove all debug lines in current file"),
-			},
-		},
-	},
-	{
 		"Wansmer/treesj",
-		event = "BufReadPost",
 		config = function()
 			require("treesj").setup({ use_default_keymaps = false, max_join_length = 99999999 })
 		end,
@@ -225,6 +95,7 @@ return {
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
+		event = "VeryLazy",
 		cond = is_use_icons,
 		config = function()
 			require("nvim-web-devicons").setup({

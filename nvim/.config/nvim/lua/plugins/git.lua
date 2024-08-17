@@ -11,17 +11,17 @@ return {
 	},
 	{
 		"tpope/vim-fugitive",
+		lazy = false,
 		init = function()
-			vim.api.nvim_create_autocmd("BufReadPost", {
-				group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer", { clear = true }),
-				pattern = "fugitive://*",
-				command = "set bufhidden=delete",
-			})
+			-- vim.api.nvim_create_autocmd("BufReadPost", {
+			-- 	group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer", { clear = true }),
+			-- 	pattern = "fugitive://*",
+			-- 	command = "set bufhidden=delete",
+			-- })
 
 			-- Not gonna show shit messages when run git hook via husky
 			vim.g.fugitive_pty = 0
 		end,
-		cmd = "G",
 		keys = {
 			{
 				"<leader>gf",
@@ -80,7 +80,9 @@ return {
 				function()
 					vim.cmd("G add -A")
 					vim.cmd('G commit -n -m "WIP"')
-					vim.cmd("AsyncRun -pos=bottom -rows=10 -fucus=0 git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease")
+					vim.cmd(
+						"AsyncRun -pos=bottom -rows=10 -fucus=0 git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease"
+					)
 				end,
 				silent = false,
 				desc = desc("git: add all -> create WIP commit -> push to origin"),

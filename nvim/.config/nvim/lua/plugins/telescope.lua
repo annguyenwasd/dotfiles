@@ -2,8 +2,8 @@ return {
 	{
 		-- TODO: remove tag
 		"nvim-telescope/telescope.nvim",
+		cmd = "Telescope",
 		tag = "0.1.5",
-		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local actions = require("telescope.actions")
 			local actions_layout = require("telescope.actions.layout")
@@ -56,6 +56,7 @@ return {
 				},
 			})
 		end,
+
 		keys = {
 			{
 				"<leader>o",
@@ -156,123 +157,125 @@ return {
 				desc = desc("telescope: suggets spell correction under cursor"),
 			},
 		},
-	},
-	{
-		"nvim-telescope/telescope-symbols.nvim",
-		keys = {
-			{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = desc("telescope: symbols") },
-		},
-	},
-	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		lazy = true,
-		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-		config = function()
-			require("telescope").load_extension("fzf")
-		end,
-	},
-	{
-		"nvim-telescope/telescope-file-browser.nvim",
-		enabled = false,
-		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-		config = function()
-			local fb = require("telescope").extensions.file_browser
-			local actions = require("telescope.actions")
 
-			require("telescope").setup({
-				extensions = {
-					file_browser = {
-						initial_mode = "normal",
-						-- disables netrw and use telescope-file-browser in its place
-						hijack_netrw = true,
-						mappings = {
-							["n"] = {
-								["a"] = fb.actions.create,
-								["r"] = fb.actions.rename,
-								["x"] = fb.actions.move,
-								["c"] = fb.actions.copy,
-								["d"] = fb.actions.remove,
-								["o"] = fb.actions.open,
-								["h"] = fb.actions.goto_parent_dir,
-								["l"] = actions.select_default,
-								["t"] = fb.actions.toggle_browser,
-							},
-						},
-					},
-				},
-			})
-
-			require("telescope").load_extension("file_browser")
-		end,
-		keys = {
+		dependencies = {
+			"nvim-lua/plenary.nvim",
 			{
-				"<leader>ff",
-				function()
-					local fb = require("telescope").extensions.file_browser
-					fb.file_browser({ path = "%:h", hidden = true, hide_parent_dir = true })
+				"nvim-telescope/telescope-symbols.nvim",
+				keys = {
+					{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = desc("telescope: symbols") },
+				},
+			},
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+				config = function()
+					require("telescope").load_extension("fzf")
 				end,
 			},
-		},
-	},
-	{
-		"fdschmidt93/telescope-egrepify.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-		config = function()
-			local egrep_actions = require("telescope._extensions.egrepify.actions")
-			require("telescope").setup({
-				extensions = {
-					egrepify = {
-						-- intersect tokens in prompt ala "str1.*str2" that ONLY matches
-						-- if str1 and str2 are consecutively in line with anything in between (wildcard)
-						AND = true, -- default
-						permutations = true, -- opt-in to imply AND & match all permutations of prompt tokens
-						lnum = true, -- default, not required
-						lnum_hl = "EgrepifyLnum", -- default, not required, links to `Constant`
-						col = false, -- default, not required
-						col_hl = "EgrepifyCol", -- default, not required, links to `Constant`
-						title = true, -- default, not required, show filename as title rather than inline
-						filename_hl = "EgrepifyFile", -- default, not required, links to `Title`
-						results_ts_hl = false, -- set to true if you want results ts highlighting, may increase latency!
-						-- suffix = long line, see screenshot
-						-- EXAMPLE ON HOW TO ADD PREFIX!
-						prefixes = {
-							-- ADDED ! to invert matches
-							-- example prompt: ! sorter
-							-- matches all lines that do not comprise sorter
-							-- rg --invert-match -- sorter
-							["!"] = {
-								flag = "glob",
-								cb = function(input)
-									return string.format([[!*{%s}*]], input)
-								end,
-							},
-							-- HOW TO OPT OUT OF PREFIX
-							-- ^ is not a default prefix and safe example
-							["^"] = false,
-						},
-						-- default mappings
-						mappings = {
-							i = {
-								-- toggle prefixes, prefixes is default
-								["<C-z>"] = egrep_actions.toggle_prefixes,
-								-- toggle AND, AND is default, AND matches tokens and any chars in between
-								["<C-x>"] = egrep_actions.toggle_and,
-								-- toggle permutations, permutations of tokens is opt-in
-								["<C-r>"] = egrep_actions.toggle_permutations,
+			{
+				"nvim-telescope/telescope-file-browser.nvim",
+				enabled = false,
+				dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+				config = function()
+					local fb = require("telescope").extensions.file_browser
+					local actions = require("telescope.actions")
+
+					require("telescope").setup({
+						extensions = {
+							file_browser = {
+								initial_mode = "normal",
+								-- disables netrw and use telescope-file-browser in its place
+								hijack_netrw = true,
+								mappings = {
+									["n"] = {
+										["a"] = fb.actions.create,
+										["r"] = fb.actions.rename,
+										["x"] = fb.actions.move,
+										["c"] = fb.actions.copy,
+										["d"] = fb.actions.remove,
+										["o"] = fb.actions.open,
+										["h"] = fb.actions.goto_parent_dir,
+										["l"] = actions.select_default,
+										["t"] = fb.actions.toggle_browser,
+									},
+								},
 							},
 						},
+					})
+
+					require("telescope").load_extension("file_browser")
+				end,
+				keys = {
+					{
+						"<leader>ff",
+						function()
+							local fb = require("telescope").extensions.file_browser
+							fb.file_browser({ path = "%:h", hidden = true, hide_parent_dir = true })
+						end,
 					},
 				},
-			})
-			require("telescope").load_extension("egrepify")
-		end,
-		keys = {
+			},
 			{
-				"<leader>rg",
-				function()
-					require("telescope").extensions.egrepify.egrepify({})
+				"fdschmidt93/telescope-egrepify.nvim",
+				config = function()
+					local egrep_actions = require("telescope._extensions.egrepify.actions")
+					require("telescope").setup({
+						extensions = {
+							egrepify = {
+								-- intersect tokens in prompt ala "str1.*str2" that ONLY matches
+								-- if str1 and str2 are consecutively in line with anything in between (wildcard)
+								AND = true, -- default
+								permutations = true, -- opt-in to imply AND & match all permutations of prompt tokens
+								lnum = true, -- default, not required
+								lnum_hl = "EgrepifyLnum", -- default, not required, links to `Constant`
+								col = false, -- default, not required
+								col_hl = "EgrepifyCol", -- default, not required, links to `Constant`
+								title = true, -- default, not required, show filename as title rather than inline
+								filename_hl = "EgrepifyFile", -- default, not required, links to `Title`
+								results_ts_hl = false, -- set to true if you want results ts highlighting, may increase latency!
+								-- suffix = long line, see screenshot
+								-- EXAMPLE ON HOW TO ADD PREFIX!
+								prefixes = {
+									-- ADDED ! to invert matches
+									-- example prompt: ! sorter
+									-- matches all lines that do not comprise sorter
+									-- rg --invert-match -- sorter
+									["!"] = {
+										flag = "glob",
+										cb = function(input)
+											return string.format([[!*{%s}*]], input)
+										end,
+									},
+									-- HOW TO OPT OUT OF PREFIX
+									-- ^ is not a default prefix and safe example
+									["^"] = false,
+								},
+								-- default mappings
+								mappings = {
+									i = {
+										-- toggle prefixes, prefixes is default
+										["<C-z>"] = egrep_actions.toggle_prefixes,
+										-- toggle AND, AND is default, AND matches tokens and any chars in between
+										["<C-x>"] = egrep_actions.toggle_and,
+										-- toggle permutations, permutations of tokens is opt-in
+										["<C-r>"] = egrep_actions.toggle_permutations,
+									},
+								},
+							},
+						},
+					})
+					require("telescope").load_extension("egrepify")
 				end,
-				desc = desc("telescope: live grep"),
+				keys = {
+					{
+						"<leader>rg",
+						function()
+							require("telescope").extensions.egrepify.egrepify({})
+						end,
+						desc = desc("telescope: live grep"),
+					},
+				},
 			},
 		},
 	},

@@ -1,15 +1,7 @@
 return {
-	{ "neovim/nvim-lspconfig", event = "BufReadPost" },
 	{
 		"williamboman/mason.nvim",
 		event = "BufReadPost",
-		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-			"b0o/schemastore.nvim",
-			"davidosomething/format-ts-errors.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
-			"folke/neodev.nvim",
-		},
 		config = function()
 			require("mason").setup()
 			local mason_tool_installer = require("mason-tool-installer")
@@ -49,40 +41,45 @@ return {
 				end,
 			})
 		end,
-	},
-	-- TODO: remove branch
-	{
-		"jinzhongjia/LspUI.nvim",
-		event = "BufReadPost",
-		enabled = false,
-		config = true,
-		branch = "legacy",
-		opts = {
-			prompt = false,
-			event = "VeryLazy",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"williamboman/mason-lspconfig.nvim",
+			"b0o/schemastore.nvim",
+			"davidosomething/format-ts-errors.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			"folke/neodev.nvim",
+			-- TODO: remove branch
+			{
+				"jinzhongjia/LspUI.nvim",
+				enabled = false,
+				config = true,
+				branch = "legacy",
+				opts = {
+					prompt = false,
+					event = "VeryLazy",
+				},
+			},
+			{
+				"j-hui/fidget.nvim",
+				enabled = false,
+				tag = "legacy",
+				config = true,
+			},
+			{
+				"deathbeam/lspecho.nvim",
+				opts = {
+					echo = true, -- Echo progress messages, if set to false you can use .message() to get the current message
+					decay = 3000, -- Message decay time in milliseconds
+				},
+			},
+			{
+				"pmizio/typescript-tools.nvim",
+				ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+				dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+				config = function()
+					require("typescript-tools").setup(require("utils.lsp").tsserver())
+				end,
+			},
 		},
-	},
-	{
-		"j-hui/fidget.nvim",
-		enabled = false,
-		event = "BufReadPost",
-		tag = "legacy",
-		config = true,
-	},
-	{
-		"deathbeam/lspecho.nvim",
-		event = "BufReadPost",
-		opts = {
-			echo = true, -- Echo progress messages, if set to false you can use .message() to get the current message
-			decay = 3000, -- Message decay time in milliseconds
-		},
-	},
-	{
-		"pmizio/typescript-tools.nvim",
-		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-		config = function()
-			require("typescript-tools").setup(require("utils.lsp").tsserver())
-		end,
 	},
 }

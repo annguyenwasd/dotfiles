@@ -1,5 +1,6 @@
 return {
 	"stevearc/oil.nvim",
+	cmd = "Oil",
 	opts = {},
 	config = function()
 		require("oil").setup({
