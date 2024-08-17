@@ -51,7 +51,7 @@ return {
 
 			require("lualine").setup({
 				options = {
-					icons_enabled = true,
+					icons_enabled = is_use_icons(),
 					theme = "auto",
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
