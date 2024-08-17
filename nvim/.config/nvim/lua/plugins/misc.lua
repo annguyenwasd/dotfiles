@@ -118,11 +118,11 @@ return {
 		cmd = "AsyncRun",
 		init = function()
 			-- vim.cmd([[
-   --      augroup local-asyncrun
-   --        au!
-   --        au User AsyncRunStop copen | wincmd p
-   --      augroup END
-   --   ]])
+			--      augroup local-asyncrun
+			--        au!
+			--        au User AsyncRunStop copen | wincmd p
+			--      augroup END
+			--   ]])
 		end,
 	},
 	{
