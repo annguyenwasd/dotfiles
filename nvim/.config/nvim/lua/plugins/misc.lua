@@ -225,7 +225,7 @@ return {
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
-		enabled = is_use_icons,
+		cond = is_use_icons,
 		config = function()
 			require("nvim-web-devicons").setup({
 				override = {
