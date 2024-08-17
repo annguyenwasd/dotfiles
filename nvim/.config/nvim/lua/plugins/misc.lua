@@ -162,6 +162,7 @@ return {
 			}
 
 			return {
+				print_tag = "ANNGUYENWASD",
 				filetypes = {
 					["javascript"] = js,
 					["javascriptreact"] = js,
@@ -172,9 +173,11 @@ return {
 		end,
 		keys = {
 			"g?p",
-			"g?o",
 			"g?P",
+			"g?o",
 			"g?O",
+			"g?v",
+			"g?V",
 			{
 				"g?d",
 				":lua require('debugprint').deleteprints()<cr>",

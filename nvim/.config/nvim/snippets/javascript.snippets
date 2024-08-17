@@ -4,7 +4,7 @@ snippet jpre "Print JSON inside pre tag"
   </pre>
 
 
-snippet esd "eslint disable" 
+snippet esd "eslint disable"
   /* eslint-disable */
 
 
@@ -92,21 +92,20 @@ snippet theme "styled component theme" b
   ${p => p.theme.$1};
 
 
-snippet LJ "console.log with JSON.stringify" 
-  console.log(JSON.stringify($1, null, 2));
+snippet LJ "console.log with JSON.stringify"
+  console.log("[ANNGUYENWASD]", JSON.stringify($1, null, 2));
 
 
-snippet lg "console.log with prefix string" 
-  console.log(\`$1\`, $1);
+snippet lg "console.log with prefix string"
+  console.log("[ANNGUYENWASD]",\`$1\`, $1);
 
 
-snippet log; "console.log " 
-  console.log($1);
+snippet ll "console.log "
+  console.log("[ANNGUYENWASD]",$1);
 
 
-snippet logx "console.log and xxxxx " 
-  console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-  console.log($1);
+snippet lx "console.log and xxxxx "
+  console.log("[ANNGUYENWASD]",'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
 
 snippet usef "use effect" b
@@ -135,7 +134,7 @@ snippet user "use ref" b
   const $1 = React.useRef(null);
 
 
-snippet /td "Create a todo" 
+snippet /td "Create a todo"
   // TODO: $1
 
 
