@@ -43,6 +43,7 @@ alias mcc="mvn clean install -DskipTests=true -s settings.xml;mvn spring-boot:ru
 alias mccc="mvn clean install -DskipTests=true;mvn spring-boot:run -Dspring-boot.run.profiles=local"
 alias mt="mvn test"
 alias mtd="mvn -Dmaven.surefire.debug -Dspring-boot.run.jvmArguments=\"-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005\" -Dspring-boot.run.profiles=local test"
+alias pm=pulsemixer
 # }}}
 
 # {{{ Functions
@@ -67,5 +68,14 @@ function s() {
  git apply p.patch
  rm p.patch
  dd "Sync finished"
+}
+
+function ws() {
+  systemctl start warp-svc.service
+  warp-cli connect
+}
+
+function wss() {
+  warp-cli disconnect
 }
 # }}}
