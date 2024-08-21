@@ -15,18 +15,48 @@ layout {
 
                 hide_frame_for_single_pane "true"
 
-                mode_normal  "#[bg=blue] "
-                mode_tmux    "#[bg=#ffc387] "
+                mode_normal  "#[bg=#548386] "
+                mode_tmux    "#[bg=#ffc387] {name} "
+                mode_locked        "#[bg=#ffc387] {name} "
+                mode_resize        "#[bg=#ffc387] {name} "
+                mode_pane          "#[bg=#ffc387] {name} "
+                mode_tab           "#[bg=#ffc387] {name} "
+                mode_scroll        "#[bg=#ffc387] {name} "
+                mode_enter_search  "#[bg=#ffc387] {name} "
+                mode_search        "#[bg=#ffc387] {name} "
+                mode_rename_tab    "#[bg=#ffc387] {name} "
+                mode_rename_pane   "#[bg=#ffc387] {name} "
+                mode_session       "#[bg=#ffc387] {name} "
+                mode_move          "#[bg=#ffc387] {name} "
+                mode_prompt        "#[bg=#ffc387] {name} "
 
-                tab_normal   "#[fg=#6C7086] {index} {name} "
-                tab_active   "#[fg=#9399B2,bold,italic] {index} {name} "
+                // formatting for inactive tabs
+                tab_normal   "#[fg=#548386] {index} {name} "
+                tab_normal_fullscreen   "#[fg=#548386] {index} {name} {fullscreen_indicator} "
+                tab_normal_sync         "#[fg=#548386] {index} {name} {sync_indicator} "
 
-                command_git_branch_command     "git rev-parse --abbrev-ref HEAD"
-                command_git_branch_format      "#[fg=blue] {stdout} "
-                command_git_branch_interval    "10"
-                command_git_branch_rendermode  "static"
+                // formatting for the current active tab
+                tab_active   "#[fg=#f0bf4f,bold,italic] {index} {name} "
+                tab_active_fullscreen   "#[fg=#f0bf4f,bold,italic] {name} {fullscreen_indicator}"
+                tab_active_sync         "#[fg=#f0bf4f,bold,italic] {name} {sync_indicator}"
 
-                datetime        "#[fg=#6C7086,bold] {format} "
+                // separator between the tabs
+                tab_separator           ""
+
+                // format when renaming a tab
+                tab_rename              "#[fg=#f0bf4f] {index} {name} {floating_indicator} "
+
+                // indicators
+                tab_sync_indicator       "<> "
+                tab_fullscreen_indicator "[] "
+                tab_floating_indicator   "⬚ "
+
+                // limit tab display count
+                tab_display_count         "10"
+                tab_truncate_start_format "#[fg=548386] < +{count} ..."
+                tab_truncate_end_format   "#[fg=548386] ... +{count} >"
+
+                datetime        "#[fg=#548386,bold] {format} "
                 datetime_format "%d/%m/%Y %H:%M"
                 datetime_timezone "Asia/Saigon"
 

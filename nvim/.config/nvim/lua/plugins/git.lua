@@ -71,7 +71,7 @@ return {
 			},
 			{
 				"gpp",
-				":AsyncRun -pos=bottom -rows=10 -fucus=0 git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
+				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
 				silent = false,
 				desc = desc("git: push to origin"),
 			},
@@ -81,7 +81,7 @@ return {
 					vim.cmd("G add -A")
 					vim.cmd('G commit -n -m "WIP"')
 					vim.cmd(
-						"AsyncRun -pos=bottom -rows=10 -fucus=0 git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease"
+						"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease"
 					)
 				end,
 				silent = false,
@@ -89,7 +89,7 @@ return {
 			},
 			{
 				"gpt",
-				":AsyncRun -pos=bottom -rows=10 -fucus=0 git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>",
+				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>",
 				silent = false,
 				desc = desc("git: push to origin with tags"),
 			},

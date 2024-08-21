@@ -37,7 +37,8 @@
 	fp = fetch --prune
 	rn = branch -m
   wt = worktree
-  wtf=config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  wtf = config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  dl = diff -- ':!yarn.lock' ':!package.lock'
 [interactive]
 [color]
 	ui = true

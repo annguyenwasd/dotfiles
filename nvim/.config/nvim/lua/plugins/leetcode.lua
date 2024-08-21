@@ -3,10 +3,18 @@ return {
 	"kawre/leetcode.nvim",
 	build = ":TSUpdate html",
 	lazy = leet_arg ~= vim.fn.argv()[1],
-	opts = { arg = leet_arg, lang = "javascript", image_support = true },
+	opts = { arg = leet_arg, lang = "javascript", image_support = false },
 	keys = {
 		{ "<leader>ll", "<cmd>Leet list<cr>", desc = desc("leetcode: list") },
 		{ "<leader>lt", "<cmd>Leet test<cr>", desc = desc("leetcode: test") },
+		{
+			"<leader>lT",
+			function()
+				vim.cmd("w")
+				vim.cmd("!node %")
+			end,
+			desc = desc("leetcode: test"),
+		},
 		{ "<leader>lc", "<cmd>Leet console<cr>", desc = desc("leetcode: console") },
 		{ "<leader>lo", "<cmd>Leet open<cr>", desc = desc("leetcode: open") },
 		{ "<leader>ly", "<cmd>Leet yank<cr>", desc = desc("leetcode: yank") },
@@ -24,6 +32,9 @@ return {
 		},
 		{
 			"3rd/image.nvim",
+			cond = function()
+				return not is_work_profile()
+			end,
 			config = function()
 				-- default config
 				require("image").setup({

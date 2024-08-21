@@ -6,6 +6,31 @@ return {
 	config = function()
 		require("journal").setup({
 			root = root,
+			journal = {
+				entries = {
+					d = {
+						format = "%Y/%m-%B/daily/%d-%A", -- Format of the journal entry in the filesystem.
+						template = "# %A %B %d %Y\n", -- Optional. Template used when creating a new journal entry
+						frequency = { day = 1 }, -- Optional. The frequency of the journal entry. Used for `:Journal next`, `:Journal -2` etc
+					},
+					w = {
+						format = "%Y/%m-%B/weekly/week-%W",
+						template = "# Week %W %B %Y\n",
+						frequency = { day = 7 },
+						date_modifier = "monday", -- Optional. Date modifier applied before other modifier given to `:Journal`
+					},
+					m = {
+						format = "%Y/%m-%B/%B",
+						template = "# %B %Y\n",
+						frequency = { month = 1 },
+					},
+					y = {
+						format = "%Y/%Y",
+						template = "# %Y\n",
+						frequency = { year = 1 },
+					},
+				},
+			},
 		})
 	end,
 	keys = {

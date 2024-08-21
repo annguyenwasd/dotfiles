@@ -87,7 +87,7 @@ return {
 				desc = desc("telescope: current buffer fuzzy find"),
 			},
 			{
-				"<leader><leader>fc",
+				"<leader>fc",
 				"<cmd>lua require('utils.theme-chooser').choose()<cr>",
 				desc = desc("telescope: theme chooser"),
 			},
@@ -108,7 +108,7 @@ return {
 				desc = desc("telescope: search history"),
 			},
 			{
-				"<leader>fc",
+				"<leader><leader>fc",
 				"<cmd>lua require('telescope.builtin').commands()<cr>",
 				desc = desc("telescope: commands"),
 			},
@@ -160,6 +160,19 @@ return {
 
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+			{
+				"catgoose/telescope-helpgrep.nvim",
+				config = function()
+					require("telescope").load_extension("helpgrep")
+				end,
+				keys = {
+					{
+						"<leader>fH",
+						"<cmd>Telescope helpgrep live_grep<cr>",
+						desc = "Telescope: search through help",
+					},
+				},
+			},
 			{
 				"nvim-telescope/telescope-symbols.nvim",
 				keys = {
@@ -275,6 +288,34 @@ return {
 						end,
 						desc = desc("telescope: live grep"),
 					},
+				},
+			},
+			{
+				"gbprod/yanky.nvim",
+				config = function()
+					require("yanky").setup({
+						-- ring = { storage = "memory" },
+						highlight = {
+							on_put = false,
+							on_yank = false,
+						},
+					})
+					require("telescope").load_extension("yank_history")
+				end,
+				keys = {
+					{
+						"p",
+						function()
+							require("telescope").extensions.yank_history.yank_history({})
+						end,
+						desc = "Open Yank History",
+					},
+					{ "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = desc"Yank text" },
+					{ "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = desc"Put yanked text after cursor" },
+					{ "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = desc"Put yanked text before cursor" },
+					{ "<c-p>", "<Plug>(YankyPreviousEntry)", desc = desc"Select previous entry through yank history" },
+					{ "<c-n>", "<Plug>(YankyNextEntry)", desc = desc"Select next entry through yank history" },
+					{ "<leader>ty", "<cmd>Telescope yank_history<cr>", desc = desc"Open Telescope yank history" },
 				},
 			},
 		},

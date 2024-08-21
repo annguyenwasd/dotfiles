@@ -33,12 +33,7 @@ return {
 		"skywind3000/asyncrun.vim",
 		cmd = "AsyncRun",
 		init = function()
-			-- vim.cmd([[
-			--      augroup local-asyncrun
-			--        au!
-			--        au User AsyncRunStop copen | wincmd p
-			--      augroup END
-			--   ]])
+			vim.g.asyncrun_open = 10
 		end,
 	},
 	{
@@ -46,7 +41,7 @@ return {
 		cmd = "DirDiff",
 		init = function()
 			vim.g.DirDiffExcludes =
-				".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*"
+				".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*,*node_modules*"
 		end,
 	},
 	{
@@ -172,7 +167,7 @@ return {
 		config = function()
 			require("yop").op_map({ "n", "v" }, "<leader>Rg", function(lines, info)
 				require("telescope.builtin").grep_string({ search = lines[1] })
-			end)
+			end, { desc = desc("Telescope: Grep string with motion") })
 		end,
 	},
 	{

@@ -159,7 +159,7 @@ vim.keymap.set(
 vim.keymap.set(
 	"n",
 	"<leader>as",
-	":AsyncRun -mode=term -pos=bottom -rows=10 -focus=0 ",
+	":AsyncRun ",
 	{ desc = desc("mappings: Run a command asynchronously inside neovim"), silent = false }
 )
 
@@ -181,7 +181,7 @@ vim.keymap.set("n", "<leader>bd", function()
 		local packageName = t["name"]
 		vim.notify("Building " .. packageName)
 
-		vim.cmd("AsyncRun -mode=term -pos=bottom -rows=10 -focus=0 yarn workspace " .. packageName .. " build")
+		vim.cmd("AsyncRun yarn workspace " .. packageName .. " build")
 	end
 end, { desc = desc("mappings: Find nearest upper package.json file and build that package") })
 

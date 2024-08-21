@@ -33,7 +33,14 @@ return {
 							fallback()
 						end
 					end,
-					["<s-tab>"] = function(fallback)
+					["<c-n>"] = function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						else
+							fallback()
+						end
+					end,
+					["<c-p>"] = function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
 						else
@@ -43,27 +50,35 @@ return {
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-y>"] = cmp.mapping.complete(),
 					["<cr>"] = cmp.mapping.confirm({ select = false }),
 					["<C-e>"] = cmp.mapping.abort(),
 				},
-				sources = {
+				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "snippy" },
 					{ name = "nvim_lua" },
+					{ name = "cmp_yanky" },
 					{
 						name = "buffer",
 						option = {
-							-- complete words from mall buffers
+							-- complete words from all buffers
 							get_bufnrs = function()
-								return vim.api.nvim_list_bufs()
+								local buf = vim.api.nvim_get_current_buf()
+								local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+								if byte_size > 1024 * 1024 then -- 1 Megabyte max
+									return {}
+								end
+								return { buf }
 							end,
 						},
 					},
 					{ name = "env" },
-				},
+				}),
 			})
 		end,
 		dependencies = {
+			"chrisgrieser/cmp_yanky",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-nvim-lua",

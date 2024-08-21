@@ -1,4 +1,5 @@
 vim.g.vimsyn_embed = "lPr"
+vim.g.editorconfig = false
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.wildmenu = true
@@ -38,5 +39,5 @@ vim.opt.lazyredraw = false
 vim.opt.wrap = false
 
 _G.annguyenwasd = {
-  is_present_mode=false
+	is_present_mode = false,
 }

@@ -23,5 +23,6 @@ require("lazy").setup("plugins", {
 		notify = false,
 	},
 })
+require"themes.toggle".gruvbox()
 require("themes.__output__")
 require"utils.present"

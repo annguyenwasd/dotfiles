@@ -43,6 +43,7 @@ alias gmc="git merge --continue"
 
 alias gd="git diff"
 alias gdc="git diff --cached"
+alias gdl="git dl"
 
 alias gl="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s  %C(bold blue)<%an>%Creset %Cgreen%ar / %ad%Creset %n %b'"
 alias gll="git log --reverse --pretty=format:%B--- -n$1"
