@@ -71,6 +71,7 @@ function s() {
 }
 
 function ws() {
+  warp-cli
   systemctl start warp-svc.service
   warp-cli connect
 }
