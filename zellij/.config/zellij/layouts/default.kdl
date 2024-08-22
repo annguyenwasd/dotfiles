@@ -16,19 +16,19 @@ layout {
                 hide_frame_for_single_pane "true"
 
                 mode_normal  "#[bg=#548386] "
-                mode_tmux    "#[bg=#ffc387] {name} "
-                mode_locked        "#[bg=#ffc387] {name} "
-                mode_resize        "#[bg=#ffc387] {name} "
-                mode_pane          "#[bg=#ffc387] {name} "
-                mode_tab           "#[bg=#ffc387] {name} "
-                mode_scroll        "#[bg=#ffc387] {name} "
-                mode_enter_search  "#[bg=#ffc387] {name} "
-                mode_search        "#[bg=#ffc387] {name} "
-                mode_rename_tab    "#[bg=#ffc387] {name} "
-                mode_rename_pane   "#[bg=#ffc387] {name} "
-                mode_session       "#[bg=#ffc387] {name} "
-                mode_move          "#[bg=#ffc387] {name} "
-                mode_prompt        "#[bg=#ffc387] {name} "
+                mode_tmux          "#[bg=#ffc387,fg=#000000] {name} "
+                mode_locked        "#[bg=#ffc387,fg=#000000] {name} "
+                mode_resize        "#[bg=#ffc387,fg=#000000] {name} "
+                mode_pane          "#[bg=#ffc387,fg=#000000] {name} "
+                mode_tab           "#[bg=#ffc387,fg=#000000] {name} "
+                mode_scroll        "#[bg=#ffc387,fg=#000000] {name} "
+                mode_enter_search  "#[bg=#ffc387,fg=#000000] {name} "
+                mode_search        "#[bg=#ffc387,fg=#000000] {name} "
+                mode_rename_tab    "#[bg=#ffc387,fg=#000000] {name} "
+                mode_rename_pane   "#[bg=#ffc387,fg=#000000] {name} "
+                mode_session       "#[bg=#ffc387,fg=#000000] {name} "
+                mode_move          "#[bg=#ffc387,fg=#000000] {name} "
+                mode_prompt        "#[bg=#ffc387,fg=#000000] {name} "
 
                 // formatting for inactive tabs
                 tab_normal   "#[fg=#548386] {index} {name} "
@@ -37,8 +37,8 @@ layout {
 
                 // formatting for the current active tab
                 tab_active   "#[fg=#f0bf4f,bold,italic] {index} {name} "
-                tab_active_fullscreen   "#[fg=#f0bf4f,bold,italic] {name} {fullscreen_indicator}"
-                tab_active_sync         "#[fg=#f0bf4f,bold,italic] {name} {sync_indicator}"
+                tab_active_fullscreen   "#[fg=#f0bf4f,bold,italic] {index} {name} {fullscreen_indicator}"
+                tab_active_sync         "#[fg=#f0bf4f,bold,italic] {index} {name} {sync_indicator}"
 
                 // separator between the tabs
                 tab_separator           ""

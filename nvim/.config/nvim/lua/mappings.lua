@@ -222,6 +222,9 @@ vim.keymap.set(
 	":split term://$SHELL<cr>",
 	{ desc = desc("mappings: Open terminal with horizontal split with default shell"), noremap = true }
 )
+vim.keymap.set("n", "<leader>tt", function()
+	require("utils.theme-chooser").set("toggle", "gruvbox")
+end, { desc = desc("theme: Toggle gruvbox theme"), noremap = true })
 -- vim.keymap.set({"n", "v", "i"}, "<UP>", function()
 -- 	vim.notify("disabled")
 -- end, { desc = desc("mappings: disabled key"), noremap = true })
