@@ -71,12 +71,13 @@ function s() {
 }
 
 function ws() {
-  warp-cli
   systemctl start warp-svc.service
+  sleep 2
   warp-cli connect
 }
 
 function wss() {
   warp-cli disconnect
+  systemctl stop warp-svc.service
 }
 # }}}
