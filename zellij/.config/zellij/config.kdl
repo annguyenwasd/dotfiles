@@ -124,10 +124,10 @@ keybinds clear-defaults=true {
         }
     }
     tmux clear-defaults=true {
-        bind "[" { SwitchToMode "Scroll"; }
+        bind "s" { SwitchToMode "Scroll"; }
         bind "Ctrl a" { Write 2; SwitchToMode "Normal"; }
-        bind "s" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "v" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "Ctrl s" { NewPane "Down"; SwitchToMode "Normal"; }
+        bind "Ctrl v" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
         bind "c" { NewTab; SwitchToMode "Normal"; }
         bind "," { SwitchToMode "RenameTab"; }

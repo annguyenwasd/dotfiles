@@ -42,6 +42,13 @@ return {
 			desc = desc("Telescope: find in journal"),
 		},
 		{
+			"<leader>rj",
+			function()
+				require("telescope").extensions.egrepify.egrepify({ cwd = root })
+			end,
+			desc = desc("Telescope: live grep in journal"),
+		},
+		{
 			"<leader>Nj",
 			function()
 				require("nvim-tree.api").tree.open({ path = vim.fn.expand(root) })

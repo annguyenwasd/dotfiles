@@ -105,7 +105,7 @@ local get_on_attach_fn = function()
 		end
 
 		if vim.lsp.inlay_hint then
-			vim.lsp.inlay_hint.enable(bufnr, true)
+			vim.lsp.inlay_hint.enable(true)
 		end
 
 		if is_work_profile() then
@@ -134,9 +134,9 @@ local get_on_attach_fn = function()
 
 		vim.keymap.set("n", "<leader>ti", function()
 			if vim.lsp.inlay_hint.is_enabled() then
-				vim.lsp.inlay_hint.enable(0, false)
+				vim.lsp.inlay_hint.enable(false)
 			else
-				vim.lsp.inlay_hint.enable(0, true)
+				vim.lsp.inlay_hint.enable(true)
 			end
 		end, { buffer = bufnr, desc = desc("lsp: toggle inlayHints") })
 

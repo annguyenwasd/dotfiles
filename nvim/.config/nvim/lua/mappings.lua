@@ -137,7 +137,7 @@ vim.keymap.set("n", "<leader>fl", ":set foldlevel=", { desc = desc("mappings: se
 
 vim.keymap.set(
 	"n",
-	"<leader>mv",
+	"<leader>vm",
 	":vert res 120<cr>",
 	{ desc = desc("mappings: Set current window width 120 length"), noremap = true }
 )
@@ -223,7 +223,7 @@ vim.keymap.set(
 	{ desc = desc("mappings: Open terminal with horizontal split with default shell"), noremap = true }
 )
 vim.keymap.set("n", "<leader>tt", function()
-	require("utils.theme-chooser").set("toggle", "gruvbox")
+	require("themes.toggle").gruvbox()
 end, { desc = desc("theme: Toggle gruvbox theme"), noremap = true })
 -- vim.keymap.set({"n", "v", "i"}, "<UP>", function()
 -- 	vim.notify("disabled")

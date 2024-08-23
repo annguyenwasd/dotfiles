@@ -1,5 +1,5 @@
 if vim.loader then
-  vim.loader.enable()
+	vim.loader.enable()
 end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -19,10 +19,17 @@ require("autocmd")
 require("global-mapping")
 require("mappings")
 require("lazy").setup("plugins", {
+	root = vim.fn.stdpath("data") .. "/lazy",
 	change_detection = {
 		notify = false,
 	},
+	default = {
+		version = "*",
+	},
+	concurrency = 5,
+	git = {
+		timeout = 600,
+	},
 })
-require"themes.toggle".gruvbox()
 require("themes.__output__")
-require"utils.present"
+require("utils.present")

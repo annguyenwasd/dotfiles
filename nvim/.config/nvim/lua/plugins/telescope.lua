@@ -1,9 +1,7 @@
 return {
 	{
-		-- TODO: remove tag
 		"nvim-telescope/telescope.nvim",
 		cmd = "Telescope",
-		tag = "0.1.5",
 		config = function()
 			local actions = require("telescope.actions")
 			local actions_layout = require("telescope.actions.layout")
@@ -181,6 +179,9 @@ return {
 			},
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
+				enabled = function()
+					return not is_work_profile()
+				end,
 				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 				config = function()
 					require("telescope").load_extension("fzf")
@@ -310,12 +311,35 @@ return {
 						end,
 						desc = "Open Yank History",
 					},
-					{ "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = desc"Yank text" },
-					{ "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = desc"Put yanked text after cursor" },
-					{ "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = desc"Put yanked text before cursor" },
-					{ "<c-p>", "<Plug>(YankyPreviousEntry)", desc = desc"Select previous entry through yank history" },
-					{ "<c-n>", "<Plug>(YankyNextEntry)", desc = desc"Select next entry through yank history" },
-					{ "<leader>ty", "<cmd>Telescope yank_history<cr>", desc = desc"Open Telescope yank history" },
+					{
+						"y",
+						"<Plug>(YankyYank)",
+						mode = { "n", "x" },
+						desc = desc("Yank text"),
+					},
+					{
+						"p",
+						"<Plug>(YankyPutAfter)",
+						mode = { "n", "x" },
+						desc = desc("Put yanked text after cursor"),
+					},
+					{
+						"P",
+						"<Plug>(YankyPutBefore)",
+						mode = { "n", "x" },
+						desc = desc("Put yanked text before cursor"),
+					},
+					{
+						"<c-p>",
+						"<Plug>(YankyPreviousEntry)",
+						desc = desc("Select previous entry through yank history"),
+					},
+					{
+						"<c-n>",
+						"<Plug>(YankyNextEntry)",
+						desc = desc("Select next entry through yank history"),
+					},
+					{ "<leader>ty", "<cmd>Telescope yank_history<cr>", desc = desc("Open Telescope yank history") },
 				},
 			},
 		},

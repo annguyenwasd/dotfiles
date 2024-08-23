@@ -135,6 +135,10 @@ function fw() {
   fi
 }
 
+function fww() {
+  fw ${1:=$WORKSPACE_FOLDER} true false
+}
+
 function ff() {
   fw ${1:=$WORKSPACE_FOLDER} false true
 }

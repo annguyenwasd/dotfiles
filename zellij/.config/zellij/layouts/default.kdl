@@ -52,7 +52,7 @@ layout {
                 tab_floating_indicator   "⬚ "
 
                 // limit tab display count
-                tab_display_count         "10"
+                tab_display_count         "20"
                 tab_truncate_start_format "#[fg=548386] < +{count} ..."
                 tab_truncate_end_format   "#[fg=548386] ... +{count} >"
 
