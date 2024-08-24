@@ -11,7 +11,7 @@ return {
 			"<leader>lT",
 			function()
 				vim.cmd("w")
-				vim.cmd("!node %")
+				vim.cmd("vsplit term://node %")
 			end,
 			desc = desc("leetcode: test"),
 		},
