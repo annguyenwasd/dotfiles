@@ -3,7 +3,7 @@ return {
 	"kawre/leetcode.nvim",
 	build = ":TSUpdate html",
 	lazy = leet_arg ~= vim.fn.argv()[1],
-	opts = { arg = leet_arg, lang = "javascript", image_support = false },
+	opts = { arg = leet_arg, lang = "javascript", image_support = not is_work_profile() },
 	keys = {
 		{ "<leader>ll", "<cmd>Leet list<cr>", desc = desc("leetcode: list") },
 		{ "<leader>lt", "<cmd>Leet test<cr>", desc = desc("leetcode: test") },
