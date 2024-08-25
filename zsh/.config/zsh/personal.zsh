@@ -56,6 +56,10 @@ function bb {
   echo "Done!"
 }
 
+function bg() {
+  feh --no-fehbg --recursive --full-screen --action "$HOME/.config/feh/set-bg.sh %F" $WORKSPACE_FOLDER/walls
+}
+
 function gif {
   echo "making gif $1"
   ffmpeg -i $1 -s 1366x768 -pix_fmt rgb24 -r 18 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
