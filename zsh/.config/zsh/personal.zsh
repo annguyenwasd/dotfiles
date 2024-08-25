@@ -61,15 +61,6 @@ function gif {
   echo "Done!"
 }
 
-function s() {
- echo "Star syncing..."
- mv ~/Downloads/p.patch $DOTFILES/p.patch
- cd $DOTFILES
- git apply p.patch
- rm p.patch
- dd "Sync finished"
-}
-
 function ws() {
   systemctl start warp-svc.service
   sleep 2
