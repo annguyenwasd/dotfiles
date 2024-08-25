@@ -51,7 +51,6 @@ tiling_drag modifier titlebar
 # start a terminal
 bindsym $mod+Return exec alacritty
 bindsym $mod+e exec google-chrome-stable
-bindsym F2 exec xmodmap ~/.Xmodmap
 
 # kill focused window
 bindsym $mod+q kill
