@@ -76,4 +76,13 @@ function wss() {
   warp-cli disconnect
   systemctl stop warp-svc.service
 }
+
+function at() {
+  local themes_dir=~/.config/alacritty/themes/themes
+  local alacrity_import="$HOME/.config/alacritty/theme.toml"
+  local theme_name=$(ls -1 $themes_dir|fzf)
+  if [ ! -z $theme_name ]; then
+    cp -f $themes_dir/$theme_name $alacrity_import
+  fi
+}
 # }}}

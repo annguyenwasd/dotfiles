@@ -9,6 +9,9 @@ sudo pacman -S --noconfirm --needed git base-devel && git clone https://aur.arch
 zsh
 chsh
 sz
+# We use Alacritty's default Linux config directory as our storage location here.
+mkdir -p ~/.config/alacritty/themes
+git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 
 yay -S --noconfirm extra/ttf-sourcecodepro-nerd
 yay -S --noconfirm google chrome
