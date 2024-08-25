@@ -123,6 +123,42 @@ function kp() {
   kill -9 $(lsof -t -i:$1)
 }
 
+# Function: fw
+#
+# Description:
+#   The `fw` function is used to quickly navigate to a subdirectory within a specified directory (defaulting to $WORKSPACE_FOLDER),
+#   with optional functionality to change the tmux or Zellij window name, handle bare Git repositories, and open Neovim.
+#
+# Usage:
+#   fw [location] [is_changed_tmux_window_name] [is_open_nvim]
+#
+# Parameters:
+#   location                     - (Optional) The base directory to search for subdirectories. Defaults to $WORKSPACE_FOLDER.
+#   is_changed_tmux_window_name  - (Optional) Boolean flag to indicate if the tmux or Zellij window name should be changed after navigating. Defaults to false.
+#   is_open_nvim                 - (Optional) Boolean flag to indicate if Neovim should be opened in the selected directory. Defaults to false.
+#
+# Behavior:
+#   - Prompts the user to select a subdirectory within the specified location using `fzf`.
+#   - Changes the current directory to the selected subdirectory.
+#   - Optionally changes the tmux or Zellij window name based on the `is_changed_tmux_window_name` flag.
+#   - Checks if the selected directory is a bare Git repository and checks out a branch if it is.
+#   - Optionally opens Neovim in the selected directory based on the `is_open_nvim` flag.
+#   - If no folder is selected, the function prints "No folder selected".
+#
+# Example:
+#   fw ~/projects true true
+#   This will navigate to a subdirectory within `~/projects`, change the tmux or Zellij window name, and open Neovim.
+#
+# Notes:
+#   - The function relies on external utilities like `fzf`, `ls`, and `nvim`.
+#   - The `dn` function (assumed to be defined elsewhere) is used to change the window name in tmux or Zellij.
+#   - The `gcoo` function (assumed to be defined elsewhere) checks out a branch in a bare Git repository.
+#
+# Dependencies:
+#   - `fzf`: Used for fuzzy searching and selecting a subdirectory.
+#   - `nvim`: Optional, used to open Neovim.
+#   - Custom functions: `dn`, `gcoo`, `is_bare_repo` should be defined elsewhere in your environment.
+#
 function fw() {
   loc=${1:=$WORKSPACE_FOLDER}
   is_changed_tmux_window_name=${2:=false}
