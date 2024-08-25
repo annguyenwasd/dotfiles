@@ -238,18 +238,22 @@ function grm() {
 
 # Remove all except master & develop worktree
 function git_worktree_clean() {
-  git worktree list|cut -ws -f 1|sed '1d;/.*\/master$/d;/.*\/develop$/d'|xargs -n 1 git worktree remove -f
+    local exclude_branches=("master" "develop" "$@")  # Default exclusions plus additional arguments
+    local exclude_pattern
+
+    # Create a regex pattern for branches to exclude
+    exclude_pattern=$(printf "|%s" "${exclude_branches[@]}")
+    exclude_pattern="${exclude_pattern:1}"  # Remove the leading '|'
+
+    git worktree list | awk '{print $1}' | grep -vE "/($exclude_pattern)$" | xargs -r git worktree remove -f
 }
 
 function is_branch_exist() {
-  git rev-parse --verify $1 >/dev/null 2>&1
-
-  if [[ $? -eq 0 ]]; then
-    true
-  else
-    false
-  fi
-
+    if git rev-parse --verify "$1" >/dev/null 2>&1; then
+        return 0  # true
+    else
+        return 1  # false
+    fi
 }
 
 function gcm() {
@@ -265,15 +269,11 @@ function gcm() {
 }
 
 function is_bare_repo() {
-  git config --local --get core.bare >/dev/null 2>&1
-  if [[ $? -eq 0 ]]; then
-
-    if $(git config --local --get core.bare) -eq true; then
-      true
-      return
+    # Check if the core.bare setting is set and equals true
+    if [[ $(git config --local --get core.bare 2>/dev/null) == "true" ]]; then
+        return 0  # true
+    else
+        return 1  # false
     fi
-  fi
-
-  false
 }
 # }}}
