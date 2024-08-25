@@ -1,49 +1,44 @@
-#!/usr/bin/sh
-# TODO: re-test. 1 install yay, then install deps by using yay
-su
-sudo pacman -S --noconfirm i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit sudo vi xdg-user-dirs pulseaudio pulsemixer flameshot
-sudo pacman -S --noconfirm --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+#!/usr/bin/env sh
 
+# Install essential packages and Yay AUR helper
+sudo pacman -S --noconfirm --needed git base-devel && \
+git clone https://aur.archlinux.org/yay.git && \
+cd yay && \
+makepkg -si
 
-# TODO is it a correct way to change shel?
-zsh
-chsh
-sz
-# We use Alacritty's default Linux config directory as our storage location here.
+# Install additional packages using Yay
+yay -S --noconfirm i3 tmux git neovim stow zsh xorg dmenu alacritty firefox python node \
+  npm lazygit fzf ripgrep openssh xclip curl unzip feh os-prober polkit xdg-user-dirs \
+  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd google-chrome
+
+# Change default shell to zsh
+chsh -s $(which zsh)
+exec zsh
+
+# Set up Alacritty themes
 mkdir -p ~/.config/alacritty/themes
 git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 
-yay -S --noconfirm extra/ttf-sourcecodepro-nerd
-yay -S --noconfirm google chrome
-
-
-# python dependency for neovim
-python -m ensurepip --upgradepython -m ensurepip --upgrade
-pip3 install neovim
-
-sudo npm i -g yarn
+# Install global npm packages and fnm
+sudo npm i -g yarn pnpm
 curl -fsSL https://fnm.vercel.app/install | bash
 
+# Set up workspace and wallpapers
 [ ! -d ~/workspace ] && mkdir ~/workspace
-# TODO install walls as well, move both to ~/wallpapers
-git clone https://github.com/linuxdotexe/nordic-wallpapers.git ~/workspace/nordic-wallpapers
+[ ! -d ~/walls ] && mkdir ~/walls
+git clone https://github.com/linuxdotexe/nordic-wallpapers.git ~/walls/nordic-wallpapers
+git clone https://github.com/annguyenwasd/walls ~/walls/walls
 
-# setup auto login
-sudo pacman -S --noconfirm util-linux
-stty onlcr
-
-# setup grub with windows
+# Set up GRUB with Windows (check partition and setup before running)
 sudo mount /dev/sda1 /mnt
 sudo os-prober
 sudo sed -i "s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/" /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-# Create default folders
+# Create default user directories
 xdg-user-dirs-update
 
-# install android studio
-yay -S --noconfirm aur/android-studio
-
+# Print TODO items
 echo "TODO:"
 echo "[AUTOLOGIN] https://wiki.archlinux.org/title/Getty"
-echo "[ROOTUSER] https://www.linuxtechi.com/create-configure-sudo-user-on-arch-linux/
+echo "[ROOTUSER] https://www.linuxtechi.com/create-configure-sudo-user-on-arch-linux/"
