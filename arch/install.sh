@@ -1,8 +1,11 @@
 #!/usr/bin/sh
+# TODO: re-test. 1 install yay, then install deps by using yay
 su
-sudo pacman -S --noconfirm i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit sudo vi xdg-user-dirs pulseaudio pulsemixer
+sudo pacman -S --noconfirm i3 tmux git neovim vim stow zsh xorg dmenu alacritty firefox python node npm lazygit fzf ripgrep openssh xclip curl unzip feh java-runtime-common java-environment-common jre-openjdk jdk-openjdk openjdk-doc openjdk-src os-prober polkit sudo vi xdg-user-dirs pulseaudio pulsemixer flameshot
 sudo pacman -S --noconfirm --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
+
+# TODO is it a correct way to change shel?
 zsh
 chsh
 sz
@@ -19,6 +22,7 @@ sudo npm i -g yarn
 curl -fsSL https://fnm.vercel.app/install | bash
 
 [ ! -d ~/workspace ] && mkdir ~/workspace
+# TODO install walls as well, move both to ~/wallpapers
 git clone https://github.com/linuxdotexe/nordic-wallpapers.git ~/workspace/nordic-wallpapers
 
 # setup auto login
