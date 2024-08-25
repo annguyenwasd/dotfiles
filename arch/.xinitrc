@@ -38,6 +38,7 @@ fi
 xset r rate 200 25 &
 
 ibus-daemon &
+flameshot &
 xautocfg &
 ~/.fehbg &
 
