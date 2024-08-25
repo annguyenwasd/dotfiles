@@ -335,14 +335,14 @@ function stow_all() {
   # List directories and stow them
   local dirs_to_stow=$(ls -A1 "$DOTFILES" | sed "$sed_pattern")
 
-  if [ -n "$verbose" ]; then
+  if [[ -n "$verbose" ]]; then
     echo "Stowing the following directories:"
     echo "$dirs_to_stow"
   fi
 
   echo "$dirs_to_stow" | xargs -I{} stow {}
 
-  if [ $? -eq 0 ]; then
+  if [[ $? -eq 0 ]]; then
     echo "Stowed all folders successfully."
   else
     echo "Error: Failed to stow some folders." >&2
@@ -371,7 +371,7 @@ _command_time_preexec() {
 }
 
 _command_time_precmd() {
-  if [ $timer ]; then
+  if [[ $timer ]]; then
     timer_show=$(($SECONDS - $timer))
     if [ -n "$TTY" ] && [ $timer_show -ge ${ZSH_COMMAND_TIME_MIN_SECONDS:-3} ]; then
       export ZSH_COMMAND_TIME="$timer_show"
@@ -384,7 +384,7 @@ _command_time_precmd() {
 }
 
 zsh_command_time() {
-  if [ -n "$ZSH_COMMAND_TIME" ]; then
+  if [[ -n "$ZSH_COMMAND_TIME" ]]; then
     timer_show=$(printf '%dh:%02dm:%02ds\n' $(($ZSH_COMMAND_TIME/3600)) $(($ZSH_COMMAND_TIME%3600/60)) $(($ZSH_COMMAND_TIME%60)))
     print -P "%F{$ZSH_COMMAND_TIME_COLOR}$(printf "${ZSH_COMMAND_TIME_MSG}\n" "$timer_show")%f"
   fi
