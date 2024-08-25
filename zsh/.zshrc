@@ -179,15 +179,25 @@ function dd() {
 }
 
 # output example: 679-764-994-561-683-256-584-774
-function unique_name() {
-  local numbers=( )
-  for n in {1..8} ; do
-    # random a xxx number
-    local num=$(jot -r 1 999)
-    numbers+=($num)
-  done
-  # join by '-' character
-  echo ${(j:-:)numbers}
+unique_name() {
+    local numbers=()
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS: Use `jot` to generate random numbers
+        for _ in {1..8}; do
+            local num=$(jot -r 1 999)
+            numbers+=($num)
+        done
+    else
+        # Linux: Use `shuf` to generate random numbers
+        for _ in {1..8}; do
+            local num=$(shuf -i 1-999 -n 1)
+            numbers+=($num)
+        done
+    fi
+
+    # Join numbers with '-' character
+    echo ${(j:-:)numbers}
 }
 
 # Fastest way to remove node_modules -> Non-block install new packages
