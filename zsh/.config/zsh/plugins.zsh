@@ -16,6 +16,7 @@ function add_plugin(){
   source $dst/$(ls -1 $dst | grep ".plugin.zsh")
 }
 
+export ZVM_VI_EDITOR="nvim"
 add_plugin "scresante/zsh-vi-mode" "fixpacman"
 add_plugin "popstas/zsh-command-time"
 add_plugin "mroth/evalcache"
