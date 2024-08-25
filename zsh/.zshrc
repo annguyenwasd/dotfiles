@@ -94,7 +94,31 @@ alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsa
 # }}}
 
 # {{{ Functions
-# kill process
+# Function: kp
+#
+# Description:
+#   The `kp` function is used to forcefully terminate any processes that are currently using a specified network port.
+#   It identifies the process IDs (PIDs) associated with the given port and sends the `SIGKILL` signal (`-9`) to those processes,
+#   which immediately and forcefully kills them.
+#
+# Usage:
+#   kp <port_number>
+#
+# Parameters:
+#   <port_number> - The network port number for which processes should be terminated.
+#
+# Example:
+#   kp 8080
+#   This will kill any processes that are using port 8080.
+#
+# Notes:
+#   - The function uses `lsof` to find the processes using the specified port.
+#   - The `kill -9` command sends the `SIGKILL` signal, which cannot be ignored or handled by the process, resulting in an immediate termination.
+#   - Use this function with caution, as `kill -9` does not allow processes to clean up resources or gracefully exit.
+#
+# Dependencies:
+#   - `lsof`: The function requires the `lsof` command to list open files and network connections.
+#
 function kp() {
   kill -9 $(lsof -t -i:$1)
 }
