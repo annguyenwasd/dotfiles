@@ -81,7 +81,7 @@ function fzf_bare_branches() {
   # |fzf                           -> pipe to fzf
   selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
   dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
-  if [[ ! -z $dir ]]; then
+  if [[ -n $dir ]]; then
     cd "$bare_path/$dir"
     true
   else

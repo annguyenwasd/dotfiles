@@ -6,7 +6,7 @@ function add_plugin(){
   url="https://github.com/$short_url.git"
   if [[ ! -d  $dst ]]; then
     echo "Cloning $short_url"
-    if [[ ! -z $branch ]]; then
+    if [[ -n $branch ]]; then
       git clone $url -b $branch $dst
     else
       git clone $url $dst
