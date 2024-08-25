@@ -81,7 +81,7 @@ function fzf_bare_branches() {
   # |fzf                           -> pipe to fzf
   selectd_line=$(git worktree list|sed '/(bare)/ d'|sort|xargs -L 1 | cut -d " " -f 1,3 |sed -E "s/^(.*) (.*)/\2 \1/g; s/\[//; s/\]//; s#$bare_path##"| column -t|fzf)
   dir=$(echo $selectd_line|xargs -L 1 |cut -d " " -f 2)
-  if [ ! -z $dir ]; then
+  if [[ ! -z $dir ]]; then
     cd "$bare_path/$dir"
     true
   else
@@ -128,7 +128,7 @@ function bare_branch_checkout() {
 # returns either code 1 or branch name string
 function select_branch(){
   branch_name=$(git branch -a | sed '/HEAD/ d' | fzf)
-  if [ $? -eq 0 ]; then
+  if [[ $? -eq 0 ]]; then
     branch_name=$(echo $branch_name | sed 's/\*//; s/\+//; s/ //' | sed 's#remotes/origin/##' | awk '{ print $1 }')
     echo $branch_name
   else
@@ -139,7 +139,7 @@ function select_branch(){
 
 function gcoo {
   branch_name=$(select_branch)
-  if [ -z $branch_name ]; then
+  if [[ -z $branch_name ]]; then
     echo "No branch selected. Aborting..."
   else
     bare_branch_checkout $branch_name
@@ -218,7 +218,7 @@ function tobare() {
 #
 # @param $1 string branch name, if pass anhy
 function grm() {
-  if [ -z $1 ]
+  if [[ -z $1 ]]
   then
     branches=$(git branch |grep ^+ | sed "s/+ //"|fzf -m)
     for i in $(echo $branches) ; do
@@ -244,7 +244,7 @@ function git_worktree_clean() {
 function is_branch_exist() {
   git rev-parse --verify $1 >/dev/null 2>&1
 
-  if [ $? = 0 ]; then
+  if [[ $? -eq 0 ]]; then
     true
   else
     false
@@ -266,7 +266,7 @@ function gcm() {
 
 function is_bare_repo() {
   git config --local --get core.bare >/dev/null 2>&1
-  if [ $? -eq 0 ]; then
+  if [[ $? -eq 0 ]]; then
 
     if $(git config --local --get core.bare) -eq true; then
       true

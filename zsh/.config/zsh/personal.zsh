@@ -27,7 +27,7 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-[ -s "/home/annguyenwasd/.jabba/jabba.sh" ] && source "/home/annguyenwasd/.jabba/jabba.sh"
+[[ -s "/home/annguyenwasd/.jabba/jabba.sh" ]] && source "/home/annguyenwasd/.jabba/jabba.sh"
 #}}}
 
 # {{{ Alias
@@ -81,7 +81,7 @@ function at() {
   local themes_dir=~/.config/alacritty/themes/themes
   local alacrity_import="$HOME/.config/alacritty/theme.toml"
   local theme_name=$(ls -1 $themes_dir|fzf)
-  if [ ! -z $theme_name ]; then
+  if [[ ! -z $theme_name ]]; then
     cp -f $themes_dir/$theme_name $alacrity_import
   fi
 }

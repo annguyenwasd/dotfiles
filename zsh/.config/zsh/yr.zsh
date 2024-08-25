@@ -6,10 +6,10 @@ function yr() {
   root=$(git rev-parse --show-toplevel)
   cd $root
   yarn workspaces info 2>/dev/null 1>/dev/null
-  if [ $? -eq 1 ]; then
+  if [[ $? -eq 1 ]]; then
     # Not workspace
     cmd=$(get_pkg_json_scrip)
-    if [ $? -gt 0 ]; then
+    if [[ $? -gt 0 ]]; then
       return 1;
     fi
     yarn $cmd
@@ -19,7 +19,7 @@ function yr() {
     workspaces="root \n $workspaces"
     ws=$(echo $workspaces|fzf --header="Select workspace")
 
-    if [ $? -gt 0 ]; then
+    if [[ $? -gt 0 ]]; then
      return 1;
     fi
 
@@ -32,7 +32,7 @@ function yr() {
     fi
     cmd=$(get_pkg_json_scrip $p)
 
-    if [ $? -gt 0 ]; then
+    if [[ $? -gt 0 ]]; then
      return 1;
     fi
 
@@ -56,4 +56,3 @@ function ylink() {
   cd $current_dir
   echo $ws_list|xargs -L 1 -I {} yarn link {}
 }
-
