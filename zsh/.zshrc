@@ -209,17 +209,36 @@ function fff() {
 
 # set tmux window title as current directoty
 function dn() {
+  # Extract the base name of the current working directory
+  #
+  # ${PWD} is a special shell variable that holds the path of the current
+  # working directory. For example, if you are in:
+  #   /home/user/projects/myapp
+  # then ${PWD} contains the string '/home/user/projects/myapp'.
+  #
+  # The syntax ${PWD##*/} is a parameter expansion technique:
+  # - '##' indicates that we want to remove the longest match of the pattern.
+  # - '*/' is the pattern which matches any characters followed by a '/'.
+  #
+  # By using ${PWD##*/}, we are effectively removing everything before
+  # and including the last '/' in the path. The result is the base name
+  # of the current directory.
+  #
+  # For example, if ${PWD} is '/home/user/projects/myapp', then:
+  #   ${PWD##*/} results in 'myapp', which is the name of the current directory.
+  #
+  # Assign this base name to the variable 'window_name'.
   window_name=$(echo ${PWD##*/})
   if is_bare_repo; then
     bare_path=$(get_bare_path) # only get bare path
     window_name=${bare_path:t}
   fi
 
-  if [ $TMUX ]; then
+  if [[ -n $TMUX ]]; then
     tmux rename-window $window_name
   fi
 
-  if [ $ZELLIJ ]; then
+  if [[ -n $ZELLIJ ]]; then
     zellij action rename-tab $window_name
   fi
 
