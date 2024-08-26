@@ -69,7 +69,8 @@ export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 alias manrg="rg --generate man | man -l -"
 
 alias ll="ls -a"
-alias la="ls -la"
+# h: human readable, t: time - newest first, S: size largest first
+alias la="ls -lahtS"
 
 alias ez="nvim ~/.zshrc"
 alias ev="nvim ~/.config/nvim/init.lua"
