@@ -1,6 +1,6 @@
 return {
-	"jghauser/mkdir.nvim",
-
+	{ "jghauser/mkdir.nvim" },
+	{ "LunarVim/bigfile.nvim" },
 	{ "godlygeek/tabular", cmd = "Tabularize" },
 	{
 		"szw/vim-maximizer",

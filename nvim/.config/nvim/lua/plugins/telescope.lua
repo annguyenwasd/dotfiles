@@ -22,7 +22,6 @@ return {
 						"--trim", -- add this value
 					},
 					file_ignore_patterns = {
-						"node_modules",
 						"%.git/",
 						".vscode/",
 						".idea",
