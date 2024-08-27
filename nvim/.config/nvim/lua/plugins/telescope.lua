@@ -294,6 +294,20 @@ return {
 			},
 			{
 				"gbprod/yanky.nvim",
+				init = function()
+					if not is_work_profile() then
+						vim.g.clipboard = {
+							name = "xclip",
+							copy = {
+								["+"] = "xclip -i",
+							},
+							paste = {
+								["+"] = "xclip -o",
+							},
+							cache_enabled = 1,
+						}
+					end
+				end,
 				config = function()
 					require("yanky").setup({
 						-- ring = { storage = "memory" },
