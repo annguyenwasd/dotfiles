@@ -10,6 +10,8 @@ return {
 			-- the loading is important
 			require("telescope").setup({
 				defaults = {
+					find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+					debounce = 150,
 					vimgrep_arguments = {
 						"rg",
 						"--color=never",
