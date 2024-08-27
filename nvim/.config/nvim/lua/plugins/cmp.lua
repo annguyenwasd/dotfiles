@@ -1,6 +1,8 @@
 return {
 	{
-		"hrsh7th/nvim-cmp",
+		-- "hrsh7th/nvim-cmp",
+		"yioneko/nvim-cmp",
+		branch = "perf",
 		event = "BufReadPost",
 		config = function()
 			local cmp = require("cmp")
