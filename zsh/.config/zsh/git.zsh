@@ -2,6 +2,7 @@
 alias lg="lazygit"
 
 alias gs="git status"
+alias gss="nvim +G +on"
 
 alias gb="git branch"
 alias gbd="git branch -d"
@@ -134,7 +135,6 @@ function select_branch(){
   else
     false
   fi
-
 }
 
 function gcoo {
@@ -147,7 +147,7 @@ function gcoo {
 }
 
 function gco() {
-  branch_name=$1
+  local branch_name=$1
   bare_branch_checkout $branch_name
 }
 
@@ -238,14 +238,16 @@ function grm() {
 
 # Remove all except master & develop worktree
 function git_worktree_clean() {
-    local exclude_branches=("master" "develop" "$@")  # Default exclusions plus additional arguments
-    local exclude_pattern
-
-    # Create a regex pattern for branches to exclude
-    exclude_pattern=$(printf "|%s" "${exclude_branches[@]}")
-    exclude_pattern="${exclude_pattern:1}"  # Remove the leading '|'
-
-    git worktree list | awk '{print $1}' | grep -vE "/($exclude_pattern)$" | xargs -r git worktree remove -f
+  local list=( $(git worktree list|cut -ws -f 1|sed '1d;/.*\/master$/d;/.*\/develop$/d') )
+  local dir
+  for dir in $list; do
+    local uniq=$(unique_name)
+    local dst="/tmp/$uniq"
+    mv "$dir" "$dst"
+    rm -rf "$dst" &
+    z -x $dir
+  done
+  git worktree prune
 }
 
 function is_branch_exist() {

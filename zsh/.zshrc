@@ -45,19 +45,21 @@ unsetopt BEEP
 # }}}
 
 # {{{ Sources
+[[ -f $HOME/.config/zsh/env.zsh ]] && source $HOME/.config/zsh/env.zsh
 source $HOME/.config/zsh/plugins.zsh
+source $HOME/.config/zsh/rmm.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
-source $HOME/.config/zsh/personal.zsh
 source $HOME/.config/zsh/yr.zsh
 source $HOME/.config/zellij/mappings.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
+# TOO move it to personal
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
 # }}}
 
 # {{{ Exports
+
 export EDITOR=nvim
-export REACT_EDITOR=code
 export WORKSPACE_FOLDER=~/workspace
 export NVIM_HOME=~/.config/nvim/
 export TERM=xterm-256color
@@ -258,69 +260,6 @@ function dd() {
   osascript -e "display notification \"${1:=Done!}\" with title \"${2:=${PWD/~\//}}\" sound name \"Submarine\""
 }
 
-# output example: 679-764-994-561-683-256-584-774
-unique_name() {
-    local numbers=()
-
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS: Use `jot` to generate random numbers
-        for _ in {1..8}; do
-            local num=$(jot -r 1 999)
-            numbers+=($num)
-        done
-    else
-        # Linux: Use `shuf` to generate random numbers
-        for _ in {1..8}; do
-            local num=$(shuf -i 1-999 -n 1)
-            numbers+=($num)
-        done
-    fi
-
-    # Join numbers with '-' character
-    echo ${(j:-:)numbers}
-}
-
-# Fastest way to remove node_modules -> Non-block install new packages
-# by `npm install` or `yarn install`
-function rmm () {
-  # Variables
-  local trash_dir_name=$(unique_name)
-  local trash_dir_path="/tmp/trash/$trash_dir_name"
-  mkdir -p "$trash_dir_path"
-
-  case "$1" in
-    -h|--help)
-      # Help section
-      echo "Usage: rmm [OPTION] [PATTERN]"
-      echo "Remove directories matching the specified pattern or 'node_modules' by default."
-      echo
-      echo "OPTIONS:"
-      echo "  -p         Preview the directories that would be removed without actually removing them."
-      echo "  -h, --help Show this help message."
-      echo
-      echo "PATTERN:"
-      echo "  Specify a pattern to match directories for removal."
-      echo "  Default is 'node_modules'."
-      return
-      ;;
-
-    -p)
-      # Preview directories
-      find . -name "${2:=node_modules}" -type d -prune -exec echo '{}' ";"
-      ;;
-
-    *)
-      # Default case: Perform deletion
-      local list=( $(find . -name "${1:=node_modules}" -type d -prune | sed "s/\.\///") )
-      for dir in $list; do
-        local new_name=$(unique_name)
-        mv -f "$dir" "$trash_dir_path/$new_name"
-      done
-      rm -rf "$trash_dir_path" &
-      ;;
-  esac
-}
-
 function stow_all() {
   # Default exclusion patterns
   local exclude_patterns=(".git" "README" "non-stow")
@@ -409,6 +348,10 @@ zsh_command_time() {
     print -P "%F{$ZSH_COMMAND_TIME_COLOR}$(printf "${ZSH_COMMAND_TIME_MSG}\n" "$timer_show")%f"
   fi
 }
+
+# !IMPORTANT
+# Personal settings should be very last statement for override standard configuration
+source $HOME/.config/zsh/personal.zsh
 
 precmd_functions+=(_command_time_precmd)
 preexec_functions+=(_command_time_preexec)

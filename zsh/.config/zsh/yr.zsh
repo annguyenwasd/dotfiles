@@ -3,7 +3,7 @@ function get_pkg_json_scrip() {
 }
 
 function yr() {
-  root=$(git rev-parse --show-toplevel)
+  local root=$(git rev-parse --show-toplevel)
   cd $root
   yarn workspaces info 2>/dev/null 1>/dev/null
   if [[ $? -eq 1 ]]; then
@@ -15,7 +15,7 @@ function yr() {
     yarn $cmd
   else
     # is a yarn workspace
-    workspaces=$(yarn workspaces info|sed '1d'|jq '. |= keys' 2>/dev/null | sed '1d; $d' |sed 's/,//'|sed 's/"//g'|awk '{$1=$1};1')
+    local workspaces=$(yarn workspaces info|sed '1d'|jq '. |= keys' 2>/dev/null | sed '1d; $d' |sed 's/,//'|sed 's/"//g'|awk '{$1=$1};1')
     workspaces="root \n $workspaces"
     ws=$(echo $workspaces|fzf --header="Select workspace")
 
@@ -23,14 +23,14 @@ function yr() {
      return 1;
     fi
 
-    ws=$(echo $ws|xargs)
+    local ws=$(echo $ws|xargs)
 
-    p="."
+    local p="."
     if [[ ! "$ws" == "root" ]]; then
-      ws_location=$(yarn workspaces info|sed '1d'|sed '$d'|jq ".\"$(echo $ws)\".location"|sed 's/"//g')
+      local ws_location=$(yarn workspaces info|sed '1d'|sed '$d'|jq ".\"$(echo $ws)\".location"|sed 's/"//g')
       p="./$ws_location"
     fi
-    cmd=$(get_pkg_json_scrip $p)
+    local cmd=$(get_pkg_json_scrip $p)
 
     if [[ $? -gt 0 ]]; then
      return 1;

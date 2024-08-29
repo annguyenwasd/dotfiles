@@ -28,14 +28,12 @@ keybinds clear-defaults=true {
         bind "k" "Up" { MoveFocus "Up"; }
         bind "p" { SwitchFocus; }
         bind "n" { NewPane; SwitchToMode "Normal"; }
-        bind "d" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "r" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "x" { CloseFocus; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
         bind "z" { TogglePaneFrames; SwitchToMode "Normal"; }
         bind "w" { ToggleFloatingPanes; SwitchToMode "Normal"; }
         bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "Normal"; }
-        bind "c" { SwitchToMode "RenamePane"; PaneNameInput 0;}
+        bind "r" { SwitchToMode "RenamePane"; PaneNameInput 0;}
     }
     move {
         unbind "Ctrl h"
@@ -54,7 +52,7 @@ keybinds clear-defaults=true {
         bind "l" "Right" "Down" "j" { GoToNextTab; }
         bind "n" { NewTab; SwitchToMode "Normal"; }
         bind "x" { CloseTab; }
-        bind "s" { ToggleActiveSyncTab; SwitchToMode "Normal"; }
+        bind "Ctrl s" { ToggleActiveSyncTab; SwitchToMode "Normal"; }
         bind "b" { BreakPane; SwitchToMode "Normal"; }
         bind "]" { BreakPaneRight; SwitchToMode "Normal"; }
         bind "[" { BreakPaneLeft; SwitchToMode "Normal"; }
@@ -145,7 +143,6 @@ keybinds clear-defaults=true {
 
         bind "p" { SwitchToMode "Pane"; }
         bind "r" { SwitchToMode "Resize"; }
-        //bind "s" { SwitchToMode "Scroll"; }
         bind "o" { SwitchToMode "Session"; }
         bind "t" { SwitchToMode "Tab"; }
         bind "m" { SwitchToMode "Move"; }

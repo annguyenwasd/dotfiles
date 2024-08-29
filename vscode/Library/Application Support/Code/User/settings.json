@@ -3,7 +3,6 @@
   "update.mode": "none",
   "telemetry.telemetryLevel": "off",
   "editor.suggestSelection": "first",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "workbench.startupEditor": "none",
   "editor.minimap.enabled": false,
   "vim.useSystemClipboard": true,
@@ -30,17 +29,14 @@
   "vim.normalModeKeyBindings": [
     {
       "before": [
-        "<leader>",
-        "g",
-        "i"
+        "K"
       ],
       "commands": [
-        "editor.action.goToImplementation"
+        "editor.action.showHover"
       ]
     },
     {
       "before": [
-        "<leader>",
         "g",
         "d"
       ],
@@ -59,7 +55,6 @@
     },
     {
       "before": [
-        "<leader>",
         "g",
         "r"
       ],
@@ -255,7 +250,7 @@
     {
       "before": [
         "<leader>",
-        "l",
+        "h",
         "d"
       ],
       "commands": [
@@ -265,7 +260,7 @@
     {
       "before": [
         "<leader>",
-        "l",
+        "h",
         "u"
       ],
       "commands": [
@@ -275,7 +270,7 @@
     {
       "before": [
         "<leader>",
-        "l",
+        "h",
         "a"
       ],
       "commands": [
@@ -343,7 +338,7 @@
     {
       "before": [
         "<leader>",
-        "l",
+        "h",
         "a"
       ],
       "commands": [
@@ -388,7 +383,6 @@
       "statusBarItem.remoteBackground": "#616161"
     }
   },
-  "materialTheme.accent": "Graphite",
   "gitlens.currentLine.pullRequests.enabled": false,
   "gitlens.hovers.enabled": false,
   "gitlens.hovers.pullRequests.enabled": false,
@@ -401,10 +395,8 @@
   "terminal.integrated.scrollback": 10000,
   "vim.foldfix": true,
   "vim.visualstar": true,
-  "material-icon-theme.activeIconPack": "react",
-  "material-icon-theme.folders.theme": "classic",
   "editor.fontFamily": "'Source Code Pro', 'Operator Mono','Dank Mono', Menlo, 'Fira Code', Monaco, 'Courier New', monospace",
-  "terminal.external.osxExec": "iTerm.app",
+  "terminal.external.osxExec": "",
   "terminal.integrated.cursorBlinking": true,
   "debug.terminal.clearBeforeReusing": true,
   "explorer.confirmDragAndDrop": false,
@@ -455,13 +447,13 @@
     "miniapps",
     "NXNV"
   ],
-  "diffEditor.ignoreTrimWhitespace": false,
-  "githubPullRequests.fileListLayout": "tree",
-  "workbench.colorTheme": "Nord",
+  "workbench.colorTheme": "Default Light+",
   "workbench.editorAssociations": {
     "*.db": "default"
   },
   "workbench.layoutControl.enabled": false,
-  "sqltools.useNodeRuntime": true,
-  "workbench.activityBar.visible": false
+  "diffEditor.hideUnchangedRegions.enabled": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.activityBar.location": "hidden",
+  "workbench.sideBar.location": "right"
 }

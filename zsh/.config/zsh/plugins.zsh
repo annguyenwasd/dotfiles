@@ -16,10 +16,15 @@ function add_plugin(){
   source $dst/$(ls -1 $dst | grep ".plugin.zsh")
 }
 
-export ZVM_VI_EDITOR="nvim"
+if [[ $ANNGUYENWASD_PROFILE == "work" ]]; then
+  export ZVM_VI_EDITOR="vim"
+  else
+  export ZVM_VI_EDITOR="nvim"
+fi
 add_plugin "scresante/zsh-vi-mode" "fixpacman"
 add_plugin "popstas/zsh-command-time"
 add_plugin "mroth/evalcache"
+add_plugin "agkozak/zsh-z"
 
 # https://github.com/wincent/wincent/blob/85fc42d9e96d408a/aspects/dotfiles/files/.zshrc
 add_plugin "mafredri/zsh-async"

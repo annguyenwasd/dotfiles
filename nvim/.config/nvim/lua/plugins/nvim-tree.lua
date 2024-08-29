@@ -78,6 +78,7 @@ return {
 					prefix = "[FILTER]: ",
 					always_show_folders = false,
 				},
+				git = { enable = false },
 				actions = { open_file = { quit_on_open = true } },
 				renderer = {
 					indent_markers = {
@@ -145,9 +146,6 @@ return {
 							}
 						end,
 					},
-				},
-				git = {
-					ignore = false,
 				},
 				filesystem_watchers = {
 					ignore_dirs = { "node_modules", ".git" },
