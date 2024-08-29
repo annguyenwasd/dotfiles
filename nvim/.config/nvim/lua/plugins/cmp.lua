@@ -60,7 +60,6 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "snippy" },
 					{ name = "nvim_lua" },
-					{ name = "cmp_yanky" },
 					{
 						name = "buffer",
 						option = {
@@ -80,7 +79,6 @@ return {
 			})
 		end,
 		dependencies = {
-			"chrisgrieser/cmp_yanky",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-nvim-lua",
