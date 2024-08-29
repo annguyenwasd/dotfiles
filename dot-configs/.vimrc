@@ -1,3 +1,8 @@
+if !has('gui_running')
+  set t_Co=256
+
+endif
+
 syntax enable
 filetype plugin indent on
 let g:vimsyn_embed = 'lPr'
@@ -37,6 +42,10 @@ set listchars=eol:¬,tab:▹\ ,trail:+,lead:·
 set list
 set laststatus=2
 set showmode
+set lazyredraw
+set nobackup
+set nowritebackup
+set regexpengine=1
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -102,11 +111,11 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'skywind3000/asyncrun.vim'
 Plug 'godlygeek/tabular'
 Plug 'airblade/vim-rooter'
-Plug 'will133/vim-dirdiff'
-Plug 'mbbill/undotree'
+Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-gitgutter'
 Plug 'Donaldttt/fuzzyy'
