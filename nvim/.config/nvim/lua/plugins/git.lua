@@ -199,10 +199,7 @@ return {
 		"ruifm/gitlinker.nvim",
 		config = function()
 			require("gitlinker").setup({
-				mappings = false,
-				callbacks = {
-					["github.aus.thenational.com"] = require("gitlinker.hosts").get_github_type_url,
-				},
+				mappings = false
 			})
 		end,
 		keys = {
@@ -228,14 +225,14 @@ return {
 		end,
 		keys = {
 			{
-				"<leader>wl",
+				"<leader>wtl",
 				function()
 					require("telescope").extensions.git_worktree.git_worktrees()
 				end,
 				desc = desc("git: worktree checkout"),
 			},
 			{
-				"<leader>wj",
+				"<leader>wtc",
 				function()
 					require("telescope").extensions.git_worktree.create_git_worktree()
 				end,
