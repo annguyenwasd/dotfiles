@@ -7,9 +7,13 @@ fi
 
 [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
+
 # {{{ Export
-export DOTFILES=$HOME/dotfiles
 export SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
+export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 export PATH="$PATH:/usr/local/sbin"
 export PATH="$PATH:/usr/local/opt/ruby/bin"

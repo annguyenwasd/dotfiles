@@ -53,20 +53,7 @@ source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
 source $HOME/.config/zsh/yr.zsh
 source $HOME/.config/zellij/mappings.zsh
-# TOO move it to personal
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# [ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
 # }}}
-
-# {{{ Exports
-
-export EDITOR=nvim
-export WORKSPACE_FOLDER=~/workspace
-export NVIM_HOME=~/.config/nvim/
-export TERM=xterm-256color
-export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
-export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
-#}}}
 
 # {{{ Alias
 alias manrg="rg --generate man | man -l -"
