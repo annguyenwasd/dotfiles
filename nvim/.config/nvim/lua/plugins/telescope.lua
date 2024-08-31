@@ -55,7 +55,6 @@ return {
 				},
 			})
 		end,
-
 		keys = {
 			{
 				"<leader>o",

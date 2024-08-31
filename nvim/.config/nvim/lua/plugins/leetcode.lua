@@ -2,7 +2,8 @@ local leet_arg = "lc"
 return {
 	"kawre/leetcode.nvim",
 	build = ":TSUpdate html",
-	lazy = leet_arg ~= vim.fn.argv()[1],
+	lazy = false,
+	cond = leet_arg == vim.fn.argv()[1],
 	opts = { arg = leet_arg, lang = "javascript", image_support = not is_work_profile() },
 	keys = {
 		{ "<leader>ll", "<cmd>Leet list<cr>", desc = desc("leetcode: list") },

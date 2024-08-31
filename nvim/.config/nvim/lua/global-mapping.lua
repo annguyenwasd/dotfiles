@@ -21,13 +21,18 @@ _G.desc = function(desc)
 	local str
 	if desc ~= nil then
 		str = "[annguyenwasd] " .. desc
-  else
+	else
 		str = "[annguyenwasd] No desc provided"
 	end
 	return str
 end
 
 function _G.is_file_exist(path)
-   local f = io.open(path, "r")
-   return f ~= nil and io.close(f)
+	local f = io.open(path, "r")
+	return f ~= nil and io.close(f)
+end
+
+_G.is_in_git_repo = function()
+	local git_dir = vim.fn.system("git rev-parse --git-dir")
+	return git_dir ~= "" and git_dir:match("^fatal:") == nil
 end

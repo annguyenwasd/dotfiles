@@ -46,10 +46,12 @@ return {
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
-		event = "BufReadPost",
 		config = function()
 			require("colorizer").setup()
 		end,
+		keys = {
+			{ "<leader>tc", "<cmd>ColorizerToggle<cr>", desc = desc("Toggle color") },
+		},
 	},
 	{
 		"Wansmer/treesj",
@@ -114,6 +116,7 @@ return {
 	},
 	{
 		"christoomey/vim-tmux-navigator",
+		cond = os.getenv("TMUX"),
 		init = function()
 			vim.g.tmux_navigator_disable_when_zoomed = 1
 		end,
@@ -138,6 +141,7 @@ return {
 	},
 	{
 		"andymass/vim-matchup",
+		cond = false,
 		event = "BufReadPost",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
@@ -155,7 +159,7 @@ return {
 	},
 	{
 		"zdcthomas/yop.nvim",
-		event = "BufReadPost",
+		event = "VeryLazy",
 		config = function()
 			require("yop").op_map({ "n", "v" }, "<leader>Rg", function(lines, info)
 				require("telescope.builtin").grep_string({ search = lines[1] })

@@ -1,7 +1,7 @@
 return {
 	{
 		"williamboman/mason.nvim",
-		event = "BufReadPost",
+		event = "VeryLazy",
 		config = function()
 			require("mason").setup()
 			local mason_tool_installer = require("mason-tool-installer")
@@ -48,7 +48,6 @@ return {
 			"davidosomething/format-ts-errors.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			"folke/neodev.nvim",
-			-- TODO: remove branch
 			{
 				"jinzhongjia/LspUI.nvim",
 				enabled = false,
