@@ -249,52 +249,7 @@ function dd() {
 }
 
 function stow_all() {
-  # Default exclusion patterns
-  local exclude_patterns=(".git" "README" "non-stow")
-
-  # Check for options
-  case "$1" in
-    -h|--help)
-      echo "Usage: stow_all [OPTIONS]"
-      echo "Stow all directories in the specified DOTFILES directory, excluding certain patterns."
-      echo
-      echo "Options:"
-      echo "  -v, --verbose   Enable verbose output."
-      echo "  -e, --exclude   Specify additional patterns to exclude (comma-separated)."
-      echo "  -h, --help      Show this help message."
-      return
-      ;;
-
-    -v|--verbose)
-      local verbose=1
-      ;;
-
-    -e|--exclude)
-      # Additional exclusions passed as a comma-separated list
-      IFS=',' read -r -a extra_excludes <<< "$2"
-      exclude_patterns+=("${extra_excludes[@]}")
-      ;;
-  esac
-
-  # Combine exclusions into a single sed pattern
-  local sed_pattern=$(printf "/%s/ d;" "${exclude_patterns[@]}")
-
-  # List directories and stow them
-  local dirs_to_stow=$(ls -A1 "$DOTFILES" | sed "$sed_pattern")
-
-  if [[ -n "$verbose" ]]; then
-    echo "Stowing the following directories:"
-    echo "$dirs_to_stow"
-  fi
-
-  echo "$dirs_to_stow" | xargs -I{} stow {}
-
-  if [[ $? -eq 0 ]]; then
-    echo "Stowed all folders successfully."
-  else
-    echo "Error: Failed to stow some folders." >&2
-    return 1
-  fi
+  ls -1 $DOTFILES|sed -e '/\.md$/ d' -e '/genkey/ d'|xargs stow --target=$HOME
 }
 
 # }}}
