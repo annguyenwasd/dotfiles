@@ -33,7 +33,8 @@ return {
 				"<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>",
 				desc = desc("git: select right"),
 			},
-			{ "<leader>gL", "<cmd>GcLog<cr>", desc = desc("git: fugitive: show log") },
+			{ "<leader>gl", ":GcLog<cr>", mode = { "n", "v" }, desc = desc("git: fugitive: show log") },
+			{ "<leader>gL", ":0GcLog<cr>", mode = { "n", "v" }, desc = desc("git: fugitive: show log") },
 			{
 				"<leader>Gs",
 				"<cmd>G difftool --name-status<cr>",
@@ -80,9 +81,7 @@ return {
 				function()
 					vim.cmd("G add -A")
 					vim.cmd('G commit -n -m "WIP"')
-					vim.cmd(
-						"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease"
-					)
+					vim.cmd("<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease")
 				end,
 				silent = false,
 				desc = desc("git: add all -> create WIP commit -> push to origin"),
