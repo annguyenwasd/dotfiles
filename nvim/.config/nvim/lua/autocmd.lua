@@ -8,7 +8,7 @@
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 	group = vim.api.nvim_create_augroup("SetFoldMethod", { clear = true }),
-	pattern = { "*.vim", "*.zshrc", "*.zsh", "*.conf" },
+	pattern = { "*.vimrc", "*.vim", "*.zshrc", "*.zsh", "*.conf" },
 	command = "setlocal foldmethod=marker",
 })
 

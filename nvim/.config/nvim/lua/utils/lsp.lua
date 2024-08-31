@@ -105,7 +105,7 @@ local get_on_attach_fn = function()
 		end
 
 		if vim.lsp.inlay_hint then
-			vim.lsp.inlay_hint.enable(true)
+			vim.lsp.inlay_hint.enable(false)
 		end
 
 		if is_work_profile() then

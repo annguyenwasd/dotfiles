@@ -1,6 +1,14 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.keymap.set('c', '%%', function()
+    if vim.fn.getcmdtype() == ':' then
+        return vim.fn.expand('%:h') .. '/'
+    else
+        return '%%'
+    end
+end, { expr = true, desc=desc"Current file's directory path" })
+
 vim.keymap.set(
 	"n",
 	"n",

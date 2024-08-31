@@ -299,6 +299,7 @@ function stow_all() {
 
 # }}}
 
+#{{{ Timing fns
 _command_time_preexec() {
   # check excluded
   if [ -n "$ZSH_COMMAND_TIME_EXCLUDE" ]; then
@@ -337,12 +338,14 @@ zsh_command_time() {
   fi
 }
 
+precmd_functions+=(_command_time_precmd)
+preexec_functions+=(_command_time_preexec)
+#}}}
+
 # !IMPORTANT
 # Overriden settings should be very last statement for override standard configuration
 # [[ -f $HOME/.config/zsh/override.zsh ]] && source $HOME/.config/zsh/override.zsh
 
-precmd_functions+=(_command_time_precmd)
-preexec_functions+=(_command_time_preexec)
 #
 # End profiling (uncomment when necessary)
 #
