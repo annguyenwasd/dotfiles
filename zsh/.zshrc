@@ -48,10 +48,10 @@ unsetopt BEEP
 [[ -f $HOME/.config/zsh/env.zsh ]] && source $HOME/.config/zsh/env.zsh
 source $HOME/.config/zsh/plugins.zsh
 source $HOME/.config/zsh/personal.zsh
-source $HOME/.config/zsh/rmm.zsh
+source $HOME/.config/zsh/scripts/rmm.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
-source $HOME/.config/zsh/yr.zsh
+source $HOME/.config/zsh/scripts/yr.zsh
 source $HOME/.config/zellij/mappings.zsh
 # }}}
 
