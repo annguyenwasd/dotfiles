@@ -1,7 +1,4 @@
-if !has('gui_running')
-  set t_Co=256
-endif
-
+"{{{ Settings
 syntax enable
 filetype plugin indent on
 let g:vimsyn_embed = 'lPr'
@@ -45,6 +42,9 @@ set lazyredraw
 set nobackup
 set nowritebackup
 set regexpengine=1
+"}}}
+
+"{{{ Default mappings
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -102,6 +102,21 @@ if has("gui_macvim")
   color default
 endif
 
+augroup SetFileType
+  autocmd!
+  autocmd FileType vim set foldmethod=marker
+  autocmd BufNewFile,BufRead *.zsh setlocal filetype=zsh
+  autocmd FileType zsh set foldmethod=marker
+  autocmd BufNewFile,BufRead *.conf setlocal filetype=conf
+  autocmd FileType conf set foldmethod=marker
+augroup END
+"}}}
+
+if filereadable(expand("~/.env.vim"))
+    source ~/.env.vim
+endif
+
+"{{{ Plugins Declaration
 call plug#begin()
 Plug 'preservim/nerdtree'
 Plug 'PhilRunninger/nerdtree-visual-selection'
@@ -120,7 +135,9 @@ Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-gitgutter'
 Plug 'Donaldttt/fuzzyy'
 call plug#end()
+"}}}
 
+"{{{ NERDTree
 let g:NERDTreeWinSize = 45
 let NERDTreeWinPos = "right"
 let NERDTreeMinimalUI = 1
@@ -128,9 +145,9 @@ let NERDTreeShowHidden = 1
 let NERDTreeQuitOnOpen = 1
 nnoremap <leader>n <cmd>NERDTreeToggle<cr>
 nnoremap - <cmd>NERDTreeFind<cr>
+"}}}
 
-let g:asyncrun_open = 10
-
+"{{{ Git
 let g:fugitive_pty = 0
 nnoremap <leader>gf <cmd>diffget //2 <cr> <cmd>w <cr> <cmd>diffupdate <cr>
 nnoremap <leader>gj <cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>
@@ -140,6 +157,9 @@ nnoremap <leader>gs <cmd>G<cr>
 nnoremap <leader><leader>gs <cmd>G difftool<cr>
 nnoremap <leader><leader>bl <cmd>G blame<cr>
 nnoremap <leader>gc :G commit -m ""<left>
+nnoremap <leader>gl :GcLog<cr>
+vnoremap <leader>gl :GcLog<cr>
+vnoremap <leader>gl <cmd>0GcLog<cr>
 nnoremap <leader>ga <cmd>G add -A<cr>
 nnoremap <leader>hA <cmd>Gwrite<cr>
 nnoremap <leader>hD <cmd>Gread<cr>
@@ -147,16 +167,23 @@ nnoremap <leader>gw <cmd>G commit -n -m "WIP"<cr>
 nnoremap gpp <cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
 nnoremap gpt <cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>
 
-let g:github_enterprise_urls = ['https://github.aus.thenational.com']
 nnoremap <leader>gy <cmd>GBrowse<cr>
 vnoremap <leader>gy :GBrowse<cr>
 
-let g:rooter_patterns = [ ".git" ]
-let g:rooter_manual_only = 1
+let g:gitgutter_map_keys = 0
 
-let g:DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*,*node_modules*,wezterm,karabiner,feh,arch,work.lua,env.zsh,.luarc.json,docs,lazy-lock.json"
-nnoremap <leader>u <cmd>UndotreeShow<cr>
+nmap <leader>hc <Plug>(GitGutterPreviewHunk)
+nmap <leader>ha <Plug>(GitGutterStageHunk)
+nmap <leader>hd <Plug>(GitGutterUndoHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+"}}}
 
+"{{{ Fuzzy Finder
 let g:enable_fuzzyy_keymaps = 0
 let g:files_respect_gitignore = 1
 let g:fuzzyy_files_ignore_file = ['*.beam', '*.so', '*.exe', '*.dll', '*.dump', '*.core', '*.swn', '*.swp']
@@ -173,15 +200,14 @@ nnoremap <leader>rg <cmd>FuzzyGrep<cr>
 nnoremap <leader>RG :FuzzyGrep <C-R><C-W><cr>
 nnoremap <leader>fh <cmd>FuzzyHelps<cr>
 nnoremap <leader>fc <cmd>FuzzyColors<cr>
+"}}}
 
-let g:gitgutter_map_keys = 0
+"{{{ MISC
+let g:asyncrun_open = 10
 
-nmap <leader>hc <Plug>(GitGutterPreviewHunk)
-nmap <leader>ha <Plug>(GitGutterStageHunk)
-nmap <leader>hd <Plug>(GitGutterUndoHunk)
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+let g:rooter_patterns = [ ".git" ]
+let g:rooter_manual_only = 1
+
+let g:DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*,*node_modules*,wezterm,karabiner,feh,arch,work.lua,env.zsh,.luarc.json,docs,lazy-lock.json"
+nnoremap <leader>u <cmd>UndotreeShow<cr>
+"}}}
