@@ -11,34 +11,29 @@
 	eol = lf
 
 [alias]
-  s = status
-  c = commit -m
-  co = checkout
-	p = pull
-	pp = push
-	pf = push --force-with-lease
-	ca = commit -v --amend
+  co  = checkout
+	p   = pull
+	pp  = push
+	pf  = push --force-with-lease
+  pt  = push --follow-tags
+	ca  = commit -v --amend
 	cae = commit -v --amend --no-edit
-	cb = checkout -b
-	ba = branch -vv
-	bd = branch -d
+	cb  = checkout -b
 	bdr = push  -d
-	sh = stash -u
-	sp = stash pop
-	sl = stash list
-	f = fetch
-	a = add .
-	l = log --graph --oneline
-	la = log --graph --oneline --stat
-	r = rebase
-	ri = rebase -i
-	ra = rebase --abort
-	rc = rebase --continue
-	fp = fetch --prune
-	rn = branch -m
-  wt = worktree
+	sh  = stash -u
+	sp  = stash pop
+	sl  = stash list
+	f   = fetch
+	l   = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s  %C(bold blue)<%an>%Creset %Cgreen%ar / %ad%Creset %n %b'
+	lo  = log --graph --oneline
+	r   = rebase
+	ri  = rebase -i
+	ra  = rebase --abort
+	rc  = rebase --continue
+	fp  = fetch --prune
+  wt  = worktree
   wtf = config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-  dl = diff -- ':!yarn.lock' ':!package.lock'
+  dl  = diff -- ':!yarn.lock' ':!package.lock'
 [interactive]
 [color]
 	ui = true
