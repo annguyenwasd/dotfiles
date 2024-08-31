@@ -1,6 +1,5 @@
 if !has('gui_running')
   set t_Co=256
-
 endif
 
 syntax enable
@@ -111,6 +110,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb',
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'skywind3000/asyncrun.vim'
 Plug 'godlygeek/tabular'
@@ -119,12 +119,7 @@ Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-gitgutter'
 Plug 'Donaldttt/fuzzyy'
-Plug 'yegappan/lsp'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'rafamadriz/friendly-snippets'
 call plug#end()
-
 
 let g:NERDTreeWinSize = 45
 let NERDTreeWinPos = "right"
@@ -146,14 +141,20 @@ nnoremap <leader><leader>gs <cmd>G difftool<cr>
 nnoremap <leader><leader>bl <cmd>G blame<cr>
 nnoremap <leader>gc :G commit -m ""<left>
 nnoremap <leader>ga <cmd>G add -A<cr>
+nnoremap <leader>hA <cmd>Gwrite<cr>
+nnoremap <leader>hD <cmd>Gread<cr>
 nnoremap <leader>gw <cmd>G commit -n -m "WIP"<cr>
 nnoremap gpp <cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
 nnoremap gpt <cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>
 
+let g:github_enterprise_urls = ['https://github.aus.thenational.com']
+nnoremap <leader>gy <cmd>GBrowse<cr>
+vnoremap <leader>gy :GBrowse<cr>
+
 let g:rooter_patterns = [ ".git" ]
 let g:rooter_manual_only = 1
 
-let g:DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*,*node_modules*"
+let g:DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*,*node_modules*,wezterm,karabiner,feh,arch,work.lua,env.zsh,.luarc.json,docs,lazy-lock.json"
 nnoremap <leader>u <cmd>UndotreeShow<cr>
 
 let g:enable_fuzzyy_keymaps = 0
@@ -172,72 +173,6 @@ nnoremap <leader>rg <cmd>FuzzyGrep<cr>
 nnoremap <leader>RG :FuzzyGrep <C-R><C-W><cr>
 nnoremap <leader>fh <cmd>FuzzyHelps<cr>
 nnoremap <leader>fc <cmd>FuzzyColors<cr>
-
-let lspOpts = #{
-      \ autoHighlightDiags: v:true,
-      \ showDiagOnStatusLine: v:true,
-      \ showDiagWithSign: v:true,
-      \ snippetSupport: v:true,
-      \ usePopupInCodeAction: v:true,
-      \ useQuickfixForLocations: v:true,
-      \ useBufferCompletion: v:true,
-      \ filterCompletionDuplicates: v:true,
-      \ vsnipSupport: v:true,
-      \ showInlayHints: v:false,
-      \ showDiagWithVirtualText: v:false}
-autocmd User LspSetup call LspOptionsSet(lspOpts)
-
-let lspServers = [#{
-	\    name: 'typescriptlang',
-	\    filetype: ['javascript', 'typescript', 'typescriptreact', 'javascriptreact'],
-	\    path: expand('~') . '/.node_modules/bin/typescript-language-server',
-	\    args: ['--stdio'],
-	\  }]
-autocmd User LspSetup call LspAddServer(lspServers)
-
-function! OnAttach()
-  nnoremap <buffer> <leader>ca <cmd>LspCodeAction<cr>
-  nnoremap <buffer> <leader>ld <cmd>LspDiag current<cr>
-  nnoremap <buffer> <leader>da <cmd>LspDiag show<cr>
-  nnoremap <buffer> <leader>ds <cmd>LspDocumentSymbol<cr>
-  nnoremap <buffer> <leader>ws <cmd>LspSymbolSearch<cr>
-  nnoremap <buffer> <leader>lf <cmd>LspFold<cr>
-  nnoremap <buffer> ]d <cmd>LspDiag next<cr>
-  nnoremap <buffer> [d <cmd>LspDiag prev<cr>
-  nnoremap <buffer> <leader>fm <cmd>LspFormat<cr>
-  nnoremap <buffer> gd <cmd>LspGotoDefinition<cr>
-  nnoremap <buffer> gr <cmd>LspShowReferences<cr>
-  nnoremap <buffer> gD <cmd>LspGotoDeclaration<cr>
-  nnoremap <buffer> gi <cmd>LspGotoImpl<cr>
-  nnoremap <buffer> gy <cmd>LspGotoTypeDef<cr>
-  nnoremap <buffer> K <cmd>LspHover<cr>
-  nnoremap <buffer> <leader>rn <cmd>LspRename<cr>
-  vnoremap <buffer> [ <cmd>LspSelectionExpand<cr>
-  vnoremap <buffer> ] <cmd>LspSelectionShrink<cr>
-  nnoremap <buffer> <c-s> <cmd>LspShowSignature<cr>
-  nnoremap <buffer> ghl <cmd>LspHighlight<cr>
-  nnoremap <buffer> ghc <cmd>LspHighlightClear<cr>
-endfunction
-autocmd User LspAttached call OnAttach()
-
-imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-imap <expr> <c-l>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <c-l>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <c-h> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <c-h> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-
-nmap        s   <Plug>(vsnip-select-text)
-xmap        s   <Plug>(vsnip-select-text)
-nmap        S   <Plug>(vsnip-cut-text)
-xmap        S   <Plug>(vsnip-cut-text)
-
-" If you want to use snippet for multiple filetypes, you can `g:vsnip_filetypes` for it.
-let g:vsnip_filetypes = {}
-let g:vsnip_filetypes.javascriptreact = ['javascript']
-let g:vsnip_filetypes.typescriptreact = ['typescript']
 
 let g:gitgutter_map_keys = 0
 

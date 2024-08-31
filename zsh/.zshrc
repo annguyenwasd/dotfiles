@@ -47,6 +47,7 @@ unsetopt BEEP
 # {{{ Sources
 [[ -f $HOME/.config/zsh/env.zsh ]] && source $HOME/.config/zsh/env.zsh
 source $HOME/.config/zsh/plugins.zsh
+source $HOME/.config/zsh/personal.zsh
 source $HOME/.config/zsh/rmm.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
@@ -350,8 +351,8 @@ zsh_command_time() {
 }
 
 # !IMPORTANT
-# Personal settings should be very last statement for override standard configuration
-source $HOME/.config/zsh/personal.zsh
+# Overriden settings should be very last statement for override standard configuration
+# [[ -f $HOME/.config/zsh/override.zsh ]] && source $HOME/.config/zsh/override.zsh
 
 precmd_functions+=(_command_time_precmd)
 preexec_functions+=(_command_time_preexec)

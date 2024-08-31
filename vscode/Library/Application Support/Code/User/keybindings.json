@@ -1,7 +1,18 @@
 [
   {
-    "key": "cmd+t",
-    "command": "-workbench.action.showAllSymbols"
+    "key": "cmd+j",
+    "command": "selectNextCodeAction",
+    "when": "codeActionMenuVisible"
+  },
+  {
+    "key": "cmd+k",
+    "command": "selectPrevCodeAction",
+    "when": "codeActionMenuVisible"
+  },
+  {
+    "key": "down",
+    "command": "selectNextCodeAction",
+    "when": "codeActionMenuVisible"
   },
   {
     "key": "cmd+t",
@@ -9,14 +20,14 @@
     "when": "terminal.active"
   },
   {
-    "key": "ctrl+`",
-    "command": "-workbench.action.terminal.toggleTerminal",
-    "when": "terminal.active"
-  },
-  {
     "key": "a",
     "command": "explorer.newFile",
     "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "-workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
   },
   {
     "key": "ctrl+a",
@@ -93,12 +104,13 @@
   },
   {
     "key": "cmd+k e",
-    "command": "workbench.action.focusActiveEditorGroup"
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "!codeActionMenuVisible"
   },
   {
     "key": "cmd+k e",
     "command": "-workbench.files.action.focusOpenEditorsView",
-    "when": "workbench.explorer.openEditorsView.active"
+    "when": "!codeActionMenuVisible && workbench.explorer.openEditorsView.active"
   },
   {
     "key": "shift+cmd+c",
@@ -161,11 +173,12 @@
   {
     "key": "cmd+k o",
     "command": "-workbench.action.files.showOpenedFileInNewWindow",
-    "when": "emptyWorkspaceSupport"
+    "when": "!codeActionMenuVisible&&emptyWorkspaceSupport"
   },
   {
     "key": "cmd+k o",
-    "command": "workbench.action.closeOtherEditors"
+    "command": "workbench.action.closeOtherEditors",
+    "when": "!codeActionMenuVisible"
   },
   {
     "key": "alt+cmd+t",
@@ -173,7 +186,8 @@
   },
   {
     "key": "cmd+k g",
-    "command": "workbench.action.closeEditorsInOtherGroups"
+    "command": "workbench.action.closeEditorsInOtherGroups",
+    "when": "!codeActionMenuVisible"
   },
   {
     "key": "shift+cmd+n",
@@ -259,7 +273,8 @@
   },
   {
     "key": "cmd+k cmd+k",
-    "command": "workbench.action.switchWindow"
+    "command": "workbench.action.switchWindow",
+    "when": "!codeActionMenuVisible"
   },
   {
     "key": "ctrl+w",
@@ -267,11 +282,13 @@
   },
   {
     "key": "cmd+k r",
-    "command": "-workbench.action.files.revealActiveFileInWindows"
+    "command": "-workbench.action.files.revealActiveFileInWindows",
+    "when": "!codeActionMenuVisible"
   },
   {
     "key": "cmd+k r",
-    "command": "workbench.action.openRecent"
+    "command": "workbench.action.openRecent",
+    "when": "!codeActionMenuVisible"
   },
   {
     "key": "ctrl+r",
@@ -292,12 +309,12 @@
   {
     "key": "cmd+k cmd+k",
     "command": "-editor.action.defineKeybinding",
-    "when": "editorTextFocus && !editorReadonly && editorLangId == 'jsonc'"
+    "when": "!codeActionMenuVisible&&editorTextFocus && !editorReadonly && editorLangId == 'jsonc'"
   },
   {
     "key": "cmd+k cmd+k",
     "command": "-editor.action.selectFromAnchorToCursor",
-    "when": "editorTextFocus && selectionAnchorSet"
+    "when": "!codeActionMenuVisible&&editorTextFocus && selectionAnchorSet"
   },
   {
     "key": "y",
@@ -317,11 +334,11 @@
   {
     "key": "shift+cmd+k",
     "command": "-editor.action.deleteLines",
-    "when": "textInputFocus && !editorReadonly"
+    "when": "!codeActionMenuVisible&&textInputFocus && !editorReadonly"
   },
   {
     "key": "shift+cmd+k",
-    "command": "workbench.action.tasks.build"
+    "command": "!codeActionMenuVisible&&workbench.action.tasks.build"
   },
   {
     "key": "shift+cmd+b",
@@ -364,5 +381,20 @@
   {
     "key": "shift+cmd+a",
     "command": "workbench.action.toggleActivityBarVisibility"
+  },
+  {
+    "key": "down",
+    "command": "-selectNextCodeAction",
+    "when": "codeActionMenuVisible"
+  },
+  {
+    "key": "j",
+    "command": "notebook.focusNextEditor",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'  && !codeActionMenuVisible"
+  },
+  {
+    "key": "j",
+    "command": "-notebook.focusNextEditor",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'"
   }
 ]

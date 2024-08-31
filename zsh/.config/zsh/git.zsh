@@ -157,8 +157,8 @@ function gcb() {
 
 # Ex: gcbb feature/Abc def ghik ---> brach created: feature/abc_def_ghik
 function gcbb() {
- branch_name=$(echo ${@:l} | sed "s/ \{1,\}/-/g" | sed "s/\[.*\]//" | sed "s/{.*}//" | sed "s/(.*)//")
- bare_branch_checkout $branch_name true
+  branch_name=$(echo ${@:l} | sed -E 's/[^a-zA-Z0-9/]+/-/g; s/-+/-/g')
+  bare_branch_checkout $branch_name true
 }
 
 function gpu {

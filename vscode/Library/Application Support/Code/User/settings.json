@@ -10,6 +10,17 @@
   "vim.visualModeKeyBindings": [
     {
       "before": [
+        "D"
+      ],
+      "after": [
+        "y",
+        "'",
+        ">",
+        "p",
+      ]
+    },
+    {
+      "before": [
         ">"
       ],
       "commands": [
@@ -29,19 +40,57 @@
   "vim.normalModeKeyBindings": [
     {
       "before": [
-        "K"
+        "<leader>",
+        "m",
+        "m"
       ],
       "commands": [
-        "editor.action.showHover"
+        "workbench.action.closePanel",
+        "workbench.action.maximizeEditorHideSidebar"
       ]
     },
     {
       "before": [
-        "g",
-        "d"
+        "[",
+        "b"
       ],
       "commands": [
-        "editor.action.goToTypeDefinition"
+        ":bp"
+      ]
+    },
+    {
+      "before": [
+        "[",
+        "B"
+      ],
+      "commands": [
+        ":bfirst"
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "B"
+      ],
+      "commands": [
+        ":blast"
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "b"
+      ],
+      "commands": [
+        ":bn"
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "editor.action.showHover"
       ]
     },
     {
@@ -397,7 +446,6 @@
   "vim.visualstar": true,
   "editor.fontFamily": "'Source Code Pro', 'Operator Mono','Dank Mono', Menlo, 'Fira Code', Monaco, 'Courier New', monospace",
   "terminal.external.osxExec": "",
-  "terminal.integrated.cursorBlinking": true,
   "debug.terminal.clearBeforeReusing": true,
   "explorer.confirmDragAndDrop": false,
   "editor.fontSize": 14,
@@ -447,13 +495,22 @@
     "miniapps",
     "NXNV"
   ],
-  "workbench.colorTheme": "Default Light+",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.editorAssociations": {
     "*.db": "default"
   },
-  "workbench.layoutControl.enabled": false,
-  "diffEditor.hideUnchangedRegions.enabled": true,
   "diffEditor.ignoreTrimWhitespace": false,
-  "workbench.activityBar.location": "hidden",
-  "workbench.sideBar.location": "right"
+  "window.nativeFullScreen": false,
+  "window.newWindowDimensions": "maximized",
+  "workbench.sideBar.location": "right",
+  "scm.inputFontSize": 14,
+  "debug.console.fontSize": 14,
+  "chat.editor.fontSize": 14,
+  "markdown.preview.fontSize": 16,
+  "window.zoomLevel": 1.5,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "window.title": "${rootPath}${separator}${activeRepositoryBranchName}",
+  "window.zoomPerWindow": false
 }
