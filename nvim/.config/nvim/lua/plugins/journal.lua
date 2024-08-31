@@ -35,21 +35,21 @@ return {
 	end,
 	keys = {
 		{
-			"<leader>tj",
+			"<leader>jt",
 			function()
 				require("telescope.builtin").find_files({ cwd = root })
 			end,
 			desc = desc("Telescope: find in journal"),
 		},
 		{
-			"<leader>rj",
+			"<leader>jr",
 			function()
 				require("telescope").extensions.egrepify.egrepify({ cwd = root })
 			end,
 			desc = desc("Telescope: live grep in journal"),
 		},
 		{
-			"<leader>Nj",
+			"<leader>jn",
 			function()
 				require("nvim-tree.api").tree.open({ path = vim.fn.expand(root) })
 			end,

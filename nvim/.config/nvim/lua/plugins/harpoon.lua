@@ -2,6 +2,11 @@ return {
 	{
 		"ThePrimeagen/harpoon",
 		keys = {
+      {"<localleader>1", "<cmd>lua require('harpoon.term').gotoTerminal(1)<cr>", desc=desc"harpoon: go to terminal 1"},
+      {"<localleader>2", "<cmd>lua require('harpoon.term').gotoTerminal(2)<cr>", desc=desc"harpoon: go to terminal 2"},
+      {"<localleader>3", "<cmd>lua require('harpoon.term').gotoTerminal(3)<cr>", desc=desc"harpoon: go to terminal 3"},
+      {"<localleader>4", "<cmd>lua require('harpoon.term').gotoTerminal(4)<cr>", desc=desc"harpoon: go to terminal 4"},
+      {"<localleader>5", "<cmd>lua require('harpoon.term').gotoTerminal(5)<cr>", desc=desc"harpoon: go to terminal 5"},
 			{
 				"ma",
 				function()
