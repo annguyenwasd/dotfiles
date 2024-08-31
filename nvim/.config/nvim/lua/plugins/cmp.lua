@@ -3,7 +3,7 @@ return {
 		-- "hrsh7th/nvim-cmp",
 		"yioneko/nvim-cmp",
 		branch = "perf",
-		event = "BufReadPost",
+		event = "InsertEnter",
 		config = function()
 			local cmp = require("cmp")
 
