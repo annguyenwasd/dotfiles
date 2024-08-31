@@ -1,6 +1,7 @@
 return {
 	{
 		"kdheepak/lazygit.nvim",
+		cond = is_in_git_repo,
 		init = function()
 			vim.g.lazygit_floating_window_winblend = 0
 			vim.g.lazygit_floating_window_scaling_factor = 1
@@ -12,6 +13,7 @@ return {
 	{
 		"tpope/vim-fugitive",
 		lazy = false,
+		cond = is_in_git_repo,
 		init = function()
 			-- vim.api.nvim_create_autocmd("BufReadPost", {
 			-- 	group = vim.api.nvim_create_augroup("FugitiveAutoCleanBuffer", { clear = true }),
@@ -98,6 +100,7 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPre",
+		cond = is_in_git_repo,
 		config = function()
 			require("gitsigns").setup({
 				sign_priority = 100,
@@ -197,9 +200,10 @@ return {
 	},
 	{
 		"ruifm/gitlinker.nvim",
+		cond = is_in_git_repo,
 		config = function()
 			require("gitlinker").setup({
-				mappings = false
+				mappings = false,
 			})
 		end,
 		keys = {
@@ -219,6 +223,7 @@ return {
 	},
 	{
 		"ThePrimeagen/git-worktree.nvim",
+		cond = is_in_git_repo,
 		config = function()
 			require("git-worktree").setup({})
 			require("telescope").load_extension("git_worktree")
