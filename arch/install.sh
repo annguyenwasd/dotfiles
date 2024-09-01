@@ -9,7 +9,7 @@ makepkg -si
 # Install additional packages using Yay
 yay -S --noconfirm i3 tmux git neovim stow zsh xorg dmenu alacritty firefox python node \
   npm lazygit fzf ripgrep openssh xclip curl unzip feh os-prober polkit xdg-user-dirs \
-  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd google-chrome
+  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd google-chrome yazi
 
 # Change default shell to zsh
 chsh -s $(which zsh)
