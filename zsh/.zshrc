@@ -249,7 +249,7 @@ function dd() {
 }
 
 function stow_all() {
-  ls -1 $DOTFILES|sed -e '/\.md$/ d' -e '/genkey/ d'|xargs stow --target=$HOME
+  ls -1 $DOTFILES|sed -e '/\.md$/ d' -e '/genkey/ d' -e '/instald/ d'|xargs stow --target=$HOME
 }
 
 # }}}
