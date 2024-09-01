@@ -61,7 +61,11 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec alacritty
 bindsym $mod+e exec google-chrome-stable
 bindsym $mod+y exec alacritty --command yazi
+bindsym $mod+w exec --no-startup-id alacritty --class setwallpaper --command yazi $HOME/workspace/walls
+bindsym $mod+o exec alacritty --command nvim "+cd $HOME/workspace/dotfiles"
 bindsym $mod+p exec alacritty --command pulsemixer
+
+for_window [class="setwallpaper"] floating enable, resize set 500 500, move position 2060 px 30 px
 
 # kill focused window
 bindsym $mod+q kill

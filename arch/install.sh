@@ -9,11 +9,16 @@ makepkg -si
 # Install additional packages using Yay
 yay -S --noconfirm i3 tmux git neovim stow zsh xorg dmenu alacritty firefox python node \
   npm lazygit fzf ripgrep openssh xclip curl unzip feh os-prober polkit xdg-user-dirs \
-  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd google-chrome yazi
+  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd google-chrome yazi mpv \
+  ffmpegthumbnailer mediainfo
 
 # Change default shell to zsh
 chsh -s $(which zsh)
 exec zsh
+
+# mediainfo.yazi
+# This is a Yazi plugin for previewing media files. The preview shows thumbnail using ffmpegthumbnailer if available and media metadata using mediainfo.
+ya pack -a Ape/mediainfo
 
 # Set up Alacritty themes
 mkdir -p ~/.config/alacritty/themes
