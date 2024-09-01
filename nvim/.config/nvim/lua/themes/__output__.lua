@@ -1,1 +1,1 @@
-require('themes.gruvbox-material').dark_mix_medium()
+require('themes.vscode').dark()
