@@ -35,10 +35,6 @@ return {
 					preview = {
 						hide_on_startup = true,
 					},
-					layout_config = {
-						prompt_position = "top",
-					},
-					sorting_strategy = "ascending",
 					mappings = {
 						i = {
 							["<c-e>"] = actions.send_selected_to_qflist + actions.open_qflist,
