@@ -46,7 +46,6 @@ return {
 					["<C-e>"] = cmp.mapping.abort(),
 				},
 				sources = cmp.config.sources({
-					{ name = "codeium" },
 					{ name = "nvim_lsp" },
 					{ name = "snippy" },
 					{ name = "nvim_lua" },

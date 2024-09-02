@@ -8,5 +8,13 @@ return {
 		require("codeium").setup({
 			enable_chat = true,
 		})
+
+		local cmp = require("cmp")
+
+		cmp.setup({
+			sources = cmp.config.sources({
+				{ name = "codeium" },
+			}),
+		})
 	end,
 }
