@@ -19,13 +19,16 @@ return {
 				["<C-t>"] = "actions.select_tab",
 				["<C-p>"] = "actions.preview",
 				["<C-c>"] = "actions.close",
-				["<c-y>"] = "actions.copy_entry_path",
+				["<c-y>"] = function()
+					require("utils.yazi").open_yazi(require("oil").get_current_dir())
+				end,
 				["<C-r>"] = "actions.refresh",
 				["-"] = "actions.parent",
 				["<c-h>"] = "actions.parent",
 				["_"] = "actions.open_cwd",
 				["`"] = "actions.cd",
 				["~"] = "actions.tcd",
+				["gy>"] = "actions.copy_entry_path",
 				["gS"] = "actions.change_sort",
 				["gx"] = "actions.open_external",
 				["g."] = "actions.toggle_hidden",
@@ -35,11 +38,11 @@ return {
 			view_options = {
 				show_hidden = true,
 			},
-      columns={
-        "permissions",
-        "size",
-        "ctime",
-      }
+			columns = {
+				"permissions",
+				"size",
+				"ctime",
+			},
 		})
 	end,
 	keys = {
