@@ -58,9 +58,8 @@ source $HOME/.config/zellij/mappings.zsh
 # {{{ Alias
 alias manrg="rg --generate man | man -l -"
 
-alias ll="ls -a"
 # h: human readable, t: time - newest first, S: size largest first
-alias la="ls -lahtS"
+alias la="ls -lahtS --color"
 
 alias ez="nvim ~/.zshrc"
 alias ev="nvim ~/.config/nvim/init.lua"
