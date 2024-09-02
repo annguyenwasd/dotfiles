@@ -151,39 +151,62 @@ function kp() {
 #   - Custom functions: `dn`, `gcoo`, `is_bare_repo` should be defined elsewhere in your environment.
 #
 function fw() {
-  loc=${1:=$WORKSPACE_FOLDER}
-  is_changed_tmux_window_name=${2:=false}
-  is_open_nvim=${3:=false}
-  before="$PWD"
+  local loc=${1:=$WORKSPACE_FOLDER}
+  local is_changed_tmux_window_name=${2:=false}
+  local is_open_nvim=${3:=false}
+  local before="$PWD"
 
-  dir=$(ls -d --color=never $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --ansi --preview "ls -lA $loc/{}")
+  # This command sets the variable `dir` to a directory name selected using `fzf` with a preview feature.
+  # Here's a breakdown of each part of the command:
+  #
+  # 1. `ls -d --color=never $loc/*/`:
+  #    - `ls`: List directory contents.
+  #    - `-d`: List directories themselves, not their contents.
+  #    - `--color=never`: Disable colorized output for easier parsing.
+  #    - `$loc/*/`: List all directories in the location specified by the variable `loc`.
+  #
+  # 2. `| sed 's#/$##'`:
+  #    - `sed`: Stream editor for filtering and transforming text.
+  #    - `s#/$##`: Remove the trailing slash from each directory name.
+  #
+  # 3. `| sed "s#$loc/##"`:
+  #    - `sed`: Stream editor for filtering and transforming text.
+  #    - `s#$loc/##`: Remove the `$loc/` prefix from each directory name.
+  #
+  # 4. `| fzf --ansi --preview "ls -lA $loc/{}`:
+  #    - `fzf`: Fuzzy finder for interactive filtering.
+  #    - `--ansi`: Enable ANSI color codes in the output.
+  #    - `--preview "ls -lA $loc/{}"`: Show a preview of the selected directory's contents using `ls -lA`.
+  #        - `ls -lA $loc/{}`: List all contents (including hidden files) of the selected directory in long format.
+  #    - The curly braces `{}` in the preview command are placeholders for the current selection in `fzf`.
+  #
+  # The overall command:
+  # - Lists all directories in the specified location (`$loc`).
+  # - Removes the trailing slash and the `$loc/` prefix from each directory name.
+  # - Pipes the resulting directory names into `fzf` for interactive selection.
+  # - Uses `ls -lA` to show a preview of the contents of the selected directory.
+  # - Sets the variable `dir` to the name of the selected directory.
+  local dir=$(ls -d --color=never $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --ansi --preview "ls -lA $loc/{}")
+  local full_path=$loc"/"$dir
 
-  if [ ! -z $dir ]; then
-    cd $loc"/"$dir
-
-    if [ -n $TMUX ] && $is_changed_tmux_window_name; then
-      dn
-    fi
-
-    if [ -n $ZELLIJ ] && $is_changed_tmux_window_name; then
-      dn
-    fi
-
-    if is_bare_repo; then
-      gcoo
-      if [ $? -eq 1 ]
-      then
-        cd $before
-      fi
-    fi
-
-    if $is_open_nvim; then
-      nvim
-    fi
-
-  else
-    echo "No folder selected"
+  if [[ ! -d $full_path ]]; then
+    echo "No directory selected"
+    return 1
   fi
+
+  cd $full_path
+
+  [[ ( -n $ZELLIJ || -n $TMUX )  && $is_changed_tmux_window_name ]] && dn
+
+  if is_bare_repo; then
+    gcoo
+    if [[ $? -eq 1 ]]
+    then
+      cd $before
+    fi
+  fi
+
+  [[ $is_open_nvim ]] && nvim
 }
 
 function fww() {

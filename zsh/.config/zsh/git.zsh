@@ -133,7 +133,7 @@ function select_branch(){
     branch_name=$(echo $branch_name | sed 's/\*//; s/\+//; s/ //' | sed 's#remotes/origin/##' | awk '{ print $1 }')
     echo $branch_name
   else
-    false
+    return 1
   fi
 }
 
