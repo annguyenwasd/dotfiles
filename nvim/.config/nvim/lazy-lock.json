@@ -10,7 +10,6 @@
   "cmp-snippy": { "branch": "master", "commit": "6e39210aa3a74e2bf6462f492eaf0d436cd2b7d3" },
   "cmp-under-comparator": { "branch": "master", "commit": "6857f10272c3cfe930cece2afa2406e1385bfef8" },
   "cobalt2.nvim": { "branch": "master", "commit": "89c4212da7f2a6ce7570ca1b8ed01a95e30585c2" },
-  "codeium.nvim": { "branch": "main", "commit": "f6a2ef32a9e923cb0104a19d3e426b0e40e49505" },
   "colorbuddy.nvim": { "branch": "master", "commit": "cdb5b0654d3cafe61d2a845e15b2b4b0e78e752a" },
   "comment-box.nvim": { "branch": "main", "commit": "06bb771690bc9df0763d14769b779062d8f12bc5" },
   "conform.nvim": { "branch": "master", "commit": "9d5ba06d6ee7418c674f498634617416d15b6239" },
