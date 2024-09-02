@@ -271,7 +271,11 @@ function gcm() {
 }
 
 function is_bare_repo() {
-  local repo_path="${1:-$PWD}"
-  git -C "$repo_path" rev-parse --is-bare-repository > /dev/null 2>&1
+    # Check if the core.bare setting is set and equals true
+    if [[ $(git config --local --get core.bare 2>/dev/null) == "true" ]]; then
+        return 0  # true
+    else
+        return 1  # false
+    fi
 }
 # }}}
