@@ -11,21 +11,7 @@ return {
 				experimental = {
 					ghost_text = true, -- this feature conflict with copilot.vim's preview.
 				},
-				-- sorting = {
-					-- priority_weight = 1,
-					-- comparators = {
-					-- 	cmp.config.compare.kind,
-					-- 	cmp.config.compare.offset,
-					-- 	cmp.config.compare.exact,
-					-- 	cmp.config.compare.score,
-					-- 	require("cmp-under-comparator").under,
-					-- 	cmp.config.compare.sort_text,
-					-- 	cmp.config.compare.length,
-					-- 	cmp.config.compare.order,
-					-- },
-				-- },
 				snippet = {
-					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
 						require("snippy").expand_snippet(args.body)
 					end,
