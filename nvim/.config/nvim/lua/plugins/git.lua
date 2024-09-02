@@ -41,6 +41,11 @@ return {
 				desc = desc("git: show list of changed files in quickfix list"),
 			},
 			{
+				"<leader>ge",
+				"<cmd>Gedit<cr>",
+				desc = desc("git: Gedit"),
+			},
+			{
 				"<leader>gs",
 				"<cmd>G<cr>",
 				desc = desc("git: open git fugitive status"),
