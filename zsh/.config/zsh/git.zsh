@@ -199,16 +199,19 @@ function gt () {
 }
 
 function tobare() {
+  local current_branch_name="$(git branch --show-current)"
   # Remove all but not .git folder
-  for item in $(ls -A1 --color=never |grep --color=never -vE ".git$"); do
-    rm -rf $item
+  local list=( $(ls -A1 --color=never |grep --color=never -vE ".git$") )
+  mkdir -vp "$current_branch_name"
+  for item in $list; do
+    mv -v "$item" "$current_branch_name/$item"
   done
-  mv ./.git/* .
-  rm -rf .git
+  mv -v ./.git/* .
+  rmdir -v .git
   git config --local core.bare true
   git wtf
-  gcb ${1:=master}
-
+  cd "$current_branch_name"
+  echo "Done!"
 }
 
 # Remove a git branch or branches
