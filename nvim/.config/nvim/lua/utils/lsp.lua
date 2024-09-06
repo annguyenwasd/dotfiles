@@ -20,8 +20,8 @@ local map_lsp_ui_fns = function(bufnr)
 		"<cmd>LspUI code_action<cr>",
 		{ buffer = bufnr, desc = desc("lsp: show code action") }
 	)
-	vim.keymap.set("n", "]d", "<cmd>LspUI diagnostic next<cr>", { buffer = bufnr, desc = desc("lsp: next diagnostic") })
-	vim.keymap.set("n", "[d", "<cmd>LspUI diagnostic prev<cr>", { buffer = bufnr, desc = desc("lsp: prev diagnostic") })
+	-- vim.keymap.set("n", "]d", "<cmd>LspUI diagnostic next<cr>", { buffer = bufnr, desc = desc("lsp: next diagnostic") })
+	-- vim.keymap.set("n", "[d", "<cmd>LspUI diagnostic prev<cr>", { buffer = bufnr, desc = desc("lsp: prev diagnostic") })
 	vim.keymap.set("n", "K", "<cmd>LspUI hover<cr>", { buffer = bufnr, desc = desc("lsp: hover") })
 end
 
@@ -81,7 +81,7 @@ local get_on_attach_fn = function()
 		)
 		vim.keymap.set(
 			"n",
-			"<leader><leader>rf",
+			"<leader>rf",
 			"<cmd>TSToolsRenameFile<CR>",
 			{ buffer = bufnr, desc = desc("lsp(typescript): Rename file") }
 		)

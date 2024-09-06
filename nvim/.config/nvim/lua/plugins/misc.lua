@@ -164,12 +164,28 @@ return {
 			require("yop").op_map({ "n", "v" }, "<leader>Rg", function(lines, info)
 				require("telescope.builtin").grep_string({ search = lines[1] })
 			end, { desc = desc("Telescope: Grep string with motion") })
+			require("yop").op_map({ "n", "v" }, "<leader>hn", function(lines, info)
+				vim.cmd("AsyncRun npm home " .. lines[1])
+			end, { desc = desc("misc: Open npm home/home npm") })
 		end,
 	},
 	{
 		"folke/zen-mode.nvim",
 		cmd = "ZenMode",
-		opts = {},
+		opts = {
+			plugins = {
+				-- disable some global vim options (vim.o...)
+				-- comment the lines to not apply the options
+				options = {
+					enabled = true,
+					ruler = true, -- disables the ruler text in the cmd line area
+					showcmd = true, -- disables the command in the last line of the screen
+					-- you may turn on/off statusline in zen mode by setting 'laststatus'
+					-- statusline will be shown only if 'laststatus' == 3
+					laststatus = 3, -- turn off the statusline in zen mode
+				},
+			},
+		},
 		keys = {
 			{ "<leader>cc", "<cmd>ZenMode<cr>", desc = desc("Toggle zen mode") },
 		},

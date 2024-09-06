@@ -38,12 +38,11 @@ return {
 							fallback()
 						end
 					end,
-					["<C-d>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-y>"] = cmp.mapping.complete(),
-					["<cr>"] = cmp.mapping.confirm({ select = false }),
-					["<C-e>"] = cmp.mapping.abort(),
+					["<c-d>"] = cmp.mapping.scroll_docs(-4),
+					["<c-f>"] = cmp.mapping.scroll_docs(4),
+					["<c-space>"] = cmp.mapping.complete(),
+					["<c-y>"] = cmp.mapping.confirm({ select = false }),
+					["<c-e>"] = cmp.mapping.abort(),
 				},
 				sources = cmp.config.sources({
 					{ name = "codeium" },

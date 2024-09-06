@@ -50,9 +50,8 @@ return {
 			"folke/neodev.nvim",
 			{
 				"jinzhongjia/LspUI.nvim",
-				enabled = false,
+				cond = true,
 				config = true,
-				branch = "legacy",
 				opts = {
 					prompt = false,
 					event = "VeryLazy",
