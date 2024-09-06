@@ -41,7 +41,7 @@ return {
 					["<c-d>"] = cmp.mapping.scroll_docs(-4),
 					["<c-f>"] = cmp.mapping.scroll_docs(4),
 					["<c-space>"] = cmp.mapping.complete(),
-					["<c-y>"] = cmp.mapping.confirm({ select = false }),
+					["<cr>"] = cmp.mapping.confirm({ select = false }),
 					["<c-e>"] = cmp.mapping.abort(),
 				},
 				sources = cmp.config.sources({
