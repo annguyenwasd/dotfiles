@@ -89,4 +89,19 @@ function at() {
     cp -f $themes_dir/$theme_name $alacrity_import
   fi
 }
+
+function get_tmux_bg(){
+#!/bin/bash
+
+   # Send escape sequence to query the background color
+   printf '\033]11;?\007'
+
+   # Read the response
+   read -d $'\a' response
+
+   # Extract the color value
+   color=$(echo "$response" | sed -n 's/^.*:\(.*\)$/\1/p')
+
+   echo "Background color: $color"
+ }
 # }}}
