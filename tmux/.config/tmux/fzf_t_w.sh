@@ -27,7 +27,7 @@ fzf_t_w() {
   # Get the selected window using fzf
   selected_window=$(tmux lsw | sed '/active/ d' | cut -d " " -f 1,2 | sed 's/://' | \
     fzf --header="Select Tmux window: CTRL-D to delete window" \
-        --bind 'ctrl-d:execute(echo {} > /tmp/del_tmux_window)+execute(sh $HOME/.config/zsh/scripts/fzf_t_w_d.sh)+clear-query+reload(tmux lsw|sed "/active/ d"|cut -d " " -f 1,2|sed "s/://")')
+        --bind 'ctrl-d:execute(echo {} > /tmp/del_tmux_window)+execute(sh $HOME/.config/tmux/fzf_t_w_d.sh)+clear-query+reload(tmux lsw|sed "/active/ d"|cut -d " " -f 1,2|sed "s/://")')
 
   # Extract the window number from the selected window
   window_no=$(echo $selected_window | cut -d " " -f 1)
