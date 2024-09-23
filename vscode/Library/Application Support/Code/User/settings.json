@@ -328,6 +328,15 @@
     },
     {
       "before": [
+        "<c-w>",
+        "o"
+      ],
+      "commands": [
+        "workbench.action.closeOtherEditors",
+      ]
+    },
+    {
+      "before": [
         "<c-h>"
       ],
       "after": [
@@ -401,7 +410,6 @@
   },
   "explorer.confirmDelete": false,
   "vim.smartRelativeLine": true,
-  "explorer.openEditors.visible": 0,
   "workbench.colorCustomizations": {
     "[Gruvbox Dark Hard]": {
       "peekViewEditor.matchHighlightBackground": "#436046"
@@ -464,7 +472,6 @@
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.recentChange.enabled": false,
   "gitlens.codeLens.enabled": false,
-  "zenMode.fullScreen": false,
   "workbench.editor.highlightModifiedTabs": true,
   "workbench.editor.wrapTabs": true,
   "workbench.editor.closeEmptyGroups": true,
@@ -490,12 +497,18 @@
   ],
   "gitlens.currentLine.format": "${author, }${agoOrDate}${' via 'pullRequest}${ • message|50?}",
   "cSpell.userWords": [
+    "adduser",
+    "commitlint",
+    "immer",
     "IXNF",
     "miniapp",
     "miniapps",
-    "NXNV"
+    "nabxgen",
+    "nuirn",
+    "NXNV",
+    "Pressable"
   ],
-  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.colorTheme": "Default Light Modern",
   "workbench.editorAssociations": {
     "*.db": "default"
   },
@@ -512,5 +525,108 @@
     "editor.defaultFormatter": "vscode.json-language-features"
   },
   "window.title": "${rootPath}${separator}${activeRepositoryBranchName}",
-  "window.zoomPerWindow": false
+  "window.zoomPerWindow": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.wordWrap": "off",
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "text.html.markdown.journal.task.open.bullet",
+        "settings": {
+          "foreground": "#CC3300"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.task.open.marker",
+        "settings": {
+          "foreground": "#CC3300"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.task.open.keyword",
+        "settings": {
+          "fontStyle": "italic"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.task.open.text",
+        "settings": {}
+      },
+      {
+        "scope": "text.html.markdown.journal.task.completed.keyword",
+        "settings": {
+          "fontStyle": "italic"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.task.completed.marker",
+        "settings": {
+          "foreground": "#AAAAAA"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.task.completed.text",
+        "settings": {
+          "foreground": "#AAAAAA"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.task.completed.bullet",
+        "settings": {
+          "foreground": "#CC3300"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.memo.keyword",
+        "settings": {
+          "fontStyle": "italic"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.memo.bullet",
+        "settings": {
+          "foreground": "#CC3300"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.scope",
+        "settings": {
+          "foreground": "#CC3300"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.link.keyword",
+        "settings": {
+          "fontStyle": "italic"
+        }
+      },
+      {
+        "scope": "text.html.markdown.journal.link.bullet",
+        "settings": {
+          "foreground": "#CC3300"
+        }
+      }
+    ]
+  },
+  "prettier.proseWrap": "never",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.autoClosingBrackets": "never",
+  "editor.autoClosingComments": "never",
+  "editor.autoClosingQuotes": "never",
+  "workbench.editor.closeOnFileDelete": true,
+  "zenMode.hideLineNumbers": false,
+  "zenMode.hideActivityBar": false,
+  "zenMode.hideStatusBar": false,
+  "window.autoDetectColorScheme": true,
+  "search.quickAccess.preserveInput": true,
+  "git.autofetch": true,
+  "diffEditor.hideUnchangedRegions.enabled": true,
+  "diffEditor.renderSideBySide": true,
+  "diffEditor.experimental.showMoves": true,
+  "workbench.editor.enablePreview": false,
+  "window.nativeTabs": true
 }

@@ -53,4 +53,4 @@
 [pull]
 	rebase = false
 [rerere]
-	enabled = true
+	enabled = false

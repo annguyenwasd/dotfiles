@@ -12,8 +12,10 @@ function gcoo {
   local branch_name=$(select_branch)
   if [[ -z $branch_name ]]; then
     echo "No branch selected. Aborting..."
+    return 1
   else
     bare_branch_checkout $branch_name
+    return 0
   fi
 }
 
@@ -107,11 +109,4 @@ function iterm2_print_user_vars() {
 dn # for first enter/open new tab/pane
 add-zsh-hook chpwd dn
 add-zsh-hook preexec dn
-
-reverse_history_search() {
-  history 1 | tail -r |ipt -a -S 10
-}
-
-zle -N  reverse_history_search
-bindkey '^R' reverse_history_search
 

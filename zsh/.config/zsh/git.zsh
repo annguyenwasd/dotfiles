@@ -155,14 +155,14 @@ function gcb() {
   bare_branch_checkout $1 true $2
 }
 
-# Ex: gcbb feature/Abc def ghik ---> brach created: feature/abc_def_ghik
+# Ex: gcbb feature/Abc def ghik ---> brach created: feature/abc-def-ghik
 function gcbb() {
   branch_name=$(echo ${@:l} | sed -E 's/[^a-zA-Z0-9/]+/-/g; s/-+/-/g')
   bare_branch_checkout $branch_name true
 }
 
 function gpu {
-  branch_name=$(git rev-parse --abbrev-ref HEAD)
+  branch_name=$(git branch --show-current)
   echo "Pushing to ${1:=origin} $branch_name"
   git push -u ${1:=origin} $branch_name
 }
