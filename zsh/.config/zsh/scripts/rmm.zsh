@@ -19,6 +19,34 @@ unique_name() {
     # Join numbers with '-' character
     echo ${(j:-:)numbers}
 }
+_rmm() {
+    local -a directories
+    directories=($(ls -pa|grep "/" | sed "/\.\// d; s/\///"))
+
+    _arguments \
+        '-h[Show help message]' \
+        '--help[Show help message]' \
+        '-p[Preview directories to be removed]' \
+        '1: :->first_arg' \
+        '*: :->dir_names'
+
+    case $state in
+        first_arg)
+            if [[ $words[CURRENT-1] == -p ]]; then
+                _describe 'directory' directories
+            else
+                _alternative \
+                    'directories:directory:($directories)' \
+                    'options:option:(-p -h --help)'
+            fi
+            ;;
+        dir_names)
+            _describe 'directory' directories
+            ;;
+    esac
+}
+
+compdef _rmm rmm
 
 # Fastest way to remove node_modules -> Non-block install new packages
 # by `npm install` or `yarn install`
@@ -46,12 +74,23 @@ function rmm () {
 
     -p)
       # Preview directories
-      find . -name "${2:=node_modules}" -type d -prune -exec echo '{}' ";"
+      local dirname=${2:=node_modules}
+      if [[ $dirname == "node_modules" ]]; then
+        find . -name "$dirname" -type d -prune | sed "s/\.\///"
+      else
+        find . -name "$dirname" -type d -prune | grep -v "node_modules" | sed "s/\.\///"
+      fi
       ;;
 
     *)
       # Default case: Perform deletion
-      local list=( $(find . -name "${1:=node_modules}" -type d -prune | sed "s/\.\///") )
+      local dirname=${1:=node_modules}
+      local list=( )
+      if [[ $dirname == "node_modules" ]]; then
+        list=( $(find . -name "$dirname" -type d -prune | sed "s/\.\///") )
+      else
+        list=( $(find . -name "$dirname" -type d -prune | grep -v "node_modules" | sed "s/\.\///") )
+      fi
       for dir in $list; do
         local new_name=$(unique_name)
         mv -f "$dir" "$trash_dir_path/$new_name"

@@ -1,0 +1,2 @@
+syntax off
+compiler eslint
