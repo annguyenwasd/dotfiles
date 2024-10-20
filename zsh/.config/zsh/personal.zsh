@@ -14,6 +14,7 @@ fi
 export SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
 export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+export NODE_OPTIONS="--dns-result-order=ipv4first"
 
 export PATH="$PATH:/usr/local/sbin"
 export PATH="$PATH:/usr/local/opt/ruby/bin"
