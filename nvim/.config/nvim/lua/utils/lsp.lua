@@ -29,7 +29,7 @@ local signs = {
 	Error = " ",
 	Warn = " ",
 	Info = " ",
-	Hint = " ",
+	Hint = " ",
 }
 
 if not is_use_icons() then
