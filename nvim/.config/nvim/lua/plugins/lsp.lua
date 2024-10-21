@@ -55,6 +55,7 @@ return {
 				opts = {
 					prompt = false,
 					event = "VeryLazy",
+          lightbulb = { enable = false }
 				},
 			},
 			{
