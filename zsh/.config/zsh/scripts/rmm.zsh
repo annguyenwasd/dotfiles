@@ -1,3 +1,7 @@
+if ! (( ${+functions[compinit]} )) || [[ ! -f "${ZDOTDIR:-$HOME}/.zcompdump" ]]; then
+    autoload -Uz compinit
+    compinit
+fi
 # output example: 679-764-994-561-683-256-584-774
 unique_name() {
     local numbers=()
@@ -76,9 +80,9 @@ function rmm () {
       # Preview directories
       local dirname=${2:=node_modules}
       if [[ $dirname == "node_modules" ]]; then
-        find . -name "$dirname" -type d -prune | sed "s/\.\///"
+        find . -name "$dirname" -type d -prune
       else
-        find . -name "$dirname" -type d -prune | grep -v "node_modules" | sed "s/\.\///"
+        find . -name "$dirname" -type d -prune | grep -v "node_modules"
       fi
       ;;
 
@@ -87,9 +91,9 @@ function rmm () {
       local dirname=${1:=node_modules}
       local list=( )
       if [[ $dirname == "node_modules" ]]; then
-        list=( $(find . -name "$dirname" -type d -prune | sed "s/\.\///") )
+        list=( $(find . -name "$dirname" -type d -prune) )
       else
-        list=( $(find . -name "$dirname" -type d -prune | grep -v "node_modules" | sed "s/\.\///") )
+        list=( $(find . -name "$dirname" -type d -prune | grep -v "node_modules") )
       fi
       for dir in $list; do
         local new_name=$(unique_name)
@@ -98,4 +102,28 @@ function rmm () {
       rm -rf "$trash_dir_path" &
       ;;
   esac
+}
+
+_rmq() {
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    _arguments \
+        '1:directory:->directory'
+
+    case $state in
+        directory)
+            _path_files -/
+            ;;
+    esac
+}
+
+compdef _rmq rmq
+
+# rmm but quick
+function rmq() {
+  local trash_dir_name=$(unique_name)
+  local trash_dir_path="/tmp/$trash_dir_name"
+  mv "$1" "$trash_dir_path"
+  rm -rf "$trash_dir_path" &
 }

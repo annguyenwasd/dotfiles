@@ -151,6 +151,19 @@ function gco() {
   bare_branch_checkout $branch_name
 }
 
+function _git_branches() {
+    local -a branches
+    branches=(${(f)"$(git branch --all | grep -v HEAD | sed 's/.* //' | sed 's#remotes/##')"})
+    _describe -t branches 'git branches' branches
+}
+
+function _gco() {
+    _arguments \
+        '1: :_git_branches'
+}
+
+compdef _gco gco
+
 function gcb() {
   bare_branch_checkout $1 true $2
 }
@@ -210,6 +223,12 @@ function tobare() {
   rmdir -v .git
   git config --local core.bare true
   git wtf
+  mv $current_branch_name xxxtmpxxx
+  git wt add "./$current_branch_name" $current_branch_name
+  mv "./$current_branch_name/.git" xxxtmpxxx/.git
+  mv "./$current_branch_name" xxxdelxxx
+  mv xxxtmpxxx $current_branch_name
+  rmm xxxtmpxxx
   cd "$current_branch_name"
   echo "Done!"
 }

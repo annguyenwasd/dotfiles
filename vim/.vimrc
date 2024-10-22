@@ -118,7 +118,7 @@ let g:ctrlp_root_markers = ['.git', 'yarn.lock']
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_regexp = 0
 let g:ctrlp_map = '<leader>o'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|dist'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\.git\|dist'
 let g:ctrlp_prompt_mappings = {
   \ 'PrtBS()':              ['<bs>', '<c-]>'],
   \ 'PrtDelete()':          ['<del>'],
@@ -267,6 +267,11 @@ let g:DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.a
 nnoremap <leader>u <cmd>UndotreeToggle<cr>
 "}}}
 
+"{{{ netrw
+" Salad
+let g:no_plugin_maps=1
+"}}}
+
 "{{{ Custom functions
 function! EOLSymbol()
    if &fileformat == 'dos'
@@ -395,7 +400,7 @@ let g:asyncrun_rootmarks = ['.svn', '.git', '.gitignore', 'yarn.lock']
 nnoremap <leader>fl :set foldlevel=
 " This one for jump into \" \" when do space rg
 cnoremap <expr> "" getcmdpos() > 20 ? repeat('<Left>', 50) : '""'
-nnoremap <leader>rg :Ggrep -r -I -i --untracked -e "" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md
+nnoremap <leader>rg :Ggrep -r -I -i --untracked -e "" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>RG :Ggrep -r -I -i --untracked -e "<c-r><c-w>" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md
 nnoremap D y'>p
 "}}}
@@ -420,6 +425,7 @@ Plug 'yegappan/lsp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'rafamadriz/friendly-snippets'
+Plug 'tpope/vim-vinegar'
 Plug 'saccarosium/vim-netrw-salad'
 Plug 'tribela/vim-transparent'
 Plug 'prettier/vim-prettier', {
@@ -479,9 +485,9 @@ set nowritebackup
 set regexpengine=1
 set path+=**
 
-color retrobox
+" color retrobox
 " color quiet
-" color zaibatsu
+color zaibatsu
 " color morning
 
 hi! link Folded NonText

@@ -123,4 +123,4 @@
 
 }
 
-PROMPT='$vcs_info_dir_path %F{yellow}$vcs_info_bare_status%F{white}${vcs_info_msg_0_}%f %(1j.[%j] .)%# '
+PROMPT='$vcs_info_dir_path %F{yellow}$vcs_info_bare_status%F{reset}${vcs_info_msg_0_}%f %(1j.[%j] .)%# '
