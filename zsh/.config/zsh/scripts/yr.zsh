@@ -49,9 +49,17 @@ function yrr() {
   echo $ws_list|xargs -L 1 -I {} yarn workspace {} $1
 }
 
-function ylink() {
-  current_dir=$PWD
-  cd $WORKSPACE_FOLDER/nab-x-sdk/master
+function yl() {
+  local yarn_link_path="$HOME/.config/yarn/link"
+  ws_list=$(yarn workspaces info|sed '1 d;$ d'|jq 'to_entries[] |.key'|sed 's/"//g'|awk '{$1=$1};1')
+  echo $ws_list|xargs -L 1 -I {} rm "$yarn_link_path/{}" # remove linked first
+  echo $ws_list|xargs -L 1 -I {} yarn workspace {} link # then link
+}
+
+function yll() {
+  local sdk_path=${1:="$WORKSPACE_FOLDER/nab-x-sdk/master"}
+  local current_dir=$PWD
+  cd $sdk_path
   ws_list=$(yarn workspaces info|sed '1 d;$ d'|jq 'to_entries[] |.key'|sed 's/"//g'|awk '{$1=$1};1')
   cd $current_dir
   echo $ws_list|xargs -L 1 -I {} yarn link {}

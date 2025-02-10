@@ -17,6 +17,7 @@ alias gcae="git commit -v --amend --no-edit"
 alias gce="git commit -e"
 
 alias gcd="gco develop"
+alias gcbb="noglob gcbbb"
 
 alias gf="git fetch"
 alias gfp="git fetch --prune"
@@ -168,9 +169,19 @@ function gcb() {
   bare_branch_checkout $1 true $2
 }
 
+# Creates a sanitized branch name, handling all special characters safely
 # Ex: gcbb feature/Abc def ghik ---> brach created: feature/abc-def-ghik
-function gcbb() {
-  branch_name=$(echo ${@:l} | sed -E 's/[^a-zA-Z0-9/]+/-/g; s/-+/-/g')
+function gcbbb() {
+  # Check if running BSD sed (macOS) or GNU sed
+  if sed --version 2>/dev/null | grep -q GNU; then
+      # GNU sed (Linux)
+      local branch_name=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[([^]]*)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
+  else
+      # BSD sed (macOS)
+      local branch_name=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[\([^]]*\)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
+  fi
+
+  echo "branch name: $branch_name" 
   bare_branch_checkout $branch_name true
 }
 
@@ -250,12 +261,17 @@ function grm() {
   fi
 
 
-  if is_bare_repo
-  then
-    root=$(get_bare_path)
-    $(git worktree remove --force $root/$1 2>/dev/null)
+  if is_bare_repo; then
+    local root=$(get_bare_path)
+    local full_path="$root/$1"
+    if [[ -d $full_path ]] ; then
+      rmq $full_path
+      git worktree prune
+      git branch -D $1
+    else
+      echo "Not a path of bare repo"
+    fi
   fi
-  git branch -D $1
 }
 
 # Remove all except master & develop worktree

@@ -78,7 +78,6 @@ alias ys="yarn run start"
 alias yd="yarn run dev"
 alias yt="yarn test"
 alias yb="yarn run build"
-alias yl="yarn list"
 alias yw="yarn why"
 alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsay -f@ @'"
 # }}}
@@ -276,6 +275,29 @@ function stow_all() {
 
 function duu() {
   find . -type d -maxdepth 0 | xargs du -d 1 -h -t ${1:-1G}
+}
+
+function e() {
+ $EDITOR $@
+}
+
+function clean_all() {
+  cd $WORKSPACE_FOLDER
+  pwd
+  echo "Ananlysing directories size..."
+
+  du -sh ./* | awk '$1 ~ /G/ && $1 + 0 >= 1 {print $0}' | while read size dir; do
+      dir=${dir#./}  # Remove leading ./
+      local full_dir="$WORKSPACE_FOLDER/$dir"
+      echo "Processing directory: $full_dir (Size: $size)"
+      cd "$full_dir"
+
+      if is_bare_repo; then
+        git_worktree_clean
+      else
+        rmm
+      fi
+  done
 }
 
 # }}}

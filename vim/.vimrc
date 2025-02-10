@@ -114,11 +114,15 @@ let g:fuzzyy_devicons = 0
 let g:fuzzyy_dropdown = 0
 nnoremap <leader>fc <cmd>FuzzyColors<cr>
 
+hi! link CtrlPMatch Search
 let g:ctrlp_root_markers = ['.git', 'yarn.lock']
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_regexp = 0
 let g:ctrlp_map = '<leader>o'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\.git\|dist'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$|node_modules|dist|module',
+  \ 'file': '\v\.(exe|so|dll|DS_Store|d.ts|map)$',
+  \ }
 let g:ctrlp_prompt_mappings = {
   \ 'PrtBS()':              ['<bs>', '<c-]>'],
   \ 'PrtDelete()':          ['<del>'],
@@ -393,6 +397,31 @@ endfunction
 nnoremap <leader>gh :set opfunc=GithubHome<CR>g@
 vnoremap <leader>gh :<C-U>call GithubHome(visualmode())<CR>
 
+function! CopyRelativePath()
+    " Find the git root directory
+    let l:git_root = system('git rev-parse --show-toplevel 2>/dev/null')[:-2]
+    
+    if v:shell_error == 0 && !empty(l:git_root)
+        " If in a git repo, get path relative to git root
+        let l:full_path = expand('%:p')
+        let l:relative_path = substitute(l:full_path, l:git_root . '/', '', '')
+    else
+        " Fallback to current directory relative path
+        let l:relative_path = fnamemodify(expand("%"), ":~:.")
+    endif
+    
+    " Copy to clipboard
+    if has('unix')
+        let @+ = l:relative_path
+        let @* = l:relative_path
+    else
+        let @* = l:relative_path
+    endif
+    
+    echo "Copied: " . l:relative_path
+endfunction
+
+nnoremap <leader>cp :call CopyRelativePath()<CR>
 "}}}
 
 "{{{ Custom mappings
@@ -486,8 +515,8 @@ set regexpengine=1
 set path+=**
 
 " color retrobox
-" color quiet
-color zaibatsu
+color quiet
+" color zaibatsu
 " color morning
 
 hi! link Folded NonText
