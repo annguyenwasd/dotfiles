@@ -105,4 +105,16 @@ function get_tmux_bg(){
 
    echo "Background color: $color"
  }
+
+function r1() {
+  xrandr --output DP-0 --rotate left
+ }
+
+function r2() {
+  xrandr --output DP-0 --rotate normal
+ }
+
+function r3() {
+  xrandr --output DP-0 --rotate right
+ }
 # }}}
