@@ -18,6 +18,7 @@ alias gce="git commit -e"
 
 alias gcd="gco develop"
 alias gcbb="noglob gcbbb"
+alias branch_name="noglob get_branch_name"
 
 alias gf="git fetch"
 alias gfp="git fetch --prune"
@@ -172,17 +173,23 @@ function gcb() {
 # Creates a sanitized branch name, handling all special characters safely
 # Ex: gcbb feature/Abc def ghik ---> brach created: feature/abc-def-ghik
 function gcbbb() {
+  local branch_name=$(get_branch_name "$*")
+  bare_branch_checkout $branch_name true
+}
+
+function get_branch_name() {
+  local bn;
+  
   # Check if running BSD sed (macOS) or GNU sed
   if sed --version 2>/dev/null | grep -q GNU; then
       # GNU sed (Linux)
-      local branch_name=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[([^]]*)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
+      bn=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[([^]]*)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
   else
       # BSD sed (macOS)
-      local branch_name=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[\([^]]*\)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
+      bn=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[\([^]]*\)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
   fi
 
-  echo "branch name: $branch_name" 
-  bare_branch_checkout $branch_name true
+  echo $bn
 }
 
 function gpu {
@@ -192,13 +199,13 @@ function gpu {
 }
 
 function gpt {
-  branch_name=$(git rev-parse --abbrev-ref HEAD)
+  local branch_name=$(git rev-parse --abbrev-ref HEAD)
   echo "Pushing to ${1:=origin} $branch_name"
   git push -u ${1:=origin} $branch_name --follow-tags
 }
 
 function gbu {
-  branch_name=$(git rev-parse --abbrev-ref HEAD)
+  local branch_name=$(git rev-parse --abbrev-ref HEAD)
   git branch -u "${1:=origin}/$branch_name"
 }
 

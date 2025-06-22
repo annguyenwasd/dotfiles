@@ -115,7 +115,7 @@ let g:fuzzyy_dropdown = 0
 nnoremap <leader>fc <cmd>FuzzyColors<cr>
 
 hi! link CtrlPMatch Search
-let g:ctrlp_root_markers = ['.git', 'yarn.lock']
+let g:ctrlp_root_markers = ['.git', 'yarn.lock', 'packages']
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_regexp = 0
 let g:ctrlp_map = '<leader>o'
@@ -397,31 +397,38 @@ endfunction
 nnoremap <leader>gh :set opfunc=GithubHome<CR>g@
 vnoremap <leader>gh :<C-U>call GithubHome(visualmode())<CR>
 
-function! CopyRelativePath()
+function! CopyPath(isRelative)
     " Find the git root directory
     let l:git_root = system('git rev-parse --show-toplevel 2>/dev/null')[:-2]
+    let l:full_path = expand('%:p')
     
-    if v:shell_error == 0 && !empty(l:git_root)
-        " If in a git repo, get path relative to git root
-        let l:full_path = expand('%:p')
-        let l:relative_path = substitute(l:full_path, l:git_root . '/', '', '')
+    if a:isRelative
+        if v:shell_error == 0 && !empty(l:git_root)
+            " If in a git repo, get path relative to git root
+            let l:path = substitute(l:full_path, l:git_root . '/', '', '')
+        else
+            " Fallback to current directory relative path
+            let l:path = fnamemodify(expand("%"), ":~:.")
+        endif
     else
-        " Fallback to current directory relative path
-        let l:relative_path = fnamemodify(expand("%"), ":~:.")
+        " Get absolute path from root
+        let l:path = l:full_path
     endif
     
     " Copy to clipboard
     if has('unix')
-        let @+ = l:relative_path
-        let @* = l:relative_path
+        let @+ = l:path
+        let @* = l:path
     else
-        let @* = l:relative_path
+        let @* = l:path
     endif
     
-    echo "Copied: " . l:relative_path
+    echo "Copied: " . l:path
 endfunction
 
-nnoremap <leader>cp :call CopyRelativePath()<CR>
+
+nnoremap <leader>cp :call CopyPath(1)<CR>
+nnoremap <leader>cP :call CopyPath(0)<CR>
 "}}}
 
 "{{{ Custom mappings
@@ -429,7 +436,7 @@ let g:asyncrun_rootmarks = ['.svn', '.git', '.gitignore', 'yarn.lock']
 nnoremap <leader>fl :set foldlevel=
 " This one for jump into \" \" when do space rg
 cnoremap <expr> "" getcmdpos() > 20 ? repeat('<Left>', 50) : '""'
-nnoremap <leader>rg :Ggrep -r -I -i --untracked -e "" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>rg :Ggrep -r -I -i --untracked -e "" -- :^**/dist/** :^/*.lock :^**/test/** :^*.test.* :^**/*.snap :^**/*.md<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>RG :Ggrep -r -I -i --untracked -e "<c-r><c-w>" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md
 nnoremap D y'>p
 "}}}
@@ -456,7 +463,7 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'tpope/vim-vinegar'
 Plug 'saccarosium/vim-netrw-salad'
-Plug 'tribela/vim-transparent'
+" Plug 'tribela/vim-transparent'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install --frozen-lockfile --production',
   \ 'for': ['javascript','javascriptreact', 'typescript',  'typescriptreact','css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
@@ -464,15 +471,16 @@ Plug 'tpope/vim-dispatch'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'mattn/ctrlp-matchfuzzy'
+Plug 'nordtheme/vim'
+Plug 'zhixiao-zhang/vim-light-pink'
 call plug#end()
 "}}}
 
 "{{{ Settings
 syntax on
 filetype plugin indent on
-set synmaxcol=120
+set synmaxcol=0
 let g:vimsyn_embed = 'lPr'
-setlocal regexpengine=0
 set noerrorbells
 set splitbelow
 set splitright
@@ -488,7 +496,7 @@ set expandtab
 set number
 set relativenumber
 set noerrorbells
-set nocursorline
+set cursorline
 set exrc
 set secure
 set signcolumn=yes
@@ -505,23 +513,27 @@ set tabstop=2
 set undofile
 set udir=$HOME/.vim/undo-vim
 set listchars=eol:¬,tab:▹\ ,trail:+,lead:·
-set nolist
+set list
 set laststatus=2
 set showmode
 set lazyredraw
 set nobackup
 set nowritebackup
-set regexpengine=1
+set regexpengine=2
 set path+=**
 
 " color retrobox
-color quiet
-" color zaibatsu
+" color quiet
+" color nord
+color zaibatsu
 " color morning
-
+hi SpecialKey ctermfg=66 guifg=#ffffff
 hi! link Folded NonText
 hi! link LineNr NonText
-hi! link Comment NonText
+" hi! link Comment NonText
+hi NonText guifg=#030552
+hi SpecialKey guifg=#030552
+
 packadd cfilter
 set statusline=[%n]\ %<%F\ %h%m%r%=%(%l,%c%V%)\ %P\ %{FileEncoding()}\ %{EOLSymbol()}
 "}}}

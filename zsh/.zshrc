@@ -300,6 +300,44 @@ function clean_all() {
   done
 }
 
+# Function: ccc
+#
+# Description:
+#   The `ccc` function copies the current working directory path to the system clipboard.
+#   It is cross-platform compatible, working on both macOS and Linux systems.
+#
+# Usage:
+#   ccc
+#
+# Example:
+#   $ cd /home/user/projects
+#   $ ccc
+#   Current directory copied to clipboard: /home/user/projects
+#
+# Notes:
+#   - On macOS, it uses the `pbcopy` command
+#   - On Linux, it tries `xclip` first, then falls back to `xsel` if available
+#   - Prints a confirmation message showing what was copied
+#
+function ccc() {
+  local current_dir=$(pwd)
+  
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    echo -n "$current_dir" | pbcopy
+  elif command -v xclip &> /dev/null; then
+    # Linux with xclip
+    echo -n "$current_dir" | xclip -selection clipboard
+  elif command -v xsel &> /dev/null; then
+    # Linux with xsel
+    echo -n "$current_dir" | xsel --clipboard --input
+  else
+    echo "Error: No clipboard command found. Please install xclip or xsel."
+    return 1
+  fi
+  
+  echo "Current directory copied to clipboard: $current_dir"
+}
 # }}}
 
 #{{{ Timing fns
