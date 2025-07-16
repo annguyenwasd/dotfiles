@@ -36,19 +36,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 #}}}
 
 # {{{ Alias
-alias p="pnpm"
-alias ydl="youtube-dl -i"
-alias lzd="lazydocker"
-alias r="ranger"
 
-alias md="mvn spring-boot:run -Dspring-boot.run.jvmArguments=\"-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005\" -Dspring-boot.run.profiles=local"
-alias mc="mvn clean install -DskipTests=true"
-alias mr="mvn spring-boot:run -Dspring-boot.run.profiles=local"
-alias mcc="mvn clean install -DskipTests=true -s settings.xml;mvn spring-boot:run -Dspring-boot.run.profiles=local -s settings.xml"
-alias mccc="mvn clean install -DskipTests=true;mvn spring-boot:run -Dspring-boot.run.profiles=local"
-alias mt="mvn test"
-alias mtd="mvn -Dmaven.surefire.debug -Dspring-boot.run.jvmArguments=\"-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005\" -Dspring-boot.run.profiles=local test"
-alias pm=pulsemixer
 alias xm="xmodmap $HOME/.Xmodmap"
 alias key="xmodmap $HOME/.Xmodmap"
 # }}}
