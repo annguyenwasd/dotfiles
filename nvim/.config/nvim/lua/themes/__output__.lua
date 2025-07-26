@@ -1,1 +1,1 @@
-require('themes.vscode').dark()
+require('themes.nord').dark()

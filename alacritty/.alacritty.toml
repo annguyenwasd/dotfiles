@@ -18,5 +18,7 @@ args = ["--login"]
 program = "/usr/bin/zsh"
 
 [window]
+opacity = 0.8
+blur = true
 decorations = "none"
 startup_mode = "Maximized"

@@ -10,6 +10,10 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
 
+# Hellwal
+source ~/.cache/hellwal/variables.sh
+sh ~/.cache/hellwal/terminal.sh
+
 # {{{ Export
 export SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
 export FZF_DEFAULT_OPTS="--layout=reverse --height 100%"
@@ -58,17 +62,6 @@ function gif {
   echo "making gif $1"
   ffmpeg -i $1 -s 1366x768 -pix_fmt rgb24 -r 18 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
   echo "Done!"
-}
-
-function ws() {
-  systemctl start warp-svc.service
-  sleep 2
-  warp-cli connect
-}
-
-function wss() {
-  warp-cli disconnect
-  systemctl stop warp-svc.service
 }
 
 function at() {

@@ -10,7 +10,7 @@ makepkg -si
 yay -S --noconfirm i3 tmux git neovim stow zsh xorg dmenu alacritty firefox python node \
   npm lazygit fzf ripgrep openssh xclip curl unzip feh os-prober polkit xdg-user-dirs \
   pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd google-chrome yazi mpv \
-  ffmpegthumbnailer mediainfo xorg-xrandr
+  ffmpegthumbnailer mediainfo xorg-xrandr hellwal picom
 
 # Change default shell to zsh
 chsh -s $(which zsh)

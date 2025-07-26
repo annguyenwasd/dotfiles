@@ -41,5 +41,6 @@ ibus-daemon &
 flameshot &
 xautocfg &
 ~/.fehbg &
+picom &
 
 exec i3
