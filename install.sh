@@ -1,49 +1,101 @@
 #!/usr/bin/env sh
+set -e  # stop script if any command fails
 
-# Install essential packages and Yay AUR helper
-sudo pacman -S --noconfirm --needed git base-devel && \
-git clone https://aur.archlinux.org/yay.git && \
-cd yay && \
-makepkg -si
+# --- 1. Install essential packages and Yay ---
+sudo pacman -S --noconfirm --needed git base-devel
 
-# Install additional packages using Yay
-yay -S --noconfirm i3 tmux git neovim stow zsh xorg dmenu alacritty firefox python node \
-  npm lazygit fzf ripgrep openssh xclip curl unzip feh os-prober polkit xdg-user-dirs \
-  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd google-chrome yazi mpv \
-  ffmpegthumbnailer mediainfo xorg-xrandr hellwal picom
+if ! command -v yay >/dev/null 2>&1; then
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si --noconfirm
+    cd ..
+    rm -rf yay
+fi
 
-# Change default shell to zsh
-chsh -s $(which zsh)
-exec zsh
+# --- 2. Install packages ---
+PKGS="
+i3
+tmux
+git
+neovim
+stow
+zsh
+xorg
+dmenu
+alacritty
+firefox
+node
+npm
+lazygit
+fzf
+ripgrep
+openssh
+xclip
+curl
+unzip
+feh
+os-prober
+polkit
+xdg-user-dirs
+pulseaudio
+pulsemixer
+flameshot
+ttf-sourcecodepro-nerd
+google-chrome
+yazi
+mpv
+ffmpegthumbnailer
+mediainfo
+xorg-xrandr
+hellwal
+picom
+"
 
-# mediainfo.yazi
-# This is a Yazi plugin for previewing media files. The preview shows thumbnail using ffmpegthumbnailer if available and media metadata using mediainfo.
-ya pack -a Ape/mediainfo
+yay -S --noconfirm --needed "$PKGS"
 
-# Set up Alacritty themes
+# --- 3. Change default shell to zsh ---
+if [ "$SHELL" != "$(which zsh)" ]; then
+    chsh -s "$(which zsh)"
+fi
+
+# --- 4. Yazi plugin ---
+if command -v ya >/dev/null 2>&1; then
+    ya pack -a Ape/mediainfo
+else
+    echo "⚠ Skipping Yazi plugin install: 'ya' command not found in PATH"
+fi
+
+# --- 5. Alacritty themes ---
 mkdir -p ~/.config/alacritty/themes
-git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+if [ ! -d ~/.config/alacritty/themes/.git ]; then
+    git clone --depth 1 https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+fi
 
-# Install global npm packages and fnm
+# --- 6. Global npm packages and FNM ---
 sudo npm i -g yarn pnpm
-curl -fsSL https://fnm.vercel.app/install | bash
+if ! command -v fnm >/dev/null 2>&1; then
+    curl -fsSL https://fnm.vercel.app/install | bash
+fi
 
-# Set up workspace and wallpapers
-[ ! -d ~/workspace ] && mkdir ~/workspace
-[ ! -d ~/walls ] && mkdir ~/walls
-git clone https://github.com/linuxdotexe/nordic-wallpapers.git ~/walls/nordic-wallpapers
-git clone https://github.com/annguyenwasd/walls ~/walls/walls
+# --- 7. Workspace & wallpapers ---
+mkdir -p ~/workspace ~/walls
+[ ! -d ~/walls/nordic-wallpapers ] && git clone --depth 1 https://github.com/linuxdotexe/nordic-wallpapers.git ~/walls/nordic-wallpapers
+[ ! -d ~/walls/walls ] && git clone --depth 1 https://github.com/annguyenwasd/walls.git ~/walls/walls
 
-# Set up GRUB with Windows (check partition and setup before running)
-sudo mount /dev/sda1 /mnt
-sudo os-prober
-sudo sed -i "s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/" /etc/default/grub
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+# --- 8. Setup GRUB with Windows ---
+EFI_PART=$(lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT | grep -E 'vfat|fat32' | awk '{print "/dev/"$1}' | head -n 1)
+if [ -n "$EFI_PART" ]; then
+    echo "Mounting EFI partition: $EFI_PART"
+    sudo mount "$EFI_PART" /mnt
+    sudo os-prober
+    sudo sed -i 's/^#\?GRUB_DISABLE_OS_PROBER=.*/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
+else
+    echo "⚠ No EFI partition detected. Skipping Windows GRUB setup."
+fi
 
-# Create default user directories
+# --- 9. Create default user directories ---
 xdg-user-dirs-update
 
-# Print TODO items
-echo "TODO:"
-echo "[AUTOLOGIN] https://wiki.archlinux.org/title/Getty"
-echo "[ROOTUSER] https://www.linuxtechi.com/create-configure-sudo-user-on-arch-linux/"
+# --- 10. Switch to Zsh at the end ---
+exec zsh
