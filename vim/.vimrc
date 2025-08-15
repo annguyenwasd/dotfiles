@@ -1,12 +1,5 @@
 "{{{ Default mappings
 
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-command! TrimWhitespace call TrimWhitespace()
-
 let mapleader=" "
 let maplocalleader="\\"
 
@@ -79,8 +72,8 @@ nnoremap <leader>gs <cmd>G<cr>
 nnoremap <leader><leader>gs <cmd>G difftool<cr>
 nnoremap <leader><leader>bl <cmd>G blame<cr>
 nnoremap <leader>gc :G commit -m ""<left>
-nnoremap <leader>gl :GcLog<cr>
-vnoremap <leader>gl :GcLog<cr>
+nnoremap <leader>gl :Git log<cr>
+vnoremap <leader>gl :GcLog!<cr>
 nnoremap <leader>gL <cmd>0GcLog<cr>
 nnoremap <leader>ga <cmd>G add -A<cr>
 nnoremap <leader>hA <cmd>Gwrite<cr>
@@ -401,7 +394,7 @@ function! CopyPath(isRelative)
     " Find the git root directory
     let l:git_root = system('git rev-parse --show-toplevel 2>/dev/null')[:-2]
     let l:full_path = expand('%:p')
-    
+
     if a:isRelative
         if v:shell_error == 0 && !empty(l:git_root)
             " If in a git repo, get path relative to git root
@@ -414,7 +407,7 @@ function! CopyPath(isRelative)
         " Get absolute path from root
         let l:path = l:full_path
     endif
-    
+
     " Copy to clipboard
     if has('unix')
         let @+ = l:path
@@ -422,13 +415,112 @@ function! CopyPath(isRelative)
     else
         let @* = l:path
     endif
-    
+
     echo "Copied: " . l:path
 endfunction
 
 
 nnoremap <leader>cp :call CopyPath(1)<CR>
 nnoremap <leader>cP :call CopyPath(0)<CR>
+
+function! ConsoleLog()
+    let l:word = expand('<cword>')
+    let l:file_path = expand('%')
+    let l:line_num = line('.')
+    let l:ext = expand('%:e')
+
+    if index(['js', 'ts', 'jsx', 'tsx'], l:ext) >= 0
+        let l:log_line = 'console.log("[XXXDEBUG:' . l:line_num . '] at ' . l:file_path . ', ' . l:word . ':", ' . l:word . ');'
+        call append(line('.'), l:log_line)
+        normal! j
+    endif
+endfunction
+
+nnoremap <leader>ll :call ConsoleLog()<CR>
+nnoremap <leader>LL :g/xxxDEBUG/ d<CR>
+
+function! YarnInfo(flag)
+    let l:col = col('.')
+    let l:line = getline('.')
+    let l:start = l:col
+    let l:end = l:col
+
+    while l:start > 1 && l:line[l:start-2] != '"'
+        let l:start -= 1
+    endwhile
+
+    while l:end <= len(l:line) && l:line[l:end-1] != '"'
+        let l:end += 1
+    endwhile
+
+    if l:start > 1 && l:end <= len(l:line) && l:line[l:start-2] == '"' && l:line[l:end-1] == '"'
+        let l:package = l:line[l:start-1:l:end-2]
+        if a:flag == 'dist-tags'
+            execute 'Dispatch yarn info ' . shellescape(l:package) . ' dist-tags'
+        elseif a:flag == 'versions'
+            execute 'Dispatch yarn info ' . shellescape(l:package) . ' versions'
+        elseif a:flag == 'why'
+            execute 'Dispatch yarn why ' . shellescape(l:package)
+        endif
+    else
+        echo "Cursor not inside quoted package name"
+    endif
+endfunction
+
+nnoremap <leader>yid :call YarnInfo('dist-tags')<CR>
+nnoremap <leader>yiv :call YarnInfo('versions')<CR>
+nnoremap <leader>yy :call YarnInfo('why')<CR>
+
+" %bdelete:
+" This deletes all buffers. The % range means "all buffers," and bdelete (or bd) deletes a buffer.
+" edit #:
+" After deleting all buffers, this command re-opens the previously active buffer. The # register refers to the alternate file, which is typically the last buffer you were editing.
+" bdelete#:
+" This deletes any "No Name" buffer that might have been created as a side effect of the previous commands.
+command! BufOnly execute "%bd|e#|bd#"
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+command! TrimWhitespace call TrimWhitespace()
+
+function! YarnTestFile()
+    let l:file = expand('%')
+    if empty(l:file)
+        echo "No file to test"
+        return
+    endif
+    cclose
+    botright vertical 120 copen
+    execute 'Dispatch yarn test ' . shellescape(l:file) . ' 2>&1 | sed "s/\x1b\[[0-9;]*m//g"'
+endfunction
+
+function! YarnTestIt()
+    let l:file = expand('%')
+    if empty(l:file)
+        echo "No file to test"
+        return
+    endif
+    let l:current_line = line('.')
+    let l:it_line = search('\s*it(', 'bnW')
+    if l:it_line == 0
+        echo "No it() function found"
+        return
+    endif
+    let l:test_name = matchstr(getline(l:it_line), 'it(\s*["'']\zs[^"'']*\ze["'']')
+    if empty(l:test_name)
+        echo "Could not extract test name"
+        return
+    endif
+    cclose
+    botright vertical 120 copen
+    execute 'Dispatch yarn test ' . shellescape(l:file) . ' -t ' . shellescape(l:test_name) . ' 2>&1 | sed "s/\x1b\[[0-9;]*m//g"'
+endfunction
+
+nnoremap <leader>ytf :call YarnTestFile()<CR>
+nnoremap <leader>ytt :call YarnTestIt()<CR>
 "}}}
 
 "{{{ Custom mappings
