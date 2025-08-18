@@ -19,9 +19,10 @@ sudo pacman -S --noconfirm \
   firefox lazygit fzf ripgrep openssh xclip curl \
   unzip feh os-prober polkit xdg-user-dirs \
   pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
-  yazi mpv ffmpegthumbnailer mediainfo xorg-xrandr picom fuse
+  yazi mpv ffmpegthumbnailer mediainfo xorg-xrandr picom fuse \
+  nvidia nvidia-utils nvidia-settings mesa vulkan-intel
 
-yay -S --noconfirm google-chrome hellwal node npm
+yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt
 
 # --- 3. Change default shell to zsh ---
 if [ "$SHELL" != "$(which zsh)" ]; then
@@ -60,3 +61,6 @@ xdg-user-dirs-update
 
 # --- 10. Switch to Zsh at the end ---
 exec zsh
+
+# --- 11. Using GPU ---
+sudo systemctl enable optimus-manager --now
