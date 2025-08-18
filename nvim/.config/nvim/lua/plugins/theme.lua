@@ -17,5 +17,5 @@ return {
 	"folke/tokyonight.nvim",
 	"oxfist/night-owl.nvim",
 	"pbrisbin/vim-colors-off",
-	{ "annguyenwasd/nineties.nvim", dir = "~/workspace/nineties" },
+	{ "annguyenwasd/nineties.nvim"--[[ , dir = "~/workspace/nineties" ]] },
 }
