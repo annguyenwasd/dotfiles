@@ -33,7 +33,8 @@ return {
 				"<cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>",
 				desc = desc("git: select right"),
 			},
-			{ "<leader>gl", ":GcLog<cr>", mode = { "n", "v" }, desc = desc("git: fugitive: show log") },
+			{ "<leader>gl", ":Git log<cr>", mode = { "n" }, desc = desc("git: fugitive: show log") },
+			{ "<leader>gl", ":Gclog!<cr>", mode = { "v" }, desc = desc("git: fugitive: show log") },
 			{ "<leader>gL", ":0GcLog<cr>", mode = { "n", "v" }, desc = desc("git: fugitive: show log") },
 			{
 				"<leader>Gs",
