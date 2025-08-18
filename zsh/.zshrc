@@ -52,7 +52,7 @@ source $HOME/.config/zsh/scripts/rmm.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
 source $HOME/.config/zsh/scripts/yr.zsh
-source $HOME/.config/zellij/mappings.zsh
+[ -f $HOME/.config/zellij/mappings.zsh ] && source $HOME/.config/zellij/mappings.zsh
 # }}}
 
 # {{{ Alias
@@ -399,3 +399,8 @@ preexec_functions+=(_command_time_preexec)
 # Per-function profiling:
 
 # zprof
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/annguyenwasd/.lmstudio/bin"
+# End of LM Studio CLI section
+

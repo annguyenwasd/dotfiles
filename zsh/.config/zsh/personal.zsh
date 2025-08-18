@@ -11,8 +11,8 @@ fi
 [ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
 
 # Hellwal
-source ~/.cache/hellwal/variables.sh
-sh ~/.cache/hellwal/terminal.sh
+[ -f ~/.cache/hellwal/variables.sh ] && source ~/.cache/hellwal/variables.sh
+[ -f ~/.cache/hellwal/terminal.sh ] &&  sh ~/.cache/hellwal/terminal.sh
 
 # {{{ Export
 export SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
