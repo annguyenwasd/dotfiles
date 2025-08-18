@@ -28,13 +28,6 @@ if [ "$SHELL" != "$(which zsh)" ]; then
     chsh -s "$(which zsh)"
 fi
 
-# --- 4. Yazi plugin ---
-if command -v ya >/dev/null 2>&1; then
-    ya pack -a Ape/mediainfo
-else
-    echo "⚠ Skipping Yazi plugin install: 'ya' command not found in PATH"
-fi
-
 # --- 5. Alacritty themes ---
 mkdir -p ~/.config/alacritty/themes
 if [ ! -d ~/.config/alacritty/themes/.git ]; then
