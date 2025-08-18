@@ -28,6 +28,7 @@ return {
 		dependencies = {
 			{
 				"nvim-treesitter/nvim-treesitter-context",
+        cond = false,
 				keys = {
 					{
 						"{",
