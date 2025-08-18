@@ -24,7 +24,6 @@ wireless wlan0 {
 
 tztime local {
        format = "%Y-%m-%d %H:%M:%S"
-       timezone = "UTC"
 }
 
 memory {
