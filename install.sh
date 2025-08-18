@@ -45,7 +45,7 @@ fi
 [ ! -d ~/workspace/walls/ ] && git clone --depth 1 https://github.com/annguyenwasd/walls.git ~/workspace/walls
 
 # --- 8. Setup GRUB with Windows ---
-EFI_PART=$(lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT | grep -E 'vfat|fat32' | awk '{print "/dev/"$1}' | head -n 1)
+EFI_PART=$(lsblk -rno NAME,FSTYPE,SIZE,MOUNTPOINT | grep -E 'vfat|fat32' |grep -v 'boot'| awk '{print "/dev/"$1}' | head -n 1)
 if [ -n "$EFI_PART" ]; then
     echo "Mounting EFI partition: $EFI_PART"
     sudo mount "$EFI_PART" /mnt
