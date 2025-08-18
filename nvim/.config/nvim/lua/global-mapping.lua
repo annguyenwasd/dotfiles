@@ -36,3 +36,13 @@ _G.is_in_git_repo = function()
 	local git_dir = vim.fn.system("git rev-parse --git-dir")
 	return git_dir ~= "" and git_dir:match("^fatal:") == nil
 end
+
+function _G.fileExists(filename)
+    local f = io.open(filename, "r")
+    if f then
+        io.close(f)
+        return true
+    else
+        return false
+    end
+end
