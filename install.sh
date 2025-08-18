@@ -47,10 +47,8 @@ if ! command -v fnm >/dev/null 2>&1; then
     curl -fsSL https://fnm.vercel.app/install | bash
 fi
 
-# --- 7. Workspace & wallpapers ---
-mkdir -p ~/workspace ~/walls
-#[ ! -d ~/walls/nordic-wallpapers ] && git clone --depth 1 https://github.com/linuxdotexe/nordic-wallpapers.git ~/walls/nordic-wallpapers
-#[ ! -d ~/walls/walls ] && git clone --depth 1 https://github.com/annguyenwasd/walls.git ~/walls/walls
+# --- 7. Wallpapers ---
+[ ! -d ~/workspace/walls/ ] && git clone --depth 1 https://github.com/annguyenwasd/walls.git ~/workspace/walls
 
 # --- 8. Setup GRUB with Windows ---
 EFI_PART=$(lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT | grep -E 'vfat|fat32' | awk '{print "/dev/"$1}' | head -n 1)
