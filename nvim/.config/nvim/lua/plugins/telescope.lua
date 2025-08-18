@@ -175,10 +175,10 @@ return {
 			},
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
-				enabled = function()
+				cond = function()
 					return not is_work_profile()
 				end,
-				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+				build = "cmake -S. -Bbuild -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 				config = function()
 					require("telescope").load_extension("fzf")
 				end,
