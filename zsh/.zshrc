@@ -321,7 +321,7 @@ function clean_all() {
 #
 function ccc() {
   local current_dir=$(pwd)
-  
+
   if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
     echo -n "$current_dir" | pbcopy
@@ -335,7 +335,7 @@ function ccc() {
     echo "Error: No clipboard command found. Please install xclip or xsel."
     return 1
   fi
-  
+
   echo "Current directory copied to clipboard: $current_dir"
 }
 # }}}
@@ -399,8 +399,3 @@ preexec_functions+=(_command_time_preexec)
 # Per-function profiling:
 
 # zprof
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/annguyenwasd/.lmstudio/bin"
-# End of LM Studio CLI section
-

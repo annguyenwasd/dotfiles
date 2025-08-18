@@ -9,6 +9,7 @@
 	autocrlf = input
 	autolf = true
 	eol = lf
+	editor = nvim -f
 
 [alias]
   co  = checkout

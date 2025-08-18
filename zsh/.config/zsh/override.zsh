@@ -1,5 +1,3 @@
-export EDITOR=vim
-
 function select_branch(){
   local branch_name=$(git branch -a | sed '/HEAD/ d'|ipt -a -S 10)
 
@@ -109,4 +107,3 @@ function iterm2_print_user_vars() {
 dn # for first enter/open new tab/pane
 add-zsh-hook chpwd dn
 add-zsh-hook preexec dn
-
