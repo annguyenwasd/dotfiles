@@ -77,12 +77,6 @@ return {
 				desc = desc("git: add new WIP commit"),
 			},
 			{
-				"gpp",
-				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
-				silent = false,
-				desc = desc("git: push to origin"),
-			},
-			{
 				"<leader>GW",
 				function()
 					vim.cmd("G add -A")
@@ -91,6 +85,18 @@ return {
 				end,
 				silent = false,
 				desc = desc("git: add all -> create WIP commit -> push to origin"),
+			},
+			{
+				"<leader>gpp",
+				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD)<cr>",
+				silent = false,
+				desc = desc("git: push to origin"),
+			},
+			{
+				"<leader>gpf",
+				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD)<cr>",
+				silent = false,
+				desc = desc("git: push to origin"),
 			},
 			{
 				"gpt",

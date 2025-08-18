@@ -79,8 +79,9 @@ nnoremap <leader>ga <cmd>G add -A<cr>
 nnoremap <leader>hA <cmd>Gwrite<cr>
 nnoremap <leader>hD <cmd>Gread<cr>
 nnoremap <leader>gw <cmd>G commit -n -m "WIP"<cr>
-nnoremap gpp <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
-nnoremap gpt <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>
+nnoremap <leader>gpp <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD)<cr>
+nnoremap <leader>gpf <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
+nnoremap <leader>gpt gpt <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>
 
 nnoremap <leader>gy <cmd>GBrowse<cr>
 vnoremap <leader>gy :GBrowse<cr>
