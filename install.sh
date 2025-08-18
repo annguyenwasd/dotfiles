@@ -13,45 +13,15 @@ if ! command -v yay >/dev/null 2>&1; then
 fi
 
 # --- 2. Install packages ---
-PKGS="
-i3
-tmux
-git
-neovim
-stow
-zsh
-xorg
-dmenu
-alacritty
-firefox
-node
-npm
-lazygit
-fzf
-ripgrep
-openssh
-xclip
-curl
-unzip
-feh
-os-prober
-polkit
-xdg-user-dirs
-pulseaudio
-pulsemixer
-flameshot
-ttf-sourcecodepro-nerd
-google-chrome
-yazi
-mpv
-ffmpegthumbnailer
-mediainfo
-xorg-xrandr
-hellwal
-picom
-"
+sudo pacman -S --noconfirm \
+  xorg xorg-xinit xorg-server xterm i3 \
+  tmux git neovim stow zsh dmenu alacritty \
+  firefox lazygit fzf ripgrep openssh xclip curl \
+  unzip feh os-prober polkit xdg-user-dirs \
+  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
+  yazi mpv ffmpegthumbnailer mediainfo xorg-xrandr picom fuse
 
-yay -S --noconfirm --needed "$PKGS"
+yay -S --noconfirm google-chrome hellwal node npm
 
 # --- 3. Change default shell to zsh ---
 if [ "$SHELL" != "$(which zsh)" ]; then
@@ -79,8 +49,8 @@ fi
 
 # --- 7. Workspace & wallpapers ---
 mkdir -p ~/workspace ~/walls
-[ ! -d ~/walls/nordic-wallpapers ] && git clone --depth 1 https://github.com/linuxdotexe/nordic-wallpapers.git ~/walls/nordic-wallpapers
-[ ! -d ~/walls/walls ] && git clone --depth 1 https://github.com/annguyenwasd/walls.git ~/walls/walls
+#[ ! -d ~/walls/nordic-wallpapers ] && git clone --depth 1 https://github.com/linuxdotexe/nordic-wallpapers.git ~/walls/nordic-wallpapers
+#[ ! -d ~/walls/walls ] && git clone --depth 1 https://github.com/annguyenwasd/walls.git ~/walls/walls
 
 # --- 8. Setup GRUB with Windows ---
 EFI_PART=$(lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT | grep -E 'vfat|fat32' | awk '{print "/dev/"$1}' | head -n 1)
