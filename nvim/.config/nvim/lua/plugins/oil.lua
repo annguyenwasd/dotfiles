@@ -1,7 +1,7 @@
 return {
 	"stevearc/oil.nvim",
 	cmd = "Oil",
-	enabled = false,
+	enabled = true,
 	opts = {
 		skip_confirm_for_simple_edits = true,
 		-- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
@@ -13,7 +13,7 @@ return {
 		keymaps = {
 			["g?"] = "actions.show_help",
 			["<CR>"] = "actions.select",
-			["<c-l>"] = "actions.select",
+			["l"] = "actions.select",
 			["<C-v>"] = "actions.select_vsplit",
 			["<C-s>"] = "actions.select_split",
 			["<C-t>"] = "actions.select_tab",
@@ -24,7 +24,7 @@ return {
 			end,
 			["<C-r>"] = "actions.refresh",
 			["-"] = "actions.parent",
-			["<c-h>"] = "actions.parent",
+			["h"] = "actions.parent",
 			["_"] = "actions.open_cwd",
 			["`"] = "actions.cd",
 			["~"] = "actions.tcd",
