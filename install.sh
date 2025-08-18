@@ -22,7 +22,7 @@ sudo pacman -S --noconfirm \
   yazi mpv ffmpegthumbnailer mediainfo xorg-xrandr picom fuse \
   nvidia nvidia-utils nvidia-settings mesa vulkan-intel
 
-yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt
+yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt ueberzugpp
 
 # --- 3. Change default shell to zsh ---
 if [ "$SHELL" != "$(which zsh)" ]; then

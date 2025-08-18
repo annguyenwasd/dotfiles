@@ -53,7 +53,7 @@ function bb {
 }
 
 function bg() {
-  feh --no-fehbg --recursive --full-screen --action "$HOME/.config/feh/set-bg.sh %F" $WORKSPACE_FOLDER/walls
+  feh --recursive --full-screen --action "$HOME/.config/feh/set-bg.sh %F" $WORKSPACE_FOLDER/walls
 }
 
 function gif {
