@@ -5,8 +5,6 @@ if [[ -d $HOME/.local/share/fnm ]]; then
   eval "$(fnm env --use-on-cd)"
 fi
 
-[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -d /usr/share/fzf ] && source /usr/share/fzf/completion.zsh && source /usr/share/fzf/key-bindings.zsh
 
