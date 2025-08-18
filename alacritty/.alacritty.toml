@@ -1,19 +1,15 @@
-import = [
-    "~/.config/alacritty/theme.toml"
-]
-
 [font]
 size = 11.0
 
 [font.normal]
-family = "Source Code Pro"
+family = "SauceCodeProNerdFont"
 style = "Regular"
 
 [scrolling]
 history = 100000
 multiplier = 3
 
-[shell]
+[terminal.shell]
 args = ["--login"]
 program = "/usr/bin/zsh"
 
@@ -22,3 +18,10 @@ opacity = 0.8
 blur = true
 decorations = "none"
 startup_mode = "Maximized"
+
+[general]
+import = [
+    "~/.config/alacritty/theme.toml"
+]
+
+[terminal]
