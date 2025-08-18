@@ -95,6 +95,7 @@ return {
 
 			{
 				"nvim-treesitter/nvim-treesitter-refactor",
+        cond = false,
 				config = function()
 					require("nvim-treesitter.configs").setup({
 						refactor = {
