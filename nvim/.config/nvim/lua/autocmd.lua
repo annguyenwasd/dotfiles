@@ -7,9 +7,18 @@
 -- })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-	group = vim.api.nvim_create_augroup("SetFoldMethod", { clear = true }),
-	pattern = { "*.vimrc", "*.vim", "*.zshrc", "*.zsh", "*.conf" },
-	command = "setlocal foldmethod=marker",
+  group = vim.api.nvim_create_augroup("SetFoldMethod", { clear = true }),
+  pattern = { "*.vimrc", "*.vim", "*.zshrc", "*.zsh", "*.conf" },
+  command = "setlocal foldmethod=marker",
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  group = vim.api.nvim_create_augroup("ClearIndentForLeetCode", { clear = true }),
+  pattern = vim.fn.expand("*/leetcode/*.*"),
+  callback = function()
+    -- Clear indentexpr so Neovim doesn't try to compute fancy indents
+    vim.cmd("TSDisable indent")
+  end,
 })
 
 --[[ vim.api.nvim_create_autocmd({ "BufRead" }, { ]]
