@@ -237,3 +237,8 @@ end, { desc = desc("theme: Toggle gruvbox theme"), noremap = true })
 vim.keymap.set("n", "<leader>yz", function()
   require("utils.yazi").open_yazi(vim.fn.expand("%:h"))
 end, { desc = desc("theme: Toggle gruvbox theme"), noremap = true })
+
+local copy_path = require("utils.copy_path").copy_path
+
+vim.keymap.set("n", "<leader>cp", function() copy_path(true) end, { desc = "Copy relative path" })
+vim.keymap.set("n", "<leader>cP", function() copy_path(false) end, { desc = "Copy absolute path" })
