@@ -94,13 +94,13 @@ return {
 			},
 			{
 				"<leader>gpf",
-				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD)<cr>",
+				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>",
 				silent = false,
 				desc = desc("git: push to origin"),
 			},
 			{
 				"gpt",
-				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>",
+				"<cmd>AsyncRun git push -u origin $(git rev-parse --abbrev-ref HEAD) --follow-tags<cr>",
 				silent = false,
 				desc = desc("git: push to origin with tags"),
 			},
