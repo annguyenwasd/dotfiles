@@ -21,6 +21,8 @@ sudo pacman -S --noconfirm \
   pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
   yazi mpv ffmpegthumbnailer mediainfo xorg-xrandr picom fuse \
   nvidia nvidia-utils nvidia-settings mesa vulkan-intel
+  # Vietnamese input methods
+  fcitx5-im fcitx5-unikey fcitx5-configtool
 
 yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt ueberzugpp
 
@@ -28,6 +30,12 @@ yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manage
 if [ "$SHELL" != "$(which zsh)" ]; then
     chsh -s "$(which zsh)"
 fi
+
+
+# --- 4. Set Vietnamese input vars ---
+echo 'GTK_IM_MODULE=fcitx'  | sudo tee -a /etc/environment
+echo 'QT_IM_MODULE=fcitx'   | sudo tee -a /etc/environment
+echo 'XMODIFIERS=@im=fcitx' | sudo tee -a /etc/environment
 
 # --- 5. Alacritty themes ---
 mkdir -p ~/.config/alacritty/themes
