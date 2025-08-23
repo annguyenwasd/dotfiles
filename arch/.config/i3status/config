@@ -10,6 +10,14 @@ order += "ethernet eno1"
 #order += "wireless wlan0"
 order += "memory"
 order += "tztime local"
+order += "volume master"
+
+volume master {
+    format = "VOL %volume"
+    device = "pulse"
+    mixer = "Master"
+    mixer_idx = 0
+}
 
 ethernet eno1 {
        format_up = "eno1: %ip (%speed)"
