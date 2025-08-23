@@ -75,5 +75,15 @@
         "/home/annguyenwasd/.local/share/nvim/lazy/telescope-fzf-native.nvim/lua",
         "/home/annguyenwasd/dotfiles/nvim/.config/nvim/lua",
         "${3rd}/luv/library"
+    ],
+    "diagnostics.globals": [
+        "vim",
+        "desc",
+        "is_work_profile",
+        "is_use_icons",
+        "set_theme",
+        "is_file_exists",
+        "is_in_git_repo",
+        "is_mac_os"
     ]
 }
