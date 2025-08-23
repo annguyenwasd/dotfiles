@@ -23,7 +23,7 @@ wireless wlan0 {
 
 
 tztime local {
-       format = "%Y-%m-%d %H:%M:%S"
+       format = "%a %Y-%m-%d %H:%M:%S"
 }
 
 memory {
