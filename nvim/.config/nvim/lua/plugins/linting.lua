@@ -21,6 +21,6 @@ return {
 		}) ]]
   end,
   keys = {
-    { "<leader>li", "<cmd>lua require'lint'.try_lint()<cr>", desc = desc("lsp: Trigger linting for current file") },
+    { "<leader>LI", "<cmd>lua require'lint'.try_lint()<cr>", desc = desc("lsp: Trigger linting for current file") },
   },
 }

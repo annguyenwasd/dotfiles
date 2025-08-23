@@ -6,20 +6,24 @@ return {
 	cond = leet_arg == vim.fn.argv()[1],
 	opts = { arg = leet_arg, lang = "javascript", image_support = not is_work_profile() },
 	keys = {
-		{ "<leader>ll", "<cmd>Leet list<cr>", desc = desc("leetcode: list") },
-		{ "<leader>lt", "<cmd>Leet test<cr>", desc = desc("leetcode: test") },
+		{ "<leader>ll", "<cmd>Leet list<cr>", desc = desc("leetcode: list leetcode problems") },
+		{ "<leader>lh", "<cmd>Leet hints<cr>", desc = desc("leetcode: Show some hints") },
+		{ "<leader>lx", "<cmd>Leet exit<cr>", desc = desc("leetcode: exit") },
+		{ "<leader>li", "<cmd>Leet info<cr>", desc = desc("leetcode: opens a pop-up containing information about the currently opened question") },
+		{ "<leader>lb", "<cmd>Leet tabs<cr>", desc = desc("leetcode: browse opening tabs") },
+		{ "<leader>lt", "<cmd>Leet test<cr>", desc = desc("leetcode: run test by leetcode's judges") },
 		{
 			"<leader>lT",
 			function()
 				vim.cmd("w")
-				vim.cmd("vsplit term://node %")
+				vim.cmd("Dispatch node %")
 			end,
-			desc = desc("leetcode: test"),
+			desc = desc("leetcode: run test local with nodejs, need to call the function inside the file with arguments"),
 		},
 		{ "<leader>lc", "<cmd>Leet console<cr>", desc = desc("leetcode: console") },
-		{ "<leader>lo", "<cmd>Leet open<cr>", desc = desc("leetcode: open") },
-		{ "<leader>ly", "<cmd>Leet yank<cr>", desc = desc("leetcode: yank") },
-		{ "<leader>le", "<cmd>Leet desc<cr>", desc = desc("leetcode: yank") },
+		{ "<leader>lo", "<cmd>Leet open<cr>", desc = desc("leetcode: open in browser") },
+		{ "<leader>ly", "<cmd>Leet yank<cr>", desc = desc("leetcode: yank the solution") },
+		{ "<leader>le", "<cmd>Leet desc<cr>", desc = desc("leetcode: toggle the description") },
 		{ "<leader>ls", "<cmd>Leet submit<cr>", desc = desc("leetcode: submit") },
 	},
 	dependencies = {
