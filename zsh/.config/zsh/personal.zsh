@@ -39,11 +39,15 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # {{{ Alias
 
-alias xm="xmodmap $HOME/.Xmodmap"
-alias key="xmodmap $HOME/.Xmodmap"
 # }}}
 
 # {{{ Functions
+function xm() {
+  # Source Xmodmap
+  xmodmap $HOME/.Xmodmap
+  # Increse repeat rate
+  xset r rate 200 25
+}
 function bb {
   echo "Backing up brew file"
   cd $DOTFILES/.non-stow/install/

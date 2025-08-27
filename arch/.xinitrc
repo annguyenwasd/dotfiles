@@ -35,7 +35,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 # increase key repeat rate
-xset r rate 200 25 &
+xset r rate 200 25
 
 fcitx5 &
 flameshot &
