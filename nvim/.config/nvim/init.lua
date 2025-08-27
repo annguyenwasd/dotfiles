@@ -33,4 +33,3 @@ require("lazy").setup("plugins", {
 })
 vim.keymap.set("n", "<leader>lp", "<cmd>Lazy profile<cr>")
 require("themes.__output__")
-require("utils.present")
