@@ -31,12 +31,5 @@ return {
     keys = {
       { "<leader>bo", ":BufOnly<CR>", desc = desc("buf: buf only") },
     },
-  },
-  {
-    "yorickpeterse/nvim-window",
-    config = true,
-    keys = {
-      { "<leader>ww", "<cmd>lua require('nvim-window').pick()<cr>", desc = desc("buf: Picking neovim's window") },
-    },
-  },
+  }
 }
