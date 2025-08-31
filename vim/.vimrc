@@ -79,9 +79,9 @@ nnoremap <leader>ga <cmd>G add -A<cr>
 nnoremap <leader>hA <cmd>Gwrite<cr>
 nnoremap <leader>hD <cmd>Gread<cr>
 nnoremap <leader>gw <cmd>G commit -n -m "WIP"<cr>
-nnoremap <leader>gpp <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD)<cr>
-nnoremap <leader>gpf <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
-nnoremap <leader>gpt gpt <cmd>Dispatch git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>
+nnoremap <leader>gpp <cmd>Dispatch! git push -u origin $(git rev-parse --abbrev-ref HEAD)<cr>
+nnoremap <leader>gpf <cmd>Dispatch !git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
+nnoremap <leader>gpt gpt <cmd>Dispatch! git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>
 
 nnoremap <leader>gy <cmd>GBrowse<cr>
 vnoremap <leader>gy :GBrowse<cr>
@@ -179,51 +179,54 @@ nnoremap <leader>sf :call SwitchFindFiles()<cr>
 "}}}
 
 "{{{ LSP
-let lspOpts = #{
-      \ autoHighlightDiags: v:true,
-      \ showDiagOnStatusLine: v:true,
-      \ showDiagWithSign: v:true,
-      \ usePopupInCodeAction: v:true,
-      \ useQuickfixForLocations: v:true,
-      \ useBufferCompletion: v:true,
-      \ filterCompletionDuplicates: v:true,
-      \ snippetSupport: v:false,
-      \ vsnipSupport: v:false,
-      \ showInlayHints: v:false,
-      \ showDiagWithVirtualText: v:false}
-autocmd User LspSetup call LspOptionsSet(lspOpts)
+let env = environ()
+if has_key(env, 'ANNGUYENWASD_PROFILE') && env['ANNGUYENWASD_PROFILE'] ==? "work"
+  let lspOpts = #{
+        \ autoHighlightDiags: v:true,
+        \ showDiagOnStatusLine: v:true,
+        \ showDiagWithSign: v:true,
+        \ usePopupInCodeAction: v:true,
+        \ useQuickfixForLocations: v:true,
+        \ useBufferCompletion: v:true,
+        \ filterCompletionDuplicates: v:true,
+        \ snippetSupport: v:false,
+        \ vsnipSupport: v:false,
+        \ showInlayHints: v:false,
+        \ showDiagWithVirtualText: v:false}
+  autocmd User LspSetup call LspOptionsSet(lspOpts)
 
-let lspServers = [#{
-	\    name: 'typescriptlang',
-	\    filetype: ['javascript', 'typescript', 'typescriptreact', 'javascriptreact'],
-	\    path: expand('~') . '/.node_modules/bin/typescript-language-server',
-	\    args: ['--stdio'],
-	\  }]
-autocmd User LspSetup call LspAddServer(lspServers)
+  let lspServers = [#{
+    \    name: 'typescriptlang',
+    \    filetype: ['javascript', 'typescript', 'typescriptreact', 'javascriptreact'],
+    \    path: expand('~') . '/.node_modules/bin/typescript-language-server',
+    \    args: ['--stdio'],
+    \  }]
+  autocmd User LspSetup call LspAddServer(lspServers)
 
-function! OnAttach()
-  nnoremap <buffer> <leader>ca <cmd>LspCodeAction<cr>
-  nnoremap <buffer> <leader>ld <cmd>LspDiag current<cr>
-  nnoremap <buffer> <leader>da <cmd>LspDiag show<cr>
-  nnoremap <buffer> <leader>ds <cmd>LspDocumentSymbol<cr>
-  nnoremap <buffer> <leader>ws <cmd>LspSymbolSearch<cr>
-  nnoremap <buffer> <leader>lf <cmd>LspFold<cr>
-  nnoremap <buffer> ]d <cmd>LspDiag next<cr>
-  nnoremap <buffer> [d <cmd>LspDiag prev<cr>
-  nnoremap <buffer> gd <cmd>LspGotoDefinition<cr>
-  nnoremap <buffer> gr <cmd>LspShowReferences<cr>
-  nnoremap <buffer> gD <cmd>LspGotoDeclaration<cr>
-  nnoremap <buffer> gi <cmd>LspGotoImpl<cr>
-  nnoremap <buffer> gy <cmd>LspGotoTypeDef<cr>
-  nnoremap <buffer> K <cmd>LspHover<cr>
-  nnoremap <buffer> <leader>rn <cmd>LspRename<cr>
-  vnoremap <buffer> [ <cmd>LspSelectionExpand<cr>
-  vnoremap <buffer> ] <cmd>LspSelectionShrink<cr>
-  nnoremap <buffer> <c-s> <cmd>LspShowSignature<cr>
-  nnoremap <buffer> ghl <cmd>LspHighlight<cr>
-  nnoremap <buffer> ghc <cmd>LspHighlightClear<cr>
-endfunction
-autocmd User LspAttached call OnAttach()
+  function! OnAttach()
+    nnoremap <buffer> <leader>ca <cmd>LspCodeAction<cr>
+    nnoremap <buffer> <leader>ld <cmd>LspDiag current<cr>
+    nnoremap <buffer> <leader>da <cmd>LspDiag show<cr>
+    nnoremap <buffer> <leader>ds <cmd>LspDocumentSymbol<cr>
+    nnoremap <buffer> <leader>ws <cmd>LspSymbolSearch<cr>
+    nnoremap <buffer> <leader>lf <cmd>LspFold<cr>
+    nnoremap <buffer> ]d <cmd>LspDiag next<cr>
+    nnoremap <buffer> [d <cmd>LspDiag prev<cr>
+    nnoremap <buffer> gd <cmd>LspGotoDefinition<cr>
+    nnoremap <buffer> gr <cmd>LspShowReferences<cr>
+    nnoremap <buffer> gD <cmd>LspGotoDeclaration<cr>
+    nnoremap <buffer> gi <cmd>LspGotoImpl<cr>
+    nnoremap <buffer> gy <cmd>LspGotoTypeDef<cr>
+    nnoremap <buffer> K <cmd>LspHover<cr>
+    nnoremap <buffer> <leader>rn <cmd>LspRename<cr>
+    vnoremap <buffer> [ <cmd>LspSelectionExpand<cr>
+    vnoremap <buffer> ] <cmd>LspSelectionShrink<cr>
+    nnoremap <buffer> <c-s> <cmd>LspShowSignature<cr>
+    nnoremap <buffer> ghl <cmd>LspHighlight<cr>
+    nnoremap <buffer> ghc <cmd>LspHighlightClear<cr>
+  endfunction
+  autocmd User LspAttached call OnAttach()
+endif
 "}}}
 
 "{{{ Snippets
@@ -535,6 +538,17 @@ nnoremap D y'>p
 "}}}
 
 "{{{ Plugins Declaration
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
 call plug#begin()
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -566,6 +580,7 @@ Plug 'tacahiroy/ctrlp-funky'
 Plug 'mattn/ctrlp-matchfuzzy'
 Plug 'nordtheme/vim'
 Plug 'zhixiao-zhang/vim-light-pink'
+Plug 'wellle/context.vim'
 call plug#end()
 "}}}
 
@@ -583,6 +598,7 @@ set nowrap
 set hidden
 set noswapfile
 set ignorecase
+set smartcase
 set incsearch
 set hlsearch
 set expandtab
@@ -617,15 +633,15 @@ set path+=**
 
 " color retrobox
 " color quiet
-" color nord
-color zaibatsu
+color nord
+" color zaibatsu
 " color morning
-hi SpecialKey ctermfg=66 guifg=#ffffff
-hi! link Folded NonText
-hi! link LineNr NonText
+" hi SpecialKey ctermfg=66 guifg=#ffffff
+" hi! link Folded NonText
+" hi! link LineNr NonText
 " hi! link Comment NonText
-hi NonText guifg=#030552
-hi SpecialKey guifg=#030552
+" hi NonText guifg=#030552
+" hi SpecialKey guifg=#030552
 
 packadd cfilter
 set statusline=[%n]\ %<%F\ %h%m%r%=%(%l,%c%V%)\ %P\ %{FileEncoding()}\ %{EOLSymbol()}

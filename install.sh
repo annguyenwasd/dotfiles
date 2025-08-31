@@ -17,7 +17,7 @@ sudo pacman -S --noconfirm \
   # xserver and window manager
   xorg xorg-xinit xorg-server xterm i3 \
   # needed tools
-  tmux git neovim stow zsh dmenu alacritty firefox lazygit fzf ripgrep openssh xclip curl unzip feh \
+  tmux git neovim stow zsh dmenu alacritty firefox fzf ripgrep openssh xclip curl unzip feh \
 # local/os-prober 1.83-1
 #     Utility to detect other OSes on a set of drives
   os-prober \

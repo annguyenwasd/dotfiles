@@ -1,42 +1,25 @@
--- vim.api.nvim_create_autocmd("BufEnter", {
---     group = vim.api.nvim_create_augroup("OpenHelpOnRightMostWindow",
---                                         {clear = true}),
---     pattern = "*.txt",
---     command = "if &buftype == 'help' | wincmd L | endif",
---     desc = "Open help page on the right (default bottom)"
--- })
-
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   group = vim.api.nvim_create_augroup("SetFoldMethod", { clear = true }),
   pattern = { "*.vimrc", "*.vim", "*.zshrc", "*.zsh", "*.conf" },
   command = "setlocal foldmethod=marker",
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-  group = vim.api.nvim_create_augroup("ClearIndentForLeetCode", { clear = true }),
-  pattern = vim.fn.expand("*/leetcode/*.*"),
+-- Auto-command: only load mappings inside netrw
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("NetRWKeyBinds", { clear = true }),
+  pattern = "netrw",
   callback = function()
-    -- Clear indentexpr so Neovim doesn't try to compute fancy indents
-    vim.cmd("TSDisable indent")
+    vim.keymap.set(
+      "n",
+      "<C-f>",
+      require('utils.netrw').netrw_find_files,
+      { desc = desc("netrw: Use telescope to find files under this directory") }
+    )
+    vim.keymap.set(
+      "n",
+      "<C-g>",
+      require('utils.netrw').netrw_live_grep,
+      { desc = desc("netrw: Use telescope to live grep under this directory") }
+    )
   end,
 })
-
---[[ vim.api.nvim_create_autocmd({ "BufRead" }, { ]]
---[[ 	group = vim.api.nvim_create_augroup("AutoSetFoldLevelInitLua", { clear = true }), ]]
---[[ 	pattern = { "*.lua" }, ]]
---[[ 	command = "setlocal foldlevel=1", ]]
---[[ }) ]]
-
--- local cursor_line_only_in_active_window = vim.api.nvim_create_augroup("CursorLineOnlyInActiveWindow", { clear = true })
---
--- vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
--- 	group = cursor_line_only_in_active_window,
--- 	pattern = "*",
--- 	command = "setlocal cursorline",
--- })
---
--- vim.api.nvim_create_autocmd("WinLeave", {
--- 	group = cursor_line_only_in_active_window,
--- 	pattern = "*",
--- 	command = "setlocal nocursorline",
--- })
