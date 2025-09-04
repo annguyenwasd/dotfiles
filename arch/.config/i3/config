@@ -69,7 +69,7 @@ bindsym $mod+w exec --no-startup-id alacritty --class setwallpaper --command yaz
 bindsym $mod+o exec alacritty --command nvim "+cd $HOME/workspace/dotfiles"
 bindsym $mod+p exec --no-startup-id alacritty --class setvolume --command pulsemixer
 bindsym $mod+b exec --no-startup-id $HOME/Downloads/LM-Studio-0.3.23-3-x64.AppImage
-bindsym $mod+x exec --no-startup-id xmodmap $HOME/.Xmomap
+bindsym $mod+g exec --no-startup-id xmodmap "$HOME/.Xmodmap"
 
 for_window [class="setwallpaper"] floating enable, resize set 500 500, move position 2060 px 30 px
 for_window [class="setvolume"] floating enable, resize set 500 500, move position 2060 px 530 px
