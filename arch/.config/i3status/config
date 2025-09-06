@@ -4,7 +4,7 @@ general {
   interval = 5
 }
 
-#order += "disk /"
+order += "disk /"
 #order += "disk /home"
 order += "ethernet eno1"
 #order += "wireless wlan0"
@@ -20,8 +20,8 @@ volume master {
 }
 
 ethernet eno1 {
-       format_up = "eno1: %ip (%speed)"
-       format_down = "eno1: down"
+       format_up = "E: %ip (%speed)"
+       format_down = "E: down"
 }
 
 wireless wlan0 {
