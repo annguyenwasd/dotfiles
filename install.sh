@@ -14,46 +14,46 @@ fi
 
 # --- 2. Install packages ---
 # xserver and window manager
-sudo pacman -S --noconfirm xorg xorg-xinit xorg-server xterm i3 \
+sudo pacman -S --noconfirm xorg xorg-xinit xorg-server xterm i3
 
 # needed tools
-sudo pacman -S --noconfirm tmux git neovim stow zsh dmenu alacritty firefox fzf ripgrep openssh xclip curl unzip feh \
+sudo pacman -S --noconfirm tmux git neovim stow zsh dmenu alacritty firefox fzf ripgrep openssh xclip curl unzip feh firefox
 
 # local/os-prober 1.83-1
 #     Utility to detect other OSes on a set of drives
-sudo pacman -S --noconfirm os-prober \
+sudo pacman -S --noconfirm os-prober
 
 # local/polkit 126-2
 #     Application development toolkit for controlling system-wide privileges
-sudo pacman -S --noconfirm polkit \
+sudo pacman -S --noconfirm polkit
 
 # local/xdg-user-dirs 0.18-2
 #     Manage user directories like ~/Desktop and ~/Music
-sudo pacman -S --noconfirm xdg-user-dirs \
+sudo pacman -S --noconfirm xdg-user-dirs
 
 # for audio
-sudo pacman -S --noconfirm pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
+sudo pacman -S --noconfirm pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd
 
 # explorer
-sudo pacman -S --noconfirm yazi mpv ffmpegthumbnailer mediainfo \
+sudo pacman -S --noconfirm yazi mpv ffmpegthumbnailer mediainfo
 
 # Change direction of screen (for reading manga :P) mapped to r1, r2, r3
-sudo pacman -S --noconfirm xorg-xrandr \
+sudo pacman -S --noconfirm xorg-xrandr
 
 # Make things transparent
-sudo pacman -S --noconfirm picom \
+sudo pacman -S --noconfirm picom
 
 # local/fuse2 2.9.9-5
 #     Interface for userspace programs to export a filesystem to the Linux kernel - needed, but dun know what it is
-sudo pacman -S --noconfirm fuse \
+sudo pacman -S --noconfirm fuse
 
 # Driver support Graphic card, everything is rendered by Graphic card
-sudo pacman -S --noconfirm nvidia nvidia-utils nvidia-settings mesa vulkan-intel \
+sudo pacman -S --noconfirm nvidia nvidia-utils nvidia-settings mesa vulkan-intel
 
 # Vietnamese input methods
 sudo pacman -S --noconfirm fcitx5-im fcitx5-unikey fcitx5-configtool
 
-yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt ueberzugpp
+yay -S --noconfirm hellwal node npm optimus-manager optimus-manager-qt ueberzugpp
 
 # --- 3. Change default shell to zsh ---
 if [ "$SHELL" != "$(which zsh)" ]; then

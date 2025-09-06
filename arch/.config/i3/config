@@ -63,7 +63,7 @@ tiling_drag modifier titlebar
 
 # start a terminal
 bindsym $mod+Return exec alacritty
-bindsym $mod+e exec google-chrome-stable
+bindsym $mod+e exec firefox
 bindsym $mod+y exec alacritty --command yazi
 bindsym $mod+w exec --no-startup-id alacritty --class setwallpaper --command yazi $HOME/workspace/walls
 bindsym $mod+o exec alacritty --command nvim "+cd $HOME/workspace/dotfiles"
