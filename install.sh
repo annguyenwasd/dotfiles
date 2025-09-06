@@ -101,3 +101,8 @@ exec zsh
 
 # --- 11. Using GPU ---
 sudo systemctl enable optimus-manager --now
+
+
+# 12. Autologin
+echo "AUTO LOGIN"
+cat ./.non-stow/auto-login-arch.md
