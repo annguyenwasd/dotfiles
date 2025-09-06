@@ -37,6 +37,9 @@ fi
 # increase key repeat rate
 xset r rate 200 25
 
+# set resolution
+xrandr --output eDP-1 --mode 1680x1050
+
 fcitx5 &
 flameshot &
 xautocfg &

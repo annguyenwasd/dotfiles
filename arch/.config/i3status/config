@@ -4,10 +4,10 @@ general {
   interval = 5
 }
 
-#order += "disk /"
+order += "disk /"
 #order += "disk /home"
-order += "ethernet eno1"
-#order += "wireless wlan0"
+#order += "ethernet eno1"
+order += "wireless wlan0"
 order += "memory"
 order += "tztime local"
 order += "volume master"
