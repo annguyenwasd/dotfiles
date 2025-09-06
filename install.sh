@@ -13,35 +13,45 @@ if ! command -v yay >/dev/null 2>&1; then
 fi
 
 # --- 2. Install packages ---
-sudo pacman -S --noconfirm \
-  # xserver and window manager
-  xorg xorg-xinit xorg-server xterm i3 \
-  # needed tools
-  tmux git neovim stow zsh dmenu alacritty firefox fzf ripgrep openssh xclip curl unzip feh \
+# xserver and window manager
+sudo pacman -S --noconfirm xorg xorg-xinit xorg-server xterm i3 \
+
+# needed tools
+sudo pacman -S --noconfirm tmux git neovim stow zsh dmenu alacritty firefox fzf ripgrep openssh xclip curl unzip feh \
+
 # local/os-prober 1.83-1
 #     Utility to detect other OSes on a set of drives
-  os-prober \
+sudo pacman -S --noconfirm os-prober \
+
 # local/polkit 126-2
 #     Application development toolkit for controlling system-wide privileges
-  polkit \
+sudo pacman -S --noconfirm polkit \
+
 # local/xdg-user-dirs 0.18-2
 #     Manage user directories like ~/Desktop and ~/Music
-  xdg-user-dirs \
-  # for audio
-  pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
-  # explorer
-  yazi mpv ffmpegthumbnailer mediainfo \
-  # Change direction of screen (for reading manga :P) mapped to r1, r2, r3
-  xorg-xrandr \
-  # Make things transparent
-  picom \
+sudo pacman -S --noconfirm xdg-user-dirs \
+
+# for audio
+sudo pacman -S --noconfirm pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
+
+# explorer
+sudo pacman -S --noconfirm yazi mpv ffmpegthumbnailer mediainfo \
+
+# Change direction of screen (for reading manga :P) mapped to r1, r2, r3
+sudo pacman -S --noconfirm xorg-xrandr \
+
+# Make things transparent
+sudo pacman -S --noconfirm picom \
+
 # local/fuse2 2.9.9-5
 #     Interface for userspace programs to export a filesystem to the Linux kernel - needed, but dun know what it is
-  fuse \
-  # Driver support Graphic card, everything is rendered by Graphic card
-  nvidia nvidia-utils nvidia-settings mesa vulkan-intel \
-  # Vietnamese input methods
-  fcitx5-im fcitx5-unikey fcitx5-configtool
+sudo pacman -S --noconfirm fuse \
+
+# Driver support Graphic card, everything is rendered by Graphic card
+sudo pacman -S --noconfirm nvidia nvidia-utils nvidia-settings mesa vulkan-intel \
+
+# Vietnamese input methods
+sudo pacman -S --noconfirm fcitx5-im fcitx5-unikey fcitx5-configtool
 
 yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt ueberzugpp
 
