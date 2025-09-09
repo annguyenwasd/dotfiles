@@ -44,7 +44,7 @@ return {
       { "`u",              "<cmd>lua require('dap').step_out()<cr>",      desc = desc("debug: step out") },
       { "`j",              "<cmd>lua require('dap').down()<cr>",          desc = desc("debug: Go down in current stacktrace without stepping.") },
       { "`k",              "<cmd>lua require('dap').up()<cr>",            desc = desc("debug: Go up in current stacktrace without stepping.") },
-      { "<localleader>dt", "<cmd>lua require('dap').terminate()<cr>",     desc = desc("debug: terminate") },
+      { "<localleader>dt", "<cmd>lua require('dap').terminate({all=true})<cr>",     desc = desc("debug: terminate") },
       { "<localleader>dr", "<cmd>lua require('dap').repl.toggle()<cr>",   desc = desc("debug: open repl") },
       { "<localleader>dc", "<cmd>lua require('dap').run_to_cursor()<cr>", desc = desc("debug: run to cursor") },
       {
