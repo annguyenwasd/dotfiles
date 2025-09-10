@@ -19,7 +19,7 @@ return {
     {
       "<leader>tt",
       "<cmd>TransparentToggle<cr>",
-      desc = desc("theme: Toggle gruvbox theme"),
+      desc = desc("theme: Toggle transparent"),
     },
   },
 }

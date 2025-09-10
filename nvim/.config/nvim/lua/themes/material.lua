@@ -1,7 +1,7 @@
 local M = {}
 
 local function common()
-  vim.keymap.set("n", "<leader>tt", require("material.functions").toggle_style)
+  vim.keymap.set("n", "<leader>ts", require("material.functions").toggle_style)
 end
 
 M.deep_ocean = function()
