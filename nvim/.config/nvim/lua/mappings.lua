@@ -6,7 +6,7 @@ vim.keymap.set("n", "N", "Nzt", { desc = desc("mappings: Override. prev occurren
 vim.keymap.set("n", "*", "*zt", { desc = desc("mappings: Override. next whole world occurrence and make cursor top"), noremap = false })
 vim.keymap.set("n", "#", "#zt", { desc = desc("mappings: Override. prev whole world occurrence and make cursor top"), noremap = false })
 vim.keymap.set("v", "*", 'y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>', { desc = desc("mappings: Do search with selected text in VISUAL mode "), noremap = false })
-vim.keymap.set("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr>", { desc = desc("mappings: Closing quickfix windows/location list windows") })
+vim.keymap.set("n", "<leader>cl", "<cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>noh<cr><cmd>pclose<cr><cmd>lua vim.lsp.buf.clear_references()<cr>", { desc = desc("mappings: Closing quickfix windows/location list windows") })
 
 --  ─────────────────── More convenient with copy paste ───────────────────
 vim.keymap.set("v", "<leader>p", '"_dP', { desc = desc("mappings: Paste without replace current value by replaced value") })

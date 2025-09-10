@@ -46,6 +46,7 @@ local function setup_lsp(bufnr)
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = desc("lsp: Jumps to the declaration of the symbol under the cursor.") })
   vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = desc("lsp: show code action") })
   vim.keymap.set({ "n", "v" }, "<leader>CA", "<cmd>LspTypescriptSourceAction<cr>", { buffer = bufnr, desc = desc("lsp: show code action") })
+  vim.keymap.set({ "n", "v" }, "<leader>hl", vim.lsp.buf.document_highlight, { buffer = bufnr, desc = desc("lsp: highlight") })
 end
 
 local get_ts_ls_config = function()
