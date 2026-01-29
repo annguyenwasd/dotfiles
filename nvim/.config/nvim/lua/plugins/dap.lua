@@ -10,6 +10,7 @@ return {
       { "<localleader>bc", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = desc("debug: toggle breakpoint with a condition") },
       { "<localleader>bl", function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end, desc = desc("debug: log point message") },
       { "<localleader>BB", function() require("dap").list_breakpoints() end, desc = desc("debug: list breakpoints") },
+      { "`BB", function() require("dap").clear_breakpoints() end, desc = desc("debug: clear all breakpoints") },
       { "<localleader>c", "<cmd>lua require('dap').continue()<cr>", desc = desc("debug: continue/start debugging") },
       { "`o","<cmd>lua require('dap').step_over()<cr>", desc = desc("debug: step over") },
       { "`hk","<cmd>lua require('dap.ui.widgets').hover()<cr>", mode = {"n", "v"} ,desc = desc("debug: hover, open float at cursor") },

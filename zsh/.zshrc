@@ -57,6 +57,7 @@ source $HOME/.config/zsh/scripts/yr.zsh
 
 # {{{ Alias
 alias manrg="rg --generate man | man -l -"
+alias p="pnpm"
 
 # h: human readable, t: time - newest first, S: size largest first
 alias la="ls -lahtS --color"
@@ -399,3 +400,14 @@ preexec_functions+=(_command_time_preexec)
 # Per-function profiling:
 
 # zprof
+
+# pnpm
+export PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# opencode
+export PATH=/home/annguyenwasd/.opencode/bin:$PATH
