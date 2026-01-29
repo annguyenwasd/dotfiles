@@ -1,17 +1,12 @@
 [font]
-size = 12.0
+size = 15.0
 
 [font.normal]
-family = "SauceCodeProNerdFont"
 style = "Regular"
 
 [scrolling]
 history = 100000
 multiplier = 3
-
-[terminal.shell]
-args = ["--login"]
-program = "/usr/bin/zsh"
 
 [window]
 opacity = 0.8
