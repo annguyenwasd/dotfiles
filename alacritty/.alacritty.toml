@@ -2,6 +2,7 @@
 size = 14
 
 [font.normal]
+family = "SauceCodePro Nerd Font Mono"
 style = "Regular"
 
 [scrolling]
