@@ -10,7 +10,7 @@ history = 100000
 multiplier = 3
 
 [window]
-opacity = 0.8
+opacity = 1
 blur = true
 decorations = "none"
 startup_mode = "Maximized"
