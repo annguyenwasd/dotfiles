@@ -48,7 +48,7 @@ alias gd="git diff"
 alias gdc="git diff --cached"
 alias gdl="git dl"
 
-alias gl="git log --graph --pretty='%C(yellow bold)%h%Creset -%C(auto)%d%Creset %s  %C(bold)<%an>%Creset %C(auto)%ar / %ad%Creset %n %b'"
+alias gl="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s  %C(bold blue)<%an>%Creset %Cgreen%ar / %ad%Creset %n %b'"
 alias gll="git log --reverse --pretty=format:%B--- -n$1"
 alias gla="git log --graph --all --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
 alias glao="git log --all --oneline "
@@ -183,10 +183,10 @@ function get_branch_name() {
   # Check if running BSD sed (macOS) or GNU sed
   if sed --version 2>/dev/null | grep -q GNU; then
       # GNU sed (Linux)
-      bn=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[([^]]*)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
+      bn=$('echo' "$*" | 'sed' 's/^[[:space:]]*//; s/[[:space:]]*$//' | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/[[\]{}()]//g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-*//; s/-*$//')
   else
       # BSD sed (macOS)
-      bn=$('echo' "$*" | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/\[\([^]]*\)\]/\1/g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-\|-$//g')
+      bn=$('echo' "$*" | 'sed' 's/^[[:space:]]*//; s/[[:space:]]*$//' | 'tr' '[:upper:]' '[:lower:]' | 'sed' 's/[[\]{}()]//g; s/[^a-zA-Z0-9/-]/-/g; s/--*/-/g; s/^-*//; s/-*$//')
   fi
 
   echo $bn

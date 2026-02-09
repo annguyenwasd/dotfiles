@@ -105,6 +105,10 @@ end, { desc = "Copy relative path" })
 vim.keymap.set("n", "<leader>cP", function()
   copy_path(false)
 end, { desc = "Copy absolute path" })
+-- Synced from .vimrc:449 — Copy detailed path (absolute + function name or line number)
+vim.keymap.set("n", "<leader>CP", function()
+  copy_path("detailed")
+end, { desc = "Copy detailed path (with function name)" })
 
 
 --  ──────────────────────────────── MISC ─────────────────────────────
@@ -122,3 +126,78 @@ end, { expr = true, desc = desc("mappings: Current file's directory path") })
 vim.keymap.set("n", "<leader>e", "<cmd>b #<cr>", { desc = desc("mappings: Swap current buffer with alternative buffer") })
 vim.keymap.set("n", "<leader>fl", ":set foldlevel=", { desc = desc("mappings: set custom fold level"), silent = false })
 vim.keymap.set("n", "<leader>vm", ":vert res 120<cr>", { desc = desc("mappings: Set current window width 120 length"), noremap = true })
+
+--  ──────────── Synced from .vimrc (Vim→Lua conversions) ─────────────
+
+-- Synced from .vimrc:47 — Terminal mode: press Esc twice to exit to normal mode
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = desc("mappings: Exit terminal mode to normal mode") })
+
+-- Synced from .vimrc:464 — Insert console.log for word under cursor
+vim.keymap.set("n", "<leader>ll", function()
+  local word = vim.fn.expand("<cword>")
+  local file_path = vim.fn.expand("%")
+  local line_num = vim.fn.line(".")
+  local ext = vim.fn.expand("%:e")
+  if vim.tbl_contains({ "js", "ts", "jsx", "tsx" }, ext) then
+    local log_line = string.format('console.log("[XXXDEBUG:%d] at %s, %s:", %s);', line_num, file_path, word, word)
+    vim.fn.append(vim.fn.line("."), log_line)
+    vim.cmd("normal! j")
+  end
+end, { desc = desc("mappings: Insert console.log debug line") })
+
+-- Synced from .vimrc:465 — Delete all XXXDEBUG console.log lines
+vim.keymap.set("n", "<leader>LL", "<cmd>g/xxxDEBUG/ d<cr>", { desc = desc("mappings: Remove all XXXDEBUG lines") })
+
+-- Synced from .vimrc:652 — ZenMode: minimal statusline + single window + side margin
+vim.keymap.set("n", "<leader>zz", function()
+  vim.o.statusline = "%<%t %h%m%r"
+  vim.cmd("only")
+  local cols = vim.v.count > 0 and vim.v.count or 70
+  vim.cmd("topleft " .. cols .. "vnew")
+  vim.cmd("wincmd l")
+end, { desc = desc("mappings: Toggle zen mode") })
+
+-- Synced from .vimrc:668 — Open markdown file in browser
+vim.keymap.set("n", "<leader>md", function()
+  if vim.bo.filetype ~= "markdown" then
+    print("Not a markdown file")
+    return
+  end
+  if vim.fn.executable("mdbrowse") == 1 then
+    vim.fn.jobstart("mdbrowse " .. vim.fn.expand("%"), { detach = true })
+  else
+    print("mdbrowse not found. Install with: npm install md-browse -g")
+  end
+end, { desc = desc("mappings: Open markdown in browser") })
+
+-- Synced from .vimrc:642 — Run test for current file
+vim.keymap.set("n", "<leader>gg", function()
+  local file = vim.fn.expand("%")
+  if file == "" then
+    print("No file to test")
+    return
+  end
+  vim.cmd("cclose")
+  vim.cmd("vertical Start! yarn test -u --no-coverage " .. vim.fn.shellescape(file))
+end, { desc = desc("mappings: Run yarn test for current file") })
+
+-- Synced from .vimrc:643 — Run test for nearest it() block
+vim.keymap.set("n", "<leader>GG", function()
+  local file = vim.fn.expand("%")
+  if file == "" then
+    print("No file to test")
+    return
+  end
+  local it_line = vim.fn.search("\\s*it(", "bnW")
+  if it_line == 0 then
+    print("No it() function found")
+    return
+  end
+  local test_name = vim.fn.matchstr(vim.fn.getline(it_line), "it(\\s*[\"']\\zs[^\"']*\\ze[\"']")
+  if test_name == "" then
+    print("Could not extract test name")
+    return
+  end
+  vim.cmd("cclose")
+  vim.cmd("vertical Start! yarn test -u --no-coverage " .. vim.fn.shellescape(file) .. " -t " .. vim.fn.shellescape(test_name))
+end, { desc = desc("mappings: Run yarn test for nearest it() block") })

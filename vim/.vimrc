@@ -11,7 +11,7 @@ nmap # #zozt
 nnoremap Y y$
 vmap D y'>p
 
-nnoremap <silent> <leader>cl <cmd>ccl<cr><cmd>lcl<cr><cmd>echo ''<cr><cmd>nohlsearch<cr>
+nnoremap <silent> <leader>cl <cmd>cclose<cr><cmd>lclose<cr><cmd>pclose<cr><cmd>echo ''<cr><cmd>nohlsearch<cr>
 nnoremap <leader><leader>r <cmd>so ~/.vimrc<cr>
 nnoremap <leader><leader>R <cmd>so ~/.vimrc<cr><cmd>PlugInstall<cr>
 vnoremap <leader>p "_dP
@@ -43,6 +43,9 @@ nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
 
+" Terminal mode: press Esc twice to exit to normal mode
+tnoremap <Esc><Esc> <C-\><C-n>
+
 if has("gui_macvim")
   color default
 endif
@@ -70,9 +73,9 @@ nnoremap <leader>gj <cmd>diffget //3 <cr> <cmd>w <cr> <cmd>diffupdate <cr>
 nnoremap <leader>Gs <cmd>G difftool --name-status<cr>
 nnoremap <leader>gs <cmd>G<cr>
 nnoremap <leader><leader>gs <cmd>G difftool<cr>
-nnoremap <leader><leader>bl <cmd>G blame<cr>
+nnoremap <leader>bl <cmd>G blame<cr>
 nnoremap <leader>gc :G commit -m ""<left>
-nnoremap <leader>gl :Git log<cr>
+nnoremap <leader>gl :Git log --decorate=full<cr>
 vnoremap <leader>gl :GcLog!<cr>
 nnoremap <leader>gL <cmd>0GcLog<cr>
 nnoremap <leader>ga <cmd>G add -A<cr>
@@ -80,7 +83,7 @@ nnoremap <leader>hA <cmd>Gwrite<cr>
 nnoremap <leader>hD <cmd>Gread<cr>
 nnoremap <leader>gw <cmd>G commit -n -m "WIP"<cr>
 nnoremap <leader>gpp <cmd>Dispatch! git push -u origin $(git rev-parse --abbrev-ref HEAD)<cr>
-nnoremap <leader>gpf <cmd>Dispatch !git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
+nnoremap <leader>gpf <cmd>Dispatch! git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease<cr>
 nnoremap <leader>gpt gpt <cmd>Dispatch! git push -u origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease --follow-tags<cr>
 
 nnoremap <leader>gy <cmd>GBrowse<cr>
@@ -107,6 +110,7 @@ let g:fuzzyy_files_ignore_dir = ['.git', '.hg', '.svn', '.rebar', '.eunit', 'nod
 let g:fuzzyy_devicons = 0
 let g:fuzzyy_dropdown = 0
 nnoremap <leader>fc <cmd>FuzzyColors<cr>
+nnoremap <leader>fh <cmd>FuzzyHelps<cr>
 
 hi! link CtrlPMatch Search
 let g:ctrlp_root_markers = ['.git', 'yarn.lock', 'packages']
@@ -212,7 +216,8 @@ if has_key(env, 'ANNGUYENWASD_PROFILE') && env['ANNGUYENWASD_PROFILE'] ==? "work
     nnoremap <buffer> <leader>lf <cmd>LspFold<cr>
     nnoremap <buffer> ]d <cmd>LspDiag next<cr>
     nnoremap <buffer> [d <cmd>LspDiag prev<cr>
-    nnoremap <buffer> gd <cmd>LspGotoDefinition<cr>
+    nnoremap <buffer> gd <Cmd>execute v:count .. 'LspGotoDefinition'<CR>
+    nnoremap <buffer> <C-W>gd <Cmd>execute 'botright ' .. v:count .. 'LspGotoDefinition'<CR>
     nnoremap <buffer> gr <cmd>LspShowReferences<cr>
     nnoremap <buffer> gD <cmd>LspGotoDeclaration<cr>
     nnoremap <buffer> gi <cmd>LspGotoImpl<cr>
@@ -264,8 +269,15 @@ let g:asyncrun_open = 10
 let g:rooter_patterns = [ ".git" ]
 let g:rooter_manual_only = 1
 
-let g:DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*,*node_modules*,wezterm,karabiner,feh,arch,work.lua,env.zsh,.luarc.json,docs,lazy-lock.json"
+let g:DirDiffExcludes = ".git,personal.*,.DS_Store,**/packer_compiled.lua,**/*.add,**/*.spl,*.png,*.jpg,*.jpeg,Session.vim,*/state.yml,plugin/*,spell/*,node_modules/*,*node_modules*,wezterm,karabiner,feh,arch,work.lua,env.zsh,.luarc.json,docs,lazy-lock.json,.nx/*,dist"
 nnoremap <leader>u <cmd>UndotreeToggle<cr>
+nnoremap <leader>tt <cmd>TransparentToggle<cr>
+
+" Jump to the end of quickfix list after dispatch completes
+augroup DispatchQuickfix
+    autocmd!
+    autocmd QuickFixCmdPost Make,Dispatch if len(getqflist()) > 0 | cwindow | clast | endif
+augroup END
 "}}}
 
 "{{{ netrw
@@ -274,25 +286,6 @@ let g:no_plugin_maps=1
 "}}}
 
 "{{{ Custom functions
-function! EOLSymbol()
-   if &fileformat == 'dos'
-       return '[CRLF(dos)]'
-   elseif &fileformat == 'unix'
-       return '[LF(unix)]'
-   elseif &fileformat == 'mac'
-       return '[CR:(mac)]'
-   else
-       return '[?eol]'
-   endif
-endfunction
-
-function! FileEncoding()
-     if strchars(&fileencoding) == 0
-       return '[?enc]'
-     else
-       return '['.. &fileencoding ..']'
-   endif
-endfunction
 
 function! BuildNearest()
    let package = findfile("package.json", ".;")
@@ -306,7 +299,7 @@ function! BuildNearest()
        let t = json_decode(jsonString)
        let packageName = t["name"]
        echom "Building " . packageName
-       execute "Dispatch yarn workspace " . packageName . " build"
+       execute "vertical Start! yarn workspace " . packageName . " build"
    endif
 endfunction
 
@@ -368,7 +361,7 @@ function! NpmHome(type)
     endif
 
     let package_name = @@
-    execute "Dispatch npm home " . shellescape(package_name)
+    execute "Dispatch! npm home " . shellescape(package_name)
 
     let @@ = saved_unnamed_register
 endfunction
@@ -387,19 +380,20 @@ function! GithubHome(type)
     endif
 
     let package_name = @@
-    execute "Dispatch open https://github.com/" . shellescape(package_name)
+    execute "Dispatch! open https://github.com/" . shellescape(package_name)
 
     let @@ = saved_unnamed_register
 endfunction
 nnoremap <leader>gh :set opfunc=GithubHome<CR>g@
 vnoremap <leader>gh :<C-U>call GithubHome(visualmode())<CR>
 
-function! CopyPath(isRelative)
+function! CopyPath(mode)
     " Find the git root directory
     let l:git_root = system('git rev-parse --show-toplevel 2>/dev/null')[:-2]
     let l:full_path = expand('%:p')
+    let l:path = ''
 
-    if a:isRelative
+    if a:mode == 'relative'
         if v:shell_error == 0 && !empty(l:git_root)
             " If in a git repo, get path relative to git root
             let l:path = substitute(l:full_path, l:git_root . '/', '', '')
@@ -407,9 +401,37 @@ function! CopyPath(isRelative)
             " Fallback to current directory relative path
             let l:path = fnamemodify(expand("%"), ":~:.")
         endif
-    else
+    elseif a:mode == 'absolute'
         " Get absolute path from root
         let l:path = l:full_path
+    elseif a:mode == 'detailed'
+        " Get absolute path with function name or line number
+        let l:path = l:full_path
+        let l:line_num = line('.')
+        let l:func_name = ''
+        
+        " First, check if current line contains the word 'function'
+        let l:current_line = getline('.')
+        if l:current_line =~ '\cfunction'
+            " Extract the word after 'function' (case insensitive)
+            let l:func_name = matchstr(l:current_line, '\cfunction\S*\s\+\zs\w\+')
+        endif
+        
+        " If current line doesn't have function, search backwards
+        if empty(l:func_name)
+            let l:func_line = search('\cfunction', 'bnW')
+            if l:func_line > 0
+                let l:func_text = getline(l:func_line)
+                let l:func_name = matchstr(l:func_text, '\cfunction\S*\s\+\zs\w\+')
+            endif
+        endif
+        
+        " Add function name or line number
+        if !empty(l:func_name)
+            let l:path = l:path . ' at ' . l:func_name . '() function'
+        else
+            let l:path = l:path . ':' . l:line_num
+        endif
     endif
 
     " Copy to clipboard
@@ -424,8 +446,9 @@ function! CopyPath(isRelative)
 endfunction
 
 
-nnoremap <leader>cp :call CopyPath(1)<CR>
-nnoremap <leader>cP :call CopyPath(0)<CR>
+nnoremap <leader>cp :call CopyPath('relative')<CR>
+nnoremap <leader>cP :call CopyPath('absolute')<CR>
+nnoremap <leader>CP :call CopyPath('detailed')<CR>
 
 function! ConsoleLog()
     let l:word = expand('<cword>')
@@ -443,12 +466,51 @@ endfunction
 nnoremap <leader>ll :call ConsoleLog()<CR>
 nnoremap <leader>LL :g/xxxDEBUG/ d<CR>
 
+function! DetectPackageManager()
+    " Auto-detect package manager based on lock files
+    if filereadable('pnpm-lock.yaml')
+        return 'pnpm'
+    elseif filereadable('yarn.lock')
+        return 'yarn'
+    elseif filereadable('bun.lockb')
+        return 'bun'
+    elseif filereadable('package-lock.json')
+        return 'npm'
+    else
+        " No lock file found, check package.json packageManager field
+        if filereadable('package.json')
+            let l:package_json = readfile('package.json')
+            let l:json_string = join(l:package_json, "\n")
+            
+            " Try to extract packageManager field
+            let l:pm_match = matchstr(l:json_string, '"packageManager"\s*:\s*"\zs[^@"]*')
+            
+            if !empty(l:pm_match)
+                if l:pm_match =~ 'pnpm'
+                    return 'pnpm'
+                elseif l:pm_match =~ 'yarn'
+                    return 'yarn'
+                elseif l:pm_match =~ 'npm'
+                    return 'npm'
+                elseif l:pm_match =~ 'bun'
+                    return 'bun'
+                endif
+            endif
+        endif
+        
+        " No lock file and no packageManager field found
+        return ''
+    endif
+endfunction
+
 function! YarnInfo(flag)
     let l:col = col('.')
     let l:line = getline('.')
     let l:start = l:col
     let l:end = l:col
+    let l:quote = '"'
 
+    " Try double quotes first
     while l:start > 1 && l:line[l:start-2] != '"'
         let l:start -= 1
     endwhile
@@ -457,14 +519,71 @@ function! YarnInfo(flag)
         let l:end += 1
     endwhile
 
-    if l:start > 1 && l:end <= len(l:line) && l:line[l:start-2] == '"' && l:line[l:end-1] == '"'
+    " If no double quotes found, try single quotes
+    if !(l:start > 1 && l:end <= len(l:line) && l:line[l:start-2] == '"' && l:line[l:end-1] == '"')
+        let l:start = l:col
+        let l:end = l:col
+        let l:quote = "'"
+        
+        while l:start > 1 && l:line[l:start-2] != "'"
+            let l:start -= 1
+        endwhile
+        
+        while l:end <= len(l:line) && l:line[l:end-1] != "'"
+            let l:end += 1
+        endwhile
+    endif
+
+    if l:start > 1 && l:end <= len(l:line) && l:line[l:start-2] == l:quote && l:line[l:end-1] == l:quote
         let l:package = l:line[l:start-1:l:end-2]
+        let l:pm = DetectPackageManager()
+        
+        " Check if package manager was detected
+        if empty(l:pm)
+            echo "No package manager detected. Please ensure you have a lock file (yarn.lock, pnpm-lock.yaml, package-lock.json, bun.lockb) or packageManager field in package.json"
+            return
+        endif
+        
         if a:flag == 'dist-tags'
-            execute 'Dispatch yarn info ' . shellescape(l:package) . ' dist-tags'
+            if l:pm == 'yarn'
+                execute 'vertical Dispatch yarn info ' . shellescape(l:package) . ' dist-tags'
+            elseif l:pm == 'pnpm'
+                execute 'vertical Dispatch pnpm view ' . shellescape(l:package) . ' dist-tags'
+            elseif l:pm == 'npm'
+                execute 'vertical Dispatch npm view ' . shellescape(l:package) . ' dist-tags'
+            elseif l:pm == 'bun'
+                execute 'vertical Dispatch bun pm view ' . shellescape(l:package) . ' dist-tags'
+            endif
         elseif a:flag == 'versions'
-            execute 'Dispatch yarn info ' . shellescape(l:package) . ' versions'
+            if l:pm == 'yarn'
+                execute 'vertical Dispatch yarn info ' . shellescape(l:package) . ' versions'
+            elseif l:pm == 'pnpm'
+                execute 'vertical Dispatch pnpm view ' . shellescape(l:package) . ' versions'
+            elseif l:pm == 'npm'
+                execute 'vertical Dispatch npm view ' . shellescape(l:package) . ' versions'
+            elseif l:pm == 'bun'
+                execute 'vertical Dispatch bun pm view ' . shellescape(l:package) . ' versions'
+            endif
         elseif a:flag == 'why'
-            execute 'Dispatch yarn why ' . shellescape(l:package)
+            if l:pm == 'yarn'
+                execute 'vertical Dispatch yarn why ' . shellescape(l:package)
+            elseif l:pm == 'pnpm'
+                execute 'vertical Dispatch pnpm why ' . shellescape(l:package)
+            elseif l:pm == 'npm'
+                execute 'vertical Dispatch npm explain ' . shellescape(l:package)
+            elseif l:pm == 'bun'
+                execute 'vertical Dispatch bun pm ls ' . shellescape(l:package)
+            endif
+        elseif a:flag == 'list'
+            if l:pm == 'yarn'
+                execute 'vertical Dispatch yarn list --pattern ' . shellescape(l:package)
+            elseif l:pm == 'pnpm'
+                execute 'vertical Dispatch pnpm list ' . shellescape(l:package)
+            elseif l:pm == 'npm'
+                execute 'vertical Dispatch npm list ' . shellescape(l:package)
+            elseif l:pm == 'bun'
+                execute 'vertical Dispatch bun pm ls ' . shellescape(l:package)
+            endif
         endif
     else
         echo "Cursor not inside quoted package name"
@@ -474,6 +593,7 @@ endfunction
 nnoremap <leader>yid :call YarnInfo('dist-tags')<CR>
 nnoremap <leader>yiv :call YarnInfo('versions')<CR>
 nnoremap <leader>yy :call YarnInfo('why')<CR>
+nnoremap <leader>yl :call YarnInfo('list')<CR>
 
 " %bdelete:
 " This deletes all buffers. The % range means "all buffers," and bdelete (or bd) deletes a buffer.
@@ -497,8 +617,7 @@ function! YarnTestFile()
         return
     endif
     cclose
-    botright vertical 120 copen
-    execute 'Dispatch yarn test ' . shellescape(l:file) . ' 2>&1 | sed "s/\x1b\[[0-9;]*m//g"'
+    execute 'vertical Start!  yarn test -u --no-coverage ' . shellescape(l:file)
 endfunction
 
 function! YarnTestIt()
@@ -519,12 +638,36 @@ function! YarnTestIt()
         return
     endif
     cclose
-    botright vertical 120 copen
-    execute 'Dispatch yarn test ' . shellescape(l:file) . ' -t ' . shellescape(l:test_name) . ' 2>&1 | sed "s/\x1b\[[0-9;]*m//g"'
+    execute 'vertical Start! yarn test -u --no-coverage ' . shellescape(l:file) . ' -t ' . shellescape(l:test_name)
 endfunction
 
-nnoremap <leader>ytf :call YarnTestFile()<CR>
-nnoremap <leader>ytt :call YarnTestIt()<CR>
+nnoremap <leader>gg :call YarnTestFile()<CR>
+nnoremap <leader>GG :call YarnTestIt()<CR>
+
+function! ZenMode()
+  set statusline=%<%t\ %h%m%r
+  only
+  execute 'topleft ' .. (v:count ? v:count : '70') .. 'vnew'
+  wincmd l
+endfunction
+
+nnoremap <leader>zz :call ZenMode()<CR>
+
+function! OpenMarkdownBrowser()
+    if &filetype != 'markdown'
+        echo "Not a markdown file"
+        return
+    endif
+    
+    if executable('mdbrowse')
+        execute 'Spawn! mdbrowse %'
+    else
+        echo "mdbrowse not found, installing..."
+        execute 'Spawn! npm install md-browse -g'
+    endif
+endfunction
+
+nnoremap <leader>md :call OpenMarkdownBrowser()<CR>
 "}}}
 
 "{{{ Custom mappings
@@ -532,9 +675,13 @@ let g:asyncrun_rootmarks = ['.svn', '.git', '.gitignore', 'yarn.lock']
 nnoremap <leader>fl :set foldlevel=
 " This one for jump into \" \" when do space rg
 cnoremap <expr> "" getcmdpos() > 20 ? repeat('<Left>', 50) : '""'
-nnoremap <leader>rg :Ggrep -r -I -i --untracked -e "" -- :^**/dist/** :^/*.lock :^**/test/** :^*.test.* :^**/*.snap :^**/*.md<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>RG :Ggrep -r -I -i --untracked -e "<c-r><c-w>" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md
+nnoremap <leader>rg :Ggrep! -r -I -i --untracked -e "" -- :^**/dist/** :^/*.lock :^**/test/** :^*.test.* :^**/*.snap :^**/*.md<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>RG :Ggrep! -r -I -i --untracked -e "<c-r><c-w>" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md
 nnoremap D y'>p
+
+" Synced from mappings.lua:203 — Show vim's documentation on current word
+nnoremap <leader>K :execute 'help ' . expand('<cword>')<CR>
+
 "}}}
 
 "{{{ Plugins Declaration
@@ -550,6 +697,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 \| endif
 
 call plug#begin()
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
@@ -558,8 +706,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-speeddating'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'godlygeek/tabular'
 Plug 'airblade/vim-rooter'
@@ -570,11 +718,13 @@ Plug 'yegappan/lsp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'rafamadriz/friendly-snippets'
+Plug 'tpope/vim-vinegar'
 Plug 'saccarosium/vim-netrw-salad'
 " Plug 'tribela/vim-transparent'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install --frozen-lockfile --production',
   \ 'for': ['javascript','javascriptreact', 'typescript',  'typescriptreact','css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+Plug 'tpope/vim-dispatch'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'mattn/ctrlp-matchfuzzy'
@@ -644,5 +794,26 @@ color nord
 " hi SpecialKey guifg=#030552
 
 packadd cfilter
+
+function! FileEncoding()
+     if strchars(&fileencoding) == 0
+       return '[?enc]'
+     else
+       return '['.. &fileencoding ..']'
+   endif
+endfunction
+
+function! EOLSymbol()
+   if &fileformat == 'dos'
+       return '[CRLF(dos)]'
+   elseif &fileformat == 'unix'
+       return '[LF(unix)]'
+   elseif &fileformat == 'mac'
+       return '[CR:(mac)]'
+   else
+       return '[?eol]'
+   endif
+endfunction
+
 set statusline=[%n]\ %<%F\ %h%m%r%=%(%l,%c%V%)\ %P\ %{FileEncoding()}\ %{EOLSymbol()}
 "}}}

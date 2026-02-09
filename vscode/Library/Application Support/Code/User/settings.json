@@ -556,11 +556,17 @@
     "search.quickAccess.preserveInput": true,
     "git.autofetch": true,
     "diffEditor.hideUnchangedRegions.enabled": true,
-    "diffEditor.renderSideBySide": true,
+    "diffEditor.renderSideBySide": false,
     "diffEditor.experimental.showMoves": true,
     "workbench.editor.enablePreview": false,
     "window.nativeTabs": true,
     "window.zoomLevel": 1,
-    "amazonQ.workspaceIndex": true
+    "amazonQ.workspaceIndex": true,
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "amazonQ.suppressPrompts": {
+      "amazonQChatDisclaimer": true,
+      "amazonQChatPairProgramming": true
+    }
   }
   

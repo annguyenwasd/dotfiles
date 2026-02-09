@@ -1,2 +1,2 @@
-syntax off
-compiler eslint
+" syntax off
+setlocal regexpengine=2
