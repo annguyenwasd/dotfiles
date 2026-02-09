@@ -102,6 +102,40 @@ zsh: add workspace navigation functions
 
 **Single-category guideline:** For changes spanning multiple tools but representing a unified feature/fix, use the primary tool affected or a descriptive prefix like `setup`, `install`, or `config`.
 
+## Branch Syncing Rules
+
+This repository maintains two main branches with platform-specific configurations:
+
+- `master` - Primary branch (Arch Linux focused)
+- `mac` - macOS-specific branch
+
+### Sync Exclusions
+
+When syncing between `master` and `mac` branches, the following files should **NOT** be synced due to platform-specific differences:
+
+**Do not sync from mac to master:**
+- `alacritty/.alacritty.toml` - Different terminal configurations per platform
+- `nvim/.config/nvim/lua/plugins/transparent.lua` - Transparency settings differ
+- `nvim/.config/nvim/lua/themes/__output__.lua` - Theme preferences differ
+- `nvim/.config/nvim/lua/plugins/leetcode.lua` (deletion) - Mac branch doesn't use leetcode plugin
+
+**Sync commit format:**
+```
+sync(<branch-name>): <description>
+
+- Detail about what was synced
+- Detail about excluded files
+```
+
+**Example:**
+```
+sync(master): sync recent changes from master to mac
+
+- Synced nvim plugin updates
+- Synced tmux configuration changes
+- Excluded: alacritty, transparent plugin, theme changes
+```
+
 ## Common Commands
 
 ### Installation & Setup
