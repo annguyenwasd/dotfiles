@@ -92,6 +92,10 @@ vim.keymap.set("n", "<leader>bp", function()
   end
 end, { desc = desc("mappings: Open nearest package.json file") })
 
+vim.keymap.set("n", "<leader>sr", function()
+  require("utils.script-runner").run_script_picker()
+end, { desc = desc("mappings: Run script from nearest package.json") })
+
 --  ─────────── copy current file path (relatively/absolutely) ────────
 local copy_path = require("utils.copy_path").copy_path
 

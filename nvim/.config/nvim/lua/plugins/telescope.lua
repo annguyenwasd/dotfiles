@@ -5,11 +5,12 @@ return {
     config = function()
       local actions = require("telescope.actions")
       local actions_layout = require("telescope.actions.layout")
+      local themes = require("telescope.themes")
 
       -- You dont need to set any of these options. These are the default ones. Only
       -- the loading is important
       require("telescope").setup({
-        defaults = {
+        defaults = themes.get_ivy({
           find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
           debounce = 150,
           vimgrep_arguments = {
@@ -48,7 +49,7 @@ return {
               ["<c-\\>"] = actions_layout.toggle_preview,
             },
           },
-        },
+        }),
       })
     end,
     keys = {
