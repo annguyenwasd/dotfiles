@@ -158,6 +158,87 @@ git worktree add /tmp/dotfiles-mac mac
    git worktree remove /tmp/dotfiles-<branch>
    ```
 
+### Syncing from Patch File
+
+When syncing changes from an external patch file (e.g., from work laptop or another machine):
+
+**Workflow:**
+
+1. **Create worktree for master branch:**
+   ```bash
+   git worktree add /tmp/dotfiles-master master
+   ```
+
+2. **Apply patch to master branch in worktree:**
+   ```bash
+   cd /tmp/dotfiles-master
+   git apply ~/Downloads/sync-YYYY-MM-DD.patch
+   # Or if patch has commit info:
+   git am ~/Downloads/sync-YYYY-MM-DD.patch
+   ```
+
+3. **Verify changes in worktree (don't mess with current env):**
+   ```bash
+   # Review what was changed
+   git status
+   git diff
+
+   # Test/verify the changes are correct
+   # nvim, tmux, zsh configs should be reviewed
+   ```
+
+4. **Commit changes in master branch:**
+   ```bash
+   git add <files>
+   git commit -m "sync(patch): apply changes from <source>
+
+   - Detail 1
+   - Detail 2"
+
+   git push origin master
+   ```
+
+5. **Sync back to mac branch (and other branches if needed):**
+   ```bash
+   # Go back to main repo
+   cd /Users/annguyenvanchuc/workspace/dotfiles
+
+   # Create worktree for mac branch
+   git worktree add /tmp/dotfiles-mac mac
+
+   cd /tmp/dotfiles-mac
+   git merge master --no-commit --no-ff
+
+   # Restore excluded files to mac branch version
+   git checkout HEAD -- alacritty/.alacritty.toml \
+     nvim/.config/nvim/lua/plugins/transparent.lua \
+     nvim/.config/nvim/lua/themes/__output__.lua \
+     zsh/.zshrc
+
+   # Remove leetcode.lua if it was added (mac doesn't use it)
+   git reset HEAD nvim/.config/nvim/lua/plugins/leetcode.lua 2>/dev/null || true
+   rm -f nvim/.config/nvim/lua/plugins/leetcode.lua
+
+   git commit -m "sync(master): sync patch changes to mac
+
+   - Synced changes from master
+   - Excluded: alacritty, transparent, theme, leetcode, zsh paths"
+
+   git push origin mac
+   ```
+
+6. **Clean up all worktrees:**
+   ```bash
+   cd /Users/annguyenvanchuc/workspace/dotfiles
+   git worktree remove /tmp/dotfiles-master
+   git worktree remove /tmp/dotfiles-mac
+   ```
+
+**Important:**
+- Always verify changes in the worktree before committing
+- Follow sync exclusion rules when syncing back to other branches
+- Ask if there are additional branches to sync to
+
 ### Sync Exclusions
 
 When syncing between `master` and `mac` branches, the following files should **NOT** be synced due to platform-specific differences:
