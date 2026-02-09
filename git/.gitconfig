@@ -34,7 +34,9 @@
 	fp  = fetch --prune
   wt  = worktree
   wtf = config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  d   = diff
   dl  = diff -- ':!yarn.lock' ':!package.lock'
+	pr = "!f() { url=$(git remote get-url origin | sed \"s/git@//\" | sed \"s/:/\\\\//\" | sed \"s/\\\\.git$//\"); echo \"https://$url/pull/new/$(git branch --show-current)\"; }; f"
 [interactive]
 [color]
 	ui = true
