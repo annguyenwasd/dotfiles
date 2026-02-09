@@ -109,17 +109,68 @@ This repository maintains two main branches with platform-specific configuration
 - `master` - Primary branch (Arch Linux focused)
 - `mac` - macOS-specific branch
 
+### Using Git Worktree for Syncing
+
+**Important:** Always use git worktree when syncing between branches to prevent configuration flickering. Direct branch switching causes your active configurations (nvim, tmux, zsh, etc.) to change, disrupting your workflow.
+
+**Setup worktree for syncing:**
+```bash
+# Create a temporary worktree for the other branch
+# From mac branch, create worktree for master:
+git worktree add /tmp/dotfiles-master master
+
+# From master branch, create worktree for mac:
+git worktree add /tmp/dotfiles-mac mac
+```
+
+**Sync workflow using worktree:**
+
+1. **Check differences between branches:**
+   ```bash
+   git diff master...mac --name-status
+   ```
+
+2. **Create worktree for target branch:**
+   ```bash
+   git worktree add /tmp/dotfiles-<branch> <branch>
+   ```
+
+3. **In the worktree directory, merge and exclude platform-specific files:**
+   ```bash
+   cd /tmp/dotfiles-<branch>
+   git merge <source-branch> --no-commit --no-ff
+
+   # Restore excluded files to target branch version
+   git checkout HEAD -- alacritty/.alacritty.toml \
+     nvim/.config/nvim/lua/plugins/transparent.lua \
+     nvim/.config/nvim/lua/themes/__output__.lua
+
+   # If syncing to mac, ensure leetcode.lua stays deleted
+   # If syncing to master, restore it
+
+   git commit -m "sync(...): ..."
+   git push origin <branch>
+   ```
+
+4. **Clean up worktree after syncing:**
+   ```bash
+   cd <original-directory>
+   git worktree remove /tmp/dotfiles-<branch>
+   ```
+
 ### Sync Exclusions
 
 When syncing between `master` and `mac` branches, the following files should **NOT** be synced due to platform-specific differences:
 
-**Do not sync from mac to master:**
+**Do not sync (platform-specific):**
 - `alacritty/.alacritty.toml` - Different terminal configurations per platform
 - `nvim/.config/nvim/lua/plugins/transparent.lua` - Transparency settings differ
 - `nvim/.config/nvim/lua/themes/__output__.lua` - Theme preferences differ
-- `nvim/.config/nvim/lua/plugins/leetcode.lua` (deletion) - Mac branch doesn't use leetcode plugin
+- `nvim/.config/nvim/lua/plugins/leetcode.lua` - Mac branch doesn't use leetcode plugin (deletion should not sync)
+- `zsh/.zshrc` - Contains platform-specific paths (PNPM_HOME, opencode, etc.)
 
-**Sync commit format:**
+### Sync Commit Format
+
 ```
 sync(<branch-name>): <description>
 
@@ -133,7 +184,7 @@ sync(master): sync recent changes from master to mac
 
 - Synced nvim plugin updates
 - Synced tmux configuration changes
-- Excluded: alacritty, transparent plugin, theme changes
+- Excluded: alacritty, transparent plugin, theme changes, zsh paths
 ```
 
 ## Common Commands
