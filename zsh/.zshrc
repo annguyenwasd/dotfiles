@@ -52,6 +52,7 @@ source $HOME/.config/zsh/scripts/rmm.zsh
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
 source $HOME/.config/zsh/scripts/yr.zsh
+[[ -f $HOME/.config/zsh/agent.zsh ]] && source $HOME/.config/zsh/agent.zsh
 [ -f $HOME/.config/zellij/mappings.zsh ] && source $HOME/.config/zellij/mappings.zsh
 # }}}
 
