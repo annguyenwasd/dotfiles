@@ -75,6 +75,7 @@ nnoremap <leader>gs <cmd>G<cr>
 nnoremap <leader><leader>gs <cmd>G difftool<cr>
 nnoremap <leader>bl <cmd>G blame<cr>
 nnoremap <leader>gc :G commit -m ""<left>
+nnoremap <leader>Gc :execute 'Dispatch! ' . $VIM_AGENT_COMMIT_COMMAND . ' "Create a commit for all changed files"'<cr>
 nnoremap <leader>gl :Git log --decorate=full<cr>
 vnoremap <leader>gl :GcLog!<cr>
 nnoremap <leader>gL <cmd>0GcLog<cr>
@@ -683,8 +684,78 @@ nnoremap <leader>rg :Ggrep! -r -I -i --untracked -e "" -- :^**/dist/** :^/*.lock
 nnoremap <leader>RG :Ggrep! -r -I -i --untracked -e "<c-r><c-w>" -- :^**/test/** :^*.test.* :^**/*.snap :^**/*.md
 nnoremap D y'>p
 
-" Synced from mappings.lua:203 — Show vim's documentation on current word
-nnoremap <leader>K :execute 'help ' . expand('<cword>')<CR>
+" Open or switch to agent interactive terminal
+" Reads $VIM_AGENT_INTERACTIVE_COMMAND from environment (set in agent.zsh)
+function! OpenAgent()
+    " First, close all finished terminal buffers
+    call CloseFinishedBuffers()
+
+    let l:agent_cmd = $VIM_AGENT_INTERACTIVE_COMMAND
+    if empty(l:agent_cmd)
+        echo "VIM_AGENT_INTERACTIVE_COMMAND not set. Source agent.zsh first."
+        return
+    endif
+
+    " Look for existing agent terminal
+    for l:buf in getbufinfo()
+        if getbufvar(l:buf.bufnr, '&buftype') == 'terminal'
+            let l:bufname = bufname(l:buf.bufnr)
+            if l:bufname =~ l:agent_cmd
+                " Found existing agent terminal, switch to it
+                execute 'buffer ' . l:buf.bufnr
+                return
+            endif
+        endif
+    endfor
+    " No existing agent terminal found, create new one
+    " Strip leading ! from the buffer name pattern to get the actual command
+    execute 'vertical terminal ' . substitute(l:agent_cmd, '^!', '', '')
+endfunction
+
+nnoremap <leader>cc :call OpenAgent()<CR>
+
+" Close all buffers with [finished] tag
+function! CloseFinishedBuffers()
+    let l:finished_count = 0
+    let l:buffers = getbufinfo()
+    for l:buf in l:buffers
+        " Check if buffer is a terminal and get its status
+        if getbufvar(l:buf.bufnr, '&buftype') == 'terminal'
+            let l:term_status = term_getstatus(l:buf.bufnr)
+            " Check if terminal is finished (not running)
+            if l:term_status =~ 'finished' || l:term_status =~ 'normal'
+                " Check if the job is actually done
+                let l:job = term_getjob(l:buf.bufnr)
+                if job_status(l:job) == 'dead'
+                    execute 'bdelete! ' . l:buf.bufnr
+                    let l:finished_count += 1
+                endif
+            endif
+        endif
+    endfor
+    if l:finished_count > 0
+        echo 'Closed ' . l:finished_count . ' finished terminal buffer(s)'
+    else
+        echo 'No finished terminal buffers found'
+    endif
+endfunction
+
+nnoremap <leader>bf :call CloseFinishedBuffers()<CR>
+
+" Synced from mappings.lua:8 — Search for selected text in visual mode
+vnoremap * y<cmd>let @/ = @"<cr><cmd>set hlsearch<cr>
+
+" Synced from mappings.lua:23 — Create new file in same folder (vertical split)
+nnoremap <leader>fv :vsp %:h/
+
+" Synced from mappings.lua:24 — Create new file in same folder (horizontal split)
+nnoremap <leader>fs :sp %:h/
+
+" Synced from mappings.lua:25 — Edit file in current file's directory
+nnoremap <leader>fe :e %:h/
+
+" Synced from mappings.lua:124 — Set current window width to 120
+nnoremap <leader>vm :vert res 120<cr>
 
 "}}}
 
