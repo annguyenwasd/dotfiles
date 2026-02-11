@@ -212,8 +212,10 @@ When syncing changes from an external patch file (e.g., from work laptop or anot
    # Restore excluded files to mac branch version
    git checkout HEAD -- alacritty/.alacritty.toml \
      nvim/.config/nvim/lua/plugins/transparent.lua \
-     nvim/.config/nvim/lua/themes/__output__.lua \
-     zsh/.zshrc
+     nvim/.config/nvim/lua/themes/__output__.lua
+
+   # Restore platform-specific lines in zsh/.zshrc (mac keeps mac.zsh source + mac PNPM_HOME, no opencode)
+   # Edit zsh/.zshrc manually or via sed to preserve mac-specific lines after merge
 
    # Remove leetcode.lua if it was added (mac doesn't use it)
    git reset HEAD nvim/.config/nvim/lua/plugins/leetcode.lua 2>/dev/null || true
@@ -222,7 +224,8 @@ When syncing changes from an external patch file (e.g., from work laptop or anot
    git commit -m "sync(master): sync patch changes to mac
 
    - Synced changes from master
-   - Excluded: alacritty, transparent, theme, leetcode, zsh paths"
+   - Excluded: alacritty, transparent, theme, leetcode
+   - zsh/.zshrc: synced shared changes, preserved mac-specific lines"
 
    git push origin mac
    ```
@@ -248,7 +251,12 @@ When syncing between `master` and `mac` branches, the following files should **N
 - `nvim/.config/nvim/lua/plugins/transparent.lua` - Transparency settings differ
 - `nvim/.config/nvim/lua/themes/__output__.lua` - Theme preferences differ
 - `nvim/.config/nvim/lua/plugins/leetcode.lua` - Mac branch doesn't use leetcode plugin (deletion should not sync)
-- `zsh/.zshrc` - Contains platform-specific paths (PNPM_HOME, opencode, etc.)
+
+**Sync with platform-specific lines preserved:**
+- `zsh/.zshrc` - Sync shared changes, but preserve platform-specific lines per branch:
+  - **mac only:** `source $HOME/.config/zsh/mac.zsh`, `PNPM_HOME="/Users/annguyenvanchuc/Library/pnpm"`
+  - **master only:** `PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"`, `export PATH=/home/annguyenwasd/.opencode/bin:$PATH`
+  - Strategy: after merging, restore only the platform-specific lines to their branch values (not the whole file)
 
 ### Sync Commit Format
 
