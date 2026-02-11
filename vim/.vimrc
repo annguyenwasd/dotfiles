@@ -409,14 +409,14 @@ function! CopyPath(mode)
         let l:path = l:full_path
         let l:line_num = line('.')
         let l:func_name = ''
-        
+
         " First, check if current line contains the word 'function'
         let l:current_line = getline('.')
         if l:current_line =~ '\cfunction'
             " Extract the word after 'function' (case insensitive)
             let l:func_name = matchstr(l:current_line, '\cfunction\S*\s\+\zs\w\+')
         endif
-        
+
         " If current line doesn't have function, search backwards
         if empty(l:func_name)
             let l:func_line = search('\cfunction', 'bnW')
@@ -425,13 +425,16 @@ function! CopyPath(mode)
                 let l:func_name = matchstr(l:func_text, '\cfunction\S*\s\+\zs\w\+')
             endif
         endif
-        
+
         " Add function name or line number
         if !empty(l:func_name)
             let l:path = l:path . ' at ' . l:func_name . '() function'
         else
             let l:path = l:path . ':' . l:line_num
         endif
+    elseif a:mode == 'range'
+        " Get absolute path with visual selection line range
+        let l:path = l:full_path . ':' . line("'<") . '-' . line("'>")
     endif
 
     " Copy to clipboard
@@ -449,6 +452,7 @@ endfunction
 nnoremap <leader>cp :call CopyPath('relative')<CR>
 nnoremap <leader>cP :call CopyPath('absolute')<CR>
 nnoremap <leader>CP :call CopyPath('detailed')<CR>
+vnoremap <leader>CP <Esc>:call CopyPath('range')<CR>
 
 function! ConsoleLog()
     let l:word = expand('<cword>')
@@ -481,10 +485,10 @@ function! DetectPackageManager()
         if filereadable('package.json')
             let l:package_json = readfile('package.json')
             let l:json_string = join(l:package_json, "\n")
-            
+
             " Try to extract packageManager field
             let l:pm_match = matchstr(l:json_string, '"packageManager"\s*:\s*"\zs[^@"]*')
-            
+
             if !empty(l:pm_match)
                 if l:pm_match =~ 'pnpm'
                     return 'pnpm'
@@ -497,7 +501,7 @@ function! DetectPackageManager()
                 endif
             endif
         endif
-        
+
         " No lock file and no packageManager field found
         return ''
     endif
@@ -524,11 +528,11 @@ function! YarnInfo(flag)
         let l:start = l:col
         let l:end = l:col
         let l:quote = "'"
-        
+
         while l:start > 1 && l:line[l:start-2] != "'"
             let l:start -= 1
         endwhile
-        
+
         while l:end <= len(l:line) && l:line[l:end-1] != "'"
             let l:end += 1
         endwhile
@@ -537,13 +541,13 @@ function! YarnInfo(flag)
     if l:start > 1 && l:end <= len(l:line) && l:line[l:start-2] == l:quote && l:line[l:end-1] == l:quote
         let l:package = l:line[l:start-1:l:end-2]
         let l:pm = DetectPackageManager()
-        
+
         " Check if package manager was detected
         if empty(l:pm)
             echo "No package manager detected. Please ensure you have a lock file (yarn.lock, pnpm-lock.yaml, package-lock.json, bun.lockb) or packageManager field in package.json"
             return
         endif
-        
+
         if a:flag == 'dist-tags'
             if l:pm == 'yarn'
                 execute 'vertical Dispatch yarn info ' . shellescape(l:package) . ' dist-tags'
@@ -658,7 +662,7 @@ function! OpenMarkdownBrowser()
         echo "Not a markdown file"
         return
     endif
-    
+
     if executable('mdbrowse')
         execute 'Spawn! mdbrowse %'
     else
