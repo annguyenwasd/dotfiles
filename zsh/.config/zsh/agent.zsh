@@ -17,5 +17,5 @@
 export VIM_AGENT_COMMIT_COMMAND="claude -p"
 export VIM_AGENT_INTERACTIVE_COMMAND="!claude --dangerously-skip-permissions"
 
-# Shell alias to quickly open the agent
-alias cc="claude --dangerously-skip-permissions"
+# Shell function to quickly open the agent (function takes precedence over /usr/bin/cc)
+function cc() { claude --dangerously-skip-permissions "$@" }
