@@ -14,8 +14,8 @@
 #   Used to find/reuse an existing agent terminal or spawn a new one.
 # ============================================================================
 
-export VIM_AGENT_COMMIT_COMMAND="cursor agent -p --force"
-export VIM_AGENT_INTERACTIVE_COMMAND="!cursor agent"
+export VIM_AGENT_COMMIT_COMMAND="claude -p"
+export VIM_AGENT_INTERACTIVE_COMMAND="!claude --dangerously-skip-permissions"
 
 # Shell alias to quickly open the agent
-alias cc="cursor agent"
+alias cc="claude --dangerously-skip-permissions"
