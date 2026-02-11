@@ -170,6 +170,69 @@ vim.keymap.set("n", "<leader>md", function()
   end
 end, { desc = desc("mappings: Open markdown in browser") })
 
+-- Synced from .vimrc:78 — Agent commit via Dispatch (reads $VIM_AGENT_COMMIT_COMMAND)
+vim.keymap.set("n", "<leader>Gc", function()
+  local cmd = vim.env.VIM_AGENT_COMMIT_COMMAND
+  if not cmd or cmd == "" then
+    print("VIM_AGENT_COMMIT_COMMAND not set. Source agent.zsh first.")
+    return
+  end
+  vim.cmd('Dispatch! ' .. cmd .. ' "Create a commit for all changed files"')
+end, { desc = desc("mappings: Agent commit via Dispatch") })
+
+-- Synced from .vimrc:685 — Open or switch to agent interactive terminal
+vim.keymap.set("n", "<leader>cc", function()
+  local agent_cmd = vim.env.VIM_AGENT_INTERACTIVE_COMMAND
+  if not agent_cmd or agent_cmd == "" then
+    print("VIM_AGENT_INTERACTIVE_COMMAND not set. Source agent.zsh first.")
+    return
+  end
+
+  -- Close finished terminal buffers first
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[buf].buftype == "terminal" then
+      local chan = vim.b[buf].terminal_job_id
+      if chan and vim.fn.jobwait({ chan }, 0)[1] ~= -1 then
+        vim.api.nvim_buf_delete(buf, { force = true })
+      end
+    end
+  end
+
+  -- Look for existing agent terminal
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[buf].buftype == "terminal" then
+      local name = vim.api.nvim_buf_get_name(buf)
+      if name:find(agent_cmd, 1, true) then
+        vim.cmd("buffer " .. buf)
+        return
+      end
+    end
+  end
+
+  -- No existing agent terminal, create new one
+  local cmd = agent_cmd:gsub("^!", "")
+  vim.cmd("vsplit term://" .. cmd)
+end, { desc = desc("mappings: Open or switch to agent terminal") })
+
+-- Synced from .vimrc:714 — Close all finished terminal buffers
+vim.keymap.set("n", "<leader>bf", function()
+  local closed = 0
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[buf].buftype == "terminal" then
+      local chan = vim.b[buf].terminal_job_id
+      if chan and vim.fn.jobwait({ chan }, 0)[1] ~= -1 then
+        vim.api.nvim_buf_delete(buf, { force = true })
+        closed = closed + 1
+      end
+    end
+  end
+  if closed > 0 then
+    print("Closed " .. closed .. " finished terminal buffer(s)")
+  else
+    print("No finished terminal buffers found")
+  end
+end, { desc = desc("mappings: Close all finished terminal buffers") })
+
 -- Synced from .vimrc:642 — Run test for current file
 vim.keymap.set("n", "<leader>gg", function()
   local file = vim.fn.expand("%")
