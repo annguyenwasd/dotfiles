@@ -57,3 +57,5 @@
 	rebase = false
 [rerere]
 	enabled = false
+[safe]
+	directory = *
