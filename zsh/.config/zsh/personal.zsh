@@ -31,8 +31,9 @@ export PATH="$PATH:$HOME/bin/"
 export PATH="$PATH:$HOME/.local/bin"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH="$PATH:$ANDROID_HOME/emulator"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+export PATH="$PATH:$HOME/.npm-global/bin"
 
 [[ -s "/home/annguyenwasd/.jabba/jabba.sh" ]] && source "/home/annguyenwasd/.jabba/jabba.sh"
 #}}}
