@@ -77,11 +77,6 @@ alias mk="mkdir -vp"
 alias cl="clear"
 alias x="exit 0"
 
-alias ys="yarn run start"
-alias yd="yarn run dev"
-alias yt="yarn test"
-alias yb="yarn run build"
-alias yw="yarn why"
 alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsay -f@ @'"
 # }}}
 
