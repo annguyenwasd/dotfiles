@@ -801,7 +801,7 @@ Plug 'tacahiroy/ctrlp-funky'
 Plug 'mattn/ctrlp-matchfuzzy'
 Plug 'nordtheme/vim'
 Plug 'zhixiao-zhang/vim-light-pink'
-Plug 'wellle/context.vim'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 "}}}
 
@@ -843,7 +843,7 @@ set tabstop=2
 set undofile
 set udir=$HOME/.vim/undo-vim
 set listchars=eol:¬,tab:▹\ ,trail:+,lead:·
-set list
+set nolist
 set laststatus=2
 set showmode
 set lazyredraw
@@ -852,9 +852,9 @@ set nowritebackup
 set regexpengine=2
 set path+=**
 
-" color retrobox
+color retrobox
 " color quiet
-color nord
+" color nord
 " color zaibatsu
 " color morning
 " hi SpecialKey ctermfg=66 guifg=#ffffff
