@@ -1,35 +1,43 @@
-! remove Lock = Caps_Lock
-! add Lock = Escape
-! keysym Caps_Lock = Escape
-! keysym Escape = Caps_Lock
+! =========================================================
+! STEP-BY-STEP XMODMAP CONFIGURATION
+! =========================================================
 
-!Swap right control and right alt
-! remove Control = Control_R
-! remove Mod1 = Alt_R
-! keycode 105 = Alt_R
-! keycode 108 = Control_R
-! add Control = Control_R
-! add Mod1 = Alt_R
+! --- STEP 1: SWAP CAPS LOCK AND ESCAPE ---
+! First, clear the "Lock" status so Caps Lock stops acting as a toggle
+clear Lock
+! Remove existing assignments to avoid conflicts
+remove Lock = Caps_Lock
+! Reassign the keys: Caps Lock becomes Escape, and Escape becomes Caps Lock
+keysym Caps_Lock = Escape
+keysym Escape = Caps_Lock
+! Give the new physical Escape key (old Caps Lock) the Lock modifier if needed
+add Lock = Caps_Lock
 
-! Swap left control and left alt
-! Super_L=133
-! Super_R=134
-! Alt_L=64
-! Control_R=105
-! remove Control = Control_R
-! remove Mod1 = Alt_L
-! remove Mod4 = Super_R Super_L
-! keycode 133 = Alt_L
-! keycode 64 = Super_L
-! keycode 105 = Super_R
-! keycode 134 = Control_R
-! add Control = Control_R
-! add Mod1 = Alt_L
-! add Mod4 = Super_R Super_L
-! Super_R -> alt r
-remove Mod4 = Super_R
-remove Mod1 = Alt_L
-keycode 64 = Super_R
-keycode 134 = Alt_L
-add Mod1 = Alt_L
-add Mod4 = Super_R
+! --- STEP 2: SWAP LEFT WINDOWS (SUPER) AND LEFT ALT ---
+! 1. Remove them from their modifier groups (mod1=Alt, mod4=Super)
+remove mod1 = Alt_L
+remove mod4 = Super_L
+! 2. Swap the keysyms
+keysym Alt_L = Super_L
+keysym Super_L = Alt_L
+! 3. Re-add them to the opposite modifier groups to finalize the swap
+add mod1 = Alt_L
+add mod4 = Super_L
+
+! --- STEP 3: MAP RIGHT ALT TO RIGHT CONTROL ---
+! 1. Remove Right Alt from the Alt group (mod1)
+remove mod1 = Alt_R
+! 2. Remove Right Control from the Control group to prepare for reassignment
+remove control = Control_R
+! 3. Map the physical Right Alt key to act as Right Control
+keysym Alt_R = Control_R
+! 4. Add the new key definition to the Control modifier group
+add control = Control_R
+
+! =========================================================
+! INSTRUCTIONS:
+! 1. Save this file as ~/.Xmodmap
+! 2. Run 'xmodmap ~/.Xmodmap' to apply changes.
+! 3. To reset, run 'setxkbmap -layout us'
+! =========================================================
+ 
