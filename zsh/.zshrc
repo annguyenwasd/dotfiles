@@ -53,6 +53,7 @@ source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
 source $HOME/.config/zsh/scripts/yr.zsh
 [[ -f $HOME/.config/zsh/agent.zsh ]] && source $HOME/.config/zsh/agent.zsh
+[ -f $HOME/.config/zsh/mac.zsh ] && source $HOME/.config/zsh/mac.zsh
 [ -f $HOME/.config/zellij/mappings.zsh ] && source $HOME/.config/zellij/mappings.zsh
 # }}}
 
@@ -76,11 +77,6 @@ alias mk="mkdir -vp"
 alias cl="clear"
 alias x="exit 0"
 
-alias ys="yarn run start"
-alias yd="yarn run dev"
-alias yt="yarn test"
-alias yb="yarn run build"
-alias yw="yarn why"
 alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsay -f@ @'"
 # }}}
 
@@ -403,14 +399,20 @@ preexec_functions+=(_command_time_preexec)
 # zprof
 
 # pnpm
-export PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export PNPM_HOME="/Users/annguyenvanchuc/Library/pnpm"
+else
+  export PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"
+fi
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
-# opencode
-export PATH=/home/annguyenwasd/.opencode/bin:$PATH
+if [[ "$OSTYPE" != "darwin"* ]]; then
+  # opencode
+  export PATH=/home/annguyenwasd/.opencode/bin:$PATH
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

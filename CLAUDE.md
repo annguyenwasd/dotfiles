@@ -133,8 +133,7 @@ This repository maintains two main branches with platform-specific configuration
    # Restore excluded files to current branch version
    git checkout HEAD -- alacritty/.alacritty.toml \
      nvim/.config/nvim/lua/plugins/transparent.lua \
-     nvim/.config/nvim/lua/themes/__output__.lua \
-     zsh/.zshrc
+     nvim/.config/nvim/lua/themes/__output__.lua
 
    git commit -m "sync(...): ..."
    git push origin <current-branch>
@@ -149,8 +148,7 @@ This repository maintains two main branches with platform-specific configuration
    # Restore excluded files to target branch version
    git checkout HEAD -- alacritty/.alacritty.toml \
      nvim/.config/nvim/lua/plugins/transparent.lua \
-     nvim/.config/nvim/lua/themes/__output__.lua \
-     zsh/.zshrc
+     nvim/.config/nvim/lua/themes/__output__.lua
 
    git commit -m "sync(...): ..."
    git push origin <branch>
@@ -216,8 +214,7 @@ When syncing changes from an external patch file (e.g., from work laptop or anot
    # Restore excluded files to mac branch version
    git checkout HEAD -- alacritty/.alacritty.toml \
      nvim/.config/nvim/lua/plugins/transparent.lua \
-     nvim/.config/nvim/lua/themes/__output__.lua \
-     zsh/.zshrc
+     nvim/.config/nvim/lua/themes/__output__.lua
 
    git commit -m "sync(master): sync patch changes to mac
 
@@ -247,7 +244,6 @@ When syncing between `master` and `mac` branches, the following files should **N
 - `alacritty/.alacritty.toml` - Different terminal configurations per platform
 - `nvim/.config/nvim/lua/plugins/transparent.lua` - Transparency settings differ
 - `nvim/.config/nvim/lua/themes/__output__.lua` - Theme preferences differ
-- `zsh/.zshrc` - Contains platform-specific paths (PNPM_HOME, opencode, etc.)
 
 ### Sync Commit Format
 

@@ -5,6 +5,10 @@
 # detection (yarn, pnpm, npm). Supports single projects and monorepo workspaces.
 # ============================================================================
 
+if ! command -v jq &>/dev/null; then
+  echo "yr.zsh: jq is required but not installed. Please install it (e.g. sudo pacman -S jq / brew install jq)" >&2
+fi
+
 # detect_package_manager - Detect which package manager is used in the project
 # Returns: "pnpm", "yarn", or "npm"
 # Checks package.json "packageManager" field first, falls back to lock files
