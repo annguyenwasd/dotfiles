@@ -109,6 +109,11 @@ end, { desc = "Copy absolute path" })
 vim.keymap.set("n", "<leader>CP", function()
   copy_path("detailed")
 end, { desc = "Copy detailed path (with function name)" })
+vim.keymap.set("v", "<leader>CP", function()
+  vim.schedule(function()
+    copy_path("detailed", { line_start = vim.fn.line("'<"), line_end = vim.fn.line("'>") })
+  end)
+end, { desc = "Copy detailed path (with line range)" })
 
 
 --  ──────────────────────────────── MISC ─────────────────────────────

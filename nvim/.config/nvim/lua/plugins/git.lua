@@ -44,13 +44,6 @@ return {
         desc = desc("git: commit by built-in terminal"),
       },
       {
-        "<leader>Gc",
-        function()
-          vim.cmd("Start! claude -p \"Create a commit\" ")
-        end,
-        desc = desc("git: commit by built-in terminal"),
-      },
-      {
         "<leader><leader>gc",
         ':G commit -m ""<left>',
         silent = false,
