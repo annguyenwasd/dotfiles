@@ -1,3 +1,8 @@
+-- image.nvim requires system deps: luarocks, imagemagick, ueberzugpp
+-- Install them to enable image rendering in leetcode problems:
+--   sudo pacman -S luarocks imagemagick
+--   yay -S ueberzugpp
+-- Then set image.nvim enabled = true below
 local leet_arg = "lc"
 return {
   {
@@ -35,6 +40,7 @@ return {
   { "MunifTanjim/nui.nvim" },
   {
     "vhyrro/luarocks.nvim",
+    cond = vim.fn.executable("luarocks") == 1,
     priority = 1001, -- this plugin needs to run before anything else
     opts = {
       rocks = { "magick" },
@@ -42,8 +48,11 @@ return {
   },
   {
     "3rd/image.nvim",
+    enabled = false,
     config = function()
-      require("image").setup({
+      local ok, image = pcall(require, "image")
+      if not ok then return end
+      local setup_ok = pcall(image.setup, {
         backend = "ueberzug",
         integrations = {
           markdown = {
@@ -77,6 +86,9 @@ return {
         tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
         hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" }, -- render image files as images when opened
       })
+      if not setup_ok then
+        vim.notify("image.nvim: failed to setup (ueberzug issue?)", vim.log.levels.WARN)
+      end
     end,
   },
 }

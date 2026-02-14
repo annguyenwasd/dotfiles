@@ -13,58 +13,46 @@ if ! command -v yay >/dev/null 2>&1; then
 fi
 
 # --- 2. Install packages ---
-# xserver and window manager
-sudo pacman -S --noconfirm xorg xorg-xinit xorg-server xterm i3 \
 
-# needed tools
-sudo pacman -S --noconfirm tmux git neovim stow zsh dmenu alacritty firefox fzf ripgrep openssh xclip curl unzip feh \
+# X11 and window manager
+sudo pacman -S --noconfirm --needed xorg xorg-xinit xorg-server xterm i3 dmenu picom xorg-xrandr
 
-# local/os-prober 1.83-1
-#     Utility to detect other OSes on a set of drives
-sudo pacman -S --noconfirm os-prober \
+# Core tools
+sudo pacman -S --noconfirm --needed tmux git neovim stow zsh alacritty firefox fzf ripgrep openssh xclip curl unzip feh flameshot
 
-# local/polkit 126-2
-#     Application development toolkit for controlling system-wide privileges
-sudo pacman -S --noconfirm polkit \
+# Audio (PipeWire)
+sudo pacman -S --noconfirm --needed pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol
 
-# local/xdg-user-dirs 0.18-2
-#     Manage user directories like ~/Desktop and ~/Music
-sudo pacman -S --noconfirm xdg-user-dirs \
+# File explorer
+sudo pacman -S --noconfirm --needed yazi mpv ffmpegthumbnailer mediainfo
 
-# for audio
-sudo pacman -S --noconfirm pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
+# System utilities
+sudo pacman -S --noconfirm --needed os-prober polkit xdg-user-dirs fuse
 
-# explorer
-sudo pacman -S --noconfirm yazi mpv ffmpegthumbnailer mediainfo \
+# GPU drivers
+sudo pacman -S --noconfirm --needed nvidia nvidia-utils nvidia-settings mesa vulkan-intel
 
-# Change direction of screen (for reading manga :P) mapped to r1, r2, r3
-sudo pacman -S --noconfirm xorg-xrandr \
+# Vietnamese input
+sudo pacman -S --noconfirm --needed fcitx5-im fcitx5-unikey fcitx5-configtool
 
-# Make things transparent
-sudo pacman -S --noconfirm picom \
+# Fonts
+sudo pacman -S --noconfirm --needed ttf-sourcecodepro-nerd
 
-# local/fuse2 2.9.9-5
-#     Interface for userspace programs to export a filesystem to the Linux kernel - needed, but dun know what it is
-sudo pacman -S --noconfirm fuse \
-
-# Driver support Graphic card, everything is rendered by Graphic card
-sudo pacman -S --noconfirm nvidia nvidia-utils nvidia-settings mesa vulkan-intel \
-
-# Vietnamese input methods
-sudo pacman -S --noconfirm fcitx5-im fcitx5-unikey fcitx5-configtool
-
+# AUR packages
 yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt ueberzugpp
+
+# Enable audio services
+systemctl --user enable --now pipewire pipewire-pulse wireplumber
 
 # --- 3. Change default shell to zsh ---
 if [ "$SHELL" != "$(which zsh)" ]; then
     chsh -s "$(which zsh)"
 fi
 
-
 # --- 4. Set Vietnamese input vars ---
-echo 'GTK_IM_MODULE=fcitx'  | sudo tee -a /etc/environment
-echo 'QT_IM_MODULE=fcitx'   | sudo tee -a /etc/environment
-echo 'XMODIFIERS=@im=fcitx' | sudo tee -a /etc/environment
+grep -q 'GTK_IM_MODULE=fcitx' /etc/environment || echo 'GTK_IM_MODULE=fcitx'  | sudo tee -a /etc/environment
+grep -q 'QT_IM_MODULE=fcitx' /etc/environment  || echo 'QT_IM_MODULE=fcitx'   | sudo tee -a /etc/environment
+grep -q 'XMODIFIERS=@im=fcitx' /etc/environment || echo 'XMODIFIERS=@im=fcitx' | sudo tee -a /etc/environment
 
 # --- 5. Alacritty themes ---
 mkdir -p ~/.config/alacritty/themes
@@ -90,19 +78,18 @@ if [ -n "$EFI_PART" ]; then
     sudo sed -i 's/^#\?GRUB_DISABLE_OS_PROBER=.*/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 else
-    echo "⚠ No EFI partition detected. Skipping Windows GRUB setup."
+    echo "No EFI partition detected. Skipping Windows GRUB setup."
 fi
 
 # --- 9. Create default user directories ---
 xdg-user-dirs-update
 
-# --- 10. Switch to Zsh at the end ---
-exec zsh
-
-# --- 11. Using GPU ---
+# --- 10. Using GPU ---
 sudo systemctl enable optimus-manager --now
 
-
-# 12. Autologin
+# --- 11. Autologin ---
 echo "AUTO LOGIN"
 cat ./.non-stow/auto-login-arch.md
+
+# --- 12. Switch to Zsh ---
+exec zsh

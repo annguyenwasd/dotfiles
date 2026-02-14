@@ -53,6 +53,7 @@ source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/vcs-info.zsh
 source $HOME/.config/zsh/scripts/yr.zsh
 [[ -f $HOME/.config/zsh/agent.zsh ]] && source $HOME/.config/zsh/agent.zsh
+[ -f $HOME/.config/zsh/mac.zsh ] && source $HOME/.config/zsh/mac.zsh
 [ -f $HOME/.config/zellij/mappings.zsh ] && source $HOME/.config/zellij/mappings.zsh
 # }}}
 
@@ -76,11 +77,6 @@ alias mk="mkdir -vp"
 alias cl="clear"
 alias x="exit 0"
 
-alias ys="yarn run start"
-alias yd="yarn run dev"
-alias yt="yarn test"
-alias yb="yarn run build"
-alias yw="yarn why"
 alias allcowsay="cowsay -l | tr ' ' \\n | tail -n+5 | xargs -n1 -I@ sh -c 'cowsay -f@ @'"
 # }}}
 
@@ -189,14 +185,14 @@ function fw() {
   local dir=$(ls -d --color=never $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --ansi --preview "ls -lA $loc/{}")
   local full_path=$loc"/"$dir
 
-  if [[ ! -d $full_path ]]; then
+  if [[ -z $dir || ! -d $full_path ]]; then
     echo "No directory selected"
     return 1
   fi
 
   cd $full_path
 
-  [[ ( -n $ZELLIJ || -n $TMUX )  && $is_changed_tmux_window_name ]] && dn
+  [[ ( -n $ZELLIJ || -n $TMUX )  && $is_changed_tmux_window_name == "true" ]] && dn
 
   if is_bare_repo; then
     gcoo
@@ -206,7 +202,7 @@ function fw() {
     fi
   fi
 
-  [[ $is_open_nvim ]] && nvim
+  [[ $is_open_nvim == "true" ]] && nvim
 }
 
 function fww() {
@@ -403,12 +399,20 @@ preexec_functions+=(_command_time_preexec)
 # zprof
 
 # pnpm
-export PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export PNPM_HOME="/Users/annguyenvanchuc/Library/pnpm"
+else
+  export PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"
+fi
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
-# opencode
-export PATH=/home/annguyenwasd/.opencode/bin:$PATH
+if [[ "$OSTYPE" != "darwin"* ]]; then
+  # opencode
+  export PATH=/home/annguyenwasd/.opencode/bin:$PATH
+fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

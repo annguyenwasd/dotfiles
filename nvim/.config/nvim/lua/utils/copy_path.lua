@@ -2,7 +2,7 @@ local M = {}
 
 -- Synced from .vimrc CopyPath() — supports 'relative', 'absolute', 'detailed' modes
 -- Also supports boolean for backward compatibility (true=relative, false=absolute)
-M.copy_path = function(mode)
+M.copy_path = function(mode, opts)
   local full_path = vim.fn.expand("%:p")
   local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("%s+$", "")
 
@@ -23,21 +23,57 @@ M.copy_path = function(mode)
   elseif mode == "detailed" then
     -- Absolute path with function name or line number
     path = full_path
+    if opts and opts.line_start and opts.line_end then
+      path = path .. ":" .. opts.line_start .. "-" .. opts.line_end
+      vim.fn.setreg("+", path)
+      vim.fn.setreg("*", path)
+      vim.notify("Copied: " .. path, vim.log.levels.INFO)
+      return
+    end
     local line_num = vim.fn.line(".")
     local func_name = ""
 
-    -- Check if current line contains 'function'
-    local current_line = vim.fn.getline(".")
-    if current_line:match("[Ff]unction") then
-      func_name = vim.fn.matchstr(current_line, "\\cfunction\\S*\\s\\+\\zs\\w\\+")
-    end
+    -- Try to use treesitter if available
+    local ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
+    if ok then
+      local node = ts_utils.get_node_at_cursor()
+      if node then
+        -- Traverse up the tree to find a function node
+        while node do
+          local node_type = node:type()
 
-    -- If current line doesn't have function, search backwards
-    if func_name == "" then
-      local func_line = vim.fn.search("\\cfunction", "bnW")
-      if func_line > 0 then
-        local func_text = vim.fn.getline(func_line)
-        func_name = vim.fn.matchstr(func_text, "\\cfunction\\S*\\s\\+\\zs\\w\\+")
+          -- Common function node types across different languages
+          if node_type:match("function") or
+             node_type:match("method") or
+             node_type == "function_definition" or
+             node_type == "function_declaration" or
+             node_type == "method_definition" or
+             node_type == "arrow_function" or
+             node_type == "function_item" or
+             node_type == "function_call_expression" or
+             node_type == "call_expression" then
+
+            -- Try to extract the function name
+            for child in node:iter_children() do
+              local child_type = child:type()
+              if child_type == "identifier" or
+                 child_type == "property_identifier" or
+                 child_type == "field_identifier" or
+                 child_type == "name" then
+                func_name = vim.treesitter.get_node_text(child, 0)
+                break
+              end
+            end
+
+            -- For anonymous functions, use a placeholder
+            if func_name == "" then
+              func_name = "<anonymous>"
+            end
+            break
+          end
+
+          node = node:parent()
+        end
       end
     end
 

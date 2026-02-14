@@ -1,19 +1,29 @@
 # ============================================================================
 # Package Manager Auto-Detection and Script Runner
 # ============================================================================
-# These functions provide an interactive way to run package.json scripts
-# with automatic detection of the package manager (yarn, pnpm, or npm).
-# Supports both single projects and monorepo workspaces.
+# Interactive package.json script runner with automatic package manager
+# detection (yarn, pnpm, npm). Supports single projects and monorepo workspaces.
 # ============================================================================
 
+if ! command -v jq &>/dev/null; then
+  echo "yr.zsh: jq is required but not installed. Please install it (e.g. sudo pacman -S jq / brew install jq)" >&2
+fi
+
 # detect_package_manager - Detect which package manager is used in the project
-# Usage: detect_package_manager [path]
-# Arguments:
-#   path - Optional path to project root (defaults to current directory)
-# Returns: "pnpm", "yarn", or "npm" based on lock file presence
-# Detection order: pnpm-lock.yaml > yarn.lock > package-lock.json
+# Returns: "pnpm", "yarn", or "npm"
+# Checks package.json "packageManager" field first, falls back to lock files
 function detect_package_manager() {
   local root=${1:-.}
+  # Fast path: check packageManager field (e.g. "pnpm@9.1.0")
+  if [[ -f "$root/package.json" ]]; then
+    local pm_field
+    pm_field=$(jq -r '.packageManager // empty' "$root/package.json" 2>/dev/null)
+    if [[ -n "$pm_field" ]]; then
+      echo "${pm_field%%@*}"
+      return
+    fi
+  fi
+  # Fallback: check lock files
   if [[ -f "$root/pnpm-lock.yaml" ]]; then
     echo "pnpm"
   elif [[ -f "$root/yarn.lock" ]]; then
@@ -25,282 +35,275 @@ function detect_package_manager() {
   fi
 }
 
-# get_pkg_json_scrip - Extract and select a script from package.json
-# Usage: get_pkg_json_scrip [path]
-# Arguments:
-#   path - Optional path to directory containing package.json (defaults to ".")
-# Behavior:
-#   - If ANNGUYENWASD_PROFILE is "work": uses ipt for selection
-#   - Otherwise: uses fzf with preview window
-# Returns: Selected script name
-function get_pkg_json_scrip() {
+# _is_workspace - Check if project is a monorepo workspace
+# Returns: 0 if workspace, 1 if not
+# Checks package.json "workspaces" field first (instant), falls back to PM commands
+function _is_workspace() {
+  local pm=$1
+  # Fast path: check package.json for workspaces field
+  if jq -e '.workspaces // empty' package.json &>/dev/null; then
+    return 0
+  fi
+  # Fallback: check workspace config files
+  if [[ "$pm" == "pnpm" ]]; then
+    [[ -f "pnpm-workspace.yaml" ]]
+  elif [[ "$pm" == "yarn" ]]; then
+    yarn workspaces info 2>/dev/null 1>/dev/null
+  else
+    npm query ".workspace" 2>/dev/null 1>/dev/null
+  fi
+}
+
+# _get_workspaces - Get list of workspace names
+function _get_workspaces() {
+  local pm=$1
+  if [[ "$pm" == "pnpm" ]]; then
+    pnpm list -r --depth=-1 --json 2>/dev/null | jq -r '.[].name' 2>/dev/null | awk '{$1=$1};1'
+  elif [[ "$pm" == "yarn" ]]; then
+    yarn workspaces info | sed '1d' | jq '. |= keys' 2>/dev/null | sed '1d; $d' | sed 's/,//' | sed 's/"//g' | awk '{$1=$1};1'
+  else
+    npm query ".workspace" 2>/dev/null | jq -r '.[].name' 2>/dev/null | awk '{$1=$1};1'
+  fi
+}
+
+# _get_ws_location - Get filesystem path for a workspace by name
+function _get_ws_location() {
+  local pm=$1 ws=$2 root=$3
+  if [[ "$pm" == "pnpm" ]]; then
+    pnpm list -r --depth=-1 --json 2>/dev/null | jq -r ".[] | select(.name==\"$ws\") | .path" 2>/dev/null | sed "s|$root/||"
+  elif [[ "$pm" == "yarn" ]]; then
+    yarn workspaces info | sed '1d' | sed '$d' | jq ".\"$ws\".location" | sed 's/"//g'
+  else
+    npm query ".workspace" 2>/dev/null | jq -r ".[] | select(.name==\"$ws\") | .path" 2>/dev/null | sed "s|$root/||"
+  fi
+}
+
+# _select_script - Extract scripts from package.json and let user pick one via fzf
+function _select_script() {
+  local dir=${1:-.}
+  local pkg="$dir/package.json"
+  [[ ! -f "$pkg" ]] && echo "No package.json found in $dir" >&2 && return 1
+
+  local scripts
+  scripts=$(jq -r '.scripts // {} | keys[]' "$pkg" 2>/dev/null)
+  [[ -z "$scripts" ]] && echo "No scripts found in $pkg" >&2 && return 1
+
   if [[ "$ANNGUYENWASD_PROFILE" == "work" ]]; then
-    cat ${1:="."}/package.json|jq '.scripts' | sed "1d;$ d"|awk '$1=$1;'|cut -d " " -f 1| sed "s/:$//"|sed "s/\"//g"|ipt -S 10 -a
+    echo "$scripts" | ipt -S 10 -a
   else
-    cat ${1:="."}/package.json|jq '.scripts' | sed "1d;$ d"|awk '$1=$1;'|cut -d " " -f 1| sed "s/:$//"|sed "s/\"//g"|fzf --preview "cat ${1:="."}/package.json| jq '.scripts.\"$(echo {})\"'" --preview-window=wrap --header="Select command to run"
+    echo "$scripts" | fzf \
+      --preview "jq -r '.scripts.\"{}\"' \"$pkg\"" \
+      --preview-window=wrap \
+      --header="Select script to run"
   fi
 }
 
-# yr - Interactive package.json script runner with workspace support
-# Usage: yr
-# Description:
-#   Runs package.json scripts interactively with automatic package manager detection.
-#   For monorepo workspaces, allows selection of workspace before script selection.
-#   For non-workspace projects, runs scripts directly without workspace keyword.
-#   Supports yarn, pnpm, and npm workspaces.
-# Behavior:
-#   1. Detects package manager (yarn/pnpm/npm)
-#   2. Checks if project is a workspace/monorepo
-#   3. If workspace: prompts for workspace selection (including "root")
-#   4. If not workspace: runs script directly from current directory
-#   5. Prompts for script selection from package.json
-#   6. Executes the selected script using appropriate package manager command
-# Notes:
-#   - Ctrl+C at any prompt will cancel the entire operation
-#   - Uses ipt for selection if ANNGUYENWASD_PROFILE is "work", otherwise fzf
-function yr() {
-  local root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
-  cd $root
-  
-  local pm=$(detect_package_manager "$root")
-  
-  # Check if workspace
-  local is_workspace=1
-  if [[ "$pm" == "pnpm" ]]; then
-    pnpm list -r --depth=-1 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  elif [[ "$pm" == "yarn" ]]; then
-    yarn workspaces info 2>/dev/null 1>/dev/null
-    is_workspace=$?
+# _fuzzy_select - Generic fzf/ipt selector
+function _fuzzy_select() {
+  local header=$1
+  if [[ "$ANNGUYENWASD_PROFILE" == "work" ]]; then
+    ipt -a -S 10
   else
-    # npm workspaces check
-    npm query ".workspace" 2>/dev/null 1>/dev/null
-    is_workspace=$?
+    fzf --header="$header"
   fi
-  
-  if [[ $is_workspace -eq 1 ]]; then
-    # Not workspace - run directly
-    cmd=$(get_pkg_json_scrip) || return 1
+}
+
+# sr - Interactive package.json script runner with workspace support
+# Usage: sr
+# For normal repos: shows scripts, pick one, runs it.
+# For workspaces: pick workspace first (including "root"), then pick script.
+function sr() {
+  local root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+  cd "$root"
+
+  local pm=$(detect_package_manager "$root")
+
+  if ! _is_workspace "$pm"; then
+    # Normal repo - just pick a script and run it
+    local cmd
+    cmd=$(_select_script) || return 1
     [[ -z "$cmd" ]] && return 1
-    $pm run $cmd
+    $pm run "$cmd"
+    return
+  fi
+
+  # Workspace - pick workspace first
+  local workspaces
+  workspaces=$(_get_workspaces "$pm")
+  [[ -z "$workspaces" ]] && echo "No workspaces found" >&2 && return 1
+
+  local ws
+  ws=$(printf "root\n%s" "$workspaces" | _fuzzy_select "Select workspace") || return 1
+  [[ -z "$ws" ]] && return 1
+  ws=$(echo "$ws" | xargs)
+
+  local script_dir="."
+  if [[ "$ws" != "root" ]]; then
+    local ws_location
+    ws_location=$(_get_ws_location "$pm" "$ws" "$root")
+    script_dir="./$ws_location"
+  fi
+
+  local cmd
+  cmd=$(_select_script "$script_dir") || return 1
+  [[ -z "$cmd" ]] && return 1
+
+  if [[ "$ws" == "root" ]]; then
+    $pm run "$cmd"
+  elif [[ "$pm" == "pnpm" ]]; then
+    pnpm --filter "$ws" run "$cmd"
+  elif [[ "$pm" == "yarn" ]]; then
+    yarn workspace "$ws" "$cmd"
   else
-    # is a workspace
-    local workspaces=""
-    if [[ "$pm" == "pnpm" ]]; then
-      workspaces=$(pnpm list -r --depth=-1 --json 2>/dev/null|jq -r '.[].name' 2>/dev/null|awk '{$1=$1};1')
-    elif [[ "$pm" == "yarn" ]]; then
-      workspaces=$(yarn workspaces info|sed '1d'|jq '. |= keys' 2>/dev/null | sed '1d; $d' |sed 's/,//'|sed 's/"//g'|awk '{$1=$1};1')
-    else
-      workspaces=$(npm query ".workspace" 2>/dev/null|jq -r '.[].name' 2>/dev/null|awk '{$1=$1};1')
-    fi
-    
-    workspaces="root \n $workspaces"
-    
-    if [[ "$ANNGUYENWASD_PROFILE" == "work" ]]; then
-      ws=$(echo $workspaces|ipt -a -S 10) || return 1
-    else
-      ws=$(echo $workspaces|fzf --header="Select workspace") || return 1
-    fi
-
-    [[ -z "$ws" ]] && return 1
-    local ws=$(echo $ws|xargs)
-
-    local p="."
-    if [[ ! "$ws" == "root" ]]; then
-      if [[ "$pm" == "pnpm" ]]; then
-        local ws_location=$(pnpm list -r --depth=-1 --json 2>/dev/null|jq -r ".[] | select(.name==\"$ws\") | .path" 2>/dev/null|sed "s|$root/||")
-        p="./$ws_location"
-      elif [[ "$pm" == "yarn" ]]; then
-        local ws_location=$(yarn workspaces info|sed '1d'|sed '$d'|jq ".\"$(echo $ws)\".location"|sed 's/"//g')
-        p="./$ws_location"
-      else
-        local ws_location=$(npm query ".workspace" 2>/dev/null|jq -r ".[] | select(.name==\"$ws\") | .path" 2>/dev/null|sed "s|$root/||")
-        p="./$ws_location"
-      fi
-    fi
-    
-    local cmd=$(get_pkg_json_scrip $p) || return 1
-    [[ -z "$cmd" ]] && return 1
-
-    if [[ ! "$ws" == "root" ]]; then
-      if [[ "$pm" == "pnpm" ]]; then
-        pnpm --filter "$ws" run $cmd
-      elif [[ "$pm" == "yarn" ]]; then
-        yarn workspace $ws $cmd
-      else
-        npm run $cmd --workspace=$ws
-      fi
-    else
-      $pm run $cmd
-    fi
+    npm run "$cmd" --workspace="$ws"
   fi
 }
 
-# yrr - Run script across all workspaces or in current directory
-# Usage: yrr <script-name>
-# Arguments:
-#   script-name - Name of the npm script to run
-# Description:
-#   If in a monorepo workspace: executes the script in all workspaces.
-#   If not in a workspace: runs the script directly in current directory.
-#   Automatically detects package manager and uses appropriate command.
-# Example:
-#   yrr build    # Runs "build" script in all workspaces or current dir
-#   yrr test     # Runs "test" script in all workspaces or current dir
-function yrr() {
+# srr - Run script across all workspaces or in current directory
+# Usage: srr <script-name>
+# Example: srr build, srr test
+function srr() {
   local root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
-  cd $root
+  cd "$root"
   local pm=$(detect_package_manager "$root")
-  
-  # Check if workspace
-  local is_workspace=1
-  if [[ "$pm" == "pnpm" ]]; then
-    pnpm list -r --depth=-1 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  elif [[ "$pm" == "yarn" ]]; then
-    yarn workspaces info 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  else
-    npm query ".workspace" 2>/dev/null 1>/dev/null
-    is_workspace=$?
+
+  if ! _is_workspace "$pm"; then
+    $pm run "$1"
+    return
   fi
-  
-  if [[ $is_workspace -eq 1 ]]; then
-    # Not workspace - run directly
-    $pm run $1
+
+  local ws_list
+  ws_list=$(_get_workspaces "$pm")
+
+  if [[ "$pm" == "pnpm" ]]; then
+    echo "$ws_list" | xargs -L 1 -I {} pnpm --filter {} run "$1"
+  elif [[ "$pm" == "yarn" ]]; then
+    echo "$ws_list" | xargs -L 1 -I {} yarn workspace {} "$1"
   else
-    # Is a workspace - run in all workspaces
-    local ws_list=""
-    if [[ "$pm" == "pnpm" ]]; then
-      ws_list=$(pnpm list -r --depth=-1 --json 2>/dev/null|jq -r '.[].name' 2>/dev/null|awk '{$1=$1};1')
-      echo $ws_list|xargs -L 1 -I {} pnpm --filter {} run $1
-    elif [[ "$pm" == "yarn" ]]; then
-      ws_list=$(yarn workspaces info|sed '1 d;$ d'|jq 'to_entries[] |.key'|sed 's/"//g'|awk '{$1=$1};1')
-      echo $ws_list|xargs -L 1 -I {} yarn workspace {} $1
-    else
-      ws_list=$(npm query ".workspace" 2>/dev/null|jq -r '.[].name' 2>/dev/null|awk '{$1=$1};1')
-      echo $ws_list|xargs -L 1 -I {} npm run $1 --workspace={}
-    fi
+    echo "$ws_list" | xargs -L 1 -I {} npm run "$1" --workspace={}
   fi
 }
 
-# yl - Link workspaces or current package for local development
-# Usage: yl
-# Description:
-#   If in a monorepo: links all workspaces for local development.
-#   If not in a workspace: links the current package globally.
-#   Useful when you want to test changes across workspace dependencies.
-#   For yarn: removes existing links first, then creates new ones
-#   For pnpm: creates links for all workspaces or current package
-#   For npm: links current package globally
-# Note: Works with yarn, pnpm, and npm
-function yl() {
+# sl - Link workspaces or current package for local development
+# Usage: sl
+function sl() {
   local root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
-  cd $root
+  cd "$root"
   local pm=$(detect_package_manager "$root")
-  
-  # Check if workspace
-  local is_workspace=1
-  if [[ "$pm" == "pnpm" ]]; then
-    pnpm list -r --depth=-1 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  elif [[ "$pm" == "yarn" ]]; then
-    yarn workspaces info 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  else
-    npm query ".workspace" 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  fi
-  
-  if [[ $is_workspace -eq 1 ]]; then
-    # Not workspace - link current package
+
+  if ! _is_workspace "$pm"; then
     if [[ "$pm" == "yarn" ]]; then
       local yarn_link_path="$HOME/.config/yarn/link"
-      local pkg_name=$(cat package.json|jq -r '.name')
-      rm -f "$yarn_link_path/$pkg_name" 2>/dev/null # remove link first
+      local pkg_name=$(jq -r '.name' package.json)
+      rm -f "$yarn_link_path/$pkg_name" 2>/dev/null
       yarn link
     elif [[ "$pm" == "pnpm" ]]; then
-      local pkg_name=$(cat package.json|jq -r '.name')
-      pnpm unlink --global $pkg_name 2>/dev/null # remove link first
+      local pkg_name=$(jq -r '.name' package.json)
+      pnpm unlink --global "$pkg_name" 2>/dev/null
       pnpm link --global
     else
-      npm unlink 2>/dev/null # remove link first
+      npm unlink 2>/dev/null
       npm link
     fi
+    return
+  fi
+
+  local ws_list
+  ws_list=$(_get_workspaces "$pm")
+
+  if [[ "$pm" == "yarn" ]]; then
+    local yarn_link_path="$HOME/.config/yarn/link"
+    echo "$ws_list" | xargs -L 1 -I {} rm -f "$yarn_link_path/{}" 2>/dev/null
+    echo "$ws_list" | xargs -L 1 -I {} yarn workspace {} link
+  elif [[ "$pm" == "pnpm" ]]; then
+    echo "$ws_list" | xargs -L 1 -I {} pnpm unlink --global {} 2>/dev/null
+    echo "$ws_list" | xargs -L 1 -I {} pnpm --filter {} link --global
   else
-    # Is a workspace - link all workspaces
-    if [[ "$pm" == "yarn" ]]; then
-      local yarn_link_path="$HOME/.config/yarn/link"
-      ws_list=$(yarn workspaces info|sed '1 d;$ d'|jq 'to_entries[] |.key'|sed 's/"//g'|awk '{$1=$1};1')
-      echo $ws_list|xargs -L 1 -I {} rm -f "$yarn_link_path/{}" 2>/dev/null # remove linked first
-      echo $ws_list|xargs -L 1 -I {} yarn workspace {} link # then link
-    elif [[ "$pm" == "pnpm" ]]; then
-      ws_list=$(pnpm list -r --depth=-1 --json 2>/dev/null|jq -r '.[].name' 2>/dev/null|awk '{$1=$1};1')
-      echo $ws_list|xargs -L 1 -I {} pnpm unlink --global {} 2>/dev/null # remove linked first
-      echo $ws_list|xargs -L 1 -I {} pnpm --filter {} link --global
-    else
-      echo "npm workspace linking not fully supported - use 'npm link' in individual packages"
-    fi
+    echo "npm workspace linking not fully supported - use 'npm link' in individual packages"
   fi
 }
 
-# yll - Link external SDK workspaces or package to current project
-# Usage: yll [sdk-path]
-# Arguments:
-#   sdk-path - Optional path to SDK directory (defaults to $WORKSPACE_FOLDER/nab-x-sdk/master)
-# Description:
-#   If SDK is a workspace: links all workspaces from the SDK into current project.
-#   If SDK is not a workspace: links the single package into current project.
-#   Useful for local development when working with external dependencies.
-#   Detects package manager in the SDK directory and uses appropriate link command.
-# Example:
-#   yll                              # Links from default SDK path
-#   yll ~/projects/my-sdk            # Links from custom SDK path
-function yll() {
+# sll - Link external SDK workspaces or package to current project
+# Usage: sll [sdk-path]
+# Example: sll ~/projects/my-sdk
+function sll() {
   local sdk_path=${1:="$WORKSPACE_FOLDER/nab-x-sdk/master"}
   local current_dir=$PWD
-  cd $sdk_path
-  
+  cd "$sdk_path"
+
   local pm=$(detect_package_manager "$sdk_path")
-  
-  # Check if SDK is a workspace
-  local is_workspace=1
-  if [[ "$pm" == "pnpm" ]]; then
-    pnpm list -r --depth=-1 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  elif [[ "$pm" == "yarn" ]]; then
-    yarn workspaces info 2>/dev/null 1>/dev/null
-    is_workspace=$?
-  else
-    npm query ".workspace" 2>/dev/null 1>/dev/null
-    is_workspace=$?
+
+  if ! _is_workspace "$pm"; then
+    local pkg_name=$(jq -r '.name' package.json)
+    cd "$current_dir"
+    if [[ "$pm" == "yarn" ]]; then
+      yarn link "$pkg_name"
+    elif [[ "$pm" == "pnpm" ]]; then
+      pnpm link --global "$pkg_name"
+    else
+      npm link "$pkg_name"
+    fi
+    return
   fi
-  
-  if [[ $is_workspace -eq 1 ]]; then
-    # Not workspace - link single package
-    local pkg_name=$(cat package.json|jq -r '.name')
-    cd $current_dir
-    if [[ "$pm" == "yarn" ]]; then
-      yarn link $pkg_name
-    elif [[ "$pm" == "pnpm" ]]; then
-      pnpm link --global $pkg_name
-    else
-      npm link $pkg_name
-    fi
+
+  local ws_list
+  ws_list=$(_get_workspaces "$pm")
+  cd "$current_dir"
+
+  if [[ "$pm" == "yarn" ]]; then
+    echo "$ws_list" | xargs -L 1 -I {} yarn link {}
+  elif [[ "$pm" == "pnpm" ]]; then
+    echo "$ws_list" | xargs -L 1 -I {} pnpm link --global {}
   else
-    # Is a workspace - link all workspaces
-    if [[ "$pm" == "yarn" ]]; then
-      ws_list=$(yarn workspaces info|sed '1 d;$ d'|jq 'to_entries[] |.key'|sed 's/"//g'|awk '{$1=$1};1')
-      cd $current_dir
-      echo $ws_list|xargs -L 1 -I {} yarn link {}
-    elif [[ "$pm" == "pnpm" ]]; then
-      ws_list=$(pnpm list -r --depth=-1 --json 2>/dev/null|jq -r '.[].name' 2>/dev/null|awk '{$1=$1};1')
-      cd $current_dir
-      echo $ws_list|xargs -L 1 -I {} pnpm link --global {}
-    else
-      ws_list=$(npm query ".workspace" 2>/dev/null|jq -r '.[].name' 2>/dev/null|awk '{$1=$1};1')
-      cd $current_dir
-      echo $ws_list|xargs -L 1 -I {} npm link {}
-    fi
+    echo "$ws_list" | xargs -L 1 -I {} npm link {}
+  fi
+}
+
+# ys - Run start script with auto-detected package manager
+function ys() {
+  local pm=$(detect_package_manager)
+  $pm run start
+}
+
+# yt - Run test script with auto-detected package manager
+function yt() {
+  local pm=$(detect_package_manager)
+  $pm test "$@"
+}
+
+# yb - Run build script with auto-detected package manager
+function yb() {
+  local pm=$(detect_package_manager)
+  $pm run build
+}
+
+# yd - Run dev script with auto-detected package manager
+function yd() {
+  local pm=$(detect_package_manager)
+  $pm run dev
+}
+
+# yi - Install dependencies with auto-detected package manager
+# No args: install all deps. With args: add specific packages.
+function yi() {
+  local pm=$(detect_package_manager)
+  if [[ $# -eq 0 ]]; then
+    $pm install
+  elif [[ "$pm" == "yarn" ]]; then
+    yarn add "$@"
+  elif [[ "$pm" == "pnpm" ]]; then
+    pnpm add "$@"
+  else
+    npm install "$@"
+  fi
+}
+
+# yw - Check why a package is installed with auto-detected package manager
+function yw() {
+  local pm=$(detect_package_manager)
+  if [[ "$pm" == "npm" ]]; then
+    npm explain "$@"
+  else
+    $pm why "$@"
   fi
 }

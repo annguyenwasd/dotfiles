@@ -111,32 +111,37 @@ This repository maintains two main branches with platform-specific configuration
 
 ### Using Git Worktree for Syncing
 
-**Important:** Always use git worktree when syncing between branches to prevent configuration flickering. Direct branch switching causes your active configurations (nvim, tmux, zsh, etc.) to change, disrupting your workflow.
+**Important:** Always use git worktree when syncing to a **non-current** branch to prevent configuration flickering. Direct branch switching causes your active configurations (nvim, tmux, zsh, etc.) to change, disrupting your workflow.
 
-**Setup worktree for syncing:**
-```bash
-# Create a temporary worktree for the other branch
-# From mac branch, create worktree for master:
-git worktree add /tmp/dotfiles-master master
+**Rules:**
+- No worktree needed for the current branch — merge directly
+- Always run `git worktree list` first to check if the target branch already has a worktree
+- Only create a worktree for branches you are NOT currently on
 
-# From master branch, create worktree for mac:
-git worktree add /tmp/dotfiles-mac mac
-```
+**Sync workflow:**
 
-**Sync workflow using worktree:**
-
-1. **Check differences between branches:**
+1. **Check existing worktrees and differences:**
    ```bash
-   git diff master...mac --name-status
+   git worktree list
+   git diff <source>...<target> --name-status
    ```
 
-2. **Create worktree for target branch:**
+2. **For current branch (no worktree needed):**
+   ```bash
+   git merge <source-branch> --no-commit --no-ff
+
+   # Restore excluded files to current branch version
+   git checkout HEAD -- alacritty/.alacritty.toml \
+     nvim/.config/nvim/lua/plugins/transparent.lua \
+     nvim/.config/nvim/lua/themes/__output__.lua
+
+   git commit -m "sync(...): ..."
+   git push origin <current-branch>
+   ```
+
+3. **For non-current branch (use worktree):**
    ```bash
    git worktree add /tmp/dotfiles-<branch> <branch>
-   ```
-
-3. **In the worktree directory, merge and exclude platform-specific files:**
-   ```bash
    cd /tmp/dotfiles-<branch>
    git merge <source-branch> --no-commit --no-ff
 
@@ -144,9 +149,6 @@ git worktree add /tmp/dotfiles-mac mac
    git checkout HEAD -- alacritty/.alacritty.toml \
      nvim/.config/nvim/lua/plugins/transparent.lua \
      nvim/.config/nvim/lua/themes/__output__.lua
-
-   # If syncing to mac, ensure leetcode.lua stays deleted
-   # If syncing to master, restore it
 
    git commit -m "sync(...): ..."
    git push origin <branch>
@@ -212,17 +214,12 @@ When syncing changes from an external patch file (e.g., from work laptop or anot
    # Restore excluded files to mac branch version
    git checkout HEAD -- alacritty/.alacritty.toml \
      nvim/.config/nvim/lua/plugins/transparent.lua \
-     nvim/.config/nvim/lua/themes/__output__.lua \
-     zsh/.zshrc
-
-   # Remove leetcode.lua if it was added (mac doesn't use it)
-   git reset HEAD nvim/.config/nvim/lua/plugins/leetcode.lua 2>/dev/null || true
-   rm -f nvim/.config/nvim/lua/plugins/leetcode.lua
+     nvim/.config/nvim/lua/themes/__output__.lua
 
    git commit -m "sync(master): sync patch changes to mac
 
    - Synced changes from master
-   - Excluded: alacritty, transparent, theme, leetcode, zsh paths"
+   - Excluded: alacritty, transparent, theme, zshrc"
 
    git push origin mac
    ```
@@ -247,8 +244,6 @@ When syncing between `master` and `mac` branches, the following files should **N
 - `alacritty/.alacritty.toml` - Different terminal configurations per platform
 - `nvim/.config/nvim/lua/plugins/transparent.lua` - Transparency settings differ
 - `nvim/.config/nvim/lua/themes/__output__.lua` - Theme preferences differ
-- `nvim/.config/nvim/lua/plugins/leetcode.lua` - Mac branch doesn't use leetcode plugin (deletion should not sync)
-- `zsh/.zshrc` - Contains platform-specific paths (PNPM_HOME, opencode, etc.)
 
 ### Sync Commit Format
 
