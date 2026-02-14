@@ -111,32 +111,37 @@ This repository maintains two main branches with platform-specific configuration
 
 ### Using Git Worktree for Syncing
 
-**Important:** Always use git worktree when syncing between branches to prevent configuration flickering. Direct branch switching causes your active configurations (nvim, tmux, zsh, etc.) to change, disrupting your workflow.
+**Important:** Always use git worktree when syncing to a **non-current** branch to prevent configuration flickering. Direct branch switching causes your active configurations (nvim, tmux, zsh, etc.) to change, disrupting your workflow.
 
-**Setup worktree for syncing:**
-```bash
-# Create a temporary worktree for the other branch
-# From mac branch, create worktree for master:
-git worktree add /tmp/dotfiles-master master
+**Rules:**
+- No worktree needed for the current branch — merge directly
+- Always run `git worktree list` first to check if the target branch already has a worktree
+- Only create a worktree for branches you are NOT currently on
 
-# From master branch, create worktree for mac:
-git worktree add /tmp/dotfiles-mac mac
-```
+**Sync workflow:**
 
-**Sync workflow using worktree:**
-
-1. **Check differences between branches:**
+1. **Check existing worktrees and differences:**
    ```bash
-   git diff master...mac --name-status
+   git worktree list
+   git diff <source>...<target> --name-status
    ```
 
-2. **Create worktree for target branch:**
+2. **For current branch (no worktree needed):**
+   ```bash
+   git merge <source-branch> --no-commit --no-ff
+
+   # Restore excluded files to current branch version
+   git checkout HEAD -- alacritty/.alacritty.toml \
+     nvim/.config/nvim/lua/plugins/transparent.lua \
+     nvim/.config/nvim/lua/themes/__output__.lua
+
+   git commit -m "sync(...): ..."
+   git push origin <current-branch>
+   ```
+
+3. **For non-current branch (use worktree):**
    ```bash
    git worktree add /tmp/dotfiles-<branch> <branch>
-   ```
-
-3. **In the worktree directory, merge and exclude platform-specific files:**
-   ```bash
    cd /tmp/dotfiles-<branch>
    git merge <source-branch> --no-commit --no-ff
 
@@ -144,9 +149,6 @@ git worktree add /tmp/dotfiles-mac mac
    git checkout HEAD -- alacritty/.alacritty.toml \
      nvim/.config/nvim/lua/plugins/transparent.lua \
      nvim/.config/nvim/lua/themes/__output__.lua
-
-   # If syncing to mac, ensure leetcode.lua stays deleted
-   # If syncing to master, restore it
 
    git commit -m "sync(...): ..."
    git push origin <branch>
@@ -214,18 +216,10 @@ When syncing changes from an external patch file (e.g., from work laptop or anot
      nvim/.config/nvim/lua/plugins/transparent.lua \
      nvim/.config/nvim/lua/themes/__output__.lua
 
-   # Restore platform-specific lines in zsh/.zshrc (mac keeps mac.zsh source + mac PNPM_HOME, no opencode)
-   # Edit zsh/.zshrc manually or via sed to preserve mac-specific lines after merge
-
-   # Remove leetcode.lua if it was added (mac doesn't use it)
-   git reset HEAD nvim/.config/nvim/lua/plugins/leetcode.lua 2>/dev/null || true
-   rm -f nvim/.config/nvim/lua/plugins/leetcode.lua
-
    git commit -m "sync(master): sync patch changes to mac
 
    - Synced changes from master
-   - Excluded: alacritty, transparent, theme, leetcode
-   - zsh/.zshrc: synced shared changes, preserved mac-specific lines"
+   - Excluded: alacritty, transparent, theme, zshrc"
 
    git push origin mac
    ```
@@ -250,13 +244,6 @@ When syncing between `master` and `mac` branches, the following files should **N
 - `alacritty/.alacritty.toml` - Different terminal configurations per platform
 - `nvim/.config/nvim/lua/plugins/transparent.lua` - Transparency settings differ
 - `nvim/.config/nvim/lua/themes/__output__.lua` - Theme preferences differ
-- `nvim/.config/nvim/lua/plugins/leetcode.lua` - Mac branch doesn't use leetcode plugin (deletion should not sync)
-
-**Sync with platform-specific lines preserved:**
-- `zsh/.zshrc` - Sync shared changes, but preserve platform-specific lines per branch:
-  - **mac only:** `source $HOME/.config/zsh/mac.zsh`, `PNPM_HOME="/Users/annguyenvanchuc/Library/pnpm"`
-  - **master only:** `PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"`, `export PATH=/home/annguyenwasd/.opencode/bin:$PATH`
-  - Strategy: after merging, restore only the platform-specific lines to their branch values (not the whole file)
 
 ### Sync Commit Format
 
