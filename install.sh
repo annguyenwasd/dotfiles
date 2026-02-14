@@ -32,7 +32,12 @@ sudo pacman -S --noconfirm polkit \
 sudo pacman -S --noconfirm xdg-user-dirs \
 
 # for audio
-sudo pacman -S --noconfirm pulseaudio pulsemixer flameshot ttf-sourcecodepro-nerd \
+sudo pacman -S --noconfirm pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol ttf-sourcecodepro-nerd \
+
+# enable audio services
+systemctl --user enable --now pipewire pipewire-pulse wireplumber
+
+sudo pacman -S --noconfirm flameshot \
 
 # explorer
 sudo pacman -S --noconfirm yazi mpv ffmpegthumbnailer mediainfo \
