@@ -189,14 +189,14 @@ function fw() {
   local dir=$(ls -d --color=never $loc/*/ | sed 's#/$##' | sed "s#$loc/##" | fzf --ansi --preview "ls -lA $loc/{}")
   local full_path=$loc"/"$dir
 
-  if [[ ! -d $full_path ]]; then
+  if [[ -z $dir || ! -d $full_path ]]; then
     echo "No directory selected"
     return 1
   fi
 
   cd $full_path
 
-  [[ ( -n $ZELLIJ || -n $TMUX )  && $is_changed_tmux_window_name ]] && dn
+  [[ ( -n $ZELLIJ || -n $TMUX )  && $is_changed_tmux_window_name == "true" ]] && dn
 
   if is_bare_repo; then
     gcoo
@@ -206,7 +206,7 @@ function fw() {
     fi
   fi
 
-  [[ $is_open_nvim ]] && nvim
+  [[ $is_open_nvim == "true" ]] && nvim
 }
 
 function fww() {
@@ -412,3 +412,5 @@ esac
 
 # opencode
 export PATH=/home/annguyenwasd/.opencode/bin:$PATH
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
