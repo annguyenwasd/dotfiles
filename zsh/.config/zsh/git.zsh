@@ -48,15 +48,9 @@ alias gd="git diff"
 alias gdc="git diff --cached"
 alias gdl="git dl"
 
-alias gl="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s  %C(bold blue)<%an>%Creset %Cgreen%ar / %ad%Creset %n %b'"
-alias gll="git log --reverse --pretty=format:%B--- -n$1"
-alias gla="git log --graph --all --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
-alias glao="git log --all --oneline "
-alias glo="git log --oneline"
+alias gl="git log --graph --oneline"
+alias gla="git log --graph --all --oneline"
 alias gls="git log --graph --all --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --stat"
-# Ref https://til.hashrocket.com/posts/18139f4f20-list-different-commits-between-two-branches
-# git log --left-right --graph --cherry-pick --oneline feature...branch
-alias gd2="git log --left-right --graph --cherry-pick --oneline "
 
 # }}}
 
