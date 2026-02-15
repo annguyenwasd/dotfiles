@@ -116,22 +116,20 @@ local get_ts_ls_config = function()
     }),
   }
 
+  local root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock', '.git', 'tsconfig.json', 'jsconfig.json', 'package.json' }
+
   return {
+    autostart = true,
     capabilities = capabilities,
     settings = settings,
     handlers = handlers,
-    root_dir = function(bufnr, on_dir)
-      -- The project root is where the LSP can be started from
-      -- As stated in the documentation above, this LSP supports monorepos and simple projects.
-      -- We select then from the project root, which is identified by the presence of a package
-      -- manager lock file.
-      local root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
-      -- Give the root markers equal priority by wrapping them in a table
-      root_markers = vim.fn.has('nvim-0.11.3') == 1 and { root_markers } or root_markers
-      local project_root = vim.fs.root(bufnr, root_markers) or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":h")
-
-
-      on_dir(project_root)
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    root_dir = function(bufnr)
+      local project_root = vim.fs.root(bufnr, root_markers)
+      if not project_root then
+        project_root = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":h")
+      end
+      return project_root
     end,
   }
 end
@@ -146,6 +144,20 @@ M.setup = function()
   })
 
   vim.lsp.config("ts_ls", get_ts_ls_config())
+
+  vim.api.nvim_create_autocmd("BufReadPost", {
+    pattern = "*.{js,ts,jsx,tsx}",
+    callback = function(args)
+      local root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock', '.git', 'tsconfig.json', 'jsconfig.json', 'package.json' }
+      local root_dir = vim.fs.root(args.buf, root_markers) or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(args.buf), ":h")
+      vim.lsp.start({
+        name = 'ts_ls',
+        cmd = { 'typescript-language-server', '--stdio' },
+        root_dir = root_dir,
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+      })
+    end,
+  })
 
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
