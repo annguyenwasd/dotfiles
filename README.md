@@ -59,7 +59,8 @@ sudo pacman -S stow
 After that, just clone the repo and stow:
 
 ```sh
-cd ~/workspace && git clone git@github.com:annguyenwasd/dotfiles.git && cd dotfiles && stow .
+cd ~/workspace && git clone git@github.com:annguyenwasd/dotfiles.git && cd dotfiles && stow alacritty arch claude feh git hellwal karabiner misc nvim tmux vim vscode wezterm yazi zellij --target=$HOME
+zsh
 ```
 
 If you just want to use neovim:
