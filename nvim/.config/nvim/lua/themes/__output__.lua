@@ -1,1 +1,1 @@
-require('themes.nord').dark()
+require('themes.gruvbox-material').dark_original_hard()
