@@ -134,8 +134,8 @@ vim.keymap.set("n", "<leader>vm", ":vert res 120<cr>", { desc = desc("mappings: 
 
 --  ──────────── Synced from .vimrc (Vim→Lua conversions) ─────────────
 
--- Synced from .vimrc:47 — Terminal mode: press Esc twice to exit to normal mode
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = desc("mappings: Exit terminal mode to normal mode") })
+-- Synced from .vimrc:47 — Terminal mode: press Esc \ to exit to normal mode
+vim.keymap.set("t", "<Esc>\\", "<C-\\><C-n>", { desc = desc("mappings: Exit terminal mode to normal mode") })
 
 -- Synced from .vimrc:464 — Insert console.log for word under cursor
 vim.keymap.set("n", "<leader>ll", function()
