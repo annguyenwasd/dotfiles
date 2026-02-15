@@ -43,9 +43,6 @@ nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
 
-" Terminal mode: press Esc \ to exit to normal mode
-tnoremap <Esc>\ <C-\><C-n>
-
 if has("gui_macvim")
   color default
 endif
