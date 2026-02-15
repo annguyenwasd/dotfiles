@@ -39,7 +39,6 @@
   "nvim-cmp": { "branch": "main", "commit": "da88697d7f45d16852c6b2769dc52387d1ddc45f" },
   "nvim-colorizer.lua": { "branch": "master", "commit": "a065833f35a3a7cc3ef137ac88b5381da2ba302e" },
   "nvim-dap": { "branch": "master", "commit": "e47878dcf1ccc30136b30d19ab19fe76946d61cd" },
-  "nvim-dap-vscode-js": { "branch": "main", "commit": "03bd29672d7fab5e515fc8469b7d07cc5994bbf6" },
   "nvim-lint": { "branch": "master", "commit": "b3292aac30b935d4cccf0904053d1c7930df8a20" },
   "nvim-lspconfig": { "branch": "master", "commit": "5fef3b4a5f1057553b78d048322782c3a9ae69c6" },
   "nvim-snippy": { "branch": "master", "commit": "504ab14eeb14301d9b2a858a2a6cf99ccc8d60d0" },
@@ -76,7 +75,7 @@
   "vim-tmux-navigator": { "branch": "master", "commit": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432" },
   "vim-unimpaired": { "branch": "master", "commit": "db65482581a28e4ccf355be297f1864a4e66985c" },
   "vim-vinegar": { "branch": "master", "commit": "bb1bcddf43cfebe05eb565a84ab069b357d0b3d6" },
-  "vscode-js-debug": { "branch": "main", "commit": "4330850d72ee5816914a3188d2a6771854e1c61f" },
+  "vscode-js-debug": { "branch": "main", "commit": "cdca7f206692f5ceed702c19b7f7f72aa2bba3b9" },
   "vscode.nvim": { "branch": "main", "commit": "aa1102a7e15195c9cca22730b09224a7f7745ba8" },
   "yop.nvim": { "branch": "main", "commit": "ec26d86cfa96783f6894babcc509e5287aef9a25" }
 }

@@ -2,8 +2,66 @@
 return {
   {
     "mfussenegger/nvim-dap",
+    dependencies = {
+      {
+        "microsoft/vscode-js-debug",
+        version = false,
+        build = "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm install --legacy-peer-deps --ignore-scripts && npx gulp dapDebugServer && rm -rf out && mv dist out",
+      },
+    },
     init = function()
       vim.cmd([[ au FileType dap-repl lua require('dap.ext.autocompl').attach() ]])
+    end,
+    config = function()
+      local dap = require("dap")
+      local js_debug_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"
+
+      for _, adapter in ipairs({ "pwa-node", "pwa-chrome" }) do
+        dap.adapters[adapter] = {
+          type = "server",
+          host = "127.0.0.1",
+          port = "${port}",
+          executable = {
+            command = "node",
+            args = { js_debug_path .. "/out/src/dapDebugServer.js", "${port}" },
+          },
+        }
+      end
+
+      for _, language in ipairs({ "typescript", "javascript" }) do
+        dap.configurations[language] = {
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch file",
+            program = "${file}",
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach",
+            processId = require("dap.utils").pick_process,
+            cwd = "${workspaceFolder}",
+            console = "integratedTerminal",
+          },
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Debug Jest Tests",
+            trace = true,
+            runtimeExecutable = "node",
+            runtimeArgs = {
+              "./node_modules/jest/bin/jest.js",
+              "--runInBand",
+            },
+            rootPath = "${workspaceFolder}",
+            cwd = "${workspaceFolder}",
+            console = "integratedTerminal",
+            internalConsoleOptions = "neverOpen",
+          },
+        }
+      end
     end,
     keys = {
       { "<localleader>bb", "<cmd>lua require('dap').toggle_breakpoint()<cr>", desc = desc("debug: toggle breakpoint") },
@@ -25,68 +83,5 @@ return {
       { "<localleader>ds", function() local widgets = require("dap.ui.widgets") local my_sidebar = widgets.sidebar(widgets.scopes) my_sidebar.open() end, desc = desc("debug: widge shows scopes") },
       { "<localleader>df", function() local widgets = require("dap.ui.widgets") local my_sidebar = widgets.sidebar(widgets.frames) my_sidebar.open() end, desc = desc("debug: widget shows frames") },
     },
-  },
-  {
-    "mxsdev/nvim-dap-vscode-js",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      {
-        "microsoft/vscode-js-debug",
-        build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-      }
-    },
-    config = function()
-      require("dap-vscode-js").setup({
-        debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug",
-        adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
-      })
-
-      require("dap").adapters["pwa-node"] = {
-        type = "server",
-        host = "127.0.0.1",
-        port = "${port}",
-        executable = {
-          command = "node",
-          args = { "/home/annguyenwasd/Downloads/js-debug/src/dapDebugServer.js", "${port}" },
-
-        }
-      }
-
-      for _, language in ipairs({ "typescript", "javascript" }) do
-        require("dap").configurations[language] = {
-          {
-            type = "pwa-node",
-            request = "launch",
-            name = "Launch file",
-            program = "${file}",
-            cwd = "${workspaceFolder}",
-            console = "integratedTerminal",
-          },
-          {
-            type = "pwa-node",
-            request = "attach",
-            name = "Attach",
-            processId = require("dap.utils").pick_process,
-            cwd = "${workspaceFolder}",
-            console = "integratedTerminal",
-          },
-          {
-            type = "pwa-node",
-            request = "launch",
-            name = "Debug Jest Tests",
-            trace = true, -- include debugger info
-            runtimeExecutable = "node",
-            runtimeArgs = {
-              "./node_modules/jest/bin/jest.js",
-              "--runInBand",
-            },
-            rootPath = "${workspaceFolder}",
-            cwd = "${workspaceFolder}",
-            console = "integratedTerminal",
-            internalConsoleOptions = "neverOpen",
-          },
-        }
-      end
-    end,
   },
 }

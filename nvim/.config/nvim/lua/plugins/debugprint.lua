@@ -38,7 +38,7 @@ return {
       "g?V",
       {
         "g?d",
-        ":lua require('debugprint').deleteprints()<cr>",
+        "<cmd>Debugprint delete<cr>",
         desc = desc("debugprint: remove all debug lines in current file"),
       },
     },

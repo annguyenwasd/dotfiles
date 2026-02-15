@@ -117,8 +117,6 @@ end, { desc = "Copy detailed path (with line range)" })
 
 --  ──────────────────────────────── MISC ─────────────────────────────
 vim.keymap.set("n", "<c-w><c-e>", "<c-w>=", { desc = desc("mappings: Make windows equally") })
-vim.keymap.set("n", "<leader><leader>r", ":<c-u>source ~/.config/nvim/init.lua<cr>", { desc = desc("mappings: Source init.lua") })
-vim.keymap.set("n", "<leader><leader>R", ":<c-u>source ~/.config/nvim/init.lua<cr>:Lazy install<cr>", { desc = desc("mappings: Source init.lua and install") })
 vim.keymap.set("n", "<leader>yz", function()
   require("utils.yazi").open_yazi(vim.fn.expand("%:h"))
 end, { desc = desc("yazi: open yazi for current directory"), noremap = true })
