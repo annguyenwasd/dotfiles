@@ -4,6 +4,10 @@
 - Set `WORKSPACE_FOLDER` to your folder containing your projects
 - Set `DOTFILES` to your dotfiles folder
 
+### Keybindings
+
+[All keybinds for tmux/neovim/vim](./keybinds.md)
+
 ### Tmux (same with Zellij) + FZF
 
 By setting `WORKSPACE_FOLDER` in the `.zshrc` file, navigates between project become easier when combines
@@ -18,10 +22,6 @@ Mappings:
 
 - `c-a` + `o` will close all panes in current window
 - `c-a` + `O` (capital `O`) will close all window in current session and re-index current window to `1`
-
-### Neovim
-
-[Keybindings](./keys.md)
 
 ## Installation
 
