@@ -34,9 +34,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
   unset f
 fi
 
-# Increase key repeat rate: 200ms delay, 25 keys/sec
-xset r rate 200 25
-
 # Input method framework (Vietnamese, CJK, etc.)
 fcitx5 &
 # Screenshot tool

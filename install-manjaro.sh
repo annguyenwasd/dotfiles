@@ -69,7 +69,10 @@ sudo pacman -S --noconfirm --needed fcitx5-im fcitx5-unikey fcitx5-configtool
 sudo pacman -S --noconfirm --needed ttf-sourcecodepro-nerd
 
 # AUR packages (yay is pre-installed on Manjaro)
-yay -S --noconfirm --needed google-chrome hellwal ueberzugpp
+yay -S --noconfirm --needed google-chrome hellwal ueberzugpp xautocfg
+
+# Enable xautocfg service
+systemctl --user enable --now xautocfg.service
 
 # --- 4. GPU drivers via mhwd ---
 # Manjaro uses mhwd for hardware detection and driver management.

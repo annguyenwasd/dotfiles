@@ -55,8 +55,11 @@ sudo pacman -S --noconfirm --needed fcitx5-im fcitx5-unikey fcitx5-configtool
 # Fonts
 sudo pacman -S --noconfirm --needed ttf-sourcecodepro-nerd
 
-# AUR packages
-yay -S --noconfirm google-chrome hellwal node npm optimus-manager optimus-manager-qt ueberzugpp
+# AUR packages (yay is pre-installed on Manjaro)
+yay -S --noconfirm --needed google-chrome hellwal ueberzugpp xautocfg
+
+# Enable xautocfg service
+systemctl --user enable --now xautocfg.service
 
 # Enable audio services
 systemctl --user enable --now pipewire pipewire-pulse wireplumber
