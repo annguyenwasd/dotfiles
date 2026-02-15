@@ -267,11 +267,16 @@ sync(master): sync recent changes from master to mac
 
 ### Installation & Setup
 
-**Arch Linux full installation:**
+**Platform-specific install scripts:**
 ```bash
-./install.sh
+./install-arch.sh      # Vanilla Arch Linux (full setup from minimal install)
+./install-manjaro.sh   # Manjaro Linux (lighter, skips pre-installed packages)
+./install-mac.sh       # macOS (Homebrew-based)
 ```
-This installs all packages (X11, i3, Neovim, Tmux, etc.), sets up Yay, configures GRUB dual-boot, and enables GPU switching.
+
+- `install-arch.sh` - Full setup: X11, i3, yay, PipeWire, NVIDIA/Intel GPU drivers, optimus-manager, all dev tools
+- `install-manjaro.sh` - Lighter setup: refreshes keyrings, installs missing dev tools, uses mhwd for GPU drivers (skips X11/i3/audio already on Manjaro i3)
+- `install-mac.sh` - macOS: installs Homebrew, CLI tools, cask apps (Alacritty, Karabiner), fonts, macOS defaults
 
 **Stow configurations:**
 ```bash

@@ -1,6 +1,23 @@
 #!/usr/bin/env sh
 set -e  # stop script if any command fails
 
+# =============================================================================
+# install-arch.sh - Vanilla Arch Linux setup script
+# =============================================================================
+#
+# Usage: ./install-arch.sh
+#
+# This script sets up a fresh Arch Linux installation from scratch.
+# Unlike Manjaro, Arch ships minimal - so this script installs everything:
+# X11, i3, audio stack (PipeWire), GPU drivers (NVIDIA + Intel), AUR helper
+# (yay), optimus-manager for GPU switching, and all development tools.
+#
+# Prerequisites:
+#   - Fresh Arch Linux install with internet access
+#   - A non-root user with sudo privileges
+#
+# =============================================================================
+
 # --- 1. Install essential packages and Yay ---
 sudo pacman -S --noconfirm --needed git base-devel
 
@@ -18,7 +35,7 @@ fi
 sudo pacman -S --noconfirm --needed xorg xorg-xinit xorg-server xterm i3 dmenu picom xorg-xrandr
 
 # Core tools
-sudo pacman -S --noconfirm --needed tmux git neovim stow zsh alacritty firefox fzf ripgrep openssh xclip curl unzip feh flameshot
+sudo pacman -S --noconfirm --needed tmux git neovim stow zsh alacritty fzf ripgrep openssh xclip curl unzip feh flameshot
 
 # Audio (PipeWire)
 sudo pacman -S --noconfirm --needed pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol
@@ -60,8 +77,11 @@ if [ ! -d ~/.config/alacritty/themes/.git ]; then
     git clone --depth 1 https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 fi
 
-# --- 6. Global npm packages and FNM ---
-sudo npm i -g yarn pnpm
+# --- 6. Global npm/pnpm packages and FNM ---
+mkdir -p ~/.node_modules
+npm config set prefix ~/.node_modules
+sudo pacman -S --noconfirm --needed pnpm
+npm i -g yarn
 if ! command -v fnm >/dev/null 2>&1; then
     curl -fsSL https://fnm.vercel.app/install | bash
 fi
