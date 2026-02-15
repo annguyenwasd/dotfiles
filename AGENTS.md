@@ -73,8 +73,64 @@ dotfiles/
 
 ### Git Configuration
 - **User**: An Nguyen Van Chuc (an.nguyenwasd@gmail.com)
-- **Commit message format**: `<category>: <description>`
-- **Categories**: nvim, tmux, zsh, git, alacritty, yazi, mac, arch, karabiner, wezterm, vscode
+
+### Commit Message Format
+
+**Format:**
+```
+<type>(<scope>): <description>
+
+- Additional detail 1
+- Additional detail 2
+```
+
+**Commit Types:**
+- **Tool categories**: nvim, tmux, zsh, git, alacritty, yazi, mac, arch, karabiner, wezterm, vscode
+- **Action types**: feat, fix, refactor, perf, docs, chore, sync, config, misc
+
+**Examples:**
+```
+nvim: add lenient LSP root detection
+
+- Add more root markers (.git, tsconfig.json, jsconfig.json, package.json)
+- Add filetypes and autostart to ts_ls config
+- Add BufReadPost autocmd to manually start ts_ls when no root markers found
+
+tmux: update pane splitting keybindings
+
+- Change vertical split to C-a C-v
+- Change horizontal split to C-a C-s
+
+docs: add AGENTS.md for agentic coding guidelines
+
+- Add build/lint/test commands section
+- Add code style guidelines for Lua, Shell, Tmux
+```
+
+### Multi-Category Commit Rules
+
+1. **Default (split commits):** If staged changes contain files from multiple categories, create separate commits for each category.
+
+   Example - if both `nvim/` and `tmux/` files are staged:
+   ```
+   git add nvim/.config/nvim/lua/plugins/lsp.lua
+   git commit -m "nvim: update LSP configuration"
+
+   git add tmux/.tmux.conf
+   git commit -m "tmux: add new keybinding for window splitting"
+   ```
+
+2. **Exception (commit all):** If the user explicitly uses the words "commit all" or "all" in their instruction, combine all changes into a single commit with multiple categories.
+
+   Example with "commit all":
+   ```
+   git add .
+   git commit -m "config: update multiple tool configurations
+
+   - nvim: update LSP settings
+   - tmux: add new keybindings
+   - zsh: add utility functions"
+   ```
 
 ### Branch Strategy
 - `master` - Primary branch (Arch Linux focused)

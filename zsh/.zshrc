@@ -416,3 +416,6 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# opencode
+export PATH=/home/annguyenvanchuc/.opencode/bin:$PATH

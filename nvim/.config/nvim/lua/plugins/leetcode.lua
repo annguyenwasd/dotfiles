@@ -48,7 +48,6 @@ return {
   },
   {
     "3rd/image.nvim",
-    enabled = false,
     config = function()
       local ok, image = pcall(require, "image")
       if not ok then return end
