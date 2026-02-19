@@ -4,48 +4,43 @@ general {
   interval = 5
 }
 
-order += "disk /"
-#order += "disk /home"
-order += "ethernet eno1"
-#order += "wireless wlan0"
 order += "memory"
-order += "tztime local"
+order += "disk /"
+order += "ethernet _first_"
+order += "wireless _first_"
 order += "volume master"
+order += "tztime local"
 
 volume master {
-    format = "VOL %volume"
+    format = "♪: %volume"
+    format_muted = "♪: muted (%volume)"
     device = "pulse"
     mixer = "Master"
     mixer_idx = 0
 }
 
-ethernet eno1 {
+ethernet _first_ {
        format_up = "E: %ip (%speed)"
-       format_down = "E: down"
+       format_down = ""
 }
 
-wireless wlan0 {
-       format_up = "wifi: (%quality at %essid, %bitrate) %ip"
-       format_down = "wifi: down"
+wireless _first_ {
+       format_up = "W: %essid %ip"
+       format_down = ""
 }
-
 
 tztime local {
-       format = "%a %Y-%m-%d %H:%M:%S"
+       format = "%a %Y-%m-%d %H:%M"
 }
 
 memory {
-       format = "M: %used/%total"
+       format = "M: %free"
        threshold_degraded = "10%"
        format_degraded = "MEMORY: %free"
 }
 
 disk "/" {
-       format = "root: %used/%total"
-}
-
-disk "/home" {
-       format = "home: %used/%total"
+       format = "disk: %avail"
 }
 
 read_file uptime {
