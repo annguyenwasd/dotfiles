@@ -433,6 +433,14 @@ function! CopyPath(mode)
     elseif a:mode == 'range'
         " Get absolute path with visual selection line range
         let l:path = l:full_path . ':' . line("'<") . '-' . line("'>")
+    elseif a:mode == 'relative-range'
+        " Get relative path with visual selection line range
+        if v:shell_error == 0 && !empty(l:git_root)
+            let l:rel = substitute(l:full_path, l:git_root . '/', '', '')
+        else
+            let l:rel = fnamemodify(expand("%"), ":~:.")
+        endif
+        let l:path = l:rel . ':' . line("'<") . '-' . line("'>")
     endif
 
     " Copy to clipboard
@@ -450,7 +458,8 @@ endfunction
 nnoremap <leader>cp :call CopyPath('relative')<CR>
 nnoremap <leader>Cp :call CopyPath('absolute')<CR>
 nnoremap <leader>CP :call CopyPath('detailed')<CR>
-vnoremap <leader>cp <Esc>:call CopyPath('range')<CR>
+vnoremap <leader>cp <Esc>:call CopyPath('relative-range')<CR>
+vnoremap <leader>Cp <Esc>:call CopyPath('range')<CR>
 
 function! ConsoleLog()
     let l:word = expand('<cword>')
