@@ -108,7 +108,7 @@ end, { desc = "Copy absolute path" })
 vim.keymap.set("n", "<leader>CP", function()
   copy_path("detailed")
 end, { desc = "Copy detailed path (with function name)" })
-vim.keymap.set("v", "<leader>cp", function()
+local function copy_path_visual(relative)
   local line_start = vim.fn.line("v")
   local line_end = vim.fn.line(".")
   if line_start > line_end then
@@ -117,9 +117,16 @@ vim.keymap.set("v", "<leader>cp", function()
   local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
   vim.api.nvim_feedkeys(esc, "n", false)
   vim.schedule(function()
-    copy_path("detailed", { line_start = line_start, line_end = line_end })
+    copy_path(relative, { line_start = line_start, line_end = line_end })
   end)
-end, { desc = "Copy detailed path (with line range)" })
+end
+
+vim.keymap.set("v", "<leader>cp", function()
+  copy_path_visual(true)
+end, { desc = "Copy relative path with line range" })
+vim.keymap.set("v", "<leader>Cp", function()
+  copy_path_visual(false)
+end, { desc = "Copy absolute path with line range" })
 
 
 --  ──────────────────────────────── MISC ─────────────────────────────

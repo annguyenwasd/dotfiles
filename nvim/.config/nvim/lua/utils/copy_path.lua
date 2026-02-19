@@ -21,15 +21,8 @@ M.copy_path = function(mode, opts)
       path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
     end
   elseif mode == "detailed" then
-    -- Absolute path with function name or line number
+    -- Absolute path with function name or line number (no line range)
     path = full_path
-    if opts and opts.line_start and opts.line_end then
-      path = path .. ":" .. opts.line_start .. "-" .. opts.line_end
-      vim.fn.setreg("+", path)
-      vim.fn.setreg("*", path)
-      vim.notify("Copied: " .. path, vim.log.levels.INFO)
-      return
-    end
     local line_num = vim.fn.line(".")
     local func_name = ""
 
@@ -86,6 +79,11 @@ M.copy_path = function(mode, opts)
   else
     -- absolute
     path = full_path
+  end
+
+  -- Append line range if provided (works for relative, absolute, and detailed)
+  if opts and opts.line_start and opts.line_end then
+    path = path .. ":" .. opts.line_start .. "-" .. opts.line_end
   end
 
   -- Copy to clipboard (both + and *)
