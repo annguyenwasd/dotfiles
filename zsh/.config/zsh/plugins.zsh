@@ -37,3 +37,6 @@ ZSH_COMMAND_TIME_COLOR="yellow"
 
 # Exclude some commands
 ZSH_COMMAND_TIME_EXCLUDE=(nvim)
+
+# Tmux plugin
+[ ! -d $HOME/.tmux/plugins/tpm ] && mkdir -p $HOME/.tmux/plugins/tpm && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm &
