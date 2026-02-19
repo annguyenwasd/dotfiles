@@ -448,9 +448,9 @@ endfunction
 
 
 nnoremap <leader>cp :call CopyPath('relative')<CR>
-nnoremap <leader>cP :call CopyPath('absolute')<CR>
+nnoremap <leader>Cp :call CopyPath('absolute')<CR>
 nnoremap <leader>CP :call CopyPath('detailed')<CR>
-vnoremap <leader>CP <Esc>:call CopyPath('range')<CR>
+vnoremap <leader>cp <Esc>:call CopyPath('range')<CR>
 
 function! ConsoleLog()
     let l:word = expand('<cword>')
