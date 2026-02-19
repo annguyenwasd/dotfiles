@@ -34,8 +34,8 @@ M.copy_path = function(mode, opts)
     local func_name = ""
 
     -- Try to use treesitter if available
-    local ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
-    if ok then
+    pcall(function()
+      local ts_utils = require("nvim-treesitter.ts_utils")
       local node = ts_utils.get_node_at_cursor()
       if node then
         -- Traverse up the tree to find a function node
@@ -75,7 +75,7 @@ M.copy_path = function(mode, opts)
           node = node:parent()
         end
       end
-    end
+    end)
 
     -- Add function name or line number
     if func_name ~= "" then

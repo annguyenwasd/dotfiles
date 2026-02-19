@@ -101,16 +101,23 @@ local copy_path = require("utils.copy_path").copy_path
 vim.keymap.set("n", "<leader>cp", function()
   copy_path(true)
 end, { desc = "Copy relative path" })
-vim.keymap.set("n", "<leader>cP", function()
+vim.keymap.set("n", "<leader>Cp", function()
   copy_path(false)
 end, { desc = "Copy absolute path" })
 -- Synced from .vimrc:449 — Copy detailed path (absolute + function name or line number)
 vim.keymap.set("n", "<leader>CP", function()
   copy_path("detailed")
 end, { desc = "Copy detailed path (with function name)" })
-vim.keymap.set("v", "<leader>CP", function()
+vim.keymap.set("v", "<leader>cp", function()
+  local line_start = vim.fn.line("v")
+  local line_end = vim.fn.line(".")
+  if line_start > line_end then
+    line_start, line_end = line_end, line_start
+  end
+  local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+  vim.api.nvim_feedkeys(esc, "n", false)
   vim.schedule(function()
-    copy_path("detailed", { line_start = vim.fn.line("'<"), line_end = vim.fn.line("'>") })
+    copy_path("detailed", { line_start = line_start, line_end = line_end })
   end)
 end, { desc = "Copy detailed path (with line range)" })
 
