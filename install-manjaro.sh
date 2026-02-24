@@ -126,9 +126,6 @@ if ! command -v fnm >/dev/null 2>&1; then
     curl -fsSL https://fnm.vercel.app/install | bash
 fi
 
-# --- 9. Claude ---
-curl -fsSL https://claude.ai/install.sh | bash
-
 # --- 10. Setup GRUB with Windows (dual-boot) ---
 EFI_PART=$(lsblk -rno NAME,FSTYPE,SIZE,MOUNTPOINT | grep -E 'vfat|fat32' | grep -v 'boot' | awk '{print "/dev/"$1}' | head -n 1)
 if [ -n "$EFI_PART" ]; then
