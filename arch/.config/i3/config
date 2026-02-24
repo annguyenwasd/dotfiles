@@ -52,6 +52,9 @@ exec --no-startup-id pamac-tray
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Auto-configure keyboard repeat rate (delay=220, rate=45)
+exec --no-startup-id xautocfg
+
 exec --no-startup-id xset s off
 exec --no-startup-id xset -dpms
 exec --no-startup-id xset s noblank
