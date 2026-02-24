@@ -39,7 +39,6 @@ sudo pacman -Rns --noconfirm $(pacman -Qq | grep palemoon) 2>/dev/null || true
 
 # Core development tools
 # NOTE: xorg, i3, dmenu, picom, xorg-xrandr are pre-installed on Manjaro i3 edition
-# NOTE: pipewire, pipewire-pulse, pipewire-alsa, wireplumber, pavucontrol are pre-installed
 sudo pacman -S --noconfirm --needed \
   tmux \
   neovim \
@@ -53,6 +52,16 @@ sudo pacman -S --noconfirm --needed \
   unzip \
   jq \
   github-cli
+
+# Audio (PipeWire stack)
+sudo pacman -S --noconfirm --needed \
+  pipewire \
+  pipewire-pulse \
+  pipewire-alsa \
+  pipewire-audio \
+  wireplumber \
+  pavucontrol
+systemctl --user enable --now pipewire pipewire-pulse wireplumber
 
 # Image/wallpaper tools
 sudo pacman -S --noconfirm --needed feh flameshot
