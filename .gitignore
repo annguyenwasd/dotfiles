@@ -10,3 +10,7 @@ Session.vim
 nvim/.config/nvim/plugin/packer_compiled.lua
 nvim/.config/nvim/plugin
 nvim/.config/nvim/spell
+
+# Ignore everything but skills
+claude/*
+!claude/.claude/skills
