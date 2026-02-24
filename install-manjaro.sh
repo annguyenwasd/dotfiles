@@ -11,7 +11,6 @@ set -e  # stop script if any command fails
 # terminal-centric workflow (Neovim, Tmux, Zsh), and personal configurations.
 #
 # Manjaro differences from Arch:
-#   - yay is pre-installed on Manjaro
 #   - mhwd handles GPU drivers (no manual nvidia/mesa packages needed)
 #   - PipeWire + audio stack comes pre-configured
 #   - X11, i3, xorg packages are pre-installed on Manjaro i3 edition
@@ -23,14 +22,18 @@ set -e  # stop script if any command fails
 # --- 1. Refresh keyrings and update system ---
 # Manjaro occasionally has keyring issues after fresh install or long gaps
 # between updates. Refreshing keyrings ensures package signatures are valid.
+sudo pacman -Sy --needed manjaro-keyring archlinux-keyring
 sudo pacman-key --init
 sudo pacman-key --populate archlinux manjaro
-sudo pacman-key --refresh-keys
-sudo pacman -Syyu --noconfirm
+sudo pacman -Syyu
 
 # --- 2. Install essential build tools ---
 # Manjaro i3 ships with most base-devel, but ensure git and base-devel are present
 sudo pacman -S --noconfirm --needed git base-devel
+sudo pacman -S --noconfirm --needed yay alacritty
+yay -S --noconfirm --needed google-chrome
+sudo pacman -Rns --noconfirm $(pacman -Qq | grep palemoon) 2>/dev/null || true
+
 
 # --- 3. Install packages ---
 
@@ -42,7 +45,6 @@ sudo pacman -S --noconfirm --needed \
   neovim \
   stow \
   zsh \
-  alacritty \
   fzf \
   ripgrep \
   openssh \
@@ -68,8 +70,11 @@ sudo pacman -S --noconfirm --needed fcitx5-im fcitx5-unikey fcitx5-configtool
 # Fonts
 sudo pacman -S --noconfirm --needed ttf-sourcecodepro-nerd
 
-# AUR packages (yay is pre-installed on Manjaro)
-yay -S --noconfirm --needed google-chrome hellwal ueberzugpp xautocfg
+# AUR packages
+yay -S --noconfirm --needed hellwal xautocfg
+sudo pacman -Rns --noconfirm $(pacman -Qq | grep manjaro-ranger-settings ) 2>/dev/null || true
+
+yay -S --needed ueberzugpp
 
 # Enable xautocfg service
 systemctl --user enable --now xautocfg.service
@@ -104,6 +109,7 @@ fi
 
 # --- 8. Global npm/pnpm packages and FNM ---
 mkdir -p ~/.node_modules
+sudo pacman -S --noconfirm --needed npm
 npm config set prefix ~/.node_modules
 sudo pacman -S --noconfirm --needed pnpm
 npm i -g yarn
@@ -111,8 +117,8 @@ if ! command -v fnm >/dev/null 2>&1; then
     curl -fsSL https://fnm.vercel.app/install | bash
 fi
 
-# --- 9. Wallpapers ---
-[ ! -d ~/workspace/walls/ ] && git clone --depth 1 https://github.com/annguyenwasd/walls.git ~/workspace/walls
+# --- 9. Claude ---
+curl -fsSL https://claude.ai/install.sh | bash
 
 # --- 10. Setup GRUB with Windows (dual-boot) ---
 EFI_PART=$(lsblk -rno NAME,FSTYPE,SIZE,MOUNTPOINT | grep -E 'vfat|fat32' | grep -v 'boot' | awk '{print "/dev/"$1}' | head -n 1)
@@ -133,7 +139,7 @@ xdg-user-dirs-update
 echo ""
 echo "=== Setup complete! ==="
 echo "Next steps:"
-echo "  1. cd ~/workspace/dotfiles && stow ."
+echo "  1. cd ~/workspace/dotfiles && stow some folders "
 echo "  2. Log out and log back in for fcitx5 and zsh changes to take effect"
 echo "  3. Configure GPU driver if needed: sudo mhwd -a pci nonfree 0300"
 echo ""
