@@ -399,11 +399,7 @@ preexec_functions+=(_command_time_preexec)
 # zprof
 
 # pnpm
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  export PNPM_HOME="/Users/annguyenvanchuc/Library/pnpm"
-else
-  export PNPM_HOME="/home/annguyenwasd/.local/share/pnpm"
-fi
+export PNPM_HOME="/Users/annguyenvanchuc/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
