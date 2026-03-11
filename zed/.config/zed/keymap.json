@@ -1,0 +1,120 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  // ── Workspace-level ──────────────────────────────────────────────────
+  {
+    "context": "Workspace",
+    "bindings": {
+      "shift-cmd-g": "git_panel::ToggleFocus", // VSCode: shift+cmd+g → SCM panel
+      "shift-cmd-t": "workspace::ToggleZoom", // VSCode: shift+cmd+t → toggle maximized panel
+      "shift-cmd-\\": "pane::SplitDown", // VSCode: shift+cmd+\ → split editor down
+      "cmd-0": "zed::ResetBufferFontSize", // VSCode: cmd+0 → zoom reset
+      "shift-cmd-a": "workspace::ToggleLeftDock", // VSCode: shift+cmd+a → toggle activity bar
+    },
+  },
+
+  // ── Vim normal mode ──────────────────────────────────────────────────
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      // Buffer navigation (VSCode: [b / ]b)
+      "[ b": "pane::ActivatePreviousItem",
+      "] b": "pane::ActivateNextItem",
+
+      // LSP actions
+      "K": "editor::Hover", // VSCode vim: K → showHover
+      "g r": "editor::FindAllReferences", // VSCode vim: gr → goToReferences
+      "space r n": "editor::Rename", // <leader>rn
+      "space f m": "editor::Format", // <leader>fm
+      "space c a": "editor::ToggleCodeActions", // <leader>ca → quickFix
+
+      // Diagnostics (VSCode vim: ]d / [d)
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPreviousDiagnostic",
+      "space d a": "diagnostics::Deploy", // <leader>da → problems panel
+
+      // Navigation / search
+      "space o": "file_finder::Toggle", // <leader>o → quickOpen
+      "space r g": "project_search::ToggleFocus", // <leader>rg → findInFiles
+      "space i": "pane::AlternateFile", // <leader>i → prev used editor
+      "space n": "project_panel::ToggleFocus", // <leader>n → explorer
+
+      // Symbols
+      "space d s": "outline::Toggle", // <leader>ds → gotoSymbol
+
+      // Git hunks (VSCode vim: <leader>ha / hd)
+      "space h a": "git::StageRange", // <leader>ha → stage hunk
+      "space h d": "git::Restore",                  // <leader>hd → revert hunk
+      "space h u": "editor::ToggleSelectedDiffHunks", // <leader>hu → toggle staged
+
+      // Maximize (VSCode vim: <leader>mm)
+      "space m m": "workspace::ToggleZoom",
+
+      // Terminal (VSCode vim: <leader>tt / tn)
+      "space t t": "terminal_panel::Toggle",
+      "space t n": "workspace::NewTerminal",
+
+      // Pane navigation (VSCode vim: ctrl-h/j/k/l)
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+
+      // Close other editors (VSCode vim: ctrl-w o)
+      "ctrl-w o": "pane::CloseOtherItems",
+    },
+  },
+
+  // ── Vim visual mode ──────────────────────────────────────────────────
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      // Indent/outdent (VSCode vim visual: > / <)
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
+
+      // Stage selected range
+      "space h a": "git::StageRange",
+    },
+  },
+
+  // ── Project panel (file explorer) ────────────────────────────────────
+  // VSCode explorer vim-style bindings: a=new file, ctrl+a=new folder,
+  // d=delete, y=copy, x=cut, p=paste, r=rename, ctrl+v=open to side
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "ctrl-a": "project_panel::NewDirectory",
+      "d": "project_panel::Delete",
+      "y": "project_panel::Copy",
+      "x": "project_panel::Cut",
+      "p": "project_panel::Paste",
+      "r": "project_panel::Rename",
+      "ctrl-v": "project_panel::OpenSplitVertical",
+    },
+  },
+
+  // ── Terminal ─────────────────────────────────────────────────────────
+  {
+    "context": "Terminal",
+    "bindings": {
+      "cmd-t": "terminal_panel::Toggle", // VSCode: cmd+t → toggle terminal
+      "shift-cmd-]": "pane::ActivateNextItem", // VSCode: shift+cmd+] → next terminal pane
+      "shift-cmd-[": "pane::ActivatePreviousItem", // VSCode: shift+cmd+[ → prev terminal pane
+    },
+  },
+
+  // ── Insert mode ──────────────────────────────────────────────────────
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    },
+  },
+]
