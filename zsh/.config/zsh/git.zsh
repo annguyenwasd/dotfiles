@@ -114,7 +114,10 @@ function bare_branch_checkout() {
       cd $dir
     fi
   else
-    if $is_create_new_branch; then
+    dir=$(git worktree list | grep -F "[$branch_name]" | head -n 1 | awk '{ print $1 }')
+    if [[ -n $dir ]]; then
+      cd $dir
+    elif $is_create_new_branch; then
       git checkout -b $branch_name
     else
       git checkout $branch_name
