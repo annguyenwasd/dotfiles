@@ -32,6 +32,8 @@ return {
             "build/",
             "reports/",
             "dist/",
+            ".openapi",
+            "graphify-out"
           },
           preview = {
             hide_on_startup = true,

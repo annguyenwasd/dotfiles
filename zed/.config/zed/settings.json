@@ -7,6 +7,32 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "diff_view_style": "unified",
+  "cli_default_open_behavior": "existing_window",
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
+  "agent": {
+    "dock": "right",
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-6-latest",
+      "enable_thinking": false
+    },
+    "favorite_models": [],
+    "model_parameters": []
+  },
   "terminal": {
     "font_size": 14.0,
     "max_scroll_history_lines": 10000,
@@ -16,6 +42,7 @@
     "metrics": false,
   },
   "project_panel": {
+    "dock": "left",
     "auto_fold_dirs": false,
   },
   "base_keymap": "VSCode",
@@ -43,7 +70,7 @@
   "auto_update": false,
   "theme": {
     "mode": "system",
-    "light": "Gruvbox Light Hard",
-    "dark": "Gruvbox Dark Hard",
+    "light": "Ayu Light",
+    "dark": "Ayu Dark",
   },
 }

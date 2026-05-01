@@ -1,0 +1,64 @@
+snippet ralph:feat "Feature Implementation - Build a complete feature with tests"
+  /ralph-loop:ralph-loop "Implement [FEATURE_NAME].
+
+  Requirements:
+  - [Requirement 1]
+  - [Requirement 2]
+  - [Requirement 3]
+
+  Success criteria:
+  - All requirements implemented
+  - Tests passing with >80% coverage
+  - No linter errors
+  - Documentation updated
+
+  Output <promise>COMPLETE</promise> when done." --max-iterations 30 --completion-promise "COMPLETE"
+
+snippet ralph:tdd "TDD Development"
+  /ralph-loop:ralph-loop "Implement [FEATURE] using TDD.
+
+  Process:
+  1. Write failing test for next requirement
+  2. Implement minimal code to pass
+  3. Run tests
+  4. If failing, fix and retry
+  5. Refactor if needed
+  6. Repeat for all requirements
+
+  Requirements: [LIST]
+
+  Output <promise>DONE</promise> when all tests green." --max-iterations 50 --completion-promise "DONE"
+
+snippet ralph:fix "Bug fixing - Iterative bug resolution"
+  /ralph-loop:ralph-loop "Fix bug: [DESCRIPTION]
+
+  Steps:
+  1. Reproduce the bug
+  2. Identify root cause
+  3. Implement fix
+  4. Write regression test
+  5. Verify fix works
+  6. Check no new issues introduced
+
+  When reach max max-iterations and not fixed:
+  - Document blocking issues
+  - List attempted approaches
+  - Suggest alternatives
+
+  Output <promise>FIXED</promise> when resolved." --max-iterations 20 --completion-promise "FIXED"
+
+snippet ralph:refactor "Refactoring - Safe code refactoring loop"
+  /ralph-loop:ralph-loop "Refactor [COMPONENT] for [GOAL].
+
+  Constraints:
+  - All existing tests must pass
+  - No behavior changes
+  - Incremental commits
+
+  Checklist:
+  - [ ] Tests passing before start
+  - [ ] Apply refactoring step
+  - [ ] Tests still passing
+  - [ ] Repeat until done
+
+  Output <promise>REFACTORED</promise> when complete." --max-iterations 25 --completion-promise "REFACTORED"

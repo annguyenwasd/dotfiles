@@ -801,7 +801,7 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'tpope/vim-vinegar'
 Plug 'saccarosium/vim-netrw-salad'
-" Plug 'tribela/vim-transparent'
+Plug 'tribela/vim-transparent'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install --frozen-lockfile --production',
   \ 'for': ['javascript','javascriptreact', 'typescript',  'typescriptreact','css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }

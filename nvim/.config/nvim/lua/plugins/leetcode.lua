@@ -10,7 +10,7 @@ return {
     build = ":TSUpdate html",
     lazy = false,
     cond = leet_arg == vim.fn.argv()[1],
-    opts = { arg = leet_arg, lang = "javascript", image_support = not is_work_profile() },
+    opts = { arg = leet_arg, lang = "javascript", image_support = false },
     keys = {
       { "<leader>ll", "<cmd>Leet list<cr>", desc = desc("leetcode: list leetcode problems") },
       { "<leader>lh", "<cmd>Leet hints<cr>", desc = desc("leetcode: Show some hints") },
@@ -48,6 +48,7 @@ return {
   },
   {
     "3rd/image.nvim",
+    enabled = false,
     config = function()
       local ok, image = pcall(require, "image")
       if not ok then return end

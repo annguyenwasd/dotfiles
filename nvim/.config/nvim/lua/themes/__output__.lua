@@ -1,1 +1,1 @@
-require('themes.gruvbox-material').dark_original_hard()
+require('themes.gruvbox-material').light_mix_soft()

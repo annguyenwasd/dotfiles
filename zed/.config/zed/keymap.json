@@ -11,7 +11,8 @@
     "context": "Workspace",
     "bindings": {
       "shift-cmd-g": "git_panel::ToggleFocus", // VSCode: shift+cmd+g → SCM panel
-      "shift-cmd-t": "workspace::ToggleZoom", // VSCode: shift+cmd+t → toggle maximized panel
+      "cmd-t": "terminal_panel::Toggle", // toggle terminal panel
+      "shift-cmd-t": "workspace::ToggleZoom", // maximize focused pane (terminal when focused)
       "shift-cmd-\\": "pane::SplitDown", // VSCode: shift+cmd+\ → split editor down
       "cmd-0": "zed::ResetBufferFontSize", // VSCode: cmd+0 → zoom reset
       "shift-cmd-a": "workspace::ToggleLeftDock", // VSCode: shift+cmd+a → toggle activity bar
@@ -50,7 +51,7 @@
       // Git hunks (VSCode vim: <leader>ha / hd)
       "space h a": "git::StageRange", // <leader>ha → stage hunk
       "space h d": "git::Restore",                  // <leader>hd → revert hunk
-      "space h u": "editor::ToggleSelectedDiffHunks", // <leader>hu → toggle staged
+      "space h c": "editor::ToggleSelectedDiffHunks", // <leader>hc → show inline diff of current hunk
 
       // Maximize (VSCode vim: <leader>mm)
       "space m m": "workspace::ToggleZoom",
@@ -105,8 +106,12 @@
     "context": "Terminal",
     "bindings": {
       "cmd-t": "terminal_panel::Toggle", // VSCode: cmd+t → toggle terminal
-      "shift-cmd-]": "pane::ActivateNextItem", // VSCode: shift+cmd+] → next terminal pane
-      "shift-cmd-[": "pane::ActivatePreviousItem", // VSCode: shift+cmd+[ → prev terminal pane
+      "shift-cmd-h": "pane::ActivatePreviousItem", // prev terminal pane
+      "shift-cmd-l": "pane::ActivateNextItem", // next terminal pane
+      "shift-cmd-r": "terminal::RenameTerminal", // rename terminal tab
+      "shift-cmd-d": "pane::SplitDown", // horizontal split terminal
+      "cmd-h": "workspace::ActivatePaneLeft", // pane left
+      "cmd-l": "workspace::ActivatePaneRight", // pane right
     },
   },
 
@@ -116,5 +121,5 @@
     "bindings": {
       // "j k": "vim::NormalBefore"
     },
-  },
+  }
 ]

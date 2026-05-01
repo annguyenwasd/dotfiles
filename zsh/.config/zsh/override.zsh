@@ -86,7 +86,6 @@ function ff() {
   fw ${1:=$WORKSPACE_FOLDER} false true
 }
 
-alias nvim=vim
 alias ev="nvim ~/.vimrc"
 alias dotc="cd $DOTFILES && code ."
 

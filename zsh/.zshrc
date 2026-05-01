@@ -415,3 +415,4 @@ fi
 
 # opencode
 export PATH=/home/annguyenvanchuc/.opencode/bin:$PATH
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"

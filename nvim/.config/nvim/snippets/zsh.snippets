@@ -1,0 +1,13 @@
+snippet ralph-loop "Overnight Batch Processing - Queue up work to run while you sleep"
+  cat << 'EOF' > overnight-work.sh
+  #!/bin/bash
+  cd /path/to/project1
+  claude -p "/ralph-loop:ralph-loop 'Task 1...' --max-iterations 50"
+
+  cd /path/to/project2
+  claude -p "/ralph-loop:ralph-loop 'Task 2...' --max-iterations 50"
+  EOF
+
+
+  chmod +x overnight-work.sh
+  ./overnight-work.sh

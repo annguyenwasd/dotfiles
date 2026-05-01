@@ -162,7 +162,7 @@ vim.keymap.set("n", "<leader>ll", function()
 end, { desc = desc("mappings: Insert console.log debug line") })
 
 -- Synced from .vimrc:465 — Delete all XXXDEBUG console.log lines
-vim.keymap.set("n", "<leader>LL", "<cmd>g/xxxDEBUG/ d<cr>", { desc = desc("mappings: Remove all XXXDEBUG lines") })
+vim.keymap.set("n", "<leader>LL", "<cmd>g/XXXDEBUG/ d<cr>", { desc = desc("mappings: Remove all XXXDEBUG lines") })
 
 -- Synced from .vimrc:652 — ZenMode: minimal statusline + single window + side margin
 vim.keymap.set("n", "<leader>zz", function()

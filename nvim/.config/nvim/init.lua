@@ -33,6 +33,6 @@ require("lazy").setup("plugins", {
     timeout = 600,
   },
 })
-
-require("themes.__output__")
+-- require("themes.__output__")
 require('utils.lsp').setup()
+set_theme('retrobox')

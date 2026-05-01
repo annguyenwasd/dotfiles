@@ -158,7 +158,7 @@ function M.run_script_picker()
 
         if selection then
           local script_name = selection.value.name
-          local cmd = string.format("Start! %s run %s", package_manager, script_name)
+          local cmd = string.format("Start! cd %s && %s run %s", vim.fn.shellescape(package_dir), package_manager, script_name)
           vim.notify(string.format("Running: %s run %s", package_manager, script_name))
           vim.cmd(cmd)
         end
