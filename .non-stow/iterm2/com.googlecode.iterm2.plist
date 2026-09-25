@@ -80753,7 +80753,7 @@
 		</dict>
 	</dict>
 	<key>Default Bookmark Guid</key>
-	<string>C1DD2640-5E59-41CF-9703-6699EA79AC6C</string>
+	<string>1E92DEFE-5446-48B4-B08B-4D4907191B8C</string>
 	<key>Default Browser Profile Guid</key>
 	<string>1E92DEFE-5446-48B4-B08B-4D4907191B8C</string>
 	<key>DeleteProfile_SilenceUntil</key>
@@ -80985,6 +80985,8 @@ Clear Buffer</string>
 	<integer>2</integer>
 	<key>LeftTabBarWidth</key>
 	<real>391</real>
+	<key>MaxVertically</key>
+	<false/>
 	<key>NeverBlockSystemShutdown</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_13D085DC-D69E-45C0-AA19-0663AC44A017</key>
@@ -82653,7 +82655,7 @@ Clear Buffer</string>
 			<key>Allow Title Reporting</key>
 			<false/>
 			<key>Allow Title Setting</key>
-			<false/>
+			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -83478,6 +83480,8 @@ Clear Buffer</string>
 			<true/>
 			<key>Draw Powerline Glyphs</key>
 			<false/>
+			<key>Enable Progress Bars</key>
+			<true/>
 			<key>Faint Text Alpha</key>
 			<real>0.5</real>
 			<key>Faint Text Alpha (Dark)</key>
@@ -84309,7 +84313,7 @@ Clear Buffer</string>
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Title Components</key>
-			<integer>4</integer>
+			<integer>1</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unicode Version</key>
@@ -86278,6 +86282,9 @@ Clear Buffer</string>
 	<key>ToolbeltTools</key>
 	<array>
 		<string>Actions</string>
+		<string>Jobs</string>
+		<string>Captured Output</string>
+		<string>Paste History</string>
 	</array>
 	<key>UseBorder</key>
 	<false/>
@@ -86306,7 +86313,7 @@ Clear Buffer</string>
 	<key>kTurnOffSlowTriggersOfferUserDefaultsKey</key>
 	<false/>
 	<key>metalMaximizeThroughput</key>
-	<false/>
+	<true/>
 	<key>preferIntegratedGPU</key>
 	<false/>
 </dict>
