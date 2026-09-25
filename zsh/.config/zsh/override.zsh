@@ -93,16 +93,6 @@ function nn {
   fw $WORKSPACE_FOLDER false false true
 }
 
-if [[ ! -f ~/.iterm2_shell_integration.zsh ]]; then
-  curl -L https://iterm2.com/shell_integration/zsh -o ~/.iterm2_shell_integration.zsh
-else
-  source ~/.iterm2_shell_integration.zsh
-fi
-
-function iterm2_print_user_vars() {
-  iterm2_set_user_var gitBranch $(git branch --show-current 2> /dev/null)
-}
-
 dn # for first enter/open new tab/pane
 add-zsh-hook chpwd dn
 add-zsh-hook preexec dn
