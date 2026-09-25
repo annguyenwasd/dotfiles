@@ -12,6 +12,7 @@ nvim/.config/nvim/plugin
 nvim/.config/nvim/spell
 
 claude/
+.claude/worktrees/
 vscode/*
 !vscode/Library/Application Support/Code/User/settings.json
 !vscode/Library/Application Support/Code/User/keybindings.json
