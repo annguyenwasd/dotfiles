@@ -218,6 +218,20 @@ function fff() {
 }
 
 # set tmux window title as current directoty
+function iterm_set_title() {
+  [[ $TERM_PROGRAM == "iTerm.app" ]] || return
+  printf '\e]0;%s\a' "$1"
+}
+
+function ititle() {
+  if [[ -z $1 ]]; then
+    echo "Usage: ititle <name>"
+    return 1
+  fi
+
+  iterm_set_title "$*"
+}
+
 function dn() {
   # Extract the base name of the current working directory
   #
@@ -251,6 +265,8 @@ function dn() {
   if [[ -n $ZELLIJ ]]; then
     zellij action rename-tab $window_name
   fi
+
+  iterm_set_title "$window_name"
 
 }
 
