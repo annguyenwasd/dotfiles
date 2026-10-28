@@ -1,0 +1,75 @@
+# Herdr config — keybindings migrated from tmux/.tmux.conf
+# See herdr/MIGRATION.md in the dotfiles repo for the migrated / not-migrated table.
+
+onboarding = false
+
+[terminal]
+# tmux: set-option -g default-shell /bin/zsh
+default_shell = "/bin/zsh"
+
+[advanced]
+# tmux: set -g history-limit 99999999 (lines). Herdr limits scrollback in bytes.
+scrollback_limit_bytes = 100000000
+
+[keys]
+# tmux: set -g prefix C-a
+prefix = "ctrl+a"
+
+# tmux: bind C-a copy-mode  (default prefix+[ kept)
+# note: prefix+ctrl+a is reserved (double prefix sends a literal key)
+copy_mode = ["prefix+a", "prefix+["]
+
+# tmux: bind C-v split-window -h / C-s split-window -v  (defaults prefix+v / prefix+minus kept)
+split_vertical = ["prefix+ctrl+v", "prefix+v"]
+split_horizontal = ["prefix+ctrl+s", "prefix+minus"]
+
+# tmux: bind -r C-h / C-l select-window  (defaults prefix+p / prefix+n kept)
+previous_tab = ["prefix+ctrl+h", "prefix+p"]
+next_tab = ["prefix+ctrl+l", "prefix+n"]
+
+# tmux: bind C-e last-window (closest equivalent: last focused pane)
+last_pane = "prefix+ctrl+e"
+
+# tmux: bind r source-file ~/.tmux.conf  (default prefix+shift+r kept)
+reload_config = ["prefix+r", "prefix+shift+r"]
+
+# tmux: bind -r H/J/K/L resize-pane by 5
+# Collides with default swap_pane_* on prefix+shift+h/j/k/l, so swap moved to prefix+alt+*
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+swap_pane_left = "prefix+alt+h"
+swap_pane_down = "prefix+alt+j"
+swap_pane_up = "prefix+alt+k"
+swap_pane_right = "prefix+alt+l"
+
+# tmux: vim-tmux-navigator C-h/j/k/l (prefix-free pane focus)
+# ctrl+alt family is the vetted prefix-free set; bare ctrl+h/j/k/l is owned by
+# shells (backspace / enter / kill-line / clear)
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+
+# tmux: bind -r r resize mode had no tmux equivalent; prefix+r now belongs to
+# reload_config (above), so resize mode moves here
+resize_mode = "prefix+alt+r"
+
+[theme]
+name = "gruvbox-light"
+auto_switch = false
+
+[ui]
+prompt_new_tab_name = false
+status_indicators = "symbols"
+
+[ui.toast]
+delivery = "system"
+
+# herdr-auto-title: show the active tab's agent topic in the sidebar
+[ui.sidebar.spaces]
+rows = [
+  ["state_icon", "workspace", "branch", "git_status"],
+  [{ token = "$topic", bold = true, dim = false }],
+]
