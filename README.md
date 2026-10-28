@@ -8,6 +8,10 @@
 
 [All keybinds for tmux/neovim/vim](./keybinds.md)
 
+### Herdr
+
+[Herdr config and tmux keybind migration table](./herdr/MIGRATION.md)
+
 ### Tmux (same with Zellij) + FZF
 
 By setting `WORKSPACE_FOLDER` in the `.zshrc` file, navigates between project become easier when combines
@@ -59,7 +63,7 @@ sudo pacman -S stow
 After that, just clone the repo and stow:
 
 ```sh
-cd ~/workspace && git clone git@github.com:annguyenwasd/dotfiles.git && cd dotfiles && stow alacritty arch claude feh git hellwal karabiner misc nvim tmux vim vscode wezterm yazi zellij --target=$HOME
+cd ~/workspace && git clone git@github.com:annguyenwasd/dotfiles.git && cd dotfiles && stow alacritty arch claude feh git hellwal herdr karabiner misc nvim tmux vim vscode wezterm yazi zellij --target=$HOME
 zsh
 ```
 

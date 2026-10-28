@@ -32,6 +32,39 @@
 	<true/>
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
+	<key>CheckTestRelease</key>
+	<false/>
+	<key>ClaudeCodeTriggersInstalled</key>
+	<true/>
+	<key>ClaudeCodeWorkgroupUpsellSuppressed</key>
+	<true/>
+	<key>CodeReviewSavedPrompts</key>
+	<data>
+	W3sidXVpZCI6IkUzMEU5ODZGLTM5MjMtNDJENi04OTdCLUVGOUVFOUQ0QkI4MSIsInRl
+	eHQiOiJSZXZpZXcgdGhlIHBlbmRpbmcgY2hhbmdlcyBpbiB0aGlzIHJlcG8uIEZsYWcg
+	aXNzdWVzIGEgY2FyZWZ1bCBtYWludGFpbmVyIHdvdWxkIGJsb2NrIG9uIGJlZm9yZSBt
+	ZXJnZSwgaW4gcm91Z2hseSB0aGlzIG9yZGVyOlxuICAxLiBDb3JyZWN0bmVzcyDigJQg
+	bG9naWMgZXJyb3JzLCBicm9rZW4gaW52YXJpYW50cywgbWlzc2VkIGVkZ2UgY2FzZXMs
+	IG9mZi1ieS1vbmUsIHJhY2VzLCBsaWZldGltZVwvbWVtb3J5IGJ1Z3MsIGVycm9yIHBh
+	dGhzIHRoYXQgc3dhbGxvdyBmYWlsdXJlcy5cbiAgMi4gU2VjdXJpdHkg4oCUIGluamVj
+	dGlvbiwgYXV0aG5cL2F1dGh6IG1pc3Rha2VzLCBzZWNyZXQgaGFuZGxpbmcsIHVuc2Fm
+	ZSBkZXNlcmlhbGl6YXRpb24sIHVuc2FmZSBkZWZhdWx0cywgVE9DVE9VLlxuICAzLiBS
+	ZWxpYWJpbGl0eSAmIHBlcmZvcm1hbmNlIOKAlCBibG9ja2luZyB0aGUgd3JvbmcgdGhy
+	ZWFkLCB1bmJvdW5kZWQgcmVzb3VyY2UgdXNlLCBhY2NpZGVudGFsIE8oTsKyKSwgcmV0
+	cmllcyB3aXRob3V0IGJhY2tvZmYsIHNpbGVudCBmYWlsdXJlIHBhdGhzLlxuICA0LiBD
+	b250cmFjdCByaXNrIOKAlCBiZWhhdmlvciBjaGFuZ2VzIGNhbGxlcnMgcmVseSBvbiwg
+	c2lsZW50bHkgY2hhbmdlZCBkZWZhdWx0cywgYnJva2VuIGJhY2t3YXJkIGNvbXBhdGli
+	aWxpdHksIG1pc3NpbmcgbWlncmF0aW9ucy5cblxuRm9yIGVhY2ggZmluZGluZyBjaXRl
+	IGBmaWxlOmxpbmVgLCBleHBsYWluICp3aHkqIGl0IGlzIHdyb25nIChub3Qgd2hhdCB0
+	aGUgY29kZSBkb2VzKSwgYW5kIHByb3Bvc2UgYSBjb25jcmV0ZSBmaXggd2hlbiBvbmUg
+	aXMgb2J2aW91cy4gQmUgY2FsaWJyYXRlZDogaWYgYSBmaW5kaW5nIGlzIG5vdCBoaWdo
+	LWNvbmZpZGVuY2UsIHNheSBzbyBvciBza2lwIGl0LiBWZXJpZnkgY2xhaW1zIGFnYWlu
+	c3QgdGhlIGFjdHVhbCBjb2RlIHJhdGhlciB0aGFuIGluZmVycmluZyBmcm9tIG5hbWVz
+	LlxuXG5Ta2lwIHB1cmUgc3R5bGUsIGZvcm1hdHRpbmcsIG5hbWluZywgYW5kIGFueXRo
+	aW5nIGEgbGludGVyIG9yIENJIGFscmVhZHkgZW5mb3JjZXMuXG5cbklmIHlvdSBmaW5k
+	IG5vdGhpbmcgd29ydGggZml4aW5nLCBzYXkgc28gcGxhaW5seS4iLCJuYW1lIjoiRGVm
+	YXVsdCJ9XQ==
+	</data>
 	<key>Compress History</key>
 	<true/>
 	<key>Custom Color Presets</key>
@@ -80753,7 +80786,7 @@
 		</dict>
 	</dict>
 	<key>Default Bookmark Guid</key>
-	<string>1E92DEFE-5446-48B4-B08B-4D4907191B8C</string>
+	<string>AB20EFC7-E5F3-47D8-B8DE-C1113B1D8E30</string>
 	<key>Default Browser Profile Guid</key>
 	<string>1E92DEFE-5446-48B4-B08B-4D4907191B8C</string>
 	<key>DeleteProfile_SilenceUntil</key>
@@ -80780,7 +80813,7 @@
 	<integer>10</integer>
 	<key>GlobalKeyMap</key>
 	<dict>
-		<key>0x48-0x120000-0x4</key>
+		<key>0x48-0x120000-0x4-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>2</integer>
@@ -80793,7 +80826,7 @@
 			<key>Version</key>
 			<integer>2</integer>
 		</dict>
-		<key>0x4c-0x120000-0x25</key>
+		<key>0x4c-0x120000-0x25-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>0</integer>
@@ -80806,7 +80839,7 @@
 			<key>Version</key>
 			<integer>2</integer>
 		</dict>
-		<key>0x68-0x100000-0x4</key>
+		<key>0x68-0x100000-0x4-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>18</integer>
@@ -80819,7 +80852,7 @@
 			<key>Version</key>
 			<integer>2</integer>
 		</dict>
-		<key>0x6a-0x100000-0x26</key>
+		<key>0x6a-0x100000-0x26-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>21</integer>
@@ -80830,7 +80863,7 @@
 			<key>Version</key>
 			<integer>1</integer>
 		</dict>
-		<key>0x6b-0x100000-0x28</key>
+		<key>0x6b-0x100000-0x28-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>20</integer>
@@ -80841,7 +80874,7 @@
 			<key>Version</key>
 			<integer>1</integer>
 		</dict>
-		<key>0x6b-0x80000-0x28</key>
+		<key>0x6b-0x80000-0x28-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>25</integer>
@@ -80855,7 +80888,7 @@ Clear Buffer</string>
 			<key>Version</key>
 			<integer>2</integer>
 		</dict>
-		<key>0x6c-0x100000-0x25</key>
+		<key>0x6c-0x100000-0x25-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>19</integer>
@@ -80882,7 +80915,7 @@ Clear Buffer</string>
 			<key>Text</key>
 			<string></string>
 		</dict>
-		<key>0xf702-0x320000-0x7b</key>
+		<key>0xf702-0x320000-0x7b-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>40</integer>
@@ -80895,7 +80928,7 @@ Clear Buffer</string>
 			<key>Version</key>
 			<integer>2</integer>
 		</dict>
-		<key>0xf703-0x320000-0x7c</key>
+		<key>0xf703-0x320000-0x7c-0x1</key>
 		<dict>
 			<key>Action</key>
 			<integer>40</integer>
@@ -81008,6 +81041,10 @@ Clear Buffer</string>
 	<key>NeverWarnAboutShortLivedSessions_93215DDF-B29E-4770-B7C3-77DD2D1C93BD</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_93215DDF-B29E-4770-B7C3-77DD2D1C93BD_selection</key>
+	<integer>0</integer>
+	<key>NeverWarnAboutShortLivedSessions_AB20EFC7-E5F3-47D8-B8DE-C1113B1D8E30</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_AB20EFC7-E5F3-47D8-B8DE-C1113B1D8E30_selection</key>
 	<integer>0</integer>
 	<key>NeverWarnAboutShortLivedSessions_B0D9600D-0D19-4FC2-89DF-6921EC809E84</key>
 	<true/>
@@ -82353,6 +82390,8 @@ Clear Buffer</string>
 			<integer>2</integer>
 			<key>Rows</key>
 			<integer>60</integer>
+			<key>Run Command In Login Shell</key>
+			<false/>
 			<key>Screen</key>
 			<integer>-2</integer>
 			<key>Scrollback Lines</key>
@@ -82586,6 +82625,53 @@ Clear Buffer</string>
 			<integer>1</integer>
 			<key>Transparency</key>
 			<real>0.23105053191489361</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermEnterWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+					</dict>
+					<key>matchType</key>
+					<integer>113</integer>
+					<key>parameter</key>
+					<string>builtin.claudeCode</string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>iTermExitWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+						<key>leaderOnly</key>
+						<true/>
+					</dict>
+					<key>matchType</key>
+					<integer>114</integer>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -83197,7 +83283,7 @@ Clear Buffer</string>
 				<real>0.79607843137254897</real>
 			</dict>
 			<key>BM Growl</key>
-			<false/>
+			<true/>
 			<key>Background Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -83344,7 +83430,7 @@ Clear Buffer</string>
 			<key>Columns</key>
 			<integer>150</integer>
 			<key>Command</key>
-			<string></string>
+			<string>cc</string>
 			<key>Cursor Boost</key>
 			<real>0.0</real>
 			<key>Cursor Boost (Dark)</key>
@@ -83459,9 +83545,9 @@ Clear Buffer</string>
 				<real>0.93333333333333335</real>
 			</dict>
 			<key>Custom Command</key>
-			<string>No</string>
+			<string>Yes</string>
 			<key>Custom Directory</key>
-			<string>Recycle</string>
+			<string>Yes</string>
 			<key>Custom Locale</key>
 			<string>en_US.UTF-8</string>
 			<key>Custom Tab Title</key>
@@ -83481,6 +83567,8 @@ Clear Buffer</string>
 			<key>Draw Powerline Glyphs</key>
 			<false/>
 			<key>Enable Progress Bars</key>
+			<true/>
+			<key>Enable Triggers in Interactive Apps</key>
 			<true/>
 			<key>Faint Text Alpha</key>
 			<real>0.5</real>
@@ -83558,7 +83646,7 @@ Clear Buffer</string>
 			<key>HotKey Window Reopens On Activation</key>
 			<false/>
 			<key>Icon</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
@@ -83946,7 +84034,7 @@ Clear Buffer</string>
 			<key>Mouse Reporting allow mouse wheel</key>
 			<true/>
 			<key>Name</key>
-			<string>Default Profile</string>
+			<string>ClaudeCode</string>
 			<key>Non Ascii Font</key>
 			<string>Monaco 12</string>
 			<key>Non-ASCII Anti Aliased</key>
@@ -83969,6 +84057,8 @@ Clear Buffer</string>
 			<integer>2</integer>
 			<key>Rows</key>
 			<integer>60</integer>
+			<key>Run Command In Login Shell</key>
+			<true/>
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
@@ -84050,6 +84140,8 @@ Clear Buffer</string>
 				<key>text</key>
 				<string></string>
 			</dict>
+			<key>Send Bell Alert</key>
+			<true/>
 			<key>Send Code When Idle</key>
 			<false/>
 			<key>Send Idle Alert</key>
@@ -84057,9 +84149,9 @@ Clear Buffer</string>
 			<key>Send New Output Alert</key>
 			<false/>
 			<key>Send Session Ended Alert</key>
-			<false/>
-			<key>Send Terminal Generated Alerts</key>
 			<true/>
+			<key>Send Terminal Generated Alerts</key>
+			<false/>
 			<key>Set Local Environment Vars</key>
 			<integer>2</integer>
 			<key>Shortcut</key>
@@ -84306,6 +84398,8 @@ Clear Buffer</string>
 			</dict>
 			<key>Subtitle</key>
 			<string></string>
+			<key>Suppress Alerts in Active Session</key>
+			<false/>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
@@ -84316,6 +84410,76 @@ Clear Buffer</string>
 			<integer>1</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermEnterWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+					</dict>
+					<key>matchType</key>
+					<integer>113</integer>
+					<key>parameter</key>
+					<string>builtin.claudeCode</string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>iTermExitWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+						<key>leaderOnly</key>
+						<true/>
+					</dict>
+					<key>matchType</key>
+					<integer>114</integer>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>BounceTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<integer>0</integer>
+					<key>eventParams</key>
+					<dict>
+						<key>messageRegex</key>
+						<string>.*claude.*</string>
+					</dict>
+					<key>matchType</key>
+					<integer>111</integer>
+					<key>name</key>
+					<string></string>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unicode Version</key>
 			<integer>8</integer>
 			<key>Unlimited Scrollback</key>
@@ -84369,7 +84533,7 @@ Clear Buffer</string>
 			<key>Window Type</key>
 			<integer>0</integer>
 			<key>Working Directory</key>
-			<string>~</string>
+			<string>~/workspace</string>
 		</dict>
 		<dict>
 			<key>ASCII Anti Aliased</key>
@@ -84391,19 +84555,17 @@ Clear Buffer</string>
 			<key>Allow Title Reporting</key>
 			<false/>
 			<key>Allow Title Setting</key>
-			<false/>
+			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.25882352941176473</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0</string>
 				<key>Green Component</key>
-				<real>0.21176470588235294</real>
+				<string>0</string>
 				<key>Red Component</key>
-				<real>0.027450980392156862</real>
+				<string>0</string>
 			</dict>
 			<key>Ansi 0 Color (Dark)</key>
 			<dict>
@@ -84434,13 +84596,11 @@ Clear Buffer</string>
 			<key>Ansi 1 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.18431372549019609</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0</string>
 				<key>Green Component</key>
-				<real>0.19607843137254902</real>
+				<string>0</string>
 				<key>Red Component</key>
-				<real>0.86274509803921573</real>
+				<string>0.8</string>
 			</dict>
 			<key>Ansi 1 Color (Dark)</key>
 			<dict>
@@ -84469,13 +84629,11 @@ Clear Buffer</string>
 			<key>Ansi 10 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.45882352941176469</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.2039216</string>
 				<key>Green Component</key>
-				<real>0.43137254901960786</real>
+				<string>0.8862745</string>
 				<key>Red Component</key>
-				<real>0.34509803921568627</real>
+				<string>0.5411764999999999</string>
 			</dict>
 			<key>Ansi 10 Color (Dark)</key>
 			<dict>
@@ -84504,13 +84662,11 @@ Clear Buffer</string>
 			<key>Ansi 11 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.51372549019607838</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.3098039</string>
 				<key>Green Component</key>
-				<real>0.4823529411764706</real>
+				<string>0.9137255</string>
 				<key>Red Component</key>
-				<real>0.396078431372549</real>
+				<string>0.9882353</string>
 			</dict>
 			<key>Ansi 11 Color (Dark)</key>
 			<dict>
@@ -84541,13 +84697,11 @@ Clear Buffer</string>
 			<key>Ansi 12 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.58823529411764708</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.8117647</string>
 				<key>Green Component</key>
-				<real>0.58039215686274515</real>
+				<string>0.6235294</string>
 				<key>Red Component</key>
-				<real>0.51372549019607838</real>
+				<string>0.4470588</string>
 			</dict>
 			<key>Ansi 12 Color (Dark)</key>
 			<dict>
@@ -84578,13 +84732,11 @@ Clear Buffer</string>
 			<key>Ansi 13 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.7686274509803922</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.6588235</string>
 				<key>Green Component</key>
-				<real>0.44313725490196076</real>
+				<string>0.4980392</string>
 				<key>Red Component</key>
-				<real>0.42352941176470588</real>
+				<string>0.6784314</string>
 			</dict>
 			<key>Ansi 13 Color (Dark)</key>
 			<dict>
@@ -84613,13 +84765,11 @@ Clear Buffer</string>
 			<key>Ansi 14 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.63137254901960782</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.8862745</string>
 				<key>Green Component</key>
-				<real>0.63137254901960782</real>
+				<string>0.8862745</string>
 				<key>Red Component</key>
-				<real>0.57647058823529407</real>
+				<string>0.2039216</string>
 			</dict>
 			<key>Ansi 14 Color (Dark)</key>
 			<dict>
@@ -84650,13 +84800,11 @@ Clear Buffer</string>
 			<key>Ansi 15 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.8901960784313725</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.9254902</string>
 				<key>Green Component</key>
-				<real>0.96470588235294119</real>
+				<string>0.9333333</string>
 				<key>Red Component</key>
-				<real>0.99215686274509807</real>
+				<string>0.9333333</string>
 			</dict>
 			<key>Ansi 15 Color (Dark)</key>
 			<dict>
@@ -84685,13 +84833,11 @@ Clear Buffer</string>
 			<key>Ansi 2 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.0</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.02352941</string>
 				<key>Green Component</key>
-				<real>0.59999999999999998</real>
+				<string>0.6039215999999999</string>
 				<key>Red Component</key>
-				<real>0.52156862745098043</real>
+				<string>0.3058824</string>
 			</dict>
 			<key>Ansi 2 Color (Dark)</key>
 			<dict>
@@ -84720,13 +84866,11 @@ Clear Buffer</string>
 			<key>Ansi 3 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.0</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0</string>
 				<key>Green Component</key>
-				<real>0.53725490196078429</real>
+				<string>0.627451</string>
 				<key>Red Component</key>
-				<real>0.70980392156862748</real>
+				<string>0.7686275</string>
 			</dict>
 			<key>Ansi 3 Color (Dark)</key>
 			<dict>
@@ -84755,13 +84899,11 @@ Clear Buffer</string>
 			<key>Ansi 4 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.82352941176470584</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.6431373</string>
 				<key>Green Component</key>
-				<real>0.54509803921568623</real>
+				<string>0.3960784</string>
 				<key>Red Component</key>
-				<real>0.14901960784313725</real>
+				<string>0.2039216</string>
 			</dict>
 			<key>Ansi 4 Color (Dark)</key>
 			<dict>
@@ -84790,13 +84932,11 @@ Clear Buffer</string>
 			<key>Ansi 5 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.50980392156862742</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.4823529</string>
 				<key>Green Component</key>
-				<real>0.21176470588235294</real>
+				<string>0.3137255</string>
 				<key>Red Component</key>
-				<real>0.82745098039215681</real>
+				<string>0.4588235</string>
 			</dict>
 			<key>Ansi 5 Color (Dark)</key>
 			<dict>
@@ -84825,13 +84965,11 @@ Clear Buffer</string>
 			<key>Ansi 6 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.59607843137254901</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.6039215999999999</string>
 				<key>Green Component</key>
-				<real>0.63137254901960782</real>
+				<string>0.5960785</string>
 				<key>Red Component</key>
-				<real>0.16470588235294117</real>
+				<string>0.02352941</string>
 			</dict>
 			<key>Ansi 6 Color (Dark)</key>
 			<dict>
@@ -84860,13 +84998,11 @@ Clear Buffer</string>
 			<key>Ansi 7 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.83529411764705885</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.8117647</string>
 				<key>Green Component</key>
-				<real>0.90980392156862744</real>
+				<string>0.8431373</string>
 				<key>Red Component</key>
-				<real>0.93333333333333335</real>
+				<string>0.827451</string>
 			</dict>
 			<key>Ansi 7 Color (Dark)</key>
 			<dict>
@@ -84895,13 +85031,11 @@ Clear Buffer</string>
 			<key>Ansi 8 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.21176470588235294</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.3254902</string>
 				<key>Green Component</key>
-				<real>0.16862745098039217</real>
+				<string>0.3411765</string>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<string>0.3333333</string>
 			</dict>
 			<key>Ansi 8 Color (Dark)</key>
 			<dict>
@@ -84932,13 +85066,11 @@ Clear Buffer</string>
 			<key>Ansi 9 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.086274509803921567</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0.1607843</string>
 				<key>Green Component</key>
-				<real>0.29411764705882354</real>
+				<string>0.1607843</string>
 				<key>Red Component</key>
-				<real>0.79607843137254897</real>
+				<string>0.9372549</string>
 			</dict>
 			<key>Ansi 9 Color (Dark)</key>
 			<dict>
@@ -84965,17 +85097,15 @@ Clear Buffer</string>
 				<real>0.79607843137254897</real>
 			</dict>
 			<key>BM Growl</key>
-			<false/>
+			<true/>
 			<key>Background Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.8901960784313725</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0</string>
 				<key>Green Component</key>
-				<real>0.96470588235294119</real>
+				<string>0</string>
 				<key>Red Component</key>
-				<real>0.99215686274509807</real>
+				<string>0</string>
 			</dict>
 			<key>Background Color (Dark)</key>
 			<dict>
@@ -85067,13 +85197,11 @@ Clear Buffer</string>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.45882352941176469</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>1</string>
 				<key>Green Component</key>
-				<real>0.43137254901960786</real>
+				<string>1</string>
 				<key>Red Component</key>
-				<real>0.34509803921568627</real>
+				<string>1</string>
 			</dict>
 			<key>Bold Color (Dark)</key>
 			<dict>
@@ -85126,13 +85254,11 @@ Clear Buffer</string>
 			<key>Cursor Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.51372549019607838</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>1</string>
 				<key>Green Component</key>
-				<real>0.4823529411764706</real>
+				<string>1</string>
 				<key>Red Component</key>
-				<real>0.396078431372549</real>
+				<string>1</string>
 			</dict>
 			<key>Cursor Color (Dark)</key>
 			<dict>
@@ -85167,9 +85293,9 @@ Clear Buffer</string>
 				<key>Color Space</key>
 				<string>P3</string>
 				<key>Green Component</key>
-				<real>0.92047786712646484</real>
+				<real>0.92047792673110962</real>
 				<key>Red Component</key>
-				<real>0.74862593412399292</real>
+				<real>0.7486259937286377</real>
 			</dict>
 			<key>Cursor Guide Color (Dark)</key>
 			<dict>
@@ -85200,13 +85326,11 @@ Clear Buffer</string>
 			<key>Cursor Text Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.83529411764705885</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0</string>
 				<key>Green Component</key>
-				<real>0.90980392156862744</real>
+				<string>0</string>
 				<key>Red Component</key>
-				<real>0.93333333333333335</real>
+				<string>0</string>
 			</dict>
 			<key>Cursor Text Color (Dark)</key>
 			<dict>
@@ -85256,6 +85380,10 @@ Clear Buffer</string>
 			<true/>
 			<key>Draw Powerline Glyphs</key>
 			<false/>
+			<key>Enable Progress Bars</key>
+			<true/>
+			<key>Enable Triggers in Interactive Apps</key>
+			<true/>
 			<key>Faint Text Alpha</key>
 			<real>0.5</real>
 			<key>Faint Text Alpha (Dark)</key>
@@ -85267,13 +85395,11 @@ Clear Buffer</string>
 			<key>Foreground Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.51372549019607838</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>1</string>
 				<key>Green Component</key>
-				<real>0.4823529411764706</real>
+				<string>1</string>
 				<key>Red Component</key>
-				<real>0.396078431372549</real>
+				<string>1</string>
 			</dict>
 			<key>Foreground Color (Dark)</key>
 			<dict>
@@ -85302,7 +85428,7 @@ Clear Buffer</string>
 				<real>0.41176470588235292</real>
 			</dict>
 			<key>Guid</key>
-			<string>C1DD2640-5E59-41CF-9703-6699EA79AC6C</string>
+			<string>AB20EFC7-E5F3-47D8-B8DE-C1113B1D8E30</string>
 			<key>Has Hotkey</key>
 			<false/>
 			<key>Hide After Opening</key>
@@ -85334,7 +85460,7 @@ Clear Buffer</string>
 			<key>HotKey Window Reopens On Activation</key>
 			<false/>
 			<key>Icon</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
@@ -85636,13 +85762,13 @@ Clear Buffer</string>
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.7093239426612854</real>
+				<real>0.70932406187057495</real>
 				<key>Color Space</key>
 				<string>P3</string>
 				<key>Green Component</key>
 				<real>0.35333043336868286</real>
 				<key>Red Component</key>
-				<real>0.14513972401618958</real>
+				<real>0.1451396644115448</real>
 			</dict>
 			<key>Link Color (Dark)</key>
 			<dict>
@@ -85677,13 +85803,13 @@ Clear Buffer</string>
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.32116127014160156</real>
+				<real>0.0</real>
 				<key>Color Space</key>
 				<string>P3</string>
 				<key>Green Component</key>
-				<real>0.98600882291793823</real>
+				<real>1</real>
 				<key>Red Component</key>
-				<real>0.99697142839431763</real>
+				<real>1</real>
 			</dict>
 			<key>Match Background Color (Dark)</key>
 			<dict>
@@ -85722,7 +85848,7 @@ Clear Buffer</string>
 			<key>Mouse Reporting allow mouse wheel</key>
 			<true/>
 			<key>Name</key>
-			<string>DarkModeOnly</string>
+			<string>Normal</string>
 			<key>Non Ascii Font</key>
 			<string>Monaco 12</string>
 			<key>Non-ASCII Anti Aliased</key>
@@ -85745,6 +85871,8 @@ Clear Buffer</string>
 			<integer>2</integer>
 			<key>Rows</key>
 			<integer>60</integer>
+			<key>Run Command In Login Shell</key>
+			<true/>
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
@@ -85752,13 +85880,11 @@ Clear Buffer</string>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.45882352941176469</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>0</string>
 				<key>Green Component</key>
-				<real>0.43137254901960786</real>
+				<string>0</string>
 				<key>Red Component</key>
-				<real>0.34509803921568627</real>
+				<string>0</string>
 			</dict>
 			<key>Selected Text Color (Dark)</key>
 			<dict>
@@ -85789,13 +85915,11 @@ Clear Buffer</string>
 			<key>Selection Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.83529411764705885</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>1</string>
 				<key>Green Component</key>
-				<real>0.90980392156862744</real>
+				<string>0.8353</string>
 				<key>Red Component</key>
-				<real>0.93333333333333335</real>
+				<string>0.7098</string>
 			</dict>
 			<key>Selection Color (Dark)</key>
 			<dict>
@@ -85830,6 +85954,8 @@ Clear Buffer</string>
 				<key>text</key>
 				<string></string>
 			</dict>
+			<key>Send Bell Alert</key>
+			<false/>
 			<key>Send Code When Idle</key>
 			<false/>
 			<key>Send Idle Alert</key>
@@ -85843,7 +85969,7 @@ Clear Buffer</string>
 			<key>Set Local Environment Vars</key>
 			<integer>2</integer>
 			<key>Shortcut</key>
-			<string></string>
+			<string>T</string>
 			<key>Show Mark Indicators</key>
 			<false/>
 			<key>Show Offscreen Command line</key>
@@ -86086,6 +86212,8 @@ Clear Buffer</string>
 			</dict>
 			<key>Subtitle</key>
 			<string></string>
+			<key>Suppress Alerts in Active Session</key>
+			<true/>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
@@ -86093,9 +86221,79 @@ Clear Buffer</string>
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Title Components</key>
-			<integer>4</integer>
+			<integer>1</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermEnterWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+					</dict>
+					<key>matchType</key>
+					<integer>113</integer>
+					<key>parameter</key>
+					<string>builtin.claudeCode</string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>iTermExitWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+						<key>leaderOnly</key>
+						<true/>
+					</dict>
+					<key>matchType</key>
+					<integer>114</integer>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>BounceTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<integer>0</integer>
+					<key>eventParams</key>
+					<dict>
+						<key>messageRegex</key>
+						<string>.*claude.*</string>
+					</dict>
+					<key>matchType</key>
+					<integer>111</integer>
+					<key>name</key>
+					<string></string>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unicode Version</key>
 			<integer>8</integer>
 			<key>Unlimited Scrollback</key>
@@ -86129,7 +86327,7 @@ Clear Buffer</string>
 			<key>Use Selected Text Color (Light)</key>
 			<true/>
 			<key>Use Separate Colors for Light and Dark Mode</key>
-			<false/>
+			<true/>
 			<key>Use Tab Color</key>
 			<false/>
 			<key>Use Tab Color (Dark)</key>
@@ -86161,7 +86359,7 @@ Clear Buffer</string>
 	<key>OpenBookmark</key>
 	<false/>
 	<key>OpenNoWindowsAtStartup</key>
-	<false/>
+	<true/>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>0</integer>
 	<key>PMPrintingExpandedStateForPrint2</key>
@@ -86243,6 +86441,8 @@ Clear Buffer</string>
 	<true/>
 	<key>ShowPaneTitlesEvenIfOnlyOnePane</key>
 	<false/>
+	<key>ShowSessionStatusInTabSubtitle</key>
+	<true/>
 	<key>ShowWindowTitleWhenTabBarInvisible</key>
 	<true/>
 	<key>SmartPlacement</key>
@@ -86255,7 +86455,20 @@ Clear Buffer</string>
 	<real>0.2968217157160194</real>
 	<key>StatusBarPosition</key>
 	<integer>1</integer>
+	<key>StatusMergeWorkgroups</key>
+	<true/>
+	<key>StatusPriorityAddedDoneAndError</key>
+	<true/>
+	<key>StatusPriorityEntries</key>
+	<data>
+	W3sibm90aWZ5IjpmYWxzZSwicGF0dGVybiI6IndhaXQifSx7Im5vdGlmeSI6ZmFsc2Us
+	InBhdHRlcm4iOiJkb25lIn0seyJub3RpZnkiOmZhbHNlLCJwYXR0ZXJuIjoiZXJyb3Ii
+	fSx7Im5vdGlmeSI6ZmFsc2UsInBhdHRlcm4iOiJ3b3JrIn0seyJub3RpZnkiOmZhbHNl
+	LCJwYXR0ZXJuIjoiaWRsZSJ9XQ==
+	</data>
 	<key>StretchTabsToFillBar</key>
+	<true/>
+	<key>SuppressRestartAnnouncement</key>
 	<true/>
 	<key>SwitchPaneModifier</key>
 	<integer>1</integer>
@@ -86281,10 +86494,8 @@ Clear Buffer</string>
 	<false/>
 	<key>ToolbeltTools</key>
 	<array>
-		<string>Actions</string>
-		<string>Jobs</string>
-		<string>Captured Output</string>
-		<string>Paste History</string>
+		<string>Session Status</string>
+		<string>Profiles</string>
 	</array>
 	<key>UseBorder</key>
 	<false/>
@@ -86300,6 +86511,10 @@ Clear Buffer</string>
 	<false/>
 	<key>WindowPlacement</key>
 	<integer>0</integer>
+	<key>Workgroups</key>
+	<data>
+	W10=
+	</data>
 	<key>com.apple.WebPrivacy.ResourceMonitorURLsVersion</key>
 	<string>qrsAAAGXnXBrwGxMO6s=</string>
 	<key>disableMetalWhenUnplugged</key>

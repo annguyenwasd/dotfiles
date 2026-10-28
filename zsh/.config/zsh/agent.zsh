@@ -29,5 +29,31 @@ function cc() {
   export JEV_API_KEY="$(cat "$HOME/workspace/secrets/.jev")"
   iterm_set_title "Claude · ${PWD:t}"
   claude --dangerously-skip-permissions "$@"
-  dn
+}
+
+function ccd() {
+  export JEV_API_KEY="$(cat "$HOME/workspace/secrets/.jev")"
+  CODEX_HOME="$HOME/.codex-openai" codex --dangerously-bypass-approvals-and-sandbox "$@"
+}
+
+# Claude Code on z.ai: GLM-5.3 main + GLM-5.3-Flash background, 1M context.
+# Key: raw string in ~/workspace/secrets/.zai (get one at https://z.ai → API Keys)
+function ccz() {
+  local zai_key="$(cat "$HOME/workspace/secrets/.zai" 2>/dev/null)"
+  if [[ -z "$zai_key" ]]; then
+    echo "Missing z.ai key: paste it into ~/workspace/secrets/.zai"
+    return 1
+  fi
+  export JEV_API_KEY="$(cat "$HOME/workspace/secrets/.jev")"
+  iterm_set_title "Claude · ${PWD:t}"
+  ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
+  ANTHROPIC_AUTH_TOKEN="$zai_key" \
+  ANTHROPIC_MODEL="glm-5.3-flash[1m]" \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-5.3-flash[1m]" \
+  ANTHROPIC_DEFAULT_SONNET_MODEL="glm-5.3[1m]" \
+  ANTHROPIC_DEFAULT_OPUS_MODEL="glm-5.3[1m]" \
+  ANTHROPIC_DEFAULT_OPUS_FABEL="glm-5.3[1m]" \
+  CLAUDE_CODE_SUBAGENT_MODEL="glm-5.3-flash[1m]" \
+  API_TIMEOUT_MS="3000000" \
+  claude --dangerously-skip-permissions "$@"
 }
